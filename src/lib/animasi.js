@@ -1251,7 +1251,10 @@ export function pasangAnimasi() {
     var pertama = true;
     var durasiSekali = null;
 
-    var tersembunyi = !prefersReducedMotion();
+    /* Gerak dikurangi = tidak ada kedatangan sama sekali; galeri sudah berdiri
+       lengkap sejak awal. Disimpan sekali, bukan ditanya ulang tiap kali,
+       supaya keadaan awal dan pemicunya tidak mungkin berbeda pendapat. */
+    var diam = prefersReducedMotion();
 
     /*
      * TITIK BERANGKAT KEDATANGAN — diukur ke TEPI KANAN LAYAR, bukan ke tepi
@@ -1305,11 +1308,14 @@ export function pasangAnimasi() {
            yang ditahan cuma tampilannya. Jadi mengubah ukuran layar sebelum
            galerinya tiba tidak membatalkan kedatangan, dan tidak ada satu
            frame pun yang menampilkan panel tegak sebelum waktunya. */
+        /* x dan opacity panel SENGAJA tidak disebut di sini. Keduanya milik
+           penuh linimasa kedatangan di bawah, yang bisa dibalik arah kapan
+           saja; kalau terapkan() ikut menulisinya, tiap pergantian panel di
+           tengah kedatangan akan menariknya kembali ke tempat. Yang diurus
+           terapkan() hanya lebar, sudut, dan isi panel. */
         tl.to(p, {
           flexGrow: ini ? tumbuh : 1,
           rotationY: derajat(i),
-          x: tersembunyi ? jarakMasuk(p) : 0,
-          opacity: tersembunyi ? 0 : 1,
           duration: durasi, ease: EASE,
         }, 0);
 
@@ -1413,7 +1419,7 @@ export function pasangAnimasi() {
      * saling menutupi: lipatannya menyamarkan geseran, geserannya menyamarkan
      * lipatan. Satu sumbu yang jelas mengalahkan dua sumbu yang ramai.
      *
-     * OPACITY LEBIH PENDEK DARIPADA GESERAN (0,3 lawan 0,5). Panel berangkat
+     * OPACITY LEBIH PENDEK DARIPADA GESERAN (0,6 lawan 1). Panel berangkat
      * dari luar layar, jadi bagian awal lintasannya toh tak terlihat;
      * membiarkan pudarnya berjalan sepanjang geseran membuat panel masih
      * setengah tembus pandang saat sudah lama di dalam layar — yang terlihat
@@ -1425,52 +1431,92 @@ export function pasangAnimasi() {
      *
      * opacity, BUKAN autoAlpha. autoAlpha menambahkan visibility:hidden, dan
      * itu mengeluarkan keenam <a>-nya dari urutan tab DAN dari pohon
-     * aksesibilitas selama masih terlipat. Pengguna keyboard tidak akan
-     * pernah bisa men-tab ke sana — dan karena ia tidak bisa fokus ke sana,
-     * halamannya tidak pernah tergulir ke sana, jadi pemicu di bawah tidak
-     * pernah menyala dan galerinya tidak pernah tiba. Kebutaan yang mengunci
-     * dirinya sendiri.
+     * aksesibilitas selama masih terparkir — pengguna keyboard tidak akan
+     * pernah bisa men-tab ke sana.
      *
-     * Karena itu ada DUA jalan masuk, dan yang duluan tiba yang menang:
-     * posisi gulir, atau fokus keyboard yang mendarat di dalamnya.
+     * DIIKAT KE POSISI GULIR, BUKAN KE JAM. Ini perbaikan atas percobaan
+     * pertama, dan alasannya seluruhnya soal kepulangan.
+     *
+     * Versi pertama memakai satu linimasa berjam yang di-play() saat turun
+     * dan di-reverse() saat naik. Kedatangannya bagus. Kepulangannya
+     * praktis tidak pernah terlihat, dan itu bukan soal ambang yang kurang
+     * pas: animasi berjam ikut lomba dengan gulir, dan gulir selalu menang.
+     * Kepulangan 0,5 detik menuntut galerinya masih terlihat selama 0,5
+     * detik penuh SESUDAH pemicunya menyala — padahal saat itu pengguna
+     * sedang menggulir menjauh. Diukur di 1222x900, 1440x900, 768x1024, dan
+     * 390x844 pada dua kecepatan gulir naik: pada gulir cepat (~1000px/detik)
+     * cuma 0-1% lintasan kepulangan yang tergambar selagi galeri masih
+     * separuh terlihat; pada gulir sedang (~440px/detik) 4% di ponsel dan
+     * 60% di kasus terbaiknya. Memindahkan ambangnya, memendekkan
+     * durasinya, mempercepat pemutarannya — semuanya cuma menggeser angka
+     * itu, tidak pernah memperbaikinya, sebab kecepatan gulir bukan sesuatu
+     * yang bisa dianggap tetap.
+     *
+     * Terikat gulir, pertanyaannya hilang: sejauh apa panel sudah masuk
+     * SELALU merupakan fungsi dari seberapa jauh galerinya sudah naik. Tidak
+     * ada yang bisa selesai di luar layar, di kecepatan gulir mana pun, di
+     * perangkat mana pun. Digulir naik ia mundur persis di jalan yang sama —
+     * kepulangan yang diminta tidak perlu ditulis sebagai animasi kedua.
+     *
+     * Yang HILANG dengan ini cuma satu: kedatangannya tidak lagi berjalan
+     * sendiri kalau pengguna berhenti menggulir tepat di tengah pita.
+     * Sebagai gantinya ia tidak pernah salah waktu.
+     *
+     * EASE_SCRUB ("none"), bukan power4.out. Pada gerak yang diikat gulir,
+     * ease memetakan jarak gulir ke jarak tempuh, jadi power4.out berarti
+     * 23% lintasan habis di 3% pita pertama lalu sisanya merayap. Rasa
+     * meredamnya datang dari scrub 0,35, bukan dari kurva easenya — persis
+     * seperti semua gerak terikat gulir lain di berkas ini.
+     *
+     * PITANYA PENDEK DAN LETAKNYA TINGGI: "top 88%" sampai "center 80%",
+     * bukan "top bottom" sampai "top 65%" seperti percobaan pertama. Dua
+     * batasan menjepitnya dari kedua sisi.
+     *
+     * Dari atas: pemilih di bawah mulai saat pusat galeri di 75% tinggi
+     * layar, jadi pita ini harus tuntas sebelum itu — berhenti di pusat 80%
+     * menyisakan jarak, dan tidak pernah ada panel yang sedang dibagikan dan
+     * sedang dipilih pada saat yang sama.
+     *
+     * Dari bawah: pangkal pita adalah tempat panel PERTAMA menyelesaikan
+     * kepulangannya, sebab urutan mundur membuatnya yang terakhir pergi.
+     * Dipangkal di "top bottom" — galeri baru menyembul setinggi nol — panel
+     * itu pulang sepenuhnya di luar layar. Diukur di tujuh ukuran, saat tiap
+     * panel berada di separuh kepulangannya: dengan pangkal "top bottom"
+     * galerinya cuma 0-10% terlihat di kasus terburuk tiap perangkat; dengan
+     * pangkal "top 88%" jadi 27-44%. Pitanya memang lebih pendek (275px di
+     * 1440x900, 152px di 390x844), dan itu justru yang membuat seluruh
+     * urutannya muat di bagian layar yang benar-benar dilihat orang.
+     *
+     * invalidateOnRefresh + nilai berupa fungsi: jarak berangkat diukur
+     * dalam piksel dan ikut lebar layar, jadi ia harus diukur ulang tiap
+     * ScrollTrigger menghitung ulang. Itu juga yang membereskan pengukuran
+     * pertama di init, saat flexGrow panel aktif belum tentu sudah
+     * terpasang.
      */
-    var sudahTiba = false;
-    function kedatangan() {
-      if (sudahTiba) return;
-      sudahTiba = true;
-      tersembunyi = false;
+    if (!diam) {
+      var tlDatang = gsap.timeline({
+        scrollTrigger: {
+          trigger: akar,
+          start: "top 88%",
+          end: "center 80%",
+          scrub: SCRUB,
+          invalidateOnRefresh: true,
+        },
+      });
 
-      if (prefersReducedMotion()) { terapkan(); return; }
-
-      if (tl) tl.kill();
-      tl = gsap.timeline();
       panel.forEach(function (p, i) {
-        /* 0,075 x 5 + 0,5 = 0,875 detik untuk keenamnya. Cukup lama untuk
-           terbaca satu per satu, cukup pendek untuk tidak menahan orang yang
-           sudah menggulir melewatinya. Angka ini terikat ke pemicu di bawah:
-           jaraknya ke pita pemilih ~300px gulir, dan kedatangan harus tuntas
-           sebelum pita itu mulai memindah-mindah panel. */
-        tl.to(p, { x: 0, duration: 0.5, ease: EASE }, i * 0.075);
-        tl.to(p, { opacity: 1, duration: 0.3, ease: EASE }, i * 0.075);
+        /* 0,15 jeda x 5 + 1 durasi = 1,75 satuan untuk keenamnya; tiap panel
+           berangkat setelah 8,6% pita berlalu. Perbandingan yang sama dengan
+           versi berjamnya (0,075 dari 0,875 detik), jadi iramanya tidak
+           berubah — cuma jamnya yang berganti jadi posisi gulir. */
+        tlDatang.fromTo(p,
+          { x: function () { return jarakMasuk(p); } },
+          { x: 0, duration: 1, ease: EASE_SCRUB }, i * 0.15);
+        tlDatang.fromTo(p,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.6, ease: EASE_SCRUB }, i * 0.15);
       });
     }
-
-    /* Dipasang di akar, bukan di tiap panel: fokus yang mendarat di panel
-       mana pun berarti galerinya sudah harus berdiri seluruhnya. */
-    dengar(akar, "focusin", kedatangan);
-
-    ScrollTrigger.create({
-      trigger: akar,
-      /* Lebih awal dari pita pemilih di bawah, dan jaraknya disengaja: pada
-         ponsel 844px, kedatangan menyala saat tepi atas galeri di 717px
-         sementara pita pemilih baru mulai di 414px. Selisih ~300px gulir itu
-         jauh lebih panjang daripada 0,875 detik yang dibutuhkan lipatannya,
-         jadi galerinya selalu sudah berdiri utuh sebelum gulir mulai
-         memindah-mindah panelnya. */
-      start: "top 85%",
-      once: true,
-      onEnter: kedatangan,
-    });
 
     /*
      * GULIR YANG MEMILIH, UNTUK PERANGKAT TANPA HOVER.
