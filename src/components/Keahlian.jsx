@@ -22,24 +22,23 @@ export default function Keahlian() {
 
           <h3 data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">03 — Keahlian</h3>
 
-          {/* JUDUL PAPAN BALIK — dan kenapa bagian ini akhirnya punya judul.
-               Sampai 9 Agustus 2026 satu-satunya judul di sini `sr-only`,
-               sehingga Keahlian jadi SATU-SATUNYA bagian di halaman yang tidak
-               pernah memperkenalkan dirinya secara visual. Hero, Tentang,
-               Pengalaman, Pendidikan, Sertifikat, Kontak, dan Footer semuanya
-               dibuka judul -display atau -h1. Untuk bagian yang paling ingin
-               ditonjolkan, itu justru lubang terbesarnya — dan tidak ada efek
-               tambahan di kartunya yang bisa menutup lubang itu.
+          {/* Judul yang terlihat, dan bentuknya SAMA PERSIS dengan Tentang,
+               Pengalaman, Sertifikat, dan Kontak: -h1 dengan topeng baris.
 
-               Teksnya ditulis di sini sebagai teks biasa, BUKAN dibangun dari
-               atribut. buildPapanBalik() di animasi.js yang memecahnya jadi
-               kotak-kotak. Urutan ini disengaja: kalau animasi.js gagal dimuat
-               atau melempar, yang tersisa judul -h1 yang utuh dan terbaca,
-               bukan wadah kosong. Pola yang sama dipakai buildWordScrub().
+               Sempat dibuat sebagai papan balik ber-kotak pada 9 Agustus 2026,
+               dibatalkan sehari kemudian. Alasannya bukan ia gagal — ia
+               berjalan seperti seharusnya — melainkan bahwa judul bagian
+               adalah tempat paling salah untuk berbeda sendiri. Enam judul
+               bergerak dengan satu cara dan satu judul dengan cara lain
+               membuat yang satu itu terbaca sebagai anomali, bukan sebagai
+               penekanan. Penekanan bagian ini sudah dikerjakan kartu-kartu
+               di bawahnya.
 
-               -h1, bukan -display: empat dari enam bagian lain memakai -h1, dan
-               deretan kotak bergaris sudah menambah bobot visualnya sendiri. */}
-          <h2 className="-h1 papan-balik mb-10" data-papan-balik>Keahlian</h2>
+               Kalau nanti ingin ditonjolkan lagi, yang dinaikkan UKURANNYA
+               (-display seperti Pendidikan), bukan jenis geraknya. */}
+          <h2 className="-h1 mb-10" data-line-mask>
+            <span data-anim="line-mask"><span>Keahlian</span></span>
+          </h2>
 
           {/* Tiga kartu, dan jumlahnya bukan kebetulan: ia persis tiga peran yang
                diketikkan mesin ketik di halaman sampul. Kartu pertama melebar dua
@@ -52,13 +51,25 @@ export default function Keahlian() {
                tidak punya cara membedakannya. Isinya sekarang masuk ke kartu
                Pengembangan Web, karena memang di situ tempatnya: menyusun tampilan
                adalah bagian dari membangunnya. */}
-          {/* Ketiganya TIDAK ber-scrub-reveal seperti blok lain di bagian ini,
-               dan itu disengaja: gerak masuknya diurus initKartuPeran() di
-               animasi.js — meluncur dari samping berurutan, lalu satu disorot
-               bergantian mengikuti gulir (sentuh) atau kursor (desktop).
-               Memasang keduanya berarti clip-path scrub-reveal dan geseran
-               kedatangan saling berebut properti yang sama. */}
+          {/* KENAPA TIAP KARTU DIBUNGKUS .stage-slot, dan jangan dibuang.
+               Ada DUA gerak yang bekerja pada kartu yang sama sekaligus, dan
+               keduanya butuh `opacity`:
+
+                 slot   masuk dan keluar mengikuti gulir (opacity + geser)
+                 kartu  sorotan yang berpindah (opacity + skala + naik)
+
+               Dipasang di satu elemen, keduanya berebut properti yang sama dan
+               yang menang bergantung urutan frame. Bersarang, opacity-nya
+               justru MENGALIKAN dengan sendirinya — kartu redup di dalam slot
+               yang sedang masuk tampil di 0,78 x kemajuan masuknya, yang
+               memang perilaku yang benar tanpa satu baris kode penyelaras pun.
+
+               Slot juga yang memegang penempatan kisinya, bukan kartunya:
+               .stage-slot--lead yang merentang dua kolom. Ketiganya TIDAK
+               ber-scrub-reveal seperti blok lain di bagian ini — itu akan jadi
+               gerak ketiga yang berebut properti yang sama lagi. */}
           <div className="stage-orbit">
+            <div className="stage-slot stage-slot--lead" data-kartu-slot data-arah="pudar">
             <article data-kartu-peran className="stage-card stage-card--lead">
               <div className="mb-6 flex items-start justify-between gap-6">
                 <h3 className="-h2 max-w-[9em]">Pengembangan Web</h3>
@@ -70,7 +81,9 @@ export default function Keahlian() {
                    88 karakter. */}
               <p className="-body-small max-w-2xl text-text-muted">Membangun dengan HTML, CSS, dan JavaScript tanpa kerangka kerja: menyusun layout dan hierarki visual, menjaga tampilan tetap terbaca dari ponsel sampai desktop, serta menakar gerak dan bobot halaman supaya tetap ringan di perangkat kelas menengah.</p>
             </article>
+            </div>
 
+            <div className="stage-slot" data-kartu-slot data-arah="kiri">
             <article data-kartu-peran className="stage-card">
               <div className="mb-6 flex items-start justify-between gap-6">
                 <h3 className="-h2 max-w-[9em]">Pengajaran Teknis</h3>
@@ -78,7 +91,9 @@ export default function Keahlian() {
               </div>
               <p className="-body-small text-text-muted">Mengajar pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan, termasuk mengawasi dan mengevaluasi proyek akhir siswa.</p>
             </article>
+            </div>
 
+            <div className="stage-slot" data-kartu-slot data-arah="kanan">
             <article data-kartu-peran className="stage-card">
               <div className="mb-6 flex items-start justify-between gap-6">
                 <h3 className="-h2 max-w-[9em]">Administrasi Digital</h3>
@@ -86,6 +101,7 @@ export default function Keahlian() {
               </div>
               <p className="-body-small text-text-muted">Pendataan, pencatatan surat masuk dan keluar, pengelolaan disposisi, serta digitalisasi arsip.</p>
             </article>
+            </div>
           </div>
 
           {/* mt-7 (28px), bukan mt-10: .mt-10 tidak ikut terkompilasi ke

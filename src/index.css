@@ -226,6 +226,34 @@ html.lenis,html.lenis body{height:auto}
 
 .stage-orbit{grid-template-columns:1fr 1fr;place-items:stretch center;gap:1rem;width:100%;display:grid;position:relative}
 
+/*
+ * KANDANG GESERAN KARTU PERAN.
+ *
+ * Dua kartu penunjang masuk dan keluar dari tepi kiri dan kanan sejauh 55%
+ * lebarnya sendiri — sekitar 298px di desktop. Transform TIDAK mengubah tata
+ * letak, tapi ia TETAP memperlebar daerah yang bisa digulir: terukur sebelum
+ * aturan ini ada, lebar dokumen jadi 1568px pada layar 1440, dan 472px pada
+ * layar 390. Halaman jadi bisa digeser ke samping di semua ukuran.
+ *
+ * overflow-x: clip, BUKAN hidden. `hidden` menjadikan elemennya wadah gulir,
+ * dan wadah gulir memutus `position: sticky` serta mengacaukan perhitungan
+ * ScrollTrigger di dalamnya. `clip` memotong tanpa membuat wadah gulir sama
+ * sekali — itu memang gunanya ia ada.
+ *
+ * overflow-y dibiarkan visible, dan itu SAH bersama clip (tidak seperti
+ * kombinasi hidden+visible yang diam-diam dipaksa jadi auto). Kartu yang
+ * sedang disorot naik 6px keluar batas atas; ia harus tetap terlihat.
+ *
+ * overflow-clip-margin memberi 12px kelonggaran supaya skala 1,012 pada kartu
+ * utama — yang menjulur 6,6px ke tiap sisi di desktop — tidak terpangkas dan
+ * sudut lengkungnya tidak terpotong rata.
+ */
+.stage-orbit {
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: 12px;
+}
+
 .stage-card h3{min-width:0;font-size:clamp(.875rem,3.625vw + .15rem,1.6rem)}
 
 @media (width>=900px){.stage-card h3{font-size:clamp(1.3rem,4.2vw - 1rem,2.375rem)}}
@@ -575,87 +603,6 @@ html.lenis,html.lenis body{height:auto}
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PAPAN BALIK — judul bagian Keahlian.
-
-   Polanya SplitFlapText dari reactbits.dev, tapi CSS rujukannya tidak dipakai
-   sama sekali, dan itu dua keputusan terpisah.
-
-   FILTER DIBUANG. Keyframe aslinya menganimasikan `filter: brightness()` pada
-   setiap flap di setiap balik. Filter dihitung ulang peramban tiap frame untuk
-   seluruh piksel elemennya; repo ini sudah pernah membuang dua filter persis
-   karena itu (kabut blur dan backdrop-filter kartu, +6 fps di ponsel). Yang
-   menggantikan kesan cahayanya cuma rotasi itu sendiri — cukup, karena huruf
-   yang berputar keluar bidang memang meredup sendiri secara optis.
-
-   KILAP PLASTIKNYA DIBUANG. Aslinya box-shadow inset berlapis, radial-gradient
-   kilau, text-shadow, dan bobot huruf 760. Tiga yang pertama melukis gradien
-   di tiap kotak; yang terakhir tidak pernah bisa tampil karena index.html
-   sengaja cuma memuat Inter 400 dan 500. Yang tersisa di sini kotak datar
-   dengan garis rambut --divider, sama dengan seluruh garis lain di situs ini.
-
-   Yang DIPERTAHANKAN cuma garis engsel di tengah kotak. Tanpa garis itu,
-   kotaknya tidak terbaca sebagai sesuatu yang BISA terbelah, dan gerak
-   membaliknya kehilangan alasan.
-   ═══════════════════════════════════════════════════════════════════════ */
-.papan-balik {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.26em;
-  line-height: 1;
-  user-select: none;
-}
-
-.papan-kotak {
-  position: relative;
-  flex: none;
-  width: 0.72em;
-  height: 1em;
-  overflow: hidden;
-  border: 1px solid var(--divider);
-  border-radius: 0.09em;
-  background: var(--surface);
-  /*
-   * perspective DI TIAP KOTAK, bukan di papannya — dan ini sengaja kebalikan
-   * dari aturan di galeri sertifikat.
-   *
-   * Di sana enam panel adalah satu bidang yang sama, jadi titik hilang
-   * bersama itulah yang membuat deretan miringnya terbaca sebagai satu ruang.
-   * Di sini tiap kotak adalah alat mekanis yang berdiri sendiri — papan
-   * sungguhan pun begitu. Kalau perspective dipindah ke papannya, kotak di
-   * ujung kiri dan kanan akan membalik dengan sudut pandang miring, seolah
-   * seluruh papan dilihat dari samping; yang benar adalah kedelapannya
-   * membalik identik.
-   */
-  perspective: 30em;
-}
-
-/* Garis engsel. Memakai --background, bukan --divider: ia harus terbaca
-   sebagai CELAH di antara dua daun, dan celah itu gelap, bukan garis. */
-.papan-kotak::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  height: 1px;
-  z-index: 2;
-  background: var(--background);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.papan-huruf {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Sumbu engselnya tepi ATAS, bukan tengah: daun bawah papan sungguhan
-     jatuh dari atas ke tempatnya, tidak berputar di sumbu tengahnya. */
-  transform-origin: center top;
-  backface-visibility: hidden;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
    LAMBANG CINCIN — riak yang melebar saat kartu peran disentuh kursor.
 
    Kartu peran adalah SATU-SATUNYA kartu di halaman ini yang dulu tidak
@@ -905,7 +852,19 @@ html.lenis,html.lenis body{height:auto}
    Di ponsel (<=639px) kisinya sudah satu kolom, jadi aturan ini tidak
    mengubah apa pun di sana — semua kartu memang sudah selebar layar.
    ═══════════════════════════════════════════════════════════════════════ */
-.stage-card--lead { grid-column: 1 / -1 }
+/* Penempatan kisi ada di SLOT, bukan di kartunya. Kartunya sudah dipakai
+   sorotan untuk skala dan naik, dan elemen kisi yang di-transform tetap
+   menempati selnya yang lama — jadi memisahkannya membuat "di mana ia duduk"
+   dan "bagaimana ia bergerak" tidak pernah saling mengganggu.
+
+   .stage-card--lead sengaja dipertahankan sebagai kelas meski penempatannya
+   pindah: ia masih dipakai untuk hal lain (lebar teks, ukuran judul). */
+.stage-slot {
+  display: flex;
+  min-width: 0;
+}
+
+.stage-slot--lead { grid-column: 1 / -1 }
 
 /* ══════════════════════════════════════════════════════════════════════════
    PEMBUKA — panel yang menutup layar sampai monogramnya selesai terbentuk.

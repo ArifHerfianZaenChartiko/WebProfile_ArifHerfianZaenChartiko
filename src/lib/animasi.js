@@ -295,45 +295,6 @@ export function pasangAnimasi() {
     });
   }
 
-  /*
-   * PAPAN BALIK — kotak-kotaknya dibangun dari TEKS YANG SUDAH ADA di markup,
-   * bukan dari atribut data.
-   *
-   * Urutan itu yang membuatnya tahan gagal: kalau berkas ini tidak pernah
-   * dimuat, atau melempar sebelum sampai ke sini, yang tersisa judul -h1
-   * biasa yang utuh dan terbaca. Membangunnya dari atribut akan menyisakan
-   * wadah kosong — dan judul yang hilang jauh lebih buruk daripada judul yang
-   * tidak beranimasi. Pola yang sama dipakai buildWordScrub().
-   *
-   * innerHTML, bukan appendChild: ia MENGGANTI isi, bukan menambah, jadi
-   * sudah idempoten terhadap pemasangan ganda StrictMode dan karena itu tidak
-   * perlu didaftarkan lewat tambahSimpul().
-   */
-  function buildPapanBalik() {
-    $$("[data-papan-balik]").forEach(function (papan) {
-      var teks = papan.textContent.trim();
-      if (!teks) return;
-
-      /* Teks aslinya disimpan ke atribut karena textContent-nya sebentar lagi
-         berisi salinan sr-only DITAMBAH kedelapan hurufnya — membacanya lagi
-         setelah ini menghasilkan "KeahlianKeahlian". */
-      papan.setAttribute("data-papan-teks", teks);
-
-      var html = '<span class="sr-only">' + teks + "</span>";
-      for (var i = 0; i < teks.length; i++) {
-        /* Spasi pun dapat kotaknya sendiri supaya kisi papannya tidak
-           terputus — papan sungguhan juga punya daun kosong. Judulnya
-           sekarang satu kata, jadi ini belum terpakai; ia ada supaya menambah
-           kata kedua nanti tidak menuntut kode ini diubah. */
-        html += '<span class="papan-kotak" aria-hidden="true">' +
-          '<span class="papan-huruf">' +
-          (teks[i] === " " ? "&nbsp;" : teks[i]) +
-          "</span></span>";
-      }
-      papan.innerHTML = html;
-    });
-  }
-
   /* Isi marquee digandakan empat kali: saat salinan pertama habis, salinan
      kedua sudah menempati tempatnya persis — tidak pernah ada ujung yang
      terlihat, dan tidak ada lompatan saat ia mengulang. */
@@ -662,77 +623,6 @@ export function pasangAnimasi() {
   }
 
   /*
-   * PAPAN BALIK — judulnya mendarat kotak demi kotak, seperti papan jadwal.
-   *
-   * Polanya SplitFlapText dari reactbits.dev; alasan memilihnya bukan karena
-   * ia paling ramai, melainkan karena ia BERIMA dengan yang sudah ada. Situs
-   * ini sudah punya odometer di bagian Pendidikan — roda angka mekanis yang
-   * berputar sampai mendarat. Papan balik keluarga yang sama, dipakai untuk
-   * hal berbeda. Jadi ia terbaca sebagai bahasa situs ini, bukan efek impor.
-   *
-   * MEKANISMENYA DISEDERHANAKAN DARI ASLINYA, dan bukan karena malas.
-   * Rujukannya menumpuk empat lapis per kotak (separuh atas, separuh bawah,
-   * daun depan, daun belakang) supaya baliknya akurat secara fisik. Di sini
-   * satu lapis: hurufnya berputar keluar bidang di engsel atas, teksnya
-   * ditukar saat ia tak terlihat, lalu ia berputar masuk lagi. Pada tujuh
-   * balik per kotak dengan durasi 0,085 detik, mata tidak punya waktu
-   * membedakan keduanya — yang terbaca cuma daun yang berjatuhan. Empat lapis
-   * berarti empat kali lebih banyak simpul yang ditransformasi, untuk
-   * ketelitian yang tidak pernah sempat terlihat.
-   *
-   * KOTAKNYA DIKOSONGKAN LEBIH DULU, dan itu bukan sekadar keadaan awal.
-   * buildPapanBalik() sengaja menaruh huruf yang BENAR di dalam kotak supaya
-   * kegagalan skrip menyisakan judul yang terbaca. Konsekuensinya, tanpa
-   * baris ini jawabannya sudah terpampang sebelum papannya sempat berputar,
-   * dan yang terlihat bukan penyingkapan melainkan kedutan. rotationX 90 di
-   * engsel atas mengayunkan hurufnya keluar pandangan tanpa menyentuh
-   * teksnya — papan kosong yang menunggu, persis keadaan yang benar.
-   */
-  function initPapanBalik() {
-    $$("[data-papan-balik]").forEach(function (papan) {
-      var teks = papan.getAttribute("data-papan-teks") || "";
-      var huruf = $$(".papan-huruf", papan);
-      if (!huruf.length || !teks) return;
-
-      /* Gerak dikurangi: kotaknya sudah berisi huruf yang benar sejak
-         dibangun, jadi tidak ada yang perlu disetel ulang di sini. */
-      if (prefersReducedMotion()) return;
-
-      var ABJAD = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      var BALIK = 6;
-      var DURASI = 0.085;
-      var JEDA = 0.055;
-
-      gsap.set(huruf, { rotationX: 90 });
-
-      /* SATU timeline untuk seluruh papan, dengan tiap kotak ditempatkan di
-         detik i*JEDA. Bukan delapan timeline ber-delay masing-masing: satu
-         pemicu gulir yang menghidupkan satu timeline jauh lebih mudah
-         ditelusuri saat salah, dan tidak ada yang bisa menyimpang sendiri. */
-      var tl = gsap.timeline({
-        scrollTrigger: { trigger: papan, start: "top 88%", once: true },
-      });
-
-      huruf.forEach(function (h, i) {
-        var target = teks[i] === " " ? " " : teks[i];
-        var urut = [];
-        for (var f = 0; f < BALIK; f++) {
-          urut.push(ABJAD[Math.floor(Math.random() * ABJAD.length)]);
-        }
-        urut.push(target);
-
-        var t = i * JEDA;
-        urut.forEach(function (c) {
-          tl.set(h, { rotationX: 90 }, t)
-            .call(function () { h.textContent = c; }, null, t)
-            .to(h, { rotationX: 0, duration: DURASI, ease: "power2.out" }, t);
-          t += DURASI;
-        });
-      });
-    });
-  }
-
-  /*
    * KARTU PERAN — datang dari samping berurutan, lalu satu disorot bergantian.
    *
    * Dua gerak, dan keduanya menjawab kekurangan yang berbeda.
@@ -773,40 +663,55 @@ export function pasangAnimasi() {
        berkedip, dan berkedip persis yang dihindari pengaturan ini. */
     if (prefersReducedMotion()) return;
 
-    var sudahDatang = false;
-    var tertunda = -1;
-
-    gsap.fromTo(
-      kartu,
-      { xPercent: 12, opacity: 0 },
-      {
-        xPercent: 0, opacity: 1, duration: 0.6, ease: EASE, stagger: 0.09,
-        scrollTrigger: { trigger: orbit, start: "top 88%", once: true },
-        onComplete: function () {
-          sudahDatang = true;
-          /* Mendarat di kartu pertama, bukan tanpa sorotan. Tanpa keadaan
-             istirahat ini, pengunjung desktop yang tidak pernah mengarahkan
-             kursor ke sini melihat tiga kartu setara yang diam — persis
-             masalah yang jadi alasan sorot ini ada. Kartu pertama yang
-             dipilih karena ia peran yang dilamar lebih dulu, sama dengan
-             alasan ia melebar dua kolom. */
-          sorot(tertunda >= 0 ? tertunda : 0);
-        },
-      },
-    );
-
     /*
-     * Sorot ditahan sampai kedatangan tuntas, dan yang tertunda disimpan
-     * bukan dibuang. Tanpa penahan ini, kursor yang mendarat di kartu saat
-     * lipatannya masih meluncur membuat dua tween berebut opacity: yang satu
-     * menuju 1, yang lain menuju 0,78, dan yang menang bergantung urutan
-     * frame. Tanpa `tertunda`, sorotan yang datang lebih awal hilang begitu
-     * saja dan kartunya baru menyala saat kursor digerakkan ulang.
+     * MASUK DAN KELUAR, DIGERAKKAN GULIR — bukan kedatangan sekali jalan.
+     *
+     * Tiap slot punya arahnya sendiri, dibaca dari data-arah di markup:
+     *
+     *   pudar  kartu utama, memudar masuk lalu memudar keluar di tempat
+     *   kiri   masuk dari tepi kiri, keluar kembali ke kiri
+     *   kanan  masuk dari tepi kanan, keluar kembali ke kanan
+     *
+     * Kartu utama sengaja TIDAK ikut bergeser. Ia merentang penuh dua kolom;
+     * menggesernya sejauh dua kartu di bawahnya akan membuat kartu selebar
+     * 1100px melintas separuh layar, dan yang terbaca bukan gerak masuk
+     * melainkan tata letak yang sedang rusak. Memudar di tempat juga yang
+     * membuat hierarkinya terbaca: yang utama muncul, yang penunjang datang.
+     *
+     * KELUARNYA KE ARAH ASALNYA, bukan menerus ke seberang. Kembali ke tepi
+     * yang sama membuat keduanya terbaca sebagai sepasang pintu yang menutup;
+     * menerus ke seberang berarti keduanya harus melintasi kartu utama.
+     *
+     * SATU TIMELINE PER SLOT, dengan kemajuan dibagi 4 satuan: 0-1 masuk,
+     * 1-3 diam, 3-4 keluar. Jadi seperempat pertama lintasan blok dipakai
+     * untuk datang, separuh tengahnya benar-benar diam supaya bisa dibaca,
+     * dan seperempat terakhir untuk pergi. Bukan dua pemicu terpisah:
+     * pemicu masuk dan pemicu keluar yang rentangnya bertindihan akan
+     * menganimasikan properti yang sama pada elemen yang sama sekaligus.
      */
+    var slot = $$("[data-kartu-slot]", orbit);
+    slot.forEach(function (s) {
+      var arah = s.getAttribute("data-arah");
+      var geser = arah === "kiri" ? -55 : arah === "kanan" ? 55 : 0;
+
+      var tl = gsap.timeline({
+        defaults: { ease: EASE_SCRUB },
+        scrollTrigger: {
+          trigger: orbit,
+          start: "clamp(top 92%)",
+          end: "clamp(bottom 8%)",
+          scrub: SCRUB,
+        },
+      });
+      tl.fromTo(s,
+        { xPercent: geser, opacity: 0 },
+        { xPercent: 0, opacity: 1, duration: 1 }, 0);
+      tl.to(s, { xPercent: geser, opacity: 0, duration: 1 }, 3);
+    });
+
     var sorotKe = -1;
     var tlSorot = null;
     function sorot(i) {
-      if (!sudahDatang) { tertunda = i; return; }
       if (i === sorotKe) return;
       sorotKe = i;
 
@@ -905,6 +810,19 @@ export function pasangAnimasi() {
         sorot(i);
       },
     });
+
+    /* Keadaan istirahat: kartu pertama disorot sejak awal. Tanpa ini
+       pengunjung desktop yang tidak pernah mengarahkan kursor ke sini melihat
+       tiga kartu setara yang diam — persis masalah yang jadi alasan sorot ini
+       ada. Kartu pertama yang dipilih karena ia peran yang dilamar lebih dulu,
+       alasan yang sama dengan kenapa ia melebar dua kolom.
+
+       Dulu ini dipasang dari onComplete kedatangan sekali jalan. Sejak masuk
+       dan keluarnya digerakkan gulir, tidak ada lagi "selesai" untuk
+       ditumpangi — dan tidak perlu: opacity sorot hidup di kartu, opacity
+       masuk-keluar hidup di slot, jadi memasangnya sekarang tidak berebut
+       dengan apa pun. */
+    sorot(0);
   }
 
   /*
@@ -982,17 +900,31 @@ export function pasangAnimasi() {
     if (!tumpuk || kartu.length < 2) return;
 
     var kendali = $("[data-tukar-kendali]", akar);
-    var JEDA_AUTO = 5200;
-    var kecilQ = window.matchMedia("(max-width: 639px)");
 
     var urutan = kartu.map(function (_, i) { return i; });
-    var otomatis = null;
-    var diambilAlih = false;
 
+    /*
+     * SATU UKURAN UNTUK SEMUA LEBAR.
+     *
+     * Sampai 10 Agustus 2026 ponsel punya angkanya sendiri: dx 12, dy 12, dan
+     * `miring: 0`. Yang terakhir itu yang paling terasa — tanpa kemiringan,
+     * kartu belakang cuma jadi garis tipis yang mengintip 12px di atas kartu
+     * depan, dan tumpukannya tidak terbaca sebagai tumpukan sama sekali. Yang
+     * dilihat pengunjung ponsel praktis satu kartu biasa.
+     *
+     * dx 22, BUKAN 26 seperti angka desktop lama, dan itu batas yang dihitung
+     * bukan dikira. Kartu belakang digeser dx ke kanan lalu diperkecil 0,96.
+     * Pada layar tersempit yang diuji (320px): padding halaman 16, lebar
+     * kartu 288, lebar tampak setelah skala 276,5, dan sisa 5,8 di tiap sisi.
+     * Tepi kanannya jadi 16 + dx + 5,8 + 276,5 = 298,3 + dx, jadi dx di atas
+     * 21,7 mendorongnya keluar layar. 22 pas di bawah itu, dan di desktop
+     * selisih 4px dari angka lama tidak terlihat.
+     *
+     * skewY tidak menambah lebar — ia menggeser secara vertikal sebagai fungsi
+     * x — jadi ia tidak ikut dihitung di atas.
+     */
     function ukuran() {
-      return kecilQ.matches
-        ? { dx: 12, dy: 12, dz: 40, susut: 0.045, miring: 0, jatuh: 90 }
-        : { dx: 26, dy: 22, dz: 60, susut: 0.04, miring: 4, jatuh: 150 };
+      return { dx: 22, dy: 22, dz: 60, susut: 0.04, miring: 4, jatuh: 140 };
     }
 
     function slot(i) {
@@ -1098,25 +1030,47 @@ export function pasangAnimasi() {
       tandai();
     }
 
+    /*
+     * Dua jalan, dan yang dipilih bergantung SEBERAPA JAUH lompatannya.
+     *
+     * Kalau yang diminta kartu tepat berikutnya, putar() yang dipakai: kartu
+     * depan jatuh sampai hilang DULU, baru dipindahkan ke slot belakang.
+     * tata() akan menweenkannya langsung ke sana, dan ia terlihat menyelinap
+     * menembus kartu yang sedang naik — cacat yang justru jadi alasan putar()
+     * ditulis, dan yang dulu tidak pernah muncul karena putar() selalu
+     * dipanggil pengatur waktu. Begitu pengatur waktunya dibuang, putar()
+     * sempat jadi kode mati dan cacat itu ikut kembali.
+     *
+     * Untuk lompatan lebih jauh tata() yang benar: putar() cuma tahu cara
+     * maju satu langkah. Dengan dua kartu cabang itu belum pernah terpakai,
+     * tapi ia yang membuat penambahan kartu ketiga nanti tidak diam-diam
+     * salah.
+     */
     function pilih(idx) {
       if (urutan[0] === idx) return;
+      if (urutan[1] === idx) { putar(); return; }
       var pos = urutan.indexOf(idx);
       urutan = urutan.slice(pos).concat(urutan.slice(0, pos));
       tata(true);
     }
 
-    function mulaiOtomatis() {
-      if (otomatis || diambilAlih || prefersReducedMotion()) return;
-      otomatis = setInterval(putar, JEDA_AUTO);
-    }
-    function jedaOtomatis() {
-      if (otomatis) { clearInterval(otomatis); otomatis = null; }
-    }
-    bersih.push(jedaOtomatis);
-
-    /* Titik pemilih dibuat dari JUMLAH kartu, lewat tambahSimpul() supaya ikut
-       dibongkar. Ia juga satu-satunya jalan keyboard ke kartu yang sedang
-       tidak di depan, karena kartu belakang sengaja di-inert. */
+    /*
+     * TITIK PEMILIH — dan sejak 10 Agustus 2026 ia SATU-SATUNYA cara tumpukan
+     * ini berpindah.
+     *
+     * Perputaran otomatis tiap 5,2 detik dibuang seluruhnya. Alasannya sudah
+     * separuh tertulis di kode lamanya sendiri: begitu pengunjung memilih
+     * sendiri, perputaran dimatikan untuk seterusnya, "kartu yang bergeser
+     * sendiri saat sedang dibaca adalah gangguan, bukan animasi". Kalimat itu
+     * benar sebelum ada yang mengetuk juga — isi kartunya paragraf pekerjaan
+     * yang menuntut waktu baca, dan lima detik tidak cukup untuk kartu
+     * terpanjang. Sekarang ia diam sampai diminta pindah.
+     *
+     * Dibuat dari JUMLAH kartu lewat tambahSimpul() supaya ikut dibongkar.
+     * Ia juga satu-satunya jalan keyboard ke kartu yang sedang tidak di depan,
+     * karena kartu belakang sengaja di-inert — itulah sebabnya area sentuhnya
+     * 44px meski bilah yang terlihat cuma 4px.
+     */
     if (kendali) {
       kartu.forEach(function (_, i) {
         var b = document.createElement("button");
@@ -1125,21 +1079,12 @@ export function pasangAnimasi() {
         b.setAttribute("data-titik", "");
         b.setAttribute("role", "tab");
         b.setAttribute("aria-label", "Pengalaman ke-" + (i + 1));
-        dengar(b, "click", function () {
-          /* Sekali pengguna memilih sendiri, perputaran otomatis berhenti
-             untuk seterusnya. Kartu yang bergeser sendiri saat sedang dibaca
-             adalah gangguan, bukan animasi. */
-          diambilAlih = true;
-          jedaOtomatis();
-          pilih(i);
-        });
+        dengar(b, "click", function () { pilih(i); });
         dengar(b, "keydown", function (e) {
           var maju = e.key === "ArrowRight" || e.key === "ArrowDown";
           var mundur = e.key === "ArrowLeft" || e.key === "ArrowUp";
           if (!maju && !mundur) return;
           e.preventDefault();
-          diambilAlih = true;
-          jedaOtomatis();
           var tujuan = (i + (maju ? 1 : -1) + kartu.length) % kartu.length;
           pilih(tujuan);
           $$("[data-titik]", kendali)[tujuan].focus();
@@ -1191,18 +1136,19 @@ export function pasangAnimasi() {
     kartu.forEach(function (k) { amati(k, ukur); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(ukur);
 
-    dengar(akar, "pointerenter", jedaOtomatis);
-    dengar(akar, "pointerleave", mulaiOtomatis);
-    dengar(akar, "focusin", jedaOtomatis);
-    dengar(akar, "focusout", mulaiOtomatis);
-    dengar(document, "visibilitychange", function () {
-      if (document.hidden) jedaOtomatis(); else mulaiOtomatis();
-    });
-    dengar(kecilQ, "change", function () { ukur(); tata(false); });
-
+    /*
+     * TIDAK ADA LAGI PENDENGAR DI SINI, dan itu akibat dibuangnya perputaran
+     * otomatis. Kelima pendengar yang dulu berdiri di tempat ini —
+     * pointerenter, pointerleave, focusin, focusout, dan visibilitychange —
+     * semuanya cuma melayani satu hal: menjeda dan melanjutkan pengatur waktu.
+     * Tidak ada pengatur waktu, tidak ada yang perlu dijeda.
+     *
+     * Pendengar media query juga hilang bersama ukuran khusus ponsel; sejak
+     * ukurannya satu untuk semua lebar, ResizeObserver di tiap kartu sudah
+     * menangkap semua perubahan yang perlu diukur ulang.
+     */
     ukur();
     tata(false);
-    mulaiOtomatis();
   }
 
 
@@ -2075,7 +2021,6 @@ export function pasangAnimasi() {
     buildOdometers();
     buildLetterHover();
     buildWordScrub();
-    buildPapanBalik();
     buildMarquees();
 
     initScroller();
@@ -2090,7 +2035,6 @@ export function pasangAnimasi() {
     initSplitWords();
     initOdometers();
     initGlyphRings();
-    initPapanBalik();
     initKartuPeran();
     initMarquees();
     initTukarKartu();
