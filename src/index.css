@@ -859,8 +859,23 @@ html.lenis,html.lenis body{height:auto}
 
    .stage-card--lead sengaja dipertahankan sebagai kelas meski penempatannya
    pindah: ia masih dipakai untuk hal lain (lebar teks, ukuran judul). */
+/*
+ * width: 100% WAJIB, dan tanpanya kartu utama menciut.
+ *
+ * .stage-orbit memakai `place-items: stretch center` — bagian `center` itu
+ * `justify-items`, yang membuat tiap item kisi menciut mengikuti isinya lalu
+ * dipusatkan di selnya. Dulu itu tidak terlihat karena KARTU yang jadi item
+ * kisi, dan .stage-card punya width:100% yang memaksanya penuh. Begitu slot
+ * disisipkan sebagai item kisi, slot itulah yang kena penciutan — dan
+ * width:100% di kartunya jadi 100% dari slot yang sudah menciut.
+ *
+ * Terukur sebelum baris ini ada: kartu utama 740px di dalam sel selebar
+ * 1100px, terpusat, sementara dua kartu di bawahnya tetap penuh. Yang
+ * terlihat bukan hierarki melainkan tata letak yang salah.
+ */
 .stage-slot {
   display: flex;
+  width: 100%;
   min-width: 0;
 }
 

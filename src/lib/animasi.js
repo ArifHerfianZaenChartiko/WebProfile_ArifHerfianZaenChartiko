@@ -682,12 +682,32 @@ export function pasangAnimasi() {
      * yang sama membuat keduanya terbaca sebagai sepasang pintu yang menutup;
      * menerus ke seberang berarti keduanya harus melintasi kartu utama.
      *
-     * SATU TIMELINE PER SLOT, dengan kemajuan dibagi 4 satuan: 0-1 masuk,
-     * 1-3 diam, 3-4 keluar. Jadi seperempat pertama lintasan blok dipakai
-     * untuk datang, separuh tengahnya benar-benar diam supaya bisa dibaca,
-     * dan seperempat terakhir untuk pergi. Bukan dua pemicu terpisah:
-     * pemicu masuk dan pemicu keluar yang rentangnya bertindihan akan
-     * menganimasikan properti yang sama pada elemen yang sama sekaligus.
+     * RENTANGNYA "top bottom" SAMPAI "bottom top", DAN ITU BUKAN PILIHAN
+     * BEBAS — ia satu-satunya rentang yang membuat geraknya sempat dilihat.
+     *
+     * Percobaan pertama memakai "top 92%" sampai "bottom 8%" dan gagal diam-
+     * diam. Terukur di layar 900px dengan blok setinggi 420px: masuknya
+     * tuntas 289px setelah pemicu menyala, dan pada saat itu kedua kartu
+     * bawah MASIH DI BAWAH LIPATAN. Jadi ketika keduanya akhirnya masuk
+     * layar, geserannya sudah habis — yang terlihat cuma kartu yang tiba-tiba
+     * sudah ada di tempatnya. Animasinya berjalan sempurna di luar pandangan.
+     *
+     * "top bottom" menyalakannya tepat saat tepi atas blok menyentuh dasar
+     * layar, dan "bottom top" mematikannya saat tepi bawahnya meninggalkan
+     * puncak. Lintasannya jadi tinggiLayar + tinggiBlok, dan pembagian tiga
+     * satuan di bawah memetakannya nyaris persis ke tiga keadaan alaminya:
+     *
+     *   0-1 masuk   blok bergerak dari luar layar sampai UTUH terlihat
+     *               (900 -> 480 = 420px, sepertiga dari 1320)
+     *   1-2 diam    seluruh blok terlihat penuh (480px)
+     *   2-3 keluar  blok mulai meninggalkan puncak layar (420px)
+     *
+     * Jadi ketiga kartu selesai datang tepat ketika blok pertama kali utuh
+     * di layar, dan tidak satu pun geraknya jatuh di luar pandangan.
+     *
+     * SATU TIMELINE PER SLOT, bukan dua pemicu terpisah untuk masuk dan
+     * keluar: dua pemicu yang rentangnya bertindihan akan menganimasikan
+     * properti yang sama pada elemen yang sama sekaligus.
      */
     var slot = $$("[data-kartu-slot]", orbit);
     slot.forEach(function (s) {
@@ -698,15 +718,15 @@ export function pasangAnimasi() {
         defaults: { ease: EASE_SCRUB },
         scrollTrigger: {
           trigger: orbit,
-          start: "clamp(top 92%)",
-          end: "clamp(bottom 8%)",
+          start: "clamp(top bottom)",
+          end: "clamp(bottom top)",
           scrub: SCRUB,
         },
       });
       tl.fromTo(s,
         { xPercent: geser, opacity: 0 },
         { xPercent: 0, opacity: 1, duration: 1 }, 0);
-      tl.to(s, { xPercent: geser, opacity: 0, duration: 1 }, 3);
+      tl.to(s, { xPercent: geser, opacity: 0, duration: 1 }, 2);
     });
 
     var sorotKe = -1;
