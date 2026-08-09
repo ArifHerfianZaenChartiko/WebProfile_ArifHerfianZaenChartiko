@@ -295,6 +295,36 @@ export default function Keahlian() {
                 </div>
               </div>
 
+              {/* KENAPA LARAVEL DAN BLADE ADA DI BACKEND, bukan di Frontend
+                   atau di kelompok tersendiri. Pertanyaan ini sudah pernah
+                   diajukan pada 9 Agustus 2026, ditimbang, lalu susunan ini
+                   dipertahankan — dicatat di sini supaya tidak dibongkar ulang
+                   dengan alasan yang sama.
+
+                   KEBERATANNYA MASUK AKAL: Blade menghasilkan HTML, jadi
+                   sekilas ia terasa milik sisi antarmuka. Tapi Blade tidak
+                   pernah berjalan di browser. Ia dijalankan PHP di server, dan
+                   yang dikirim ke pengunjung cuma HTML hasil jadinya —
+                   kode Blade-nya sendiri tidak ikut. Bandingkan dengan
+                   Tailwind, yang kelasnya benar-benar sampai ke browser.
+                   Laravel pun begitu: ia memang disebut full-stack framework,
+                   tapi inti kerjanya (rute, controller, ORM) di server, dan
+                   pasar kerja menyebutnya backend — "Backend Developer
+                   (Laravel)" itu judul lowongan yang baku.
+
+                   ALTERNATIF YANG DITOLAK: mengelompokkan per jenis (Bahasa /
+                   Kerangka / Basis Data). Susunan itu lebih presisi soal jenis
+                   benda, tapi membuang justru hal yang paling dicari pembaca —
+                   sisi mana yang dikerjakan. Menghilangkannya berarti kembali
+                   ke keadaan sebelum seluruh perubahan ini dimulai, sebab
+                   pertanyaan "frontend, backend, atau yang mana" itulah yang
+                   memicunya. Ia juga menyisakan kelompok Basis Data berisi
+                   satu ikon sendirian.
+
+                   Pengelompokan per jenis TETAP ADA, tapi sebagai URUTAN di
+                   dalam kelompok, bukan sebagai namanya: bahasa dulu, kerangka
+                   kerja menyusul, basis data menutup. Lihat komentar urutan di
+                   baris Frontend. */}
               <div className="tool-row border-b border-line">
                 <h4 data-component="scrub-reveal" data-delay="0.12" className="-caption-small tool-label text-text-muted">Backend</h4>
                 <span data-component="scrub-reveal" data-delay="0.12" className="h-px w-8 self-center bg-line"></span>
