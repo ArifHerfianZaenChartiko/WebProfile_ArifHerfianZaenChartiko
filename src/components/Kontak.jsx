@@ -1,7 +1,10 @@
 export default function Kontak() {
   return (
     <>
-      <div aria-hidden="true" className="band-fade-to-dark h-[28vh] sm:h-[40vh] nav:h-[50vh]"></div>
+      {/* Kembaran pita di Pendidikan, arah sebaliknya. Tingginya WAJIB sama
+          persis dengan pasangannya: ambang pembalik warna bilah status di
+          initStatusBar() menghitung keduanya dengan satu angka yang sama. */}
+      <div aria-hidden="true" className="band-fade-to-dark h-[20vh] sm:h-[24vh] nav:h-[28vh]"></div>
 
 
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -25,7 +28,7 @@ export default function Kontak() {
           (`py-28`, `nav:py-36`). */}
       <section id="kontak" data-component="chapter" className="relative">
         <div data-component="container"
-          className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1180px] grid grid-cols-1 gap-x-8 gap-y-10 py-24 sm:py-28 nav:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] nav:gap-x-16 nav:gap-y-12 nav:py-40">
+          className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1180px] grid grid-cols-1 gap-x-8 gap-y-10 py-16 sm:py-20 nav:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] nav:gap-x-16 nav:gap-y-12 nav:py-28">
 
           <div>
             <header className="nav:sticky nav:top-28">

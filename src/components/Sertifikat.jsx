@@ -74,7 +74,7 @@ export default function Sertifikat() {
            sama, tanpa 1,7 MB JavaScript. Berkas PDF aslinya tetap yang dibuka.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="sertifikat" data-band="panel" data-component="chapter">
-        <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 nav:px-10 py-24 sm:py-28 nav:py-36">
+        <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 nav:px-10 py-16 sm:py-20 nav:py-28">
           <div className="mb-5 flex items-center gap-4">
             <span className="-mono tabular-nums text-text-muted">05</span>
             <span className="h-px w-12 bg-line"></span>

@@ -39,7 +39,7 @@ export default function Pengalaman() {
            seperti CV.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="pengalaman" data-component="chapter" className="relative">
-        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] py-24 sm:py-28 nav:py-40">
+        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] py-16 sm:py-20 nav:py-28">
 
           <div data-component="scrub-reveal" className="mb-6 flex items-center gap-4 sm:mb-7">
             <span className="-mono tabular-nums text-text-muted">02</span>

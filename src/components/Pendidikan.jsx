@@ -2,8 +2,17 @@ export default function Pendidikan() {
   return (
     <>
       {/* Jembatan gelap → terang. Batas keras antara hitam dan putih terbaca
-           sebagai bug render, jadi peralihannya setinggi setengah layar. */}
-      <div aria-hidden="true" className="band-fade-to-panel h-[28vh] sm:h-[40vh] nav:h-[50vh]"></div>
+           sebagai bug render, jadi perlu peralihan — tapi TIDAK setinggi
+           setengah layar seperti dulu (28/40/50vh). Yang dibutuhkan mata cuma
+           gradien yang cukup panjang untuk tidak terbaca sebagai garis; sisanya
+           jadi ruang kosong yang harus digulir. Bersama pita kembarnya sebelum
+           Kontak, keduanya dulu menyumbang 100vh ruang kosong di desktop.
+
+           Rentangnya juga DIRAPATKAN, bukan cuma dikecilkan: 20/24/28vh, bukan
+           20/30/40. Alasannya ada di initStatusBar() — ambang pembalik warna
+           bilah status satu angka untuk semua lebar, jadi makin jauh jarak
+           antar titik henti, makin besar melesetnya di salah satu ujung. */}
+      <div aria-hidden="true" className="band-fade-to-panel h-[20vh] sm:h-[24vh] nav:h-[28vh]"></div>
 
 
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -12,7 +21,7 @@ export default function Pendidikan() {
            berlawanan lalu bertemu di tengah. Dipakai SEKALI saja di seluruh halaman.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="pendidikan" data-band="panel" data-component="chapter">
-        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] py-28 nav:py-40">
+        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] py-16 sm:py-20 nav:py-28">
 
           <div className="mb-16 flex items-center gap-4">
             <span className="-mono tabular-nums text-text-muted">04</span>

@@ -510,6 +510,149 @@ html.lenis,html.lenis body{height:auto}
     color-mix(in srgb, var(--surface) 96%, transparent),
     color-mix(in srgb, var(--surface) 90%, transparent)
   );
+  /* Hanya border yang ditransisikan CSS. Naik, skala, dan redupnya diurus
+     GSAP di initKartuPeran(); membiarkan CSS ikut memegang transform atau
+     opacity berarti dua mesin menganimasikan properti yang sama dan yang
+     menang bergantung urutan frame. */
+  transition: border-color 0.45s var(--ease-brand);
+}
+
+/* Penanda kartu yang sedang disorot. Bedanya sengaja kecil: yang memimpin
+   bacaan adalah naik-dan-terangnya kartu, dan tepi yang ikut menajam cuma
+   menegaskan batas kartunya supaya sorotan itu punya bentuk. Terlalu terang
+   di sini membuat tiga kartu terbaca seperti tiga tombol. */
+.stage-card--sorot {
+  border-color: color-mix(in srgb, var(--text) 34%, transparent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SOROTAN KURSOR DI KARTU PERAN — pola spotlight MagicBento (reactbits.dev),
+   ditelanjangi jadi monokrom.
+
+   Bawaannya cahaya ungu neon plus partikel. Di palet #040508/#d8d8d8 yang
+   cuma mengenal satu warna teks, cahaya berwarna akan jadi satu-satunya
+   warna di seluruh halaman dan menarik perhatian jauh melebihi porsinya.
+   Yang tersisa di sini cuma bentuk gradiennya; warnanya --text pada 12%.
+
+   SATU LAPIS, DUA PERILAKU. Titik pusat gradien dibaca dari --mx/--my yang
+   PUNYA NILAI BAWAAN 50%/30%. Di penunjuk halus, JavaScript menimpanya tiap
+   frame sehingga sorotan mengikuti kursor. Di layar sentuh tidak ada yang
+   menimpanya, jadi ia diam di tengah-atas kartu — dan itu jalur penggantinya:
+   kartu yang sedang dipilih gulir tetap mendapat cahaya, hanya saja diam.
+   Tidak ada cabang JavaScript untuk membedakannya, dan tidak ada satu frame
+   pun yang salah sebelum cabang itu dievaluasi.
+
+   Kejernihannya diikat ke .stage-card--sorot, BUKAN ke :hover. Dengan begitu
+   satu keadaan yang sama melayani hover di desktop dan gulir di sentuh —
+   kalau dipasang ke :hover, layar sentuh tidak akan pernah menyalakannya.
+   ═══════════════════════════════════════════════════════════════════════ */
+.stage-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-brand);
+  background: radial-gradient(
+    14rem circle at var(--mx, 50%) var(--my, 30%),
+    color-mix(in srgb, var(--text) 12%, transparent),
+    transparent 68%
+  );
+}
+
+.stage-card--sorot::after {
+  opacity: 1;
+}
+
+/* Isi kartu harus berdiri DI ATAS sorotan. Tanpa ini gradiennya menutupi
+   judul dan keterangan — ia digambar belakangan, jadi dalam urutan lukis ia
+   menang meski warnanya samar. */
+.stage-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PAPAN BALIK — judul bagian Keahlian.
+
+   Polanya SplitFlapText dari reactbits.dev, tapi CSS rujukannya tidak dipakai
+   sama sekali, dan itu dua keputusan terpisah.
+
+   FILTER DIBUANG. Keyframe aslinya menganimasikan `filter: brightness()` pada
+   setiap flap di setiap balik. Filter dihitung ulang peramban tiap frame untuk
+   seluruh piksel elemennya; repo ini sudah pernah membuang dua filter persis
+   karena itu (kabut blur dan backdrop-filter kartu, +6 fps di ponsel). Yang
+   menggantikan kesan cahayanya cuma rotasi itu sendiri — cukup, karena huruf
+   yang berputar keluar bidang memang meredup sendiri secara optis.
+
+   KILAP PLASTIKNYA DIBUANG. Aslinya box-shadow inset berlapis, radial-gradient
+   kilau, text-shadow, dan bobot huruf 760. Tiga yang pertama melukis gradien
+   di tiap kotak; yang terakhir tidak pernah bisa tampil karena index.html
+   sengaja cuma memuat Inter 400 dan 500. Yang tersisa di sini kotak datar
+   dengan garis rambut --divider, sama dengan seluruh garis lain di situs ini.
+
+   Yang DIPERTAHANKAN cuma garis engsel di tengah kotak. Tanpa garis itu,
+   kotaknya tidak terbaca sebagai sesuatu yang BISA terbelah, dan gerak
+   membaliknya kehilangan alasan.
+   ═══════════════════════════════════════════════════════════════════════ */
+.papan-balik {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.26em;
+  line-height: 1;
+  user-select: none;
+}
+
+.papan-kotak {
+  position: relative;
+  flex: none;
+  width: 0.72em;
+  height: 1em;
+  overflow: hidden;
+  border: 1px solid var(--divider);
+  border-radius: 0.09em;
+  background: var(--surface);
+  /*
+   * perspective DI TIAP KOTAK, bukan di papannya — dan ini sengaja kebalikan
+   * dari aturan di galeri sertifikat.
+   *
+   * Di sana enam panel adalah satu bidang yang sama, jadi titik hilang
+   * bersama itulah yang membuat deretan miringnya terbaca sebagai satu ruang.
+   * Di sini tiap kotak adalah alat mekanis yang berdiri sendiri — papan
+   * sungguhan pun begitu. Kalau perspective dipindah ke papannya, kotak di
+   * ujung kiri dan kanan akan membalik dengan sudut pandang miring, seolah
+   * seluruh papan dilihat dari samping; yang benar adalah kedelapannya
+   * membalik identik.
+   */
+  perspective: 30em;
+}
+
+/* Garis engsel. Memakai --background, bukan --divider: ia harus terbaca
+   sebagai CELAH di antara dua daun, dan celah itu gelap, bukan garis. */
+.papan-kotak::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  z-index: 2;
+  background: var(--background);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.papan-huruf {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Sumbu engselnya tepi ATAS, bukan tengah: daun bawah papan sungguhan
+     jatuh dari atas ke tempatnya, tidak berputar di sumbu tengahnya. */
+  transform-origin: center top;
+  backface-visibility: hidden;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

@@ -22,7 +22,7 @@ export default function Footer() {
           <canvas data-component="ambient-lines" data-density="30" aria-hidden="true"
             className="pointer-events-none absolute inset-0 h-full w-full"></canvas>
 
-          <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] relative z-2 py-24 nav:py-32">
+          <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] relative z-2 py-16 nav:py-24">
             <p data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Mari bekerja sama</p>
 
             <p className="-display mb-16" data-line-mask>
