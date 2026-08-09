@@ -6,7 +6,7 @@ export default function Pengalaman() {
       <div data-anim="marquee" data-speed="30" className="border-y border-line py-5">
         <div className="marquee-track">
           <div className="flex shrink-0" data-marquee-copy>
-            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Web Developer<span aria-hidden="true" className="text-accent">✦</span></span>
+            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Fullstack Web Developer<span aria-hidden="true" className="text-accent">✦</span></span>
             <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pendidik Informatika<span aria-hidden="true" className="text-accent">✦</span></span>
             <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Universitas Negeri Malang<span aria-hidden="true" className="text-accent">✦</span></span>
           </div>

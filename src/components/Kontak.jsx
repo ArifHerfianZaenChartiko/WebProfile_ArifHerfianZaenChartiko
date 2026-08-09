@@ -44,7 +44,7 @@ export default function Kontak() {
               </h2>
 
               <p data-component="scrub-reveal" className="-body-small text-text-muted mt-7 max-w-[17rem]">
-                Terbuka untuk peluang pengembangan web, kolaborasi, atau diskusi seputar produk dan pendidikan
+                Terbuka untuk peluang pengembangan web fullstack, kolaborasi, atau diskusi seputar produk dan pendidikan
               </p>
             </header>
           </div>

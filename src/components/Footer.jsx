@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="marquee-track">
             <div className="flex shrink-0" data-marquee-copy>
               <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Terbuka untuk kolaborasi<span aria-hidden="true" className="text-accent">✦</span></span>
-              <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pengembangan Web<span aria-hidden="true" className="text-accent">✦</span></span>
+              <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pengembangan Fullstack<span aria-hidden="true" className="text-accent">✦</span></span>
               <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pendidikan Informatika<span aria-hidden="true" className="text-accent">✦</span></span>
             </div>
           </div>
