@@ -261,6 +261,18 @@ html.lenis,html.lenis body{height:auto}
   overflow-y: visible;
 }
 
+/* Alasan yang persis sama untuk kedatangan galeri sertifikat: keenam panelnya
+   berangkat dari luar tepi kanan layar, dan tanpa ini titik berangkat itu
+   melebarkan dokumen. `body` memang sudah `overflow-x: hidden` sehingga tidak
+   ada bilah gulir mendatar yang muncul — tapi yang dipotong hanya TAMPILANNYA;
+   scrollWidth tetap tumbuh, dan ScrollTrigger menghitung ulang seluruh halaman
+   dari lebar itu. Persis begitu empat penyingkapan di Kontak dan Footer pernah
+   macet. */
+#sertifikat {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
 .stage-card h3{min-width:0;font-size:clamp(.875rem,3.625vw + .15rem,1.6rem)}
 
 @media (width>=900px){.stage-card h3{font-size:clamp(1.3rem,4.2vw - 1rem,2.375rem)}}

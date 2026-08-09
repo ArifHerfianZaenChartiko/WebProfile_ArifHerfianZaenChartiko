@@ -1251,12 +1251,31 @@ export function pasangAnimasi() {
     var pertama = true;
     var durasiSekali = null;
 
-    /* Sudut terlipat panel sebelum kedatangannya. -74, bukan -90: pada 90
-       derajat panel benar-benar tegak lurus layar dan lebarnya jadi nol, jadi
-       yang terlihat cuma garis dan kedatangannya terbaca sebagai kedip, bukan
-       sebagai lipatan yang membuka. */
-    var TERLIPAT = -74;
     var tersembunyi = !prefersReducedMotion();
+
+    /*
+     * TITIK BERANGKAT KEDATANGAN — diukur ke TEPI KANAN LAYAR, bukan ke tepi
+     * kanan galeri. Galeri berhenti di 1180px di tengah layar 1440, jadi
+     * berangkat dari tepinya berarti keenam panel menyembul dari titik yang
+     * mengambang 130px di dalam layar, di ruang yang jelas kosong. Yang
+     * terbaca bukan sertifikat yang datang dari luar, melainkan sertifikat
+     * yang muncul begitu saja di tengah halaman. Pelajaran yang sama dengan
+     * kartu Keahlian, lihat #keahlian di index.css.
+     *
+     * offsetLeft, BUKAN getBoundingClientRect(). Fungsi ini dipanggil ulang
+     * tiap kali ukuran berubah, termasuk SAAT panelnya masih terparkir di
+     * kanan — dan rect ikut menghitung transform yang sedang terpasang, jadi
+     * ia akan mengukur jarak dari posisi parkirnya sendiri dan mendorong
+     * panel makin jauh tiap kali dipanggil. offsetLeft murni tata letak.
+     *
+     * Semuanya berangkat dari satu titik yang sama di luar layar, jadi yang
+     * terlihat seperti setumpuk kartu yang dibagikan: panel pertama menempuh
+     * jarak paling jauh ke kiri, yang terakhir nyaris tidak bergerak.
+     */
+    function jarakMasuk(p) {
+      var kiri = akar.getBoundingClientRect().left + (p.offsetLeft - akar.offsetLeft);
+      return Math.max(0, window.innerWidth - kiri + 24);
+    }
 
     /* Panel sebelum yang aktif miring ke satu arah, sesudahnya ke arah
        sebaliknya, jadi keduanya seolah membuka jalan ke tengah. Dipisah jadi
@@ -1288,7 +1307,8 @@ export function pasangAnimasi() {
            frame pun yang menampilkan panel tegak sebelum waktunya. */
         tl.to(p, {
           flexGrow: ini ? tumbuh : 1,
-          rotationY: tersembunyi ? TERLIPAT : derajat(i),
+          rotationY: derajat(i),
+          x: tersembunyi ? jarakMasuk(p) : 0,
           opacity: tersembunyi ? 0 : 1,
           duration: durasi, ease: EASE,
         }, 0);
@@ -1377,23 +1397,31 @@ export function pasangAnimasi() {
     });
 
     /*
-     * KEDATANGAN — enam panel membuka satu per satu, seperti sekat lipat.
+     * KEDATANGAN — enam sertifikat masuk satu per satu dari luar tepi kanan
+     * layar, seperti setumpuk kartu yang dibagikan.
      *
-     * Sebelum ini galeri sudah berdiri lengkap begitu bagiannya tersingkap:
-     * tidak ada yang menandai bahwa ia baru tiba, dan bagian ini jadi
-     * satu-satunya di halaman yang isinya muncul tanpa gerak masuk sama
-     * sekali.
+     * Sebelumnya kedatangannya berupa lipatan: rotationY dari -74 derajat ke
+     * sudut istirahatnya. Secara teknis itu lebih hemat — ia menumpang ruang
+     * tiga dimensi yang memang sudah tergelar untuk akordeonnya. Tapi panel
+     * yang melipat di tempat tidak menempuh jarak apa pun, dan pada bilah
+     * selebar 28px di ponsel yang terjadi praktis cuma perubahan lebar
+     * beberapa piksel. Gerak yang tidak berpindah tempat tidak terbaca
+     * sebagai kedatangan.
      *
-     * MENUMPANG rotationY YANG SUDAH ADA, bukan sumbu baru. Akordeonnya
-     * memang sudah memiringkan panel non-aktif di sumbu Y dengan perspective
-     * di wadahnya, jadi melipat dari -74 derajat ke sudut istirahatnya
-     * memakai ruang tiga dimensi yang sudah tergelar — bukan efek asing yang
-     * ditempelkan di atasnya.
+     * SUMBUNYA X, DAN rotationY DIBIARKAN DIAM di sudut istirahatnya sejak
+     * awal. Dua sumbu yang bergerak sekaligus pada enam elemen bertingkah
+     * saling menutupi: lipatannya menyamarkan geseran, geserannya menyamarkan
+     * lipatan. Satu sumbu yang jelas mengalahkan dua sumbu yang ramai.
      *
-     * MENDARAT DI derajat(i), BUKAN DI NOL. Sudut istirahat tiap panel
-     * berbeda (0 untuk yang aktif, ±6 untuk sisanya). Kalau kedatangan
-     * mendarat di 0 lalu terapkan() membetulkannya, ada sentakan kecil di
-     * ujung tiap lipatan.
+     * OPACITY LEBIH PENDEK DARIPADA GESERAN (0,3 lawan 0,5). Panel berangkat
+     * dari luar layar, jadi bagian awal lintasannya toh tak terlihat;
+     * membiarkan pudarnya berjalan sepanjang geseran membuat panel masih
+     * setengah tembus pandang saat sudah lama di dalam layar — yang terlihat
+     * seperti hantu yang lewat, bukan kartu padat yang meluncur.
+     *
+     * Sudut istirahat tiap panel berbeda (0 untuk yang aktif, ±6 untuk
+     * sisanya) dan itu sudah dipasang terapkan() sejak sebelum kedatangan,
+     * jadi tidak ada pembetulan sudut di ujung lintasan yang bisa menyentak.
      *
      * opacity, BUKAN autoAlpha. autoAlpha menambahkan visibility:hidden, dan
      * itu mengeluarkan keenam <a>-nya dari urutan tab DAN dari pohon
@@ -1419,11 +1447,11 @@ export function pasangAnimasi() {
       panel.forEach(function (p, i) {
         /* 0,075 x 5 + 0,5 = 0,875 detik untuk keenamnya. Cukup lama untuk
            terbaca satu per satu, cukup pendek untuk tidak menahan orang yang
-           sudah menggulir melewatinya. */
-        tl.to(p, {
-          rotationY: derajat(i), opacity: 1,
-          duration: 0.5, ease: EASE,
-        }, i * 0.075);
+           sudah menggulir melewatinya. Angka ini terikat ke pemicu di bawah:
+           jaraknya ke pita pemilih ~300px gulir, dan kedatangan harus tuntas
+           sebelum pita itu mulai memindah-mindah panel. */
+        tl.to(p, { x: 0, duration: 0.5, ease: EASE }, i * 0.075);
+        tl.to(p, { opacity: 1, duration: 0.3, ease: EASE }, i * 0.075);
       });
     }
 
