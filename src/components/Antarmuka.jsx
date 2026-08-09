@@ -19,8 +19,20 @@ export default function Antarmuka() {
         </div>
       </div>
 
+      {/* `backdrop-blur-md` DIBUANG pada 9 Agustus 2026, dan latarnya dinaikkan
+          dari /70 ke /92 sebagai gantinya.
+
+          Repo ini sudah mematikan backdrop-filter di .stage-card dengan alasan
+          tertulis panjang (+6 fps di ponsel), tapi yang ini lolos — padahal ia
+          jauh lebih mahal daripada yang sudah dibuang itu. Kartu keahlian diam
+          di tempatnya; tombol ini `fixed`, jadi isi halaman mengalir di
+          belakangnya SEPANJANG halaman digulir, dan peramban harus memburamkan
+          ulang petak itu di tiap frame gulir, bukan sesekali.
+
+          /92 hampir pekat, jadi ikon panahnya tetap terbaca di atas apa pun
+          yang lewat — yang justru tidak dijamin oleh /70 berblur. */}
       <button type="button" data-component="back-to-top" title="Kembali ke atas"
-        className="fixed right-6 bottom-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-line bg-background/70 text-text-muted backdrop-blur-md transition-colors duration-300 ease-power nav:bottom-24 hover:border-text/50 hover:text-text">
+        className="fixed right-6 bottom-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-line bg-background/92 text-text-muted transition-colors duration-300 ease-power nav:bottom-24 hover:border-text/50 hover:text-text">
         <i className="fa-solid fa-arrow-up text-sm"></i>
       </button>
     </>

@@ -1308,31 +1308,75 @@ html.pembuka-aktif body {
   gap: 0.75rem;
 }
 
+/* 0,75rem, bukan 2rem seperti sebelumnya. Titiknya sekarang setinggi 44px
+   (dulu 4px) demi area sentuh, dan bilah tampaknya duduk di tengah tinggi itu
+   — jadi 20px dari kenaikan tinggi itu jatuh DI ATAS bilah. Menahan margin di
+   2rem akan mendorong bilahnya turun 20px dari tempatnya semula. */
 .tukar-kendali {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
-  margin-top: 2rem;
+  margin-top: 0.75rem;
 }
 
 /* Bilah, bukan bulatan: bentuk yang sama dengan penanda bab di bilah status,
    jadi "yang ini sedang aktif" dinyatakan dengan kosakata yang sudah dipakai
    di tempat lain di situs ini. */
+/*
+ * BILAHNYA 4px, TAPI TOMBOLNYA 44px — dan pemisahan itu bukan kerapian.
+ *
+ * Sebelum 9 Agustus 2026 tombolnya SENDIRI setinggi 4px. Terukur di audit
+ * lintas perangkat: itu sasaran sentuh 34x4 dan 56x4. Pedoman Apple dan
+ * Google sama-sama meminta minimal 44 dan 48px pada sisi TERPENDEK, dan 4px
+ * bukan sekadar di bawah ambang — ia praktis tidak bisa dikenai jempol.
+ *
+ * Yang membuatnya parah bukan titiknya sendiri, melainkan apa yang ada di
+ * baliknya: kartu belakang di tumpukan Pengalaman sengaja `inert`, jadi
+ * titik inilah SATU-SATUNYA jalan sentuh dan keyboard ke sana. Pengunjung
+ * ponsel yang tidak bisa mengenainya tidak punya cara lain melihat
+ * pengalaman kedua dan ketiga selain menunggu putaran otomatis.
+ *
+ * Jadi tombolnya diberi tinggi 44px yang tembus pandang, dan bilah yang
+ * terlihat pindah ke ::before. Tampilannya tidak berubah satu piksel pun;
+ * yang berubah cuma daerah yang menangkap sentuhan.
+ */
 .tukar-titik {
+  position: relative;
   width: 34px;
+  height: 44px;
+  background: none;
+  cursor: pointer;
+  transition: width 0.4s var(--ease);
+}
+
+.tukar-titik::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  margin-top: -2px;
   height: 4px;
   border-radius: 999px;
   background: var(--line);
-  cursor: pointer;
-  transition: background 0.4s var(--ease), width 0.4s var(--ease);
+  transition: background 0.4s var(--ease);
 }
 
 .tukar-titik[aria-selected="true"] {
   width: 56px;
+}
+
+.tukar-titik[aria-selected="true"]::before {
   background: var(--text);
 }
 
+/* Cincin fokus mengelilingi BILAHNYA, bukan kotak sentuh 44px — kalau tidak,
+   yang tergambar persegi tinggi yang mengambang jauh dari apa pun yang
+   terlihat, dan pengguna keyboard kehilangan jejak posisinya. */
 .tukar-titik:focus-visible {
+  outline: none;
+}
+
+.tukar-titik:focus-visible::before {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
 }

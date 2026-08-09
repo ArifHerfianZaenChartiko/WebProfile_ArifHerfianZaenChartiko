@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box }
+  body {
+    width: 1200px; height: 630px;
+    background: #040508;
+    color: #d8d8d8;
+    font-family: "Inter", sans-serif;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 72px 80px;
+    overflow: hidden;
+  }
+  .atas { display: flex; align-items: center; gap: 22px }
+  .atas svg { width: 58px; height: auto }
+  .kode {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px; letter-spacing: .18em; text-transform: uppercase;
+    color: #808080;
+  }
+  h1 {
+    font-size: 92px; font-weight: 500; line-height: .96; letter-spacing: -.04em;
+  }
+  h1 span { color: #808080 }
+  .garis { height: 1px; background: #434343; margin: 34px 0 26px }
+  .peran { display: flex; gap: 14px; flex-wrap: wrap }
+  .peran span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px; letter-spacing: .14em; text-transform: uppercase;
+    color: #808080; border: 1px solid #2a2a2a; padding: 10px 16px;
+  }
+  .bawah { display: flex; align-items: baseline; justify-content: space-between }
+  .titik { width: 9px; height: 9px; border-radius: 999px; background: #ff6a3d; display: inline-block; margin-right: 12px }
+</style>
+</head>
+<body>
+  <div class="atas">
+    <svg viewBox="0 0 176 168" aria-hidden="true">
+      <g fill="none" stroke="#d8d8d8" stroke-linecap="butt" stroke-linejoin="miter">
+        <g stroke-width="5">
+          <path d="M 88 6 L 158 46 L 158 122 L 88 162"/>
+          <path d="M 88 6 L 18 46 L 18 122 L 88 162"/>
+        </g>
+        <g stroke-width="14">
+          <path d="M 48 132 L 48 84 L 88 40 L 128 84 L 128 132"/>
+          <path d="M 48 106 L 128 106"/>
+        </g>
+      </g>
+    </svg>
+    <span class="kode">Portofolio</span>
+  </div>
+
+  <div>
+    <h1>Arif Herfian<br><span>Zaen Chartiko</span></h1>
+    <div class="garis"></div>
+    <div class="peran">
+      <span>Web Developer</span>
+      <span>Pendidik Informatika</span>
+      <span>Staf Administrasi</span>
+    </div>
+  </div>
+
+  <div class="bawah">
+    <span class="kode"><i class="titik"></i>Kab. Blitar, Jawa Timur</span>
+    <span class="kode">S1 Pendidikan Teknik Informatika &middot; UM</span>
+  </div>
+</body>
+</html>

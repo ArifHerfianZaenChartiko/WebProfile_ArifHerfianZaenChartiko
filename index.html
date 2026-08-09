@@ -20,6 +20,31 @@
   <meta property="og:description" content="Arif Herfian Zaen Chartiko — Web Developer, Pendidik Informatika, dan Staf Administrasi. Lulusan Pendidikan Teknik Informatika, Universitas Negeri Malang.">
   <meta property="og:url" content="https://webprofile-arifherfianzaenchartiko.vercel.app/">
 
+  <!-- Kartu pratinjau saat tautannya dibagikan. Sampai 9 Agustus 2026 tag ini
+       tidak ada sama sekali, jadi tautan yang dikirim lewat WhatsApp atau
+       LinkedIn tampil sebagai baris teks polos tanpa gambar — kehilangan yang
+       nyata untuk portofolio yang penyebarannya justru lewat tautan.
+
+       URL-NYA HARUS MUTLAK, bukan relatif. Perayap yang mengambil kartu ini
+       tidak menjalankan halaman, jadi tidak ada basis untuk menyelesaikan
+       "assets/og.png"; yang relatif diam-diam gagal dan kartunya kembali
+       kosong tanpa satu pun pesan galat.
+
+       1200x630 itu ukuran yang diminta Open Graph, dan alt-nya dibaca
+       pembaca layar di Twitter/X. Berkasnya dibuat dengan merender
+       docs/og.html pada ukuran itu, bukan digambar tangan — jadi ia memakai
+       warna dan tipografi yang sama persis dengan situsnya. -->
+  <meta property="og:image" content="https://webprofile-arifherfianzaenchartiko.vercel.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Arif Herfian Zaen Chartiko — Web Developer, Pendidik Informatika, Staf Administrasi">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- SVG, bukan .ico: satu berkas 700 byte yang tajam di semua ukuran, dan
+       ia monogram yang sama dengan panel pembuka. Kalau salah satu diubah,
+       ubah keduanya. -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
   <!-- Dua keluarga saja. Inter untuk seluruh teks DAN judul; JetBrains Mono
        untuk label kecil berspasi lebar. Dulu Fraunces ikut dimuat sebagai
        serif judul, tapi tidak pernah benar-benar dipasang — --font-display
@@ -37,8 +62,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
 
-  <!-- icon dari font awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Font Awesome TIDAK lagi dimuat di sini. Ia diimpor dari src/main.jsx
+       supaya ikut dibundel Vite dan dilayani dari domain sendiri; alasan
+       lengkapnya ada di berkas itu. Jangan kembalikan <link> ke cdnjs. -->
 </head>
 <body>
   <div id="root"></div>

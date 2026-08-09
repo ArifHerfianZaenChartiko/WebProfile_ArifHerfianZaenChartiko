@@ -1664,11 +1664,29 @@ export function pasangAnimasi() {
 
   /* ── 6. PERILAKU ────────────────────────────────────────────────────────*/
 
+  /*
+   * TIMER-NYA DIDAFTARKAN, dan sampai 9 Agustus 2026 ia satu-satunya efek
+   * samping di berkas ini yang TIDAK — melanggar aturan yang ditulis di
+   * kepala berkas ini sendiri.
+   *
+   * Gejalanya persis yang diperingatkan komentar itu, dan persis jenis cacat
+   * yang tidak pernah melempar galat: StrictMode memasang efek dua kali pada
+   * simpul DOM yang SAMA, jadi ada dua putaran ketik menulisi satu <span>
+   * bergantian. Yang terlihat huruf yang berkedut dan kata yang kadang
+   * melompat — mudah disalahartikan sebagai masalah performa, padahal murni
+   * dua timer yang berebut.
+   *
+   * Di produksi StrictMode tidak menggandakan, jadi cacatnya tidak terlihat
+   * di sana. Yang tetap berlaku di produksi: tanpa pendaftaran ini timernya
+   * hidup selamanya setelah dibongkar.
+   */
   function initTypewriter() {
     var el = $("[data-typewriter]");
     if (!el) return;
     var words = JSON.parse(el.getAttribute("data-typewriter"));
     var indexKata = 0, indexHuruf = 0, sedangHapus = false;
+    var id = 0;
+    bersih.push(function () { clearTimeout(id); });
 
     (function ketik() {
       var kata = words[indexKata];
@@ -1683,7 +1701,7 @@ export function pasangAnimasi() {
         indexKata = (indexKata + 1) % words.length;
         jeda = 300;
       }
-      setTimeout(ketik, jeda);
+      id = setTimeout(ketik, jeda);
     })();
   }
 

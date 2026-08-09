@@ -1,0 +1,28 @@
+<!--
+  Monogram yang sama persis dengan panel pembuka (src/components/Pembuka.jsx):
+  gerbang bersegi di dalam heksagon, dengan geometri dan viewBox yang identik.
+  Kalau salah satu diubah, ubah keduanya.
+
+  Tiga beda yang disengaja, semuanya karena ini digambar pada 16-32 piksel:
+
+  1. Goresannya lebih tebal (16 lawan 12) dan rambut heksagonnya lebih tebal
+     (6 lawan 1,5). Pada ukuran tab, 1,5 dari 176 satuan menipis sampai hilang.
+  2. Palangnya digabung ke dalam satu <g>, sebab di sini tidak ada urutan
+     waktu yang perlu dibedakan -- ia digambar sekaligus.
+  3. Ada latar sendiri. Favicon tanpa latar akan tampil di atas warna tab
+     peramban, yang bisa terang atau gelap; monogram --text (#d8d8d8) akan
+     nyaris lenyap di tab terang.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 168" width="176" height="168">
+  <rect width="176" height="168" rx="30" fill="#040508"/>
+  <g fill="none" stroke="#d8d8d8" stroke-linecap="butt" stroke-linejoin="miter">
+    <g stroke-width="6">
+      <path d="M 88 6 L 158 46 L 158 122 L 88 162"/>
+      <path d="M 88 6 L 18 46 L 18 122 L 88 162"/>
+    </g>
+    <g stroke-width="16">
+      <path d="M 48 132 L 48 84 L 88 40 L 128 84 L 128 132"/>
+      <path d="M 48 106 L 128 106"/>
+    </g>
+  </g>
+</svg>
