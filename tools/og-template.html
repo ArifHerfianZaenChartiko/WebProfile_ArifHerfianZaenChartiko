@@ -1,4 +1,27 @@
 <!DOCTYPE html>
+<!-- ══════════════════════════════════════════════════════════════════════════
+     TEMPLAT KARTU PRATINJAU. BUKAN halaman situs, dan tidak ikut dibundel
+     Vite — ia berada di luar src/ dan public/ justru supaya tidak ikut
+     terbit.
+
+     Yang dipakai situs adalah HASIL RENDER-nya: public/assets/og.png, yang
+     dirujuk <meta property="og:image"> di index.html. Berkas ini sumbernya.
+
+     CARA MEMPERBARUI: buka berkas ini di peramban, tangkap layar seluruh
+     <body> pada 1200x630 — itu ukuran yang diminta Open Graph dan sudah
+     dipatok di CSS bawah — lalu timpa public/assets/og.png.
+
+     KENAPA TEMPLAT, BUKAN GAMBAR YANG DIGAMBAR TERPISAH. Warna, font, dan
+     monogramnya di sini disalin dari situsnya (#040508, #d8d8d8, #ff6a3d,
+     Inter + JetBrains Mono, viewBox 176x168 yang sama dengan panel pembuka).
+     Kalau situsnya berubah, yang perlu dikerjakan cuma menyamakan nilai di
+     bawah lalu merender ulang — bukan menggambar ulang dari nol dengan
+     warna yang bisa diam-diam meleset.
+
+     Sampai 9 Agustus 2026 berkas ini bernama docs/og.html. Dipindah ke sini
+     karena ia bukan dokumen: ia aset yang kebetulan berbentuk HTML, dan
+     nama foldernya yang lama membuat perannya salah terbaca.
+     ═══════════════════════════════════════════════════════════════════════ -->
 <html lang="id">
 <head>
 <meta charset="UTF-8">
