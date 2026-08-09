@@ -969,11 +969,32 @@ export function pasangAnimasi() {
        masing-masing: 43,2 fps rata-rata pada 0,55 dan 44,7 pada 0,35. Selisih
        itu di dalam derau; jangan pakai angka ini untuk membenarkan
        memperpendek durasi di tempat lain. */
-    var DURASI_GULIR = 0.35;
+    /* 0,3 bukan 0,35 lagi. Pita gulir per panel dipendekkan drastis (lihat
+       blok GULIR YANG MEMILIH di bawah) jadi ~63px di ponsel; transisi yang
+       lebih lama dari waktu tempuh satu pita membuat panel selalu tertinggal
+       di belakang jari, dan yang terlihat bukan pergantian melainkan antrean
+       pergantian yang saling menyusul. */
+    var DURASI_GULIR = 0.3;
     var aktif = 0;
     var tl = null;
     var pertama = true;
     var durasiSekali = null;
+
+    /* Sudut terlipat panel sebelum kedatangannya. -74, bukan -90: pada 90
+       derajat panel benar-benar tegak lurus layar dan lebarnya jadi nol, jadi
+       yang terlihat cuma garis dan kedatangannya terbaca sebagai kedip, bukan
+       sebagai lipatan yang membuka. */
+    var TERLIPAT = -74;
+    var tersembunyi = !prefersReducedMotion();
+
+    /* Panel sebelum yang aktif miring ke satu arah, sesudahnya ke arah
+       sebaliknya, jadi keduanya seolah membuka jalan ke tengah. Dipisah jadi
+       fungsi karena kedatangan juga harus mendarat tepat di sudut ini --
+       kalau ia mendarat di 0 lalu terapkan() membetulkannya, ada sentakan
+       kecil di akhir tiap lipatan. */
+    function derajat(i) {
+      return i === aktif ? 0 : i < aktif ? MIRING : -MIRING;
+    }
 
     function terapkan() {
       var durasi = pertama || prefersReducedMotion()
@@ -990,11 +1011,14 @@ export function pasangAnimasi() {
         var tirai = $("[data-panel-tirai]", p);
         var teks = $("[data-panel-teks]", p);
 
-        /* Panel sebelum yang aktif miring ke satu arah, sesudahnya ke arah
-           sebaliknya, jadi keduanya seolah membuka jalan ke tengah. */
-        var derajat = ini ? 0 : i < aktif ? MIRING : -MIRING;
+        /* Selama masih terlipat, tata letaknya tetap dihitung dan dipasang --
+           yang ditahan cuma tampilannya. Jadi mengubah ukuran layar sebelum
+           galerinya tiba tidak membatalkan kedatangan, dan tidak ada satu
+           frame pun yang menampilkan panel tegak sebelum waktunya. */
         tl.to(p, {
-          flexGrow: ini ? tumbuh : 1, rotationY: derajat,
+          flexGrow: ini ? tumbuh : 1,
+          rotationY: tersembunyi ? TERLIPAT : derajat(i),
+          opacity: tersembunyi ? 0 : 1,
           duration: durasi, ease: EASE,
         }, 0);
 
@@ -1082,6 +1106,74 @@ export function pasangAnimasi() {
     });
 
     /*
+     * KEDATANGAN — enam panel membuka satu per satu, seperti sekat lipat.
+     *
+     * Sebelum ini galeri sudah berdiri lengkap begitu bagiannya tersingkap:
+     * tidak ada yang menandai bahwa ia baru tiba, dan bagian ini jadi
+     * satu-satunya di halaman yang isinya muncul tanpa gerak masuk sama
+     * sekali.
+     *
+     * MENUMPANG rotationY YANG SUDAH ADA, bukan sumbu baru. Akordeonnya
+     * memang sudah memiringkan panel non-aktif di sumbu Y dengan perspective
+     * di wadahnya, jadi melipat dari -74 derajat ke sudut istirahatnya
+     * memakai ruang tiga dimensi yang sudah tergelar — bukan efek asing yang
+     * ditempelkan di atasnya.
+     *
+     * MENDARAT DI derajat(i), BUKAN DI NOL. Sudut istirahat tiap panel
+     * berbeda (0 untuk yang aktif, ±6 untuk sisanya). Kalau kedatangan
+     * mendarat di 0 lalu terapkan() membetulkannya, ada sentakan kecil di
+     * ujung tiap lipatan.
+     *
+     * opacity, BUKAN autoAlpha. autoAlpha menambahkan visibility:hidden, dan
+     * itu mengeluarkan keenam <a>-nya dari urutan tab DAN dari pohon
+     * aksesibilitas selama masih terlipat. Pengguna keyboard tidak akan
+     * pernah bisa men-tab ke sana — dan karena ia tidak bisa fokus ke sana,
+     * halamannya tidak pernah tergulir ke sana, jadi pemicu di bawah tidak
+     * pernah menyala dan galerinya tidak pernah tiba. Kebutaan yang mengunci
+     * dirinya sendiri.
+     *
+     * Karena itu ada DUA jalan masuk, dan yang duluan tiba yang menang:
+     * posisi gulir, atau fokus keyboard yang mendarat di dalamnya.
+     */
+    var sudahTiba = false;
+    function kedatangan() {
+      if (sudahTiba) return;
+      sudahTiba = true;
+      tersembunyi = false;
+
+      if (prefersReducedMotion()) { terapkan(); return; }
+
+      if (tl) tl.kill();
+      tl = gsap.timeline();
+      panel.forEach(function (p, i) {
+        /* 0,075 x 5 + 0,5 = 0,875 detik untuk keenamnya. Cukup lama untuk
+           terbaca satu per satu, cukup pendek untuk tidak menahan orang yang
+           sudah menggulir melewatinya. */
+        tl.to(p, {
+          rotationY: derajat(i), opacity: 1,
+          duration: 0.5, ease: EASE,
+        }, i * 0.075);
+      });
+    }
+
+    /* Dipasang di akar, bukan di tiap panel: fokus yang mendarat di panel
+       mana pun berarti galerinya sudah harus berdiri seluruhnya. */
+    dengar(akar, "focusin", kedatangan);
+
+    ScrollTrigger.create({
+      trigger: akar,
+      /* Lebih awal dari pita pemilih di bawah, dan jaraknya disengaja: pada
+         ponsel 844px, kedatangan menyala saat tepi atas galeri di 717px
+         sementara pita pemilih baru mulai di 414px. Selisih ~300px gulir itu
+         jauh lebih panjang daripada 0,875 detik yang dibutuhkan lipatannya,
+         jadi galerinya selalu sudah berdiri utuh sebelum gulir mulai
+         memindah-mindah panelnya. */
+      start: "top 85%",
+      once: true,
+      onEnter: kedatangan,
+    });
+
+    /*
      * GULIR YANG MEMILIH, UNTUK PERANGKAT TANPA HOVER.
      *
      * Di penunjuk halus menelusuri galeri ini gratis: arahkan kursor, panel
@@ -1125,8 +1217,32 @@ export function pasangAnimasi() {
     var terakhirGulir = -1;
     ScrollTrigger.create({
       trigger: akar,
-      start: "top 85%",
-      end: "bottom 15%",
+      /*
+       * PITANYA DIPUSATKAN DI TENGAH LAYAR, DAN PENDEK.
+       *
+       * Sebelum ini "top 85%" sampai "bottom 15%": pemilihan mulai begitu
+       * tepi atas galeri menyembul dari dasar layar dan baru habis saat tepi
+       * bawahnya nyaris keluar dari puncak. Lintasannya ~809px di ponsel,
+       * 135px per panel, dan yang lebih parah dari panjangnya adalah LETAKNYA
+       * — dua panel pertama sudah lewat sebelum galerinya sempat berada di
+       * tempat yang enak dipandang, dan dua terakhir baru datang saat ia
+       * sedang pergi. Menelusurinya menuntut menggulir sepanjang seluruh
+       * lintasan galeri melewati layar.
+       *
+       * Sekarang yang dijadikan patokan TITIK TENGAH galeri, bukan tepinya,
+       * dan pitanya cuma 45% tinggi layar: pemilihan mulai saat titik tengah
+       * itu di 62% (sedikit di bawah tengah layar) dan habis di 17%. Lipatan
+       * pertama karena itu terbuka tepat saat galerinya sampai di tengah,
+       * dan kelima sisanya menyusul cepat sesudahnya.
+       *
+       * PERSEN TINGGI LAYAR, BUKAN PIKSEL — itu yang membuatnya benar di
+       * semua perangkat tanpa satu pun titik henti: 45% dari 844 (ponsel)
+       * = 380px, 63px per panel; 45% dari 1024 (tablet) = 461px, 77px per
+       * panel. Jarak per panelnya ikut tumbuh bersama layarnya, jadi rasanya
+       * sama di keduanya.
+       */
+      start: "center 62%",
+      end: "center 17%",
       onUpdate: function (diri) {
         if (bisaHover.matches) return;
         var i = Math.min(panel.length - 1, Math.floor(diri.progress * panel.length));
