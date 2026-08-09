@@ -682,28 +682,34 @@ export function pasangAnimasi() {
      * yang sama membuat keduanya terbaca sebagai sepasang pintu yang menutup;
      * menerus ke seberang berarti keduanya harus melintasi kartu utama.
      *
-     * RENTANGNYA "top bottom" SAMPAI "bottom top", DAN ITU BUKAN PILIHAN
-     * BEBAS — ia satu-satunya rentang yang membuat geraknya sempat dilihat.
+     * TIAP SLOT DIPICU OLEH DIRINYA SENDIRI, BUKAN OLEH BLOKNYA — dan ini
+     * satu-satunya hal yang membuat gerak MASUK benar-benar sempat dilihat.
      *
-     * Percobaan pertama memakai "top 92%" sampai "bottom 8%" dan gagal diam-
-     * diam. Terukur di layar 900px dengan blok setinggi 420px: masuknya
-     * tuntas 289px setelah pemicu menyala, dan pada saat itu kedua kartu
-     * bawah MASIH DI BAWAH LIPATAN. Jadi ketika keduanya akhirnya masuk
-     * layar, geserannya sudah habis — yang terlihat cuma kartu yang tiba-tiba
-     * sudah ada di tempatnya. Animasinya berjalan sempurna di luar pandangan.
+     * Dua percobaan sebelumnya keduanya memicu dari .stage-orbit, dan
+     * keduanya gagal karena alasan yang sama. Dua kartu penunjang duduk di
+     * DASAR blok, jadi merekalah yang paling terakhir masuk layar; sementara
+     * kemajuan animasinya dihitung dari perjalanan SELURUH blok. Terukur di
+     * layar 900px dengan blok 420px: saat kedua kartu itu benar-benar
+     * terlihat, kemajuannya sudah sekitar 85 persen. Yang tersisa untuk
+     * dilihat cuma sisa geseran terakhir, lalu langsung diam — praktis tidak
+     * ada animasi masuk sama sekali, cuma animasi keluar.
      *
-     * "top bottom" menyalakannya tepat saat tepi atas blok menyentuh dasar
-     * layar, dan "bottom top" mematikannya saat tepi bawahnya meninggalkan
-     * puncak. Lintasannya jadi tinggiLayar + tinggiBlok, dan pembagian tiga
-     * satuan di bawah memetakannya nyaris persis ke tiga keadaan alaminya:
+     * Cacat itu sempat lolos dari pengujian karena penanda "terlihat" yang
+     * dipakai cuma `bawah > 0 && atas < tinggiLayar`. Itu bernilai benar
+     * meski kartunya menyembul SATU PIKSEL di tepi bawah layar. Angkanya
+     * benar, yang diukurnya yang salah.
      *
-     *   0-1 masuk   blok bergerak dari luar layar sampai UTUH terlihat
-     *               (900 -> 480 = 420px, sepertiga dari 1320)
-     *   1-2 diam    seluruh blok terlihat penuh (480px)
-     *   2-3 keluar  blok mulai meninggalkan puncak layar (420px)
+     * Dipicu dari slotnya sendiri, rentangnya jadi tinggiLayar + tinggiSlot,
+     * dan sepertiga pertamanya jatuh persis saat slot itu sedang naik masuk
+     * ke layar. Untuk slot samping setinggi ~190px di layar 900px: masuknya
+     * memakai 363px pertama, dan di ujungnya tepi atas slot ada di 537px
+     * dengan tepi bawah 727px — seluruhnya di dalam layar. Tidak ada satu
+     * bagian pun dari gerak masuk yang jatuh di luar pandangan.
      *
-     * Jadi ketiga kartu selesai datang tepat ketika blok pertama kali utuh
-     * di layar, dan tidak satu pun geraknya jatuh di luar pandangan.
+     * KONSEKUENSINYA KETIGANYA TIDAK LAGI SEREMPAK, dan itu memang benar:
+     * kartu utama berada lebih tinggi, jadi ia datang lebih dulu, lalu dua
+     * kartu penunjang menyusul bersamaan karena keduanya sebaris. Yang
+     * serempak justru yang tadi mustahil dilihat.
      *
      * SATU TIMELINE PER SLOT, bukan dua pemicu terpisah untuk masuk dan
      * keluar: dua pemicu yang rentangnya bertindihan akan menganimasikan
@@ -717,7 +723,7 @@ export function pasangAnimasi() {
       var tl = gsap.timeline({
         defaults: { ease: EASE_SCRUB },
         scrollTrigger: {
-          trigger: orbit,
+          trigger: s,
           start: "clamp(top bottom)",
           end: "clamp(bottom top)",
           scrub: SCRUB,
