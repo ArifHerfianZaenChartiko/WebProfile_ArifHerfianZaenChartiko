@@ -227,31 +227,38 @@ html.lenis,html.lenis body{height:auto}
 .stage-orbit{grid-template-columns:1fr 1fr;place-items:stretch center;gap:1rem;width:100%;display:grid;position:relative}
 
 /*
- * KANDANG GESERAN KARTU PERAN.
+ * KANDANG GESERAN KARTU PERAN — DIPASANG DI SECTION, BUKAN DI .stage-orbit.
  *
- * Dua kartu penunjang masuk dan keluar dari tepi kiri dan kanan sejauh 55%
- * lebarnya sendiri — sekitar 298px di desktop. Transform TIDAK mengubah tata
- * letak, tapi ia TETAP memperlebar daerah yang bisa digulir: terukur sebelum
- * aturan ini ada, lebar dokumen jadi 1568px pada layar 1440, dan 472px pada
- * layar 390. Halaman jadi bisa digeser ke samping di semua ukuran.
+ * Kandangnya memang perlu ada: dua kartu penunjang masuk dan keluar sejauh
+ * 55% lebarnya sendiri, dan walau transform tidak mengubah tata letak, ia
+ * TETAP memperlebar daerah yang bisa digulir — terukur tanpa kandang, lebar
+ * dokumen jadi 1568px pada layar 1440 dan 472px pada layar 390.
+ *
+ * TAPI LETAK KANDANGNYA PENTING, dan percobaan pertama menaruhnya di
+ * .stage-orbit. Itu salah, dan salahnya baru terlihat di layar lebar: orbit
+ * cuma 1100px di tengah layar 1440, jadi tepi potongnya jatuh di x=158 dan
+ * x=1282 — 158px dari tepi layar, di tengah ruang yang jelas-jelas kosong.
+ * Kartu yang meluncur masuk terpenggal rata oleh garis tak terlihat di area
+ * kosong itu. Yang terbaca bukan kartu yang datang dari luar layar,
+ * melainkan kartu yang rusak.
+ *
+ * Dipasang di section, tepi potongnya berimpit dengan tepi layar, jadi kartu
+ * benar-benar muncul DARI LUAR layar. Di ponsel keduanya nyaris sama karena
+ * orbit hampir selebar layar; di desktop bedanya 158px di tiap sisi.
  *
  * overflow-x: clip, BUKAN hidden. `hidden` menjadikan elemennya wadah gulir,
  * dan wadah gulir memutus `position: sticky` serta mengacaukan perhitungan
  * ScrollTrigger di dalamnya. `clip` memotong tanpa membuat wadah gulir sama
  * sekali — itu memang gunanya ia ada.
  *
- * overflow-y dibiarkan visible, dan itu SAH bersama clip (tidak seperti
- * kombinasi hidden+visible yang diam-diam dipaksa jadi auto). Kartu yang
- * sedang disorot naik 6px keluar batas atas; ia harus tetap terlihat.
- *
- * overflow-clip-margin memberi 12px kelonggaran supaya skala 1,012 pada kartu
- * utama — yang menjulur 6,6px ke tiap sisi di desktop — tidak terpangkas dan
- * sudut lengkungnya tidak terpotong rata.
+ * overflow-y WAJIB tetap visible, dan pasangan clip+visible ini SAH (tidak
+ * seperti hidden+visible yang diam-diam dipaksa jadi auto). Kalau sumbu Y
+ * ikut terpotong, penyingkapan scrub milik seluruh isi bagian ini akan
+ * terpangkas di tepi atas dan bawah section.
  */
-.stage-orbit {
+#keahlian {
   overflow-x: clip;
   overflow-y: visible;
-  overflow-clip-margin: 12px;
 }
 
 .stage-card h3{min-width:0;font-size:clamp(.875rem,3.625vw + .15rem,1.6rem)}
