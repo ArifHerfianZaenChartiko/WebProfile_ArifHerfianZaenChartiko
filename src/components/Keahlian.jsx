@@ -91,7 +91,7 @@ export default function Keahlian() {
                    sebelumnya — halaman yang memuat kalimatnya sendiri dibangun
                    dengan kerangka kerja. Kalimat yang dibantah oleh halaman
                    tempat ia berdiri adalah yang paling mahal ongkosnya. */}
-              <p className="-body-small max-w-2xl text-text-muted">Mengerjakan dua sisi sekaligus: antarmuka dengan HTML, CSS, dan JavaScript — menyusun layout, hierarki visual, dan gerak yang terukur supaya tetap ringan di perangkat kelas menengah — lalu sisi server dengan PHP dan Laravel, termasuk merancang skema serta kueri MySQL yang menopangnya.</p>
+              <p className="-body-small max-w-2xl text-text-muted">Mengerjakan dua sisi sekaligus: antarmuka dengan HTML, CSS, dan JavaScript — menyusun layout, hierarki visual, dan gerak yang terukur supaya tetap ringan di perangkat kelas menengah — lalu sisi server dengan PHP dan Laravel, merangkai tampilannya lewat Blade, serta merancang skema dan kueri MySQL yang menopangnya.</p>
             </article>
             </div>
 
@@ -199,10 +199,23 @@ export default function Keahlian() {
                sempat datang. Di dalam satu bagian aturannya tetap: 0,03
                berurutan menembus kelompok, label memakai jeda kartu pertamanya.
 
-               REACT DAN VITE SENGAJA TIDAK DISEBUT, meski situs ini sendiri
-               dibangun dengan keduanya dan siapa pun bisa melihatnya di repo.
-               Itu keputusan sadar pemilik situs pada 9 Agustus 2026, bukan
-               kelalaian — jangan "dilengkapi" tanpa menanyakannya lebih dulu.
+               REACT BELUM DISEBUT, DAN ITU DITUNDA — BUKAN DITOLAK. Situs ini
+               memang dibangun dengan React, jadi buktinya ada di repo, tapi
+               pemiliknya memilih menunggu sampai ia benar-benar menguasainya
+               lebih dulu. Alasannya masuk akal dan layak dipertahankan: apa
+               pun yang tertulis di sini akan digali saat wawancara, dan
+               teknologi yang dicantumkan tapi tidak bisa dijelaskan lebih
+               merugikan daripada yang tidak dicantumkan sama sekali.
+
+               Jadi kalau suatu saat React ditambahkan, itu memang rencananya
+               — tapi tanyakan dulu, jangan diputuskan sendiri.
+
+               CATATAN YANG PERLU DILURUSKAN kalau pertanyaan ini muncul lagi:
+               React TIDAK bertabrakan dengan Laravel. Laravel punya Inertia
+               yang didukung resmi, yang membuat komponen React dipakai
+               langsung sebagai view Laravel tanpa perlu API terpisah, dan
+               starter kit resminya menyediakan opsi React. Alasan menundanya
+               murni kesiapan, bukan kecocokan teknologi.
                ═════════════════════════════════════════════════════════════ */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Teknologi</h3>
@@ -322,13 +335,55 @@ export default function Keahlian() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Laravel</span>
                   </div>
 
+                  {/* BLADE ADALAH SATU-SATUNYA ENTRI DI KISI INI YANG BUKAN
+                       LAMBANG MEREK, dan itu tidak bisa dihindari: Blade tidak
+                       punya lambang resmi karena ia bukan produk tersendiri —
+                       ia mesin templating DI DALAM Laravel. Tidak ada situs
+                       resmi yang bisa dibuka untuk mengunduhnya, jadi aturan
+                       baku repo ini tidak berlaku di sini. Pengecualian yang
+                       sama sudah pernah ditulis untuk JavaScript (tidak punya
+                       lambang resmi) dan Stitch (harus dibangun dari font).
+
+                       Dipakai glyph Font Awesome fa-code, bukan berkas SVG.
+                       Font Awesome sudah dibundel lewat src/main.jsx, jadi ini
+                       tidak menambah satu pun permintaan jaringan.
+
+                       PILIHAN GLYPH-NYA DIUKUR, bukan diambil yang pertama
+                       terlihat. fa-file-code — berkas terisi penuh — sempat
+                       dicoba dan bobotnya terlalu berat berdampingan dengan
+                       lambang Laravel yang bergaris tipis, persis masalah yang
+                       sama dengan kotak JavaScript. fa-code yang berupa tanda
+                       kurung sudut justru sebangun dengan Laravel, dan bentuk
+                       "</>": itu sendiri memang membaca sebagai markah — yang
+                       persis pekerjaan Blade.
+
+                       WARNANYA #FF2D20, merah Laravel, dan itu disengaja.
+                       Blade bagian dari Laravel, jadi warna yang sama menandai
+                       kekerabatannya tanpa menggandakan lambangnya. Sempat
+                       dicoba abu #d8d8d8 mengikuti perlakuan lambang tak
+                       berwarna seperti Vercel, tapi hasilnya justru memutus
+                       hubungan itu — ia tampak seperti entri asing.
+
+                       28px, bukan 30px yang tampak paling pas di mata: 28
+                       salah satu dari sepuluh langkah ukuran font situs ini,
+                       30 bukan. Selisihnya tidak terlihat, keseragamannya
+                       terlihat. */}
+                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <i className="fa-solid fa-code text-[28px]" style={{ color: "#FF2D20" }} aria-hidden="true"></i>
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Blade</span>
+                  </div>
+
                   {/* MySQL DINAIKKAN ke 1,06, kebalikan dari PHP. Lambangnya
                        lumba-lumba di atas wordmark, jadi tingginya terbagi dua
                        dan tulisan "MySQL" cuma kebagian sekitar 40% dari 36px.
                        Pada skala 1,0 tulisannya mengecil sampai hampir tak
                        terbaca; 1,06 mengembalikannya tanpa membuat lumba-lumbanya
                        melewati tinggi kotak. */}
-                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/mysql.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.06)" }} className="max-h-full max-w-full object-contain" />

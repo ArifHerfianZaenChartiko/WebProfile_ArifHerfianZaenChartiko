@@ -18,7 +18,7 @@ import "./index.css";
  * yang hilang perjalanan ke host asing dan ketergantungan padanya.
  *
  * TIGA BERKAS, BUKAN all.min.css. Halaman ini cuma memakai dua keluarga —
- * 13 ikon solid dan 3 brands. `all` menyeret juga `regular` dan shim
+ * 13 ikon solid dan 2 brands. `all` menyeret juga `regular` dan shim
  * kompatibilitas v4 beserta berkas fontnya, yang tidak dirujuk satu kelas
  * pun di sini. Kalau nanti ada ikon `fa-regular` ditambahkan, tambahkan
  * barisnya di sini — kalau tidak, ikonnya akan muncul sebagai kotak kosong.

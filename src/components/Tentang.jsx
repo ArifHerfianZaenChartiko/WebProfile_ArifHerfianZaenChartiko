@@ -41,7 +41,7 @@ export default function Tentang() {
                   <div className="group relative grid grid-cols-1 gap-x-8 gap-y-3 border-b border-line py-8 nav:grid-cols-[3rem_minmax(0,13rem)_minmax(0,1fr)]">
                     <span className="-mono tabular-nums text-text-muted">01</span>
                     <h3 className="-title-3 transition-transform duration-500 ease-brand nav:group-hover:translate-x-1">Fullstack Web Developer</h3>
-                    <p className="-body-small max-w-xl text-text-muted">Mengerjakan kedua sisi: antarmuka responsif dengan HTML, CSS, dan JavaScript, serta sisi server dengan PHP dan Laravel di atas basis data MySQL. Struktur yang rapi, gerak yang terukur, dan halaman yang tetap ringan di perangkat kelas menengah — ditopang pemahaman desain, sehingga hasilnya tidak sekadar berfungsi.</p>
+                    <p className="-body-small max-w-xl text-text-muted">Mengerjakan kedua sisi: antarmuka responsif dengan HTML, CSS, dan JavaScript, serta sisi server dengan PHP dan Laravel — templating Blade di atas basis data MySQL. Struktur yang rapi, gerak yang terukur, dan halaman yang tetap ringan di perangkat kelas menengah — ditopang pemahaman desain, sehingga hasilnya tidak sekadar berfungsi.</p>
                     <span aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-text transition-transform duration-700 ease-brand group-hover:scale-x-100"></span>
                   </div>
                 </div>
