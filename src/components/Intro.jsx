@@ -1,8 +1,8 @@
-export default function Pembuka() {
+export default function Intro() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           PEMBUKA — panel yang menutup layar sampai monogramnya selesai terbentuk.
+           PEMBUKA — panel yang menutup screen sampai monogramnya selesai terbentuk.
 
            BUKAN "A di sebelah H". Keduanya berbagi bagian yang sama sehingga
            jadi SATU bentuk: gerbang bersegi di dalam heksagon.
@@ -11,8 +11,8 @@ export default function Pembuka() {
              puncak lancip     -> huruf A, memakai kedua tiang itu sebagai kaki
              palang            -> palang A DAN palang H sekaligus
 
-           Jadi tiap goresan dipakai dua kali. Palangnya berdiri sebagai
-           kelompok sendiri bukan karena warnanya -- seluruh lambang satu
+           Jadi tiap stroke dipakai dua kali. Palangnya berdiri sebagai
+           kelompok sendiri bukan karena warnanya -- seluruh logo satu
            warna -- melainkan karena WAKTUNYA: ia digambar paling akhir,
            sebab sampai ia turun bentuknya masih terbaca sebagai gerbang
            kosong. Ia yang mengunci dua huruf jadi satu tanda.
@@ -34,13 +34,13 @@ export default function Pembuka() {
            lewat stroke-dashoffset; panjangnya diukur getTotalLength() di
            src/lib/animasi.js, tidak ditulis tangan di sini.
            ═══════════════════════════════════════════════════════════════════════ */}
-      <div data-component="pembuka" className="pembuka" aria-hidden="true">
-        <div className="pembuka-isi" data-pembuka-isi>
-          <svg className="pembuka-lambang" viewBox="0 0 176 168" role="img"
+      <div data-component="intro" className="intro" aria-hidden="true">
+        <div className="intro-inner" data-intro-inner>
+          <svg className="intro-mark" viewBox="0 0 176 168" role="img"
             aria-label="Monogram A H">
             {/* Heksagon dibelah dua supaya bisa tumbuh dari puncak ke bawah di
                 kiri dan kanan sekaligus, bukan melingkar satu arah. */}
-            <g data-pembuka-bingkai>
+            <g data-intro-frame>
               <path d="M 88 6 L 158 46 L 158 122 L 88 162" />
               <path d="M 88 6 L 18 46 L 18 122 L 88 162" />
             </g>
@@ -55,15 +55,15 @@ export default function Pembuka() {
                 keempat sikunya jadi miter join yang menyambung rapat, dan
                 puncaknya jadi sudut lancip tanpa sambungan sama sekali.
 
-                Efek sampingnya justru yang diinginkan: goresannya menyusur
+                Side effect-nya justru yang diinginkan: stroke-nya menyusur
                 naik dari kaki kiri, melewati puncak, lalu turun ke kaki
                 kanan -- satu tarikan, bukan tiga bagian yang muncul
                 bergantian. */}
-            <g data-pembuka-goresan>
+            <g data-intro-stroke>
               <path d="M 48 132 L 48 84 L 88 40 L 128 84 L 128 132" />
             </g>
 
-            <g data-pembuka-kunci>
+            <g data-intro-lock>
               <path d="M 48 106 L 128 106" />
             </g>
           </svg>

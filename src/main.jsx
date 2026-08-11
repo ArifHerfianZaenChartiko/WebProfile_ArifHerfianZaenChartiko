@@ -12,18 +12,18 @@ import "./index.css";
  * ia titik gagal tunggal — kalau cdnjs tidak terjangkau, kedua belas ikon di
  * halaman ini lenyap tanpa jejak.
  *
- * Diimpor dari sini, Vite yang mengurusnya: CSS-nya masuk ke berkas gaya
- * yang sudah diunduh, berkas fontnya keluar ke dist dengan nama ber-hash
+ * Diimpor dari sini, Vite yang mengurusnya: CSS-nya masuk ke file gaya
+ * yang sudah di-download, file fontnya keluar ke dist dengan nama ber-hash
  * dan dilayani dari domain sendiri. Jumlah bytenya tidak berubah banyak —
  * yang hilang perjalanan ke host asing dan ketergantungan padanya.
  *
- * TIGA BERKAS, BUKAN all.min.css. Halaman ini cuma memakai dua keluarga —
+ * TIGA FILE, BUKAN all.min.css. Halaman ini cuma memakai dua keluarga —
  * 13 ikon solid dan 2 brands. `all` menyeret juga `regular` dan shim
- * kompatibilitas v4 beserta berkas fontnya, yang tidak dirujuk satu kelas
+ * kompatibilitas v4 beserta file fontnya, yang tidak dirujuk satu class
  * pun di sini. Kalau nanti ada ikon `fa-regular` ditambahkan, tambahkan
  * barisnya di sini — kalau tidak, ikonnya akan muncul sebagai kotak kosong.
  *
- * Diimpor SETELAH index.css supaya kalau suatu saat ada nama kelas yang
+ * Diimpor SETELAH index.css supaya kalau suatu saat ada nama class yang
  * bertabrakan, milik situs ini yang menang.
  */
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";

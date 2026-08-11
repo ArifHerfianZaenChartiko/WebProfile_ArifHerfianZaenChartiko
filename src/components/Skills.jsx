@@ -1,18 +1,18 @@
-export default function Keahlian() {
+export default function Skills() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           03 KEAHLIAN — tiga kartu, satu untuk tiap peran.
+           03 KEAHLIAN — tiga card, satu untuk tiap peran.
 
-           Bagian ini dulu panggung selebar layar yang di-pin: kata raksasa
+           Bagian ini dulu panggung selebar screen yang di-pin: kata raksasa
            bertumpuk di atas monolit 3D berputar, lalu hurufnya PECAH ke segala
-           arah, lalu kartu masuk dari ruang yang ditinggalkannya. Monolit, kabut
+           arah, lalu card masuk dari ruang yang ditinggalkannya. Monolit, kabut
            abu di belakangnya, dan ledakan hurufnya dibuang seluruhnya pada
            8 Agustus 2026 — beserta pin dan scrub yang jadi mesinnya, karena
            ketiganya memang satu-satunya alasan mesin itu ada.
 
-           Yang tersisa mengikuti pola bagian lain di halaman ini: satu wadah biasa
-           yang ikut aliran, dengan penyingkapan scrub-reveal yang sama seperti
+           Yang tersisa mengikuti pola bagian lain di halaman ini: satu container biasa
+           yang ikut aliran, dengan reveal scrub-reveal yang sama seperti
            Kemampuan Profesional dan Perkakas di bawahnya.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="keahlian" data-component="chapter" className="relative">
@@ -23,7 +23,7 @@ export default function Keahlian() {
           <h3 data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">03 — Keahlian</h3>
 
           {/* Judul yang terlihat, dan bentuknya SAMA PERSIS dengan Tentang,
-               Pengalaman, Sertifikat, dan Kontak: -h1 dengan topeng baris.
+               Pengalaman, Sertifikat, dan Kontak: -h1 dengan mask baris.
 
                Sempat dibuat sebagai papan balik ber-kotak pada 9 Agustus 2026,
                dibatalkan sehari kemudian. Alasannya bukan ia gagal — ia
@@ -35,53 +35,53 @@ export default function Keahlian() {
                di bawahnya.
 
                Kalau nanti ingin ditonjolkan lagi, yang dinaikkan UKURANNYA
-               (-display seperti Pendidikan), bukan jenis geraknya. */}
+               (-display seperti Pendidikan), bukan jenis motion-nya. */}
           <h2 className="-h1 mb-10" data-line-mask>
             <span data-anim="line-mask"><span>Keahlian</span></span>
           </h2>
 
-          {/* Tiga kartu, dan jumlahnya bukan kebetulan: ia persis tiga peran yang
-               diketikkan mesin ketik di halaman sampul. Kartu pertama melebar dua
+          {/* Tiga card, dan jumlahnya bukan kebetulan: ia persis tiga peran yang
+               diketikkan typewriter di halaman sampul. Card pertama melebar dua
                kolom karena ia peran yang dilamar lebih dulu — hierarkinya jadi
                terlihat, tanpa perlu satu kata label pun.
 
-               Dulu ada kartu keempat, "Antarmuka & Responsif", yang berdiri sendiri
+               Dulu ada card keempat, "Antarmuka & Responsif", yang berdiri sendiri
                di samping "Pengembangan Web". Keempatnya lalu tampil setara padahal
                tiga di antaranya peran dan satu cuma kemampuan penunjang — pembaca
-               tidak punya cara membedakannya. Isinya sekarang masuk ke kartu
+               tidak punya cara membedakannya. Isinya sekarang masuk ke card
                Pengembangan Fullstack, karena memang di situ tempatnya: menyusun
                tampilan adalah bagian dari membangunnya.
 
-               Kartu itu berganti nama dari "Pengembangan Web" jadi "Pengembangan
-               Fullstack" pada 9 Agustus 2026, seiring peran utama di mesin ketik.
+               Card itu berganti nama dari "Pengembangan Web" jadi "Pengembangan
+               Fullstack" pada 9 Agustus 2026, seiring peran utama di typewriter.
                Namanya sengaja menyebut cakupan, bukan teknologinya: nama kerangka
                kerja berganti setiap beberapa tahun, sedangkan "dua sisi" tidak.
-               Teknologinya disebut di kalimat bawahnya dan di kisi Perkakas. */}
-          {/* KENAPA TIAP KARTU DIBUNGKUS .stage-slot, dan jangan dibuang.
-               Ada DUA gerak yang bekerja pada kartu yang sama sekaligus, dan
+               Teknologinya disebut di kalimat bawahnya dan di grid Perkakas. */}
+          {/* KENAPA TIAP CARD DIBUNGKUS .stage-slot, dan jangan dibuang.
+               Ada DUA motion yang bekerja pada card yang sama sekaligus, dan
                keduanya butuh `opacity`:
 
-                 slot   masuk dan keluar mengikuti gulir (opacity + geser)
-                 kartu  sorotan yang berpindah (opacity + skala + naik)
+                 slot   masuk dan keluar mengikuti scroll (opacity + geser)
+                 card  highlight yang berpindah (opacity + skala + naik)
 
                Dipasang di satu elemen, keduanya berebut properti yang sama dan
                yang menang bergantung urutan frame. Bersarang, opacity-nya
-               justru MENGALIKAN dengan sendirinya — kartu redup di dalam slot
+               justru MENGALIKAN dengan sendirinya — card redup di dalam slot
                yang sedang masuk tampil di 0,78 x kemajuan masuknya, yang
                memang perilaku yang benar tanpa satu baris kode penyelaras pun.
 
-               Slot juga yang memegang penempatan kisinya, bukan kartunya:
+               Slot juga yang memegang penempatan grid-nya, bukan card-nya:
                .stage-slot--lead yang merentang dua kolom. Ketiganya TIDAK
                ber-scrub-reveal seperti blok lain di bagian ini — itu akan jadi
-               gerak ketiga yang berebut properti yang sama lagi. */}
+               motion ketiga yang berebut properti yang sama lagi. */}
           <div className="stage-orbit">
-            <div className="stage-slot stage-slot--lead" data-kartu-slot data-arah="pudar">
-            <article data-kartu-peran className="stage-card stage-card--lead">
+            <div className="stage-slot stage-slot--lead" data-card-slot data-direction="fade">
+            <article data-role-card className="stage-card stage-card--lead">
               <div className="mb-6 flex items-start justify-between gap-6">
                 <h3 className="-h2 max-w-[9em]">Pengembangan Fullstack</h3>
                 <span data-glyph="1"></span>
               </div>
-              {/* Lebar teks dibatasi meski kartunya melebar. Tanpa ini satu baris
+              {/* Lebar teks dibatasi meski card-nya melebar. Tanpa ini satu baris
                    memuat sekitar 130 karakter di desktop, dan mata kehilangan tempat
                    saat berpindah ke baris berikutnya. 42rem menahannya di sekitar
                    88 karakter. */}
@@ -95,8 +95,8 @@ export default function Keahlian() {
             </article>
             </div>
 
-            <div className="stage-slot" data-kartu-slot data-arah="kiri">
-            <article data-kartu-peran className="stage-card">
+            <div className="stage-slot" data-card-slot data-direction="left">
+            <article data-role-card className="stage-card">
               <div className="mb-6 flex items-start justify-between gap-6">
                 <h3 className="-h2 max-w-[9em]">Pengajaran Teknis</h3>
                 <span data-glyph="2"></span>
@@ -105,8 +105,8 @@ export default function Keahlian() {
             </article>
             </div>
 
-            <div className="stage-slot" data-kartu-slot data-arah="kanan">
-            <article data-kartu-peran className="stage-card">
+            <div className="stage-slot" data-card-slot data-direction="right">
+            <article data-role-card className="stage-card">
               <div className="mb-6 flex items-start justify-between gap-6">
                 <h3 className="-h2 max-w-[9em]">Administrasi Digital</h3>
                 <span data-glyph="3"></span>
@@ -117,7 +117,7 @@ export default function Keahlian() {
           </div>
 
           {/* mt-7 (28px), bukan mt-10: .mt-10 tidak ikut terkompilasi ke
-               css/style.css, jadi ia kelas mati dan jaraknya akan jadi nol. Yang
+               css/style.css, jadi ia class mati dan jaraknya akan jadi nol. Yang
                tersedia mt-2, mt-3, mt-7, mt-16. */}
           <p data-component="scrub-reveal" className="-caption-small mt-7 text-center">
             <span aria-hidden="true" className="mr-2 text-accent">✦</span>Tiga peran. Satu cara kerja.
@@ -125,10 +125,10 @@ export default function Keahlian() {
       </div>
 
 
-          {/* KEMAMPUAN PROFESIONAL — lima kartu, tiga kolom (lima di >=1024px).
+          {/* KEMAMPUAN PROFESIONAL — lima card, tiga kolom (lima di >=1024px).
 
-               Tiap kartu punya tiga baris: ikon, judul, keterangan. Ketiganya harus
-               lurus sejajar dengan kartu di sebelahnya meski panjang judulnya
+               Tiap card punya tiga baris: ikon, judul, keterangan. Ketiganya harus
+               lurus sejajar dengan card di sebelahnya meski panjang judulnya
                berbeda-beda, dan itu diurus `grid-template-rows: subgrid` di
                .skill-card — bukan oleh tinggi cadangan yang ditebak. Alasan
                lengkapnya ada di bagian "KEMAMPUAN PROFESIONAL" di css/style.css.
@@ -194,10 +194,10 @@ export default function Keahlian() {
                JEDANYA MULAI DARI NOL LAGI DI SINI, tidak menyambung ke bagian
                Perkakas di bawahnya. Dua bagian yang punya judulnya
                sendiri-sendiri dibaca sebagai dua blok terpisah, dan satu
-               rantai yang menembus keduanya membuat kartu terakhir jatuh di
+               rantai yang menembus keduanya membuat card terakhir jatuh di
                sekitar 0,48 detik — pembaca sudah melewatinya sebelum ikon itu
                sempat datang. Di dalam satu bagian aturannya tetap: 0,03
-               berurutan menembus kelompok, label memakai jeda kartu pertamanya.
+               berurutan menembus kelompok, label memakai jeda card pertamanya.
 
                REACT BELUM DISEBUT, DAN ITU DITUNDA — BUKAN DITOLAK. Situs ini
                memang dibangun dengan React, jadi buktinya ada di repo, tapi
@@ -212,7 +212,7 @@ export default function Keahlian() {
 
                CATATAN YANG PERLU DILURUSKAN kalau pertanyaan ini muncul lagi:
                React TIDAK bertabrakan dengan Laravel. Laravel punya Inertia
-               yang didukung resmi, yang membuat komponen React dipakai
+               yang didukung resmi, yang membuat component React dipakai
                langsung sebagai view Laravel tanpa perlu API terpisah, dan
                starter kit resminya menyediakan opsi React. Alasan menundanya
                murni kesiapan, bukan kecocokan teknologi.
@@ -251,10 +251,10 @@ export default function Keahlian() {
                   </div>
 
                   {/* JavaScript DITURUNKAN ke 0,86, alasan yang sama dengan PHP
-                       tapi sebabnya berbeda. Lambang ini satu-satunya BIDANG
-                       TERISI PENUH di seluruh kisi: kotak kuning #F0DB4F
-                       memenuhi 100% kotak pembatasnya, sementara perisai HTML
-                       dan CSS berongga dan lambang lain bergaris. Pada 36px
+                       tapi sebabnya berbeda. Logo ini satu-satunya BIDANG
+                       TERISI PENUH di seluruh grid: kotak kuning #F0DB4F
+                       memenuhi 100% bounding box-nya, sementara perisai HTML
+                       dan CSS berongga dan logo lain bergaris. Pada 36px
                        dan skala 1,0 ia terbaca sebagai blok paling menyala di
                        barisnya, mengalahkan tetangganya yang sama besar.
 
@@ -263,8 +263,8 @@ export default function Keahlian() {
                        mengecil. Warnanya tidak disentuh.
 
                        CATATAN SUMBER, dan ini pengecualian yang perlu ditulis:
-                       JavaScript TIDAK PUNYA lambang resmi. Ecma tidak pernah
-                       menerbitkan satu pun, jadi kotak kuning ini lambang
+                       JavaScript TIDAK PUNYA logo resmi. Ecma tidak pernah
+                       menerbitkan satu pun, jadi kotak kuning ini logo
                        komunitas yang sudah jadi kesepakatan de facto. Aturan
                        repo ini — ambil dari situs resmi mereknya — tidak bisa
                        dipenuhi untuk yang satu ini karena tidak ada situs
@@ -280,7 +280,7 @@ export default function Keahlian() {
                   </div>
 
                   {/* "Tailwind CSS", bukan "Tailwind". Nama lengkap dipakai di
-                       seluruh kisi ini dengan alasan yang sama seperti Google
+                       seluruh grid ini dengan alasan yang sama seperti Google
                        Workspace dan MS Office: penyaring lamaran mencocokkan
                        teks secara harfiah. */}
                   <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
@@ -298,7 +298,7 @@ export default function Keahlian() {
               {/* KENAPA LARAVEL DAN BLADE ADA DI BACKEND, bukan di Frontend
                    atau di kelompok tersendiri. Pertanyaan ini sudah pernah
                    diajukan pada 9 Agustus 2026, ditimbang, lalu susunan ini
-                   dipertahankan — dicatat di sini supaya tidak dibongkar ulang
+                   dipertahankan — dicatat di sini supaya tidak di-teardown ulang
                    dengan alasan yang sama.
 
                    KEBERATANNYA MASUK AKAL: Blade menghasilkan HTML, jadi
@@ -306,7 +306,7 @@ export default function Keahlian() {
                    pernah berjalan di browser. Ia dijalankan PHP di server, dan
                    yang dikirim ke pengunjung cuma HTML hasil jadinya —
                    kode Blade-nya sendiri tidak ikut. Bandingkan dengan
-                   Tailwind, yang kelasnya benar-benar sampai ke browser.
+                   Tailwind, yang class-nya benar-benar sampai ke browser.
                    Laravel pun begitu: ia memang disebut full-stack framework,
                    tapi inti kerjanya (rute, controller, ORM) di server, dan
                    pasar kerja menyebutnya backend — "Backend Developer
@@ -318,7 +318,7 @@ export default function Keahlian() {
                    sisi mana yang dikerjakan. Menghilangkannya berarti kembali
                    ke keadaan sebelum seluruh perubahan ini dimulai, sebab
                    pertanyaan "frontend, backend, atau yang mana" itulah yang
-                   memicunya. Ia juga menyisakan kelompok Basis Data berisi
+                   men-trigger-nya. Ia juga menyisakan kelompok Basis Data berisi
                    satu ikon sendirian.
 
                    Pengelompokan per jenis TETAP ADA, tapi sebagai URUTAN di
@@ -331,7 +331,7 @@ export default function Keahlian() {
 
                 <div className="tool-items">
 
-                  {/* Lambang resmi PHP adalah wordmark "php" DI DALAM elips
+                  {/* Logo resmi PHP adalah wordmark "php" DI DALAM elips
                        lavender berlis putih — ia satu-satunya di baris ini yang
                        membawa latarnya sendiri. Di halaman segelap ini elips itu
                        terbaca sebagai gumpalan paling terang di barisnya, jauh
@@ -345,7 +345,7 @@ export default function Keahlian() {
                        Ini perlakuan yang sama dengan Vercel (0,86), Stitch
                        (0,85), dan JavaScript (0,86) di baris atas: SKALANYA
                        yang diturunkan, bukan warnanya diganti. Mengubah warna
-                       lambang resmi orang lain melanggar pedoman mereknya;
+                       logo resmi orang lain melanggar pedoman mereknya;
                        mengecilkannya tidak. */}
                   <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
@@ -365,23 +365,23 @@ export default function Keahlian() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Laravel</span>
                   </div>
 
-                  {/* BLADE ADALAH SATU-SATUNYA ENTRI DI KISI INI YANG BUKAN
-                       LAMBANG MEREK, dan itu tidak bisa dihindari: Blade tidak
-                       punya lambang resmi karena ia bukan produk tersendiri —
+                  {/* BLADE ADALAH SATU-SATUNYA ENTRI DI GRID INI YANG BUKAN
+                       LOGO MEREK, dan itu tidak bisa dihindari: Blade tidak
+                       punya logo resmi karena ia bukan produk tersendiri —
                        ia mesin templating DI DALAM Laravel. Tidak ada situs
                        resmi yang bisa dibuka untuk mengunduhnya, jadi aturan
                        baku repo ini tidak berlaku di sini. Pengecualian yang
                        sama sudah pernah ditulis untuk JavaScript (tidak punya
-                       lambang resmi) dan Stitch (harus dibangun dari font).
+                       logo resmi) dan Stitch (harus dibangun dari font).
 
-                       Dipakai glyph Font Awesome fa-code, bukan berkas SVG.
+                       Dipakai glyph Font Awesome fa-code, bukan file SVG.
                        Font Awesome sudah dibundel lewat src/main.jsx, jadi ini
                        tidak menambah satu pun permintaan jaringan.
 
                        PILIHAN GLYPH-NYA DIUKUR, bukan diambil yang pertama
-                       terlihat. fa-file-code — berkas terisi penuh — sempat
+                       terlihat. fa-file-code — file terisi penuh — sempat
                        dicoba dan bobotnya terlalu berat berdampingan dengan
-                       lambang Laravel yang bergaris tipis, persis masalah yang
+                       logo Laravel yang bergaris tipis, persis masalah yang
                        sama dengan kotak JavaScript. fa-code yang berupa tanda
                        kurung sudut justru sebangun dengan Laravel, dan bentuk
                        "</>": itu sendiri memang membaca sebagai markah — yang
@@ -389,13 +389,13 @@ export default function Keahlian() {
 
                        WARNANYA #FF2D20, merah Laravel, dan itu disengaja.
                        Blade bagian dari Laravel, jadi warna yang sama menandai
-                       kekerabatannya tanpa menggandakan lambangnya. Sempat
-                       dicoba abu #d8d8d8 mengikuti perlakuan lambang tak
+                       kekerabatannya tanpa menggandakan logo-nya. Sempat
+                       dicoba abu #d8d8d8 mengikuti perlakuan logo tak
                        berwarna seperti Vercel, tapi hasilnya justru memutus
                        hubungan itu — ia tampak seperti entri asing.
 
                        28px, bukan 30px yang tampak paling pas di mata: 28
-                       salah satu dari sepuluh langkah ukuran font situs ini,
+                       salah satu dari sepuluh langkah font size situs ini,
                        30 bukan. Selisihnya tidak terlihat, keseragamannya
                        terlihat. */}
                   <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
@@ -407,7 +407,7 @@ export default function Keahlian() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Blade</span>
                   </div>
 
-                  {/* MySQL DINAIKKAN ke 1,06, kebalikan dari PHP. Lambangnya
+                  {/* MySQL DINAIKKAN ke 1,06, kebalikan dari PHP. Logo-nya
                        lumba-lumba di atas wordmark, jadi tingginya terbagi dua
                        dan tulisan "MySQL" cuma kebagian sekitar 40% dari 36px.
                        Pada skala 1,0 tulisannya mengecil sampai hampir tak
@@ -434,14 +434,14 @@ export default function Keahlian() {
                di atas pada 9 Agustus 2026; alasan pemisahannya ditulis lengkap
                di sana.
 
-               Urutan kelompoknya mengikuti urutan peran di mesin ketik bagian
+               Urutan kelompoknya mengikuti urutan peran di typewriter bagian
                sampul — pengembangan → pengajaran → administrasi — supaya tiap
                peran yang diklaim di sana punya alasnya di sini, lalu ditutup AI
                sebagai cara kerja. Nama ditulis lengkap karena penyaring lamaran
                mencocokkan teks secara harfiah.
 
                Kelompok "Riset & Desain" (Figma, Google Analytics, Maze, Notion)
-               dibuang bersama keempat berkas ikonnya waktu peran utama berganti
+               dibuang bersama keempat file ikonnya waktu peran utama berganti
                dari UI/UX Designer jadi Web Developer: ia berdiri paling depan
                padahal tidak lagi mewakili peran mana pun yang diklaim di sampul.
 
@@ -469,7 +469,7 @@ export default function Keahlian() {
                   </div>
 
                   {/* GitHub dan Notion tampil satu warna, dan itu BUKAN
-                       penambal: lambang resmi keduanya memang tidak punya versi
+                       penambal: logo resmi keduanya memang tidak punya versi
                        berwarna menurut pedoman mereknya sendiri. */}
                   <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
@@ -480,7 +480,7 @@ export default function Keahlian() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">GitHub</span>
                   </div>
 
-                  {/* Vercel digambar satu warna: lambang resminya memang hanya
+                  {/* Vercel digambar satu warna: logo resminya memang hanya
                        hitam atau putih. Aslinya hitam, dibalik ke #d8d8d8 karena
                        latar bagian ini gelap. */}
                   <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
@@ -501,10 +501,10 @@ export default function Keahlian() {
                        alur — rancang, tulis, simpan, terbitkan — pindahkan Figma ke
                        depan dan hitung ulang jedanya.
 
-                       Lambangnya lima bentuk berwarna, diambil apa adanya dari
+                       Logo-nya lima bentuk berwarna, diambil apa adanya dari
                        halaman unduhan Figma. Warnanya rona baru mereka (#FF7237,
                        #FF3737, #00B6FF, #874FFF, #24CB71), bukan rona lama yang
-                       masih banyak beredar di kumpulan lambang pihak ketiga. */}
+                       masih banyak beredar di kumpulan logo pihak ketiga. */}
                   <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
@@ -521,7 +521,7 @@ export default function Keahlian() {
                    lain: Word, Excel, dan PowerPoint untuk modul ajar dan penilaian ada
                    di MS Office (Administrasi), dan VS Code — yang dipakai mengajar
                    pemrograman dasar — ada di Pengembangan. Perkakas yang sama tidak
-                   ditulis dua kali; yang memberi tahu perannya adalah kartu pengalaman
+                   ditulis dua kali; yang memberi tahu perannya adalah card pengalaman
                    "Guru Informatika" di bagian Pengalaman. */}
               <div className="tool-row border-b border-line">
                 <h4 data-component="scrub-reveal" data-delay="0.12" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
@@ -539,33 +539,33 @@ export default function Keahlian() {
                   </div>
 
                   {/* Quizizz berganti nama jadi Wayground pada 2025, dan sejak
-                       7 Agustus 2026 yang dipakai di sini nama serta lambang barunya.
+                       7 Agustus 2026 yang dipakai di sini nama serta logo barunya.
                        Sebelumnya sengaja tetap "Quizizz" dengan alasan itu nama yang
                        dikenal pendidik Indonesia; alasan itu dilepas karena situsnya
-                       sendiri sudah wayground.com dan lambang lamanya tidak muncul
+                       sendiri sudah wayground.com dan logo lamanya tidak muncul
                        lagi di mana pun.
 
-                       Lambangnya tiga bilah bersudut membentuk huruf W, diambil apa
+                       Logo-nya tiga bar bersudut membentuk huruf W, diambil apa
                        adanya dari SVG di halaman mereka. viewBox-nya dirapatkan dari
                        "0 0 48 48" jadi "8 13 32 22" — itu kotak isi sebenarnya,
                        diukur lewat getBBox, kebetulan bilangan bulat semua. Tanpa
-                       dirapatkan, lambangnya cuma mengisi separuh kotak 32px di
-                       kisi ini dan terlihat lebih kecil dari lambang tetangganya.
+                       dirapatkan, logo-nya cuma mengisi separuh kotak 32px di
+                       grid ini dan terlihat lebih kecil dari logo tetangganya.
 
                        Warnanya #FF319F, merah muda. Sempat dipasang krem #F3EFDA —
-                       itu memang warna yang mereka pakai untuk lambang ini, tapi
+                       itu memang warna yang mereka pakai untuk logo ini, tapi
                        hanya SEBAGAI VERSI DI LATAR GELAP di halaman mereka sendiri,
-                       dan hasilnya di sini terbaca seperti lambang tak berwarna.
+                       dan hasilnya di sini terbaca seperti logo tak berwarna.
                        Warna mereknya yang sebenarnya diambil dari favicon resmi
-                       mereka, yang isinya lambang merah muda di atas putih; piksel
+                       mereka, yang isinya logo merah muda di atas putih; piksel
                        dominannya persis #FF319F.
 
-                       Pelajarannya: satu halaman bisa menampilkan lambang dalam
+                       Pelajarannya: satu halaman bisa menampilkan logo dalam
                        warna yang BUKAN warna mereknya, semata karena latar halaman
-                       itu gelap. Kalau ragu, buka favicon-nya — di sana lambangnya
+                       itu gelap. Kalau ragu, buka favicon-nya — di sana logo-nya
                        hampir selalu tampil pada latar netral dengan warna aslinya.
 
-                       Aturan lama tetap berlaku kalau nanti ada lambang gelap yang
+                       Aturan lama tetap berlaku kalau nanti ada logo gelap yang
                        ditambahkan: terangkan pada rona aslinya, jangan diganti
                        warnanya. Wordmark Quizizz dulu aslinya #5D2057 dan nyaris
                        tak terlihat di latar #040508. */}
@@ -597,7 +597,7 @@ export default function Keahlian() {
                   </div>
 
                   {/* Google Workspace memakai wordmark penuhnya, perbandingan 7,76:1.
-                       Ia memang tampil lebih pendek daripada lambang persegi di
+                       Ia memang tampil lebih short daripada logo persegi di
                        sebelahnya — itu sifat wordmark sepanjang ini, bukan salah ukuran. */}
                   <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
@@ -635,19 +635,19 @@ export default function Keahlian() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Claude Code</span>
                   </div>
 
-                  {/* Yang dipakai di sini WORDMARK tulisan "Stitch", bukan lambang
-                       kapsulnya. Pernah diganti ke lambang kapsul (SVG buatan sendiri,
+                  {/* Yang dipakai di sini WORDMARK tulisan "Stitch", bukan logo
+                       kapsulnya. Pernah diganti ke logo kapsul (SVG buatan sendiri,
                        dibangun ulang dari PNG resmi 512px mereka) supaya sebaris
-                       dengan perkakas lain yang memakai lambang; hasilnya justru
+                       dengan perkakas lain yang memakai logo; hasilnya justru
                        janggal — kapsul dengan dua titik itu tidak terbaca sebagai
-                       apa-apa dalam ukuran 32px, apalagi berdampingan dengan lambang
+                       apa-apa dalam ukuran 32px, apalagi berdampingan dengan logo
                        yang punya bentuk khas seperti Claude dan VS Code. Wordmark-nya
                        dikembalikan pada 7 Agustus 2026. Jangan diganti lagi ke kapsul.
 
-                       Google tidak menerbitkan lambang Stitch dalam bentuk SVG, dan
-                       halaman mereka tidak memuat berkas lambang APA PUN — wordmark
+                       Google tidak menerbitkan logo Stitch dalam bentuk SVG, dan
+                       halaman mereka tidak memuat file logo APA PUN — wordmark
                        di pojok kiri atasnya teks hidup ber-font Google Sans. Jadi
-                       berkas ini dibuat dengan mengurai woff2 yang dimuat halaman
+                       file ini dibuat dengan mengurai woff2 yang dimuat halaman
                        itu, mengambil lekuk keenam hurufnya dari tabel glyf, lalu
                        menyusunnya jadi satu path. Bukan penelusuran ulang dari
                        gambar: lekuknya lekuk asli dari fontnya.
@@ -661,13 +661,13 @@ export default function Keahlian() {
                        tindih 97,8% (sisanya pelunakan tepi).
 
                        Warnanya #d8d8d8, sama dengan Vercel di baris Pengembangan —
-                       itu perlakuan baku situs ini untuk lambang yang aslinya putih
+                       itu perlakuan baku situs ini untuk logo yang aslinya putih
                        atau hitam polos. Aslinya di halaman Stitch memang putih
                        penuh, tapi putih penuh di sini lebih terang dari semua
-                       lambang lain dan menarik perhatian melebihi porsinya.
+                       logo lain dan menarik perhatian melebihi porsinya.
 
                        scale(0.85) menahannya supaya tidak lebih dominan dari
-                       lambang tetangganya yang bujur sangkar. */}
+                       logo tetangganya yang bujur sangkar. */}
                   <div data-component="scrub-reveal" data-delay="0.30" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">

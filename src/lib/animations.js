@@ -1,28 +1,28 @@
 /*
  * ══════════════════════════════════════════════════════════════════════════
- * SELURUH GERAK SITUS INI, DALAM SATU BERKAS.
+ * SELURUH MOTION SITUS INI, DALAM SATU FILE.
  *
  * Dipanggil sekali dari useLayoutEffect di src/App.jsx, dan MENGEMBALIKAN
- * fungsi pembongkar. Itu bukan kerapian belaka: React StrictMode sengaja
+ * fungsi teardown. Itu bukan kerapian belaka: React StrictMode sengaja
  * memasang lalu melepas lalu memasang lagi tiap efek waktu pengembangan,
- * dan simpul DOM-nya TIDAK dibuat ulang. Tanpa pembongkaran, tiap pendengar
- * peristiwa, ticker, dan pemicu scroll akan terpasang dua kali — gejalanya
+ * dan node DOM-nya TIDAK dibuat ulang. Tanpa teardown, tiap event
+ * listener, ticker, dan scroll trigger akan terpasang dua kali — gejalanya
  * animasi jadi dua kali lebih cepat dan scroll terasa berat, hanya di mode
  * pengembangan, jadi mudah disalahartikan sebagai masalah performa.
  *
- * Karena itu SETIAP efek samping di berkas ini didaftarkan lewat empat
- * pembantu di bawah: dengar(), tambahTicker(), amati(), dan tambahSimpul().
- * Kalau menambah efek samping baru, pakai keempatnya — jangan panggil
+ * Karena itu SETIAP side effect di file ini didaftarkan lewat empat
+ * pembantu di bawah: listen(), addTicker(), observe(), dan addNode().
+ * Kalau menambah side effect baru, pakai keempatnya — jangan panggil
  * addEventListener, gsap.ticker.add, new ResizeObserver, atau appendChild
  * secara langsung.
  *
- * URUTAN ISI BERKAS INI:
- *   1. Token gerak        kosakata bersama: kurva, durasi, jeda
- *   2. Deteksi perangkat  ambang layar dan mode ringan
- *   3. Bantu-bantu        pemecah huruf, pembangun lambang
+ * URUTAN ISI FILE INI:
+ *   1. Token motion        kosakata bersama: kurva, durasi, jeda
+ *   2. Deteksi perangkat  threshold screen dan mode ringan
+ *   3. Bantu-bantu        pemecah huruf, pembangun logo
  *   4. Scroll halus       Lenis, dan satu-satunya pintu untuk melompat
- *   5. Transisi           satu fungsi per jenis gerak
- *   6. Perilaku           mesin ketik, formulir, bilah status, tombol
+ *   5. Transisi           satu fungsi per jenis motion
+ *   6. Perilaku           typewriter, form, bar status, tombol
  *   7. Penyalaan          urutan pemanggilan, dan kenapa urutannya begitu
  * ══════════════════════════════════════════════════════════════════════════
  */
@@ -32,55 +32,55 @@ import Lenis from "lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function pasangAnimasi() {
+export function setupAnimations() {
   "use strict";
 
-  /* Daftar pembongkar. Diisi oleh ketiga pembantu di bawah, dijalankan
+  /* Daftar teardown. Diisi oleh ketiga pembantu di bawah, dijalankan
      terbalik saat bongkar() dipanggil. */
-  var bersih = [];
+  var cleanups = [];
 
-  function dengar(sasaran, jenis, fn, opsi) {
-    sasaran.addEventListener(jenis, fn, opsi);
-    bersih.push(function () { sasaran.removeEventListener(jenis, fn, opsi); });
+  function listen(target, type, fn, opts) {
+    target.addEventListener(type, fn, opts);
+    cleanups.push(function () { target.removeEventListener(type, fn, opts); });
   }
-  function tambahTicker(fn) {
+  function addTicker(fn) {
     gsap.ticker.add(fn);
-    bersih.push(function () { gsap.ticker.remove(fn); });
+    cleanups.push(function () { gsap.ticker.remove(fn); });
   }
-  function amati(simpul, fn) {
+  function observe(node, fn) {
     var ro = new ResizeObserver(fn);
-    ro.observe(simpul);
-    bersih.push(function () { ro.disconnect(); });
+    ro.observe(node);
+    cleanups.push(function () { ro.disconnect(); });
     return ro;
   }
 
   /*
    * appendChild() tidak bisa dibatalkan lewat removeEventListener(): melepas
-   * pendengar tidak mengeluarkan simpulnya dari pohon DOM. Jadi ia efek
-   * samping tersendiri dan butuh pendaftarnya sendiri.
+   * listener tidak mengeluarkan node-nya dari DOM tree. Jadi ia side
+   * effect tersendiri dan butuh pendaftarnya sendiri.
    *
    * Kenapa itu jadi masalah di sini: StrictMode menjalankan efek dengan
-   * urutan mount -> unmount -> mount pada simpul host yang SAMA — React tidak
+   * urutan mount -> unmount -> mount pada node host yang SAMA — React tidak
    * membuat ulang DOM-nya di antara keduanya. Setiap appendChild yang tidak
    * terdaftar karena itu berjalan dua kali dan hasilnya menumpuk, bukan
    * menimpa.
    *
    * Terukur sebelum diperbaiki: .chapter-dot berjumlah 12 (seharusnya 6),
-   * anak .marquee-track 7 (seharusnya 4). Tidak ada satu pun galat yang
+   * anak .marquee-track 7 (seharusnya 4). Tidak ada satu pun error yang
    * terlempar. Yang tersisa dari mount pertama sudah kehilangan
-   * pendengarnya, jadi bilah babnya tampil utuh tapi separuh titiknya diam
+   * listener-nya, jadi chapter bar-nya tampil utuh tapi separuh titiknya diam
    * saat diklik — dan marquee ikut salah karena `half = scrollWidth / 2`
    * dihitung dari lebar yang sudah telanjur berlipat.
    *
    * Khusus appendChild. Penetapan innerHTML tidak perlu lewat sini: ia
    * mengganti isi, bukan menambah, jadi sudah idempoten.
    */
-  function tambahSimpul(induk, simpul) {
-    induk.appendChild(simpul);
-    bersih.push(function () {
-      if (simpul.parentNode === induk) induk.removeChild(simpul);
+  function addNode(parent, node) {
+    parent.appendChild(node);
+    cleanups.push(function () {
+      if (node.parentNode === parent) parent.removeChild(node);
     });
-    return simpul;
+    return node;
   }
 
 
@@ -89,14 +89,14 @@ export function pasangAnimasi() {
      dua loop rAF terpisah membuat scroll dan animasi beda satu frame. */
   gsap.ticker.lagSmoothing(0);
 
-  /* ── 1. TOKEN GERAK ─────────────────────────────────────────────────────
+  /* ── 1. TOKEN MOTION ─────────────────────────────────────────────────────
    *
    * Ada DUA kurva, bukan satu, dan pembagiannya sengaja:
    *
-   *   EASE       gerak masuk berjarak jauh (judul naik, kartu terbang masuk).
+   *   EASE       motion masuk berjarak jauh (judul naik, card terbang masuk).
    *              Melambat panjang di ujung, jadi elemen terasa mendarat.
    *   EASE_STATE perpindahan keadaan kecil (hover, aktif/nonaktif). Simetris
-   *              dan pendek; kurva mendarat panjang pada jarak 6px justru
+   *              dan short; kurva mendarat panjang pada jarak 6px justru
    *              terbaca sebagai lag.
    *
    * Untuk apa pun yang digerakkan scroll, easing HARUS "none": kurva di atas
@@ -119,7 +119,7 @@ export function pasangAnimasi() {
   var STAGGER_LETTER = 0.03;
 
   /* Urutan nilai inset() adalah (atas kanan bawah kiri), jadi nama di bawah
-     menyebut DI MANA elemen menempel saat tersembunyi — bukan arah geraknya. */
+     menyebut DI MANA elemen menempel saat tersembunyi — bukan arah motion-nya. */
   var CLIP = {
     collapsedTop: "inset(0% 0% 100% 0%)",
     collapsedBottom: "inset(100% 0% 0% 0%)",
@@ -131,10 +131,10 @@ export function pasangAnimasi() {
   }
 
   /*
-   * PERANGKAT LEMAH — diukur dari KEMAMPUANNYA, bukan dari lebar layarnya.
+   * PERANGKAT LEMAH — diukur dari KEMAMPUANNYA, bukan dari lebar viewport-nya.
    *
-   * Ini bukan "mode ringan" lama yang dibuang. Yang itu memakai lebar layar
-   * sebagai ambang, dan itu memang salah: lebar layar bukan ukuran kekuatan,
+   * Ini bukan "mode ringan" lama yang dibuang. Yang itu memakai lebar viewport
+   * sebagai threshold, dan itu memang salah: lebar viewport bukan ukuran kekuatan,
    * sehingga laptop lemah 1920px justru mendapat jalur terberat sementara
    * tablet kuat mendapat jalur ringan. Yang ini menanyakan langsung.
    *
@@ -142,7 +142,7 @@ export function pasangAnimasi() {
    * pangkat dua dan dibatasi maksimal 8 — sengaja dibuat kasar supaya tidak
    * bisa dipakai melacak orang. Nilai yang mungkin hanya 0,25 / 0,5 / 1 / 2 /
    * 4 / 8. Jadi ponsel 6 GB melaporkan 4, dan laptop 16 GB melaporkan 8:
-   * keduanya jatuh di sisi ambang yang berbeda, persis yang dibutuhkan.
+   * keduanya jatuh di sisi threshold yang berbeda, persis yang dibutuhkan.
    *
    * hardwareConcurrency hanya dipakai kalau deviceMemory tidak tersedia
    * (Safari belum punya). Ia tidak dipakai bersamaan, karena banyak laptop
@@ -151,13 +151,13 @@ export function pasangAnimasi() {
    *
    * Kalau kedua-duanya diam, perangkat dianggap KUAT. Lebih baik keliru
    * memberi animasi penuh kepada satu perangkat lemah daripada mencabutnya
-   * dari semua orang karena satu peramban tidak mau menjawab.
+   * dari semua orang karena satu browser tidak mau menjawab.
    */
-  function perangkatLemah() {
+  function weakDevice() {
     var ram = navigator.deviceMemory;
     if (typeof ram === "number" && ram > 0) return ram <= 4;
-    var inti = navigator.hardwareConcurrency;
-    if (typeof inti === "number" && inti > 0) return inti <= 4;
+    var core = navigator.hardwareConcurrency;
+    if (typeof core === "number" && core > 0) return core <= 4;
     return false;
   }
 
@@ -184,13 +184,13 @@ export function pasangAnimasi() {
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   };
 
-  /* Lambang cincin di kartu keahlian. Jumlah cincinnya berbeda-beda supaya
-     keempat kartu tidak terbaca sebagai satu ikon yang diulang.
+  /* Logo cincin di card keahlian. Jumlah cincinnya berbeda-beda supaya
+     keempat card tidak terbaca sebagai satu ikon yang diulang.
 
      `--i` adalah nomor urut cincin dari dalam ke luar, dan ia dipakai CSS
-     untuk menunda riak hover per cincin — lihat blok "LAMBANG CINCIN" di
+     untuk menunda riak hover per cincin — lihat blok "LOGO CINCIN" di
      src/index.css. Ditulis di sini, bukan dihitung CSS lewat :nth-child,
-     karena jumlah cincin tiap kartu berbeda dan urutannya sudah diketahui
+     karena jumlah cincin tiap card berbeda dan urutannya sudah diketahui
      persis di titik ini. */
   function buildGlyphs() {
     $$("[data-glyph]").forEach(function (slot) {
@@ -207,13 +207,13 @@ export function pasangAnimasi() {
   }
 
   /*
-   * Odometer: tiap digit adalah kolom 0-9 yang digulung di dalam jendela
+   * Odometer: tiap digit adalah kolom 0-9 yang digulung di dalam window
    * setinggi satu baris, seperti argo taksi. Karakter non-digit (titik desimal)
    * dibiarkan diam di tempat.
    *
    * Salinan utuh ber-`sr-only` wajib ada: tiap kolom memuat SELURUH digit dan
    * hanya satu yang terlihat lewat overflow — tanpa salinan itu, menyalin
-   * "3.62" menghasilkan deretan angka penuh dan pembaca layar membacakan
+   * "3.62" menghasilkan deretan angka penuh dan screen reader membacakan
    * sepuluh digit per angka.
    */
   function buildOdometer(el, nilai) {
@@ -236,7 +236,7 @@ export function pasangAnimasi() {
       buildOdometer(el, el.getAttribute("data-odometer"));
     });
     /* Yang satu ini MENGHITUNG, bukan membaca angka yang ditulis tangan —
-       jumlah sertifikat diambil dari jumlah kartunya sendiri, jadi menambah
+       jumlah sertifikat diambil dari jumlah card-nya sendiri, jadi menambah
        sertifikat tidak menyisakan angka yang meleset di bagian lain. */
     $$("[data-odometer-count]").forEach(function (el) {
       buildOdometer(el, String($$(el.getAttribute("data-odometer-count")).length));
@@ -244,17 +244,17 @@ export function pasangAnimasi() {
   }
 
   /*
-   * Stagger per huruf saat hover. Yang membuatnya hidup bukan gerak naiknya,
+   * Stagger per huruf saat hover. Yang membuatnya hidup bukan motion naiknya,
    * melainkan bahwa tiap huruf berangkat pada saat yang sedikit berbeda.
    * Seluruhnya CSS — yang dikerjakan di sini cuma menyiapkan strukturnya.
    */
   function buildLetterHover() {
     $$("[data-letter-hover]").forEach(function (el) {
-      var teks = el.getAttribute("data-letter-hover");
+      var text = el.getAttribute("data-letter-hover");
       el.className = "inline-flex flex-wrap " + el.className;
-      var html = '<span class="sr-only">' + teks + "</span>";
-      for (var i = 0; i < teks.length; i++) {
-        var c = teks[i];
+      var html = '<span class="sr-only">' + text + "</span>";
+      for (var i = 0; i < text.length; i++) {
+        var c = text[i];
         if (c === " ") {
           html += '<span aria-hidden="true" class="inline-block w-[0.32em]"></span>';
           continue;
@@ -277,7 +277,7 @@ export function pasangAnimasi() {
    * Tiap kata adalah `inline-block`, dan CSS membuang spasi yang jatuh di akhir
    * baris sebuah kotak. Spasi yang ditaruh di dalam span karena itu lenyap, dan
    * seluruh kalimat menempel jadi satu kata panjang: "Sayamerancangantarmuka…".
-   * Terukur, paragrafnya jadi 118px alih-alih 147px — satu baris lebih pendek,
+   * Terukur, paragrafnya jadi 118px alih-alih 147px — satu baris lebih short,
    * karena tidak ada lagi tempat untuk memutus baris.
    *
    * Di antara span, spasi itu milik aliran teks induknya, bukan milik kotaknya
@@ -301,11 +301,11 @@ export function pasangAnimasi() {
   function buildMarquees() {
     $$('[data-anim="marquee"]').forEach(function (root) {
       var track = $(".marquee-track", root);
-      var asli = $("[data-marquee-copy]", track);
+      var original = $("[data-marquee-copy]", track);
       for (var i = 1; i < 4; i++) {
-        var salinan = asli.cloneNode(true);
-        salinan.setAttribute("aria-hidden", "true");
-        tambahSimpul(track, salinan);
+        var copies = original.cloneNode(true);
+        copies.setAttribute("aria-hidden", "true");
+        addNode(track, copies);
       }
     });
   }
@@ -317,11 +317,11 @@ export function pasangAnimasi() {
     if (prefersReducedMotion()) return;
     lenis = new Lenis({ duration: 1.1, smoothWheel: true });
     lenis.on("scroll", ScrollTrigger.update);
-    tambahTicker(function (time) { lenis.raf(time * 1000); });
+    addTicker(function (time) { lenis.raf(time * 1000); });
   }
 
   /* Satu-satunya pintu untuk melompat antar bagian. Jalur cadangan dipakai
-     kalau Lenis tidak menyala (gerak dikurangi); ia tidak bisa meniru durasi
+     kalau Lenis tidak menyala (reduced motion); ia tidak bisa meniru durasi
      dan kurva per panggilan — scroll bawaan browser hanya kenal "smooth". */
   function scrollTo(target, opts) {
     if (lenis) {
@@ -344,7 +344,7 @@ export function pasangAnimasi() {
    * alih. Tapi GSAP membaca transform yang sudah menempel, mengurainya jadi
    * offset piksel, lalu menumpuk yPercent DI ATASNYA — sehingga saat animasi
    * mendarat di yPercent 0, sisa piksel dari CSS masih tertinggal dan barisnya
-   * berhenti di bawah topengnya.
+   * berhenti di bawah mask-nya.
    */
   function initLineMasks() {
     $$("[data-line-mask]").forEach(function (el) {
@@ -374,7 +374,7 @@ export function pasangAnimasi() {
   }
 
   /*
-   * REVEAL TER-SCRUB — bukan dipicu lalu jalan sendiri.
+   * REVEAL TER-SCRUB — bukan di-trigger lalu jalan sendiri.
    *
    * Bedanya mendasar. Versi terpicu hanya menunggu elemen masuk viewport lalu
    * memutar animasi sampai habis; berhenti men-scroll tidak menghentikan apa
@@ -399,8 +399,8 @@ export function pasangAnimasi() {
         return;
       }
 
-      /* Jendelanya sengaja PENDEK dan RENDAH: penyingkapan selesai tak lama
-         setelah elemennya masuk dari tepi bawah layar. Pada bagian yang isinya
+      /* Window-nya sengaja PENDEK dan RENDAH: reveal selesai tak lama
+         setelah elemennya masuk dari tepi bawah screen. Pada bagian yang isinya
          bertumpuk, tiap blok menunggu gilirannya sendiri — jadi keterlambatan
          kecil di satu elemen berlipat jadi bagian yang tak pernah terlihat
          utuh meski sudah di-scroll jauh. */
@@ -410,7 +410,7 @@ export function pasangAnimasi() {
         { clipPath: CLIP.collapsedTop, y: 40 },
         {
           clipPath: CLIP.visible, y: 0, ease: EASE_SCRUB,
-          /* clamp() menahan jendela pemicu tetap di dalam rentang scroll yang
+          /* clamp() menahan window trigger tetap di dalam rentang scroll yang
              benar-benar ada. Tanpa itu, elemen di dasar dokumen punya titik
              akhir di luar jangkauan scroll — animasinya tidak pernah selesai
              dan teksnya tinggal terpotong selamanya. */
@@ -426,9 +426,9 @@ export function pasangAnimasi() {
   }
 
   /*
-   * GAMBAR DENGAN PITA SAPUAN — sebuah bidang warna mengisi area dari atas ke
+   * GAMBAR DENGAN BAND SAPUAN — sebuah bidang warna mengisi area dari atas ke
    * bawah, lalu meluncur terus ke bawah dan keluar sambil gambarnya terbuka di
-   * belakangnya. Yang terbaca mata adalah satu pita warna yang menyapu turun
+   * belakangnya. Yang terbaca mata adalah satu band warna yang menyapu turun
    * dan meninggalkan gambar — bukan gambar yang memudar masuk.
    */
   function initRevealImages() {
@@ -482,7 +482,7 @@ export function pasangAnimasi() {
         { opacity: 0.16 },
         {
           opacity: 1, ease: EASE_SCRUB,
-          /* Jaraknya pendek supaya selalu ada beberapa kata setengah menyala
+          /* Jaraknya short supaya selalu ada beberapa kata setengah menyala
              sekaligus — kalau tiap kata menunggu kata sebelumnya selesai,
              hasilnya terbaca patah-patah seperti mesin tik. */
           stagger: { each: 0.25 / spans.length, from: "start" },
@@ -500,14 +500,14 @@ export function pasangAnimasi() {
   function initSplitWords() {
     $$("[data-split-words]").forEach(function (el) {
       if (prefersReducedMotion()) return;
-      var atas = $(".top-word", el);
-      var bawah = $(".bottom-word", el);
-      if (!atas || !bawah) return;
+      var top = $(".top-word", el);
+      var bottom = $(".bottom-word", el);
+      if (!top || !bottom) return;
 
       /*
-       * JENDELANYA PANJANG, DAN SENGAJA PALING PANJANG DI SITUS INI.
+       * WINDOW-nya PANJANG, DAN SENGAJA PALING PANJANG DI SITUS INI.
        *
-       * Dulu "top 95%" sampai "center 80%" — sekitar 227px gulir di ponsel.
+       * Dulu "top 95%" sampai "center 80%" — sekitar 227px scroll di ponsel.
        * Pada jarak sependek itu kedua barisnya sudah bertemu sebelum mata
        * sempat mendaftar bahwa mereka datang dari arah berlawanan, dan yang
        * tersisa cuma kesan judul yang berkedut.
@@ -516,14 +516,14 @@ export function pasangAnimasi() {
        * lipat. Ini transisi paling mencolok di halaman dan dipakai SEKALI
        * saja, di titik halaman berbalik dari gelap ke terang — ia satu-satunya
        * yang pantas menuntut jarak sepanjang itu. Jangan jadikan angka ini
-       * patokan untuk penyingkapan lain; yang lain justru harus pendek.
+       * patokan untuk reveal lain; yang lain justru harus short.
        */
       var tl = gsap.timeline({
         defaults: { ease: EASE_SCRUB },
         scrollTrigger: { trigger: el, start: "clamp(top 100%)", end: "clamp(center 52%)", scrub: SCRUB },
       });
-      tl.fromTo(atas, { xPercent: -70 }, { xPercent: 0, duration: 1 }, 0);
-      tl.fromTo(bawah, { xPercent: 70 }, { xPercent: 0, duration: 1 }, 0);
+      tl.fromTo(top, { xPercent: -70 }, { xPercent: 0, duration: 1 }, 0);
+      tl.fromTo(bottom, { xPercent: 70 }, { xPercent: 0, duration: 1 }, 0);
     });
   }
 
@@ -561,15 +561,15 @@ export function pasangAnimasi() {
   }
 
   /*
-   * LAMBANG CINCIN YANG DIGAMBAR — satu-satunya gerak milik bagian Keahlian.
+   * LOGO CINCIN YANG DIGAMBAR — satu-satunya motion milik bagian Keahlian.
    *
-   * KENAPA ADA. Sebelum ini seluruh bagian Keahlian memakai satu gerak yang
-   * sama persis untuk dua puluhan elemen: kartu peran, lima kartu kemampuan,
+   * KENAPA ADA. Sebelum ini seluruh bagian Keahlian memakai satu motion yang
+   * sama persis untuk dua puluhan elemen: card peran, lima card kemampuan,
    * empat baris perkakas, dua baris bahasa — semuanya `scrub-reveal`. Bukan
    * sepi, tapi seragam, dan yang seragam terbaca datar. Tiap bagian lain
-   * punya satu ide geraknya sendiri (tumpukan kartu di Pengalaman, akordeon
-   * di Sertifikat, mesin ketik di Beranda); bagian ini tidak punya. Cincin di
-   * kartu peran adalah satu-satunya bentuk yang cuma dimiliki bagian ini,
+   * punya satu ide motion-nya sendiri (stack card di Pengalaman, akordeon
+   * di Sertifikat, typewriter di Beranda); bagian ini tidak punya. Cincin di
+   * card peran adalah satu-satunya bentuk yang cuma dimiliki bagian ini,
    * jadi di situlah idenya ditaruh.
    *
    * CARANYA SAMA DENGAN MONOGRAM PEMBUKA, dan itu disengaja — bukan kosakata
@@ -588,34 +588,34 @@ export function pasangAnimasi() {
    * disentuh kursor. Itu dibatalkan sebelum ditulis: cincin sepusat yang
    * diputar mengelilingi pusatnya sendiri tidak menghasilkan satu piksel pun
    * yang berubah. Yang menggantikannya riak melebar, dan itu seluruhnya CSS —
-   * lihat blok "LAMBANG CINCIN" di src/index.css.
+   * lihat blok "LOGO CINCIN" di src/index.css.
    *
    * `once: true`, bukan scrub. Menggambar garis adalah peristiwa sekali jadi;
-   * memetakannya ke gulir berarti cincinnya terhapus lagi saat digulir balik,
-   * dan lambang yang terurai sendiri terbaca sebagai rusak.
+   * memetakannya ke scroll berarti cincinnya terhapus lagi saat di-scroll balik,
+   * dan logo yang terurai sendiri terbaca sebagai rusak.
    */
   function initGlyphRings() {
     $$("[data-glyph]").forEach(function (slot) {
-      var cincin = $$("circle", slot);
-      if (!cincin.length) return;
+      var ringSet = $$("circle", slot);
+      if (!ringSet.length) return;
 
-      /* Gerak dikurangi: lambangnya dibiarkan apa adanya. Tidak ada yang perlu
+      /* Reduced motion: logo-nya dibiarkan apa adanya. Tidak ada yang perlu
          disetel ulang — tanpa strokeDasharray, cincinnya memang sudah utuh. */
       if (prefersReducedMotion()) return;
 
-      cincin.forEach(function (c) {
-        var keliling = c.getTotalLength();
-        c.style.strokeDasharray = keliling;
-        c.style.strokeDashoffset = keliling;
+      ringSet.forEach(function (c) {
+        var circumference = c.getTotalLength();
+        c.style.strokeDasharray = circumference;
+        c.style.strokeDashoffset = circumference;
       });
 
-      gsap.to(cincin, {
+      gsap.to(ringSet, {
         strokeDashoffset: 0,
         duration: 0.7,
         ease: EASE,
         stagger: 0.09,
-        /* Ambangnya 92%, lebih rendah dari penyingkapan kartunya sendiri
-           (95%), supaya cincinnya mulai tergambar saat kartunya sudah
+        /* Threshold-nya 92%, lebih rendah dari reveal card-nya sendiri
+           (95%), supaya cincinnya mulai tergambar saat card-nya sudah
            terbuka — bukan di balik clip-path yang masih menutup. */
         scrollTrigger: { trigger: slot, start: "top 92%", once: true },
       });
@@ -623,102 +623,102 @@ export function pasangAnimasi() {
   }
 
   /*
-   * KARTU PERAN — datang dari samping berurutan, lalu satu disorot bergantian.
+   * CARD PERAN — datang dari samping berurutan, lalu satu disorot bergantian.
    *
-   * Dua gerak, dan keduanya menjawab kekurangan yang berbeda.
+   * Dua motion, dan keduanya menjawab kekurangan yang berbeda.
    *
-   * KEDATANGAN. Ketiga kartu ini dulu memakai scrub-reveal yang sama persis
+   * KEDATANGAN. Ketiga card ini dulu memakai scrub-reveal yang sama persis
    * dengan dua puluhan elemen lain di bagian ini — tidak ada yang menandai
    * bahwa merekalah pokok bagiannya. Sekarang ketiganya meluncur masuk dari
-   * kanan berurutan, sekali jalan. Atribut scrub-reveal-nya DIBUANG dari
+   * kanan berurutan, sekali jalan. Attribute scrub-reveal-nya DIBUANG dari
    * Keahlian.jsx, bukan ditumpuk: keduanya sama-sama menganimasikan
    * pergeseran dan kejernihan, jadi memasang dua-duanya berarti dua tween
    * berebut properti yang sama pada elemen yang sama.
    *
-   * SOROT. Tiga kartu setara yang diam berdampingan tidak memberi mata satu
+   * SOROT. Tiga card setara yang diam berdampingan tidak memberi mata satu
    * pun tempat untuk berpijak. Yang disorot naik sedikit dan tampil penuh,
    * dua lainnya turun ke 0,78 — REDUP, BUKAN TERSEMBUNYI. Itu batas yang
-   * disengaja: menyempitkan kartu jadi bilah seperti galeri sertifikat akan
+   * disengaja: menyempitkan card jadi bar seperti gallery sertifikat akan
    * menyembunyikan dua dari tiga peran, dan tiga peran inilah yang justru
    * paling tidak boleh disembunyikan di halaman lamaran kerja. Karena tidak
    * ada isi yang hilang, tidak ada urusan aksesibilitas sama sekali di sini:
    * peredupannya murni hiasan.
    *
    * JALAN MASUKNYA MENIRU GALERI SERTIFIKAT, dan itu bukan kemalasan —
-   * kursor di penunjuk halus, posisi gulir di perangkat tanpa hover, pita
-   * gulir dipatok ke TITIK TENGAH blok dan diukur dalam persen tinggi layar.
+   * kursor di fine pointer, posisi scroll di perangkat tanpa hover, band
+   * scroll dipatok ke TITIK TENGAH blok dan diukur dalam persen tinggi viewport.
    * Dua tempat di halaman yang sama-sama "telusuri satu per satu" sebaiknya
-   * terasa sama; kalau yang satu digulir dan yang lain diketuk, pengunjung
+   * terasa sama; kalau yang satu di-scroll dan yang lain diketuk, pengunjung
    * harus belajar dua kali.
    */
-  function initKartuPeran() {
+  function initRoleCards() {
     var orbit = $(".stage-orbit");
     if (!orbit) return;
 
-    var kartu = $$("[data-kartu-peran]", orbit);
-    if (kartu.length < 2) return;
+    var cards = $$("[data-role-card]", orbit);
+    if (cards.length < 2) return;
 
-    /* Gerak dikurangi: kartunya dibiarkan berdiri apa adanya, dan sorotnya
+    /* Reduced motion: card-nya dibiarkan berdiri apa adanya, dan sorotnya
        tidak dipasang sama sekali. Sorot yang berpindah-pindah tanpa transisi
        berkedip, dan berkedip persis yang dihindari pengaturan ini. */
     if (prefersReducedMotion()) return;
 
     /*
-     * MASUK DAN KELUAR, DIGERAKKAN GULIR — bukan kedatangan sekali jalan.
+     * MASUK DAN KELUAR, DIGERAKKAN SCROLL — bukan kedatangan sekali jalan.
      *
-     * Tiap slot punya arahnya sendiri, dibaca dari data-arah di markup:
+     * Tiap slot punya arahnya sendiri, dibaca dari data-direction di markup:
      *
-     *   pudar  kartu utama, memudar masuk lalu memudar keluar di tempat
+     *   pudar  card utama, memudar masuk lalu memudar keluar di tempat
      *   kiri   masuk dari tepi kiri, keluar kembali ke kiri
      *   kanan  masuk dari tepi kanan, keluar kembali ke kanan
      *
-     * Kartu utama sengaja TIDAK ikut bergeser. Ia merentang penuh dua kolom;
-     * menggesernya sejauh dua kartu di bawahnya akan membuat kartu selebar
-     * 1100px melintas separuh layar, dan yang terbaca bukan gerak masuk
-     * melainkan tata letak yang sedang rusak. Memudar di tempat juga yang
+     * Card utama sengaja TIDAK ikut bergeser. Ia merentang penuh dua kolom;
+     * menggesernya sejauh dua card di bawahnya akan membuat card selebar
+     * 1100px melintas separuh screen, dan yang terbaca bukan motion masuk
+     * melainkan layout yang sedang rusak. Memudar di tempat juga yang
      * membuat hierarkinya terbaca: yang utama muncul, yang penunjang datang.
      *
      * KELUARNYA KE ARAH ASALNYA, bukan menerus ke seberang. Kembali ke tepi
      * yang sama membuat keduanya terbaca sebagai sepasang pintu yang menutup;
-     * menerus ke seberang berarti keduanya harus melintasi kartu utama.
+     * menerus ke seberang berarti keduanya harus melintasi card utama.
      *
-     * TIAP SLOT DIPICU OLEH DIRINYA SENDIRI, BUKAN OLEH BLOKNYA — dan ini
-     * satu-satunya hal yang membuat gerak MASUK benar-benar sempat dilihat.
+     * TIAP SLOT DI-TRIGGER OLEH DIRINYA SENDIRI, BUKAN OLEH BLOKNYA — dan ini
+     * satu-satunya hal yang membuat motion MASUK benar-benar sempat dilihat.
      *
-     * Dua percobaan sebelumnya keduanya memicu dari .stage-orbit, dan
-     * keduanya gagal karena alasan yang sama. Dua kartu penunjang duduk di
-     * DASAR blok, jadi merekalah yang paling terakhir masuk layar; sementara
+     * Dua percobaan sebelumnya keduanya men-trigger dari .stage-orbit, dan
+     * keduanya gagal karena alasan yang sama. Dua card penunjang duduk di
+     * DASAR blok, jadi merekalah yang paling terakhir masuk screen; sementara
      * kemajuan animasinya dihitung dari perjalanan SELURUH blok. Terukur di
-     * layar 900px dengan blok 420px: saat kedua kartu itu benar-benar
+     * screen 900px dengan blok 420px: saat kedua card itu benar-benar
      * terlihat, kemajuannya sudah sekitar 85 persen. Yang tersisa untuk
-     * dilihat cuma sisa geseran terakhir, lalu langsung diam — praktis tidak
+     * dilihat cuma sisa offset terakhir, lalu langsung diam — praktis tidak
      * ada animasi masuk sama sekali, cuma animasi keluar.
      *
-     * Cacat itu sempat lolos dari pengujian karena penanda "terlihat" yang
-     * dipakai cuma `bawah > 0 && atas < tinggiLayar`. Itu bernilai benar
-     * meski kartunya menyembul SATU PIKSEL di tepi bawah layar. Angkanya
+     * Cacat itu sempat lolos dari pengujian karena marker "terlihat" yang
+     * dipakai cuma `bawah > 0 && atas < tinggiviewport`. Itu bernilai benar
+     * meski card-nya menyembul SATU PIKSEL di tepi bawah screen. Angkanya
      * benar, yang diukurnya yang salah.
      *
-     * Dipicu dari slotnya sendiri, rentangnya jadi tinggiLayar + tinggiSlot,
+     * Di-trigger dari slotnya sendiri, rentangnya jadi tinggiviewport + tinggiSlot,
      * dan sepertiga pertamanya jatuh persis saat slot itu sedang naik masuk
-     * ke layar. Untuk slot samping setinggi ~190px di layar 900px: masuknya
+     * ke screen. Untuk slot samping setinggi ~190px di screen 900px: masuknya
      * memakai 363px pertama, dan di ujungnya tepi atas slot ada di 537px
-     * dengan tepi bawah 727px — seluruhnya di dalam layar. Tidak ada satu
-     * bagian pun dari gerak masuk yang jatuh di luar pandangan.
+     * dengan tepi bawah 727px — seluruhnya di dalam screen. Tidak ada satu
+     * bagian pun dari motion masuk yang jatuh di luar pandangan.
      *
      * KONSEKUENSINYA KETIGANYA TIDAK LAGI SEREMPAK, dan itu memang benar:
-     * kartu utama berada lebih tinggi, jadi ia datang lebih dulu, lalu dua
-     * kartu penunjang menyusul bersamaan karena keduanya sebaris. Yang
+     * card utama berada lebih tinggi, jadi ia datang lebih dulu, lalu dua
+     * card penunjang menyusul bersamaan karena keduanya sebaris. Yang
      * serempak justru yang tadi mustahil dilihat.
      *
-     * SATU TIMELINE PER SLOT, bukan dua pemicu terpisah untuk masuk dan
-     * keluar: dua pemicu yang rentangnya bertindihan akan menganimasikan
+     * SATU TIMELINE PER SLOT, bukan dua trigger terpisah untuk masuk dan
+     * keluar: dua trigger yang rentangnya bertindihan akan menganimasikan
      * properti yang sama pada elemen yang sama sekaligus.
      */
-    var slot = $$("[data-kartu-slot]", orbit);
+    var slot = $$("[data-card-slot]", orbit);
     slot.forEach(function (s) {
-      var arah = s.getAttribute("data-arah");
-      var geser = arah === "kiri" ? -55 : arah === "kanan" ? 55 : 0;
+      var direction = s.getAttribute("data-direction");
+      var shift = direction === "left" ? -55 : direction === "right" ? 55 : 0;
 
       var tl = gsap.timeline({
         defaults: { ease: EASE_SCRUB },
@@ -730,132 +730,132 @@ export function pasangAnimasi() {
         },
       });
       tl.fromTo(s,
-        { xPercent: geser, opacity: 0 },
+        { xPercent: shift, opacity: 0 },
         { xPercent: 0, opacity: 1, duration: 1 }, 0);
-      tl.to(s, { xPercent: geser, opacity: 0, duration: 1 }, 2);
+      tl.to(s, { xPercent: shift, opacity: 0, duration: 1 }, 2);
     });
 
-    var sorotKe = -1;
-    var tlSorot = null;
-    function sorot(i) {
-      if (i === sorotKe) return;
-      sorotKe = i;
+    var highlightTo = -1;
+    var tlHighlight = null;
+    function highlight(i) {
+      if (i === highlightTo) return;
+      highlightTo = i;
 
-      if (tlSorot) tlSorot.kill();
-      tlSorot = gsap.timeline();
-      kartu.forEach(function (k, j) {
-        var ini = j === i;
-        k.classList.toggle("stage-card--sorot", ini);
-        /* 1,012 bukan 1,05: kartu utama merentang penuh 1100px di desktop,
+      if (tlHighlight) tlHighlight.kill();
+      tlHighlight = gsap.timeline();
+      cards.forEach(function (k, j) {
+        var self = j === i;
+        k.classList.toggle("stage-card--highlight", self);
+        /* 1,012 bukan 1,05: card utama merentang penuh 1100px di desktop,
            jadi tiap 1% skala menjulur 5,5px ke tiap sisi. Pada 1,012 ia
-           menjulur 6,6px ke dalam padding wadah yang 40px — aman. Pada 1,05
-           ia menjulur 27,5px dan mulai menyentuh tepi layar. */
-        tlSorot.to(k, {
-          opacity: ini ? 1 : 0.78,
-          scale: ini ? 1.012 : 1,
-          y: ini ? -6 : 0,
+           menjulur 6,6px ke dalam padding container yang 40px — aman. Pada 1,05
+           ia menjulur 27,5px dan mulai menyentuh tepi screen. */
+        tlHighlight.to(k, {
+          opacity: self ? 1 : 0.78,
+          scale: self ? 1.012 : 1,
+          y: self ? -6 : 0,
           duration: 0.45, ease: EASE,
         }, 0);
       });
     }
-    bersih.push(function () {
-      if (tlSorot) tlSorot.kill();
-      kartu.forEach(function (k) { k.classList.remove("stage-card--sorot"); });
+    cleanups.push(function () {
+      if (tlHighlight) tlHighlight.kill();
+      cards.forEach(function (k) { k.classList.remove("stage-card--highlight"); });
     });
 
     /*
-     * SOROTAN YANG MENGIKUTI KURSOR — pola spotlight MagicBento, tapi bagian
+     * HIGHLIGHT YANG MENGIKUTI KURSOR — pola spotlight MagicBento, tapi bagian
      * JavaScript-nya tinggal dua baris karena bentuk dan warnanya sepenuhnya
-     * diurus CSS (lihat blok "SOROTAN KURSOR DI KARTU PERAN" di index.css).
+     * diurus CSS (lihat blok "HIGHLIGHT KURSOR DI CARD PERAN" di index.css).
      * Yang dikerjakan di sini cuma memberi tahu CSS di mana kursornya.
      *
      * DIBATASI SATU TULISAN PER FRAME. Tanpa penjaga rAF ini, pointermove
-     * bisa terkirim jauh lebih sering daripada layar menggambar — di penunjuk
+     * bisa terkirim jauh lebih sering daripada screen menggambar — di pointer
      * bertingkat tinggi ratusan kali per detik — dan tiap tulisan ke --mx/--my
-     * membatalkan gambar ulang gradien kartunya. Yang tergambar toh cuma nilai
+     * membatalkan gambar ulang gradien card-nya. Yang tergambar toh cuma nilai
      * terakhir sebelum frame, jadi sisanya kerja yang dibuang.
      *
-     * getBoundingClientRect dipanggil di dalam frame, bukan disimpan: kartu
+     * getBoundingClientRect dipanggil di dalam frame, bukan disimpan: card
      * yang sedang disorot punya skala 1,012 dan naik 6px, jadi kotaknya
-     * memang bergerak selama transisi. Menyimpannya membuat sorotan meleset
+     * memang bergerak selama transisi. Menyimpannya membuat highlight meleset
      * dari kursor selama 0,45 detik pertama.
      */
-    var titik = { el: null, x: 0, y: 0 };
-    var rafTitik = 0;
-    function tulisTitik() {
-      rafTitik = 0;
-      if (!titik.el) return;
-      var r = titik.el.getBoundingClientRect();
+    var dots = { el: null, x: 0, y: 0 };
+    var rafDots = 0;
+    function buildDots() {
+      rafDots = 0;
+      if (!dots.el) return;
+      var r = dots.el.getBoundingClientRect();
       if (!r.width || !r.height) return;
-      titik.el.style.setProperty("--mx", ((titik.x - r.left) / r.width) * 100 + "%");
-      titik.el.style.setProperty("--my", ((titik.y - r.top) / r.height) * 100 + "%");
+      dots.el.style.setProperty("--mx", ((dots.x - r.left) / r.width) * 100 + "%");
+      dots.el.style.setProperty("--my", ((dots.y - r.top) / r.height) * 100 + "%");
     }
-    bersih.push(function () {
-      if (rafTitik) cancelAnimationFrame(rafTitik);
-      kartu.forEach(function (k) {
+    cleanups.push(function () {
+      if (rafDots) cancelAnimationFrame(rafDots);
+      cards.forEach(function (k) {
         k.style.removeProperty("--mx");
         k.style.removeProperty("--my");
       });
     });
 
-    var bisaHover = window.matchMedia("(hover: hover) and (pointer: fine)");
-    kartu.forEach(function (k, i) {
-      dengar(k, "pointerenter", function () { if (bisaHover.matches) sorot(i); });
-      dengar(k, "pointermove", function (e) {
-        if (!bisaHover.matches) return;
-        titik.el = k;
-        titik.x = e.clientX;
-        titik.y = e.clientY;
-        if (!rafTitik) rafTitik = requestAnimationFrame(tulisTitik);
+    var canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+    cards.forEach(function (k, i) {
+      listen(k, "pointerenter", function () { if (canHover.matches) highlight(i); });
+      listen(k, "pointermove", function (e) {
+        if (!canHover.matches) return;
+        dots.el = k;
+        dots.x = e.clientX;
+        dots.y = e.clientY;
+        if (!rafDots) rafDots = requestAnimationFrame(buildDots);
       }, { passive: true });
       /* Titiknya dikembalikan ke bawaan CSS saat kursor pergi, bukan
-         dibiarkan di posisi terakhir. Kalau tidak, kartu yang nanti dipilih
-         gulir di perangkat hibrida menyala dengan sorotan di tepi acak —
+         dibiarkan di posisi terakhir. Kalau tidak, card yang nanti dipilih
+         scroll di perangkat hibrida menyala dengan highlight di tepi acak —
          sisa dari kursor yang sudah lama tidak ada. */
-      dengar(k, "pointerleave", function () {
+      listen(k, "pointerleave", function () {
         k.style.removeProperty("--mx");
         k.style.removeProperty("--my");
       });
     });
 
-    /* Pita gulir untuk perangkat tanpa hover, bentuknya sama dengan galeri
-       sertifikat: dipatok ke titik tengah blok, panjangnya 35% tinggi layar,
-       jadi tiap kartu kebagian ~11,7vh — sekitar 98px di ponsel. Ditanyakan
+    /* Band scroll untuk perangkat tanpa hover, bentuknya sama dengan gallery
+       sertifikat: dipatok ke titik tengah blok, panjangnya 35% tinggi viewport,
+       jadi tiap card kebagian ~11,7vh — sekitar 98px di ponsel. Ditanyakan
        di dalam onUpdate, bukan saat membuat, supaya perangkat hibrida yang
-       berpindah modus penunjuk langsung benar tanpa membangun ulang pemicu. */
-    var terakhirGulir = -1;
+       berpindah modus pointer langsung benar tanpa membangun ulang trigger. */
+    var lastScroll = -1;
     ScrollTrigger.create({
       trigger: orbit,
       start: "center 70%",
       end: "center 35%",
       onUpdate: function (diri) {
-        if (bisaHover.matches) return;
-        var i = Math.min(kartu.length - 1, Math.floor(diri.progress * kartu.length));
-        if (i === terakhirGulir) return;
-        terakhirGulir = i;
-        sorot(i);
+        if (canHover.matches) return;
+        var i = Math.min(cards.length - 1, Math.floor(diri.progress * cards.length));
+        if (i === lastScroll) return;
+        lastScroll = i;
+        highlight(i);
       },
     });
 
-    /* Keadaan istirahat: kartu pertama disorot sejak awal. Tanpa ini
+    /* Keadaan istirahat: card pertama disorot sejak awal. Tanpa ini
        pengunjung desktop yang tidak pernah mengarahkan kursor ke sini melihat
-       tiga kartu setara yang diam — persis masalah yang jadi alasan sorot ini
-       ada. Kartu pertama yang dipilih karena ia peran yang dilamar lebih dulu,
+       tiga card setara yang diam — persis masalah yang jadi alasan sorot ini
+       ada. Card pertama yang dipilih karena ia peran yang dilamar lebih dulu,
        alasan yang sama dengan kenapa ia melebar dua kolom.
 
        Dulu ini dipasang dari onComplete kedatangan sekali jalan. Sejak masuk
-       dan keluarnya digerakkan gulir, tidak ada lagi "selesai" untuk
-       ditumpangi — dan tidak perlu: opacity sorot hidup di kartu, opacity
+       dan keluarnya digerakkan scroll, tidak ada lagi "selesai" untuk
+       ditumpangi — dan tidak perlu: opacity sorot hidup di card, opacity
        masuk-keluar hidup di slot, jadi memasangnya sekarang tidak berebut
        dengan apa pun. */
-    sorot(0);
+    highlight(0);
   }
 
   /*
    * MARQUEE TAK BERUJUNG YANG MEMBACA ARAH SCROLL.
    *
-   * Satu-satunya gerak yang berjalan sendiri tanpa menunggu scroll — denyut
-   * latar, supaya layar tidak pernah benar-benar mati. Arahnya mengikuti arah
+   * Satu-satunya motion yang berjalan sendiri tanpa menunggu scroll — denyut
+   * latar, supaya screen tidak pernah benar-benar mati. Arahnya mengikuti arah
    * scroll, jadi ia terasa terhubung dengan tangan pengunjung.
    */
   function initMarquees() {
@@ -870,9 +870,9 @@ export function pasangAnimasi() {
 
       var setX = gsap.quickSetter(track, "x", "px");
 
-      tambahTicker(function (_t, deltaMs) {
+      addTicker(function (_t, deltaMs) {
         /* deltaMs dari ticker GSAP, bukan selisih timestamp sendiri — supaya
-           kecepatannya sama di layar 60Hz maupun 120Hz. */
+           kecepatannya sama di screen 60Hz maupun 120Hz. */
         offset += (speed * direction * deltaMs) / 1000;
         /* Modulo dua arah: sisa negatif dikembalikan ke rentang positif, kalau
            tidak marquee melompat saat arahnya berbalik. */
@@ -888,545 +888,545 @@ export function pasangAnimasi() {
         },
       });
 
-      amati(track, function () { half = track.scrollWidth / 2; });
+      observe(track, function () { half = track.scrollWidth / 2; });
     });
   }
 
   /*
-   * TUMPUKAN KARTU PENGALAMAN — yang depan dibaca utuh, yang belakang
+   * STACK CARD PENGALAMAN — yang depan dibaca utuh, yang belakang
    * mengintip di sudut, dan tiap beberapa detik yang depan jatuh lalu masuk
-   * ke belakang tumpukan. Polanya CardSwap dari reactbits.dev.
+   * ke belakang stack. Polanya CardSwap dari reactbits.dev.
    *
-   * SLOT. Kartu di slot ke-i digeser x +i*dx, y -i*dy, z -i*dz, diperkecil,
+   * SLOT. Card di slot ke-i digeser x +i*dx, y -i*dy, z -i*dz, diperkecil,
    * dan zIndex-nya menurun. Posisinya diturunkan dari NOMOR SLOT, bukan
-   * disimpan per kartu; berputar cuma berarti memutar isi array `urutan` lalu
+   * disimpan per card; berputar cuma berarti memutar isi array `urutan` lalu
    * menata ulang. Tidak ada keadaan yang bisa menyimpang sendiri.
    *
    * TINGGINYA DIUKUR, TIDAK DIPATOK. CardSwap aslinya memakai ukuran tetap
    * 500x400 dan isi yang lebih panjang terpotong begitu saja. Di sini tinggi
-   * tumpukan = kartu TERTINGGI + ruang untuk kartu belakang mengintip,
-   * dihitung ulang lewat ResizeObserver di tiap kartu. Rincian pekerjaan
+   * stack = card TERTINGGI + ruang untuk card belakang mengintip,
+   * dihitung ulang lewat ResizeObserver di tiap card. Rincian pekerjaan
    * boleh sepanjang apa pun tanpa satu baris pun hilang.
    *
-   * HANYA KARTU BELAKANG YANG DIMIRINGKAN. Aslinya seluruh tumpukan di-skew,
+   * HANYA CARD BELAKANG YANG DIMIRINGKAN. Aslinya seluruh stack di-skew,
    * termasuk yang sedang dibaca. Teks CV yang miring melelahkan dibaca, dan
-   * kartu depan di sini justru satu-satunya yang memang untuk dibaca.
+   * card depan di sini justru satu-satunya yang memang untuk dibaca.
    *
-   * TANPA JAVASCRIPT KARTUNYA TETAP TERBACA. Posisi absolut baru dipasang
-   * setelah kelas .tukar-siap ditambahkan dari sini; sebelum itu kartunya
+   * TANPA JAVASCRIPT CARD-nya TETAP TERBACA. Posisi absolut baru dipasang
+   * setelah class .swap-ready ditambahkan dari sini; sebelum itu card-nya
    * mengalir ke bawah sebagai daftar biasa. Kalau skripnya gagal dimuat, yang
-   * tersisa daftar pengalaman yang utuh, bukan tumpukan yang saling menimpa.
+   * tersisa daftar pengalaman yang utuh, bukan stack yang saling menimpa.
    */
-  function initTukarKartu() {
-    var akar = $('[data-component="tukar"]');
-    if (!akar) return;
+  function initCardSwap() {
+    var root = $('[data-component="swap"]');
+    if (!root) return;
 
-    var tumpuk = $("[data-tukar-tumpuk]", akar);
-    var kartu = $$("[data-kartu]", tumpuk || akar);
-    if (!tumpuk || kartu.length < 2) return;
+    var stack = $("[data-swap-stack]", root);
+    var cards = $$("[data-card]", stack || root);
+    if (!stack || cards.length < 2) return;
 
-    var kendali = $("[data-tukar-kendali]", akar);
+    var controls = $("[data-swap-controls]", root);
 
-    var urutan = kartu.map(function (_, i) { return i; });
+    var order = cards.map(function (_, i) { return i; });
 
     /*
      * SATU UKURAN UNTUK SEMUA LEBAR.
      *
      * Sampai 10 Agustus 2026 ponsel punya angkanya sendiri: dx 12, dy 12, dan
      * `miring: 0`. Yang terakhir itu yang paling terasa — tanpa kemiringan,
-     * kartu belakang cuma jadi garis tipis yang mengintip 12px di atas kartu
-     * depan, dan tumpukannya tidak terbaca sebagai tumpukan sama sekali. Yang
-     * dilihat pengunjung ponsel praktis satu kartu biasa.
+     * card belakang cuma jadi garis tipis yang mengintip 12px di atas card
+     * depan, dan stack-nya tidak terbaca sebagai stack sama sekali. Yang
+     * dilihat pengunjung ponsel praktis satu card biasa.
      *
      * dx 22, BUKAN 26 seperti angka desktop lama, dan itu batas yang dihitung
-     * bukan dikira. Kartu belakang digeser dx ke kanan lalu diperkecil 0,96.
-     * Pada layar tersempit yang diuji (320px): padding halaman 16, lebar
-     * kartu 288, lebar tampak setelah skala 276,5, dan sisa 5,8 di tiap sisi.
+     * bukan dikira. Card belakang digeser dx ke kanan lalu diperkecil 0,96.
+     * Pada screen tersempit yang diuji (320px): padding halaman 16, lebar
+     * card 288, lebar tampak setelah skala 276,5, dan sisa 5,8 di tiap sisi.
      * Tepi kanannya jadi 16 + dx + 5,8 + 276,5 = 298,3 + dx, jadi dx di atas
-     * 21,7 mendorongnya keluar layar. 22 pas di bawah itu, dan di desktop
+     * 21,7 mendorongnya keluar screen. 22 pas di bawah itu, dan di desktop
      * selisih 4px dari angka lama tidak terlihat.
      *
      * skewY tidak menambah lebar — ia menggeser secara vertikal sebagai fungsi
      * x — jadi ia tidak ikut dihitung di atas.
      */
-    function ukuran() {
+    function metrics() {
       return { dx: 22, dy: 22, dz: 60, susut: 0.04, miring: 4, jatuh: 140 };
     }
 
     function slot(i) {
-      var u = ukuran();
+      var u = metrics();
       return {
         x: i * u.dx, y: -i * u.dy, z: -i * u.dz,
         scale: 1 - i * u.susut,
         skewY: i === 0 ? 0 : u.miring,
-        /* 0,8 bukan 0,55: kartu belakang berlatar --surface (#101218) di atas
+        /* 0,8 bukan 0,55: card belakang berlatar --surface (#101218) di atas
            --background (#040508), jadi meredupkannya terlalu jauh membuatnya
-           lenyap dan tumpukan terbaca sebagai satu kartu biasa. */
+           lenyap dan stack terbaca sebagai satu card biasa. */
         autoAlpha: i === 0 ? 1 : 0.8,
-        zIndex: kartu.length - i,
+        zIndex: cards.length - i,
       };
     }
 
-    /* Kartu belakang dikeluarkan dari urutan tab DAN dari pembaca layar.
-       aria-hidden saja tidak cukup: tautan di dalamnya tetap bisa difokus
+    /* Card belakang dikeluarkan dari urutan tab DAN dari screen reader.
+       aria-hidden saja tidak cukup: link di dalamnya tetap bisa difokus
        keyboard, dan fokus yang mendarat di sesuatu yang tidak terlihat adalah
        cara tercepat membuat halaman terasa rusak. */
-    function tandai() {
-      urutan.forEach(function (idx, i) {
-        kartu[idx].inert = i !== 0;
-        kartu[idx].setAttribute("aria-hidden", i === 0 ? "false" : "true");
+    function mark() {
+      order.forEach(function (idx, i) {
+        cards[idx].inert = i !== 0;
+        cards[idx].setAttribute("aria-hidden", i === 0 ? "false" : "true");
       });
-      if (!kendali) return;
-      $$("[data-titik]", kendali).forEach(function (b, i) {
-        var aktif = urutan[0] === i;
-        b.setAttribute("aria-selected", aktif ? "true" : "false");
-        b.tabIndex = aktif ? 0 : -1;
+      if (!controls) return;
+      $$("[data-swap-dot]", controls).forEach(function (b, i) {
+        var active = order[0] === i;
+        b.setAttribute("aria-selected", active ? "true" : "false");
+        b.tabIndex = active ? 0 : -1;
       });
     }
 
     /*
      * SATU timeline hidup pada satu waktu, dan yang lama DIBUNUH lebih dulu.
      *
-     * Ini memperbaiki cacat yang terlihat sebagai kartu belakang menembus
-     * kartu depan. Penyebabnya bukan z-index atau latar tembus pandang --
+     * Ini memperbaiki cacat yang terlihat sebagai card belakang menembus
+     * card depan. Penyebabnya bukan z-index atau latar tembus pandang --
      * keduanya terukur benar (z 2 lawan 1, opacity 1, latar rgb(16,18,24)
-     * opak). Penyebabnya balapan: putar() menjadwalkan tl.set(zIndex) pada
-     * detik 0,4 dan tl.to(autoAlpha) pada 0,42. Kalau pengguna menekan titik
-     * pemilih sebelum itu, tata() memasang nilai yang benar, lalu penjadwalan
+     * opak). Penyebabnya balapan: rotate() menjadwalkan tl.set(zIndex) pada
+     * detik 0,4 dan tl.to(autoAlpha) pada 0,42. Kalau pengguna menekan selector
+     * dot sebelum itu, relayout() memasang nilai yang benar, lalu penjadwalan
      * lama menimpanya sepersekian detik kemudian.
      *
      * zIndex disetel langsung ke style, bukan lewat GSAP, supaya ia berpindah
-     * SEKETIKA -- kartu yang naik harus sudah berada di atas sebelum satu
+     * SEKETIKA -- card yang naik harus sudah berada di atas sebelum satu
      * frame pun digambar.
      */
-    var tlAktif = null;
-    function bunuhTl() {
-      if (tlAktif) { tlAktif.kill(); tlAktif = null; }
+    var tlActive = null;
+    function killTl() {
+      if (tlActive) { tlActive.kill(); tlActive = null; }
     }
-    bersih.push(bunuhTl);
+    cleanups.push(killTl);
 
-    function tata(beranimasi) {
-      bunuhTl();
+    function relayout(beranimasi) {
+      killTl();
       var d = beranimasi && !prefersReducedMotion() ? 0.55 : 0;
       var tl = gsap.timeline();
-      urutan.forEach(function (idx, i) {
+      order.forEach(function (idx, i) {
         var s = slot(i);
-        kartu[idx].style.zIndex = s.zIndex;
-        tl.to(kartu[idx], {
+        cards[idx].style.zIndex = s.zIndex;
+        tl.to(cards[idx], {
           x: s.x, y: s.y, z: s.z, scale: s.scale, skewY: s.skewY,
           autoAlpha: s.autoAlpha, duration: d, ease: EASE,
         }, 0);
       });
-      tlAktif = tl;
-      tandai();
+      tlActive = tl;
+      mark();
     }
 
-    function putar() {
-      bunuhTl();
-      var keluarIdx = urutan[0];
-      var keluar = kartu[keluarIdx];
-      urutan.push(urutan.shift());
+    function rotate() {
+      killTl();
+      var exitIdx = order[0];
+      var exit = cards[exitIdx];
+      order.push(order.shift());
 
-      var u = ukuran();
-      var akhir = slot(urutan.indexOf(keluarIdx));
+      var u = metrics();
+      var akhir = slot(order.indexOf(exitIdx));
       var tl = gsap.timeline();
 
       /* Jatuh sampai hilang DULU, baru dipindahkan ke slot belakang. Kalau
-         langsung ditweenkan ke sana, ia terlihat menyelinap menembus kartu
+         langsung ditweenkan ke sana, ia terlihat menyelinap menembus card
          yang sedang naik. */
-      tl.to(keluar, { y: "+=" + u.jatuh, autoAlpha: 0, duration: 0.4, ease: "power2.in" }, 0);
-      tl.call(function () { keluar.style.zIndex = akhir.zIndex; }, null, 0.4);
-      tl.set(keluar, {
+      tl.to(exit, { y: "+=" + u.jatuh, autoAlpha: 0, duration: 0.4, ease: "power2.in" }, 0);
+      tl.call(function () { exit.style.zIndex = akhir.zIndex; }, null, 0.4);
+      tl.set(exit, {
         x: akhir.x, y: akhir.y, z: akhir.z, scale: akhir.scale,
         skewY: akhir.skewY,
       }, 0.4);
-      tl.to(keluar, { autoAlpha: akhir.autoAlpha, duration: 0.45, ease: EASE }, 0.42);
+      tl.to(exit, { autoAlpha: akhir.autoAlpha, duration: 0.45, ease: EASE }, 0.42);
 
-      urutan.forEach(function (idx, i) {
-        if (idx === keluarIdx) return;
+      order.forEach(function (idx, i) {
+        if (idx === exitIdx) return;
         var s = slot(i);
-        tl.call(function () { kartu[idx].style.zIndex = s.zIndex; }, null, 0.1);
-        tl.to(kartu[idx], {
+        tl.call(function () { cards[idx].style.zIndex = s.zIndex; }, null, 0.1);
+        tl.to(cards[idx], {
           x: s.x, y: s.y, z: s.z, scale: s.scale, skewY: s.skewY,
           autoAlpha: s.autoAlpha, duration: 0.55, ease: EASE,
         }, 0.1);
       });
 
-      tlAktif = tl;
-      tandai();
+      tlActive = tl;
+      mark();
     }
 
     /*
      * Dua jalan, dan yang dipilih bergantung SEBERAPA JAUH lompatannya.
      *
-     * Kalau yang diminta kartu tepat berikutnya, putar() yang dipakai: kartu
+     * Kalau yang diminta card tepat berikutnya, rotate() yang dipakai: card
      * depan jatuh sampai hilang DULU, baru dipindahkan ke slot belakang.
-     * tata() akan menweenkannya langsung ke sana, dan ia terlihat menyelinap
-     * menembus kartu yang sedang naik — cacat yang justru jadi alasan putar()
-     * ditulis, dan yang dulu tidak pernah muncul karena putar() selalu
-     * dipanggil pengatur waktu. Begitu pengatur waktunya dibuang, putar()
+     * relayout() akan menweenkannya langsung ke sana, dan ia terlihat menyelinap
+     * menembus card yang sedang naik — cacat yang justru jadi alasan rotate()
+     * ditulis, dan yang dulu tidak pernah muncul karena rotate() selalu
+     * dipanggil timer. Begitu timer-nya dibuang, rotate()
      * sempat jadi kode mati dan cacat itu ikut kembali.
      *
-     * Untuk lompatan lebih jauh tata() yang benar: putar() cuma tahu cara
-     * maju satu langkah. Dengan dua kartu cabang itu belum pernah terpakai,
-     * tapi ia yang membuat penambahan kartu ketiga nanti tidak diam-diam
+     * Untuk lompatan lebih jauh relayout() yang benar: rotate() cuma tahu cara
+     * maju satu langkah. Dengan dua card cabang itu belum pernah terpakai,
+     * tapi ia yang membuat penambahan card ketiga nanti tidak diam-diam
      * salah.
      */
-    function pilih(idx) {
-      if (urutan[0] === idx) return;
-      if (urutan[1] === idx) { putar(); return; }
-      var pos = urutan.indexOf(idx);
-      urutan = urutan.slice(pos).concat(urutan.slice(0, pos));
-      tata(true);
+    function select(idx) {
+      if (order[0] === idx) return;
+      if (order[1] === idx) { rotate(); return; }
+      var pos = order.indexOf(idx);
+      order = order.slice(pos).concat(order.slice(0, pos));
+      relayout(true);
     }
 
     /*
-     * TITIK PEMILIH — dan sejak 10 Agustus 2026 ia SATU-SATUNYA cara tumpukan
+     * SELECTOR dot — dan sejak 10 Agustus 2026 ia SATU-SATUNYA cara stack
      * ini berpindah.
      *
      * Perputaran otomatis tiap 5,2 detik dibuang seluruhnya. Alasannya sudah
      * separuh tertulis di kode lamanya sendiri: begitu pengunjung memilih
-     * sendiri, perputaran dimatikan untuk seterusnya, "kartu yang bergeser
+     * sendiri, perputaran dimatikan untuk seterusnya, "card yang bergeser
      * sendiri saat sedang dibaca adalah gangguan, bukan animasi". Kalimat itu
-     * benar sebelum ada yang mengetuk juga — isi kartunya paragraf pekerjaan
-     * yang menuntut waktu baca, dan lima detik tidak cukup untuk kartu
+     * benar sebelum ada yang mengetuk juga — isi card-nya paragraf pekerjaan
+     * yang menuntut waktu baca, dan lima detik tidak cukup untuk card
      * terpanjang. Sekarang ia diam sampai diminta pindah.
      *
-     * Dibuat dari JUMLAH kartu lewat tambahSimpul() supaya ikut dibongkar.
-     * Ia juga satu-satunya jalan keyboard ke kartu yang sedang tidak di depan,
-     * karena kartu belakang sengaja di-inert — itulah sebabnya area sentuhnya
-     * 44px meski bilah yang terlihat cuma 4px.
+     * Dibuat dari JUMLAH card lewat addNode() supaya ikut di-teardown.
+     * Ia juga satu-satunya jalan keyboard ke card yang sedang tidak di depan,
+     * karena card belakang sengaja di-inert — itulah sebabnya area sentuhnya
+     * 44px meski bar yang terlihat cuma 4px.
      */
-    if (kendali) {
-      kartu.forEach(function (_, i) {
+    if (controls) {
+      cards.forEach(function (_, i) {
         var b = document.createElement("button");
         b.type = "button";
-        b.className = "tukar-titik";
-        b.setAttribute("data-titik", "");
+        b.className = "swap-dot";
+        b.setAttribute("data-swap-dot", "");
         b.setAttribute("role", "tab");
         b.setAttribute("aria-label", "Pengalaman ke-" + (i + 1));
-        dengar(b, "click", function () { pilih(i); });
-        dengar(b, "keydown", function (e) {
-          var maju = e.key === "ArrowRight" || e.key === "ArrowDown";
-          var mundur = e.key === "ArrowLeft" || e.key === "ArrowUp";
-          if (!maju && !mundur) return;
+        listen(b, "click", function () { select(i); });
+        listen(b, "keydown", function (e) {
+          var forward = e.key === "ArrowRight" || e.key === "ArrowDown";
+          var backward = e.key === "ArrowLeft" || e.key === "ArrowUp";
+          if (!forward && !backward) return;
           e.preventDefault();
-          var tujuan = (i + (maju ? 1 : -1) + kartu.length) % kartu.length;
-          pilih(tujuan);
-          $$("[data-titik]", kendali)[tujuan].focus();
+          var destIdx = (i + (forward ? 1 : -1) + cards.length) % cards.length;
+          select(destIdx);
+          $$("[data-swap-dot]", controls)[destIdx].focus();
         });
-        tambahSimpul(kendali, b);
+        addNode(controls, b);
       });
     }
 
     /*
-     * SEMUA KARTU DISAMAKAN SETINGGI YANG TERTINGGI, bukan cuma wadahnya.
+     * SEMUA CARD DISAMAKAN SETINGGI YANG TERTINGGI, bukan cuma container-nya.
      *
-     * Ini bukan kerapian. Terukur di 390x844: kartu Guru Informatika 761px
+     * Ini bukan kerapian. Terukur di 390x844: card Guru Informatika 761px
      * (lima butir rincian) dan Staf Administrasi 615px (empat butir). Saat
-     * yang pendek berada di depan, yang tinggi di belakangnya menyembul 146px
-     * di bawah dan isinya terbaca di samping kartu depan -- tumpukannya
-     * terlihat seperti dua kartu yang salah tumpuk, bukan satu tumpukan.
+     * yang short berada di depan, yang tinggi di belakangnya menyembul 146px
+     * di bawah dan isinya terbaca di samping card depan -- stack-nya
+     * terlihat seperti dua card yang salah tumpuk, bukan satu stack.
      * Skala 0,955 tidak menolong karena 761 x 0,955 masih lebih besar dari
      * 615.
      *
      * Tinggi dilepas ke auto DULU sebelum diukur: tanpa itu yang terbaca
-     * adalah tinggi yang dipasang putaran sebelumnya, dan kartunya tidak akan
-     * pernah bisa mengecil lagi saat layar melebar.
+     * adalah tinggi yang dipasang putaran sebelumnya, dan card-nya tidak akan
+     * pernah bisa mengecil lagi saat screen melebar.
      *
-     * Penjaga `sedangUkur` memutus umpan balik: menyetel tinggi kartu memicu
-     * ResizeObserver yang mengamati kartu itu sendiri.
+     * Penjaga `measuring` memutus umpan balik: menyetel tinggi card men-trigger
+     * ResizeObserver yang mengamati card itu sendiri.
      */
-    var sedangUkur = false;
-    function ukur() {
-      if (sedangUkur) return;
-      sedangUkur = true;
+    var measuring = false;
+    function measure() {
+      if (measuring) return;
+      measuring = true;
 
-      var u = ukuran();
-      var ruang = (kartu.length - 1) * u.dy;
+      var u = metrics();
+      var space = (cards.length - 1) * u.dy;
 
-      kartu.forEach(function (k) { k.style.height = "auto"; });
-      var tinggi = 0;
-      kartu.forEach(function (k) { tinggi = Math.max(tinggi, k.offsetHeight); });
-      kartu.forEach(function (k) { k.style.height = tinggi + "px"; });
+      cards.forEach(function (k) { k.style.height = "auto"; });
+      var height = 0;
+      cards.forEach(function (k) { height = Math.max(height, k.offsetHeight); });
+      cards.forEach(function (k) { k.style.height = height + "px"; });
 
-      tumpuk.style.setProperty("--tukar-atas", ruang + "px");
-      tumpuk.style.height = tinggi + ruang + "px";
+      stack.style.setProperty("--swap-top", space + "px");
+      stack.style.height = height + space + "px";
 
-      requestAnimationFrame(function () { sedangUkur = false; });
+      requestAnimationFrame(function () { measuring = false; });
     }
 
-    akar.classList.add("tukar-siap");
-    bersih.push(function () { akar.classList.remove("tukar-siap"); });
+    root.classList.add("swap-ready");
+    cleanups.push(function () { root.classList.remove("swap-ready"); });
 
-    kartu.forEach(function (k) { amati(k, ukur); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ukur);
+    cards.forEach(function (k) { observe(k, measure); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
     /*
-     * TIDAK ADA LAGI PENDENGAR DI SINI, dan itu akibat dibuangnya perputaran
-     * otomatis. Kelima pendengar yang dulu berdiri di tempat ini —
+     * TIDAK ADA LAGI LISTENER DI SINI, dan itu akibat dibuangnya perputaran
+     * otomatis. Kelima listener yang dulu berdiri di tempat ini —
      * pointerenter, pointerleave, focusin, focusout, dan visibilitychange —
-     * semuanya cuma melayani satu hal: menjeda dan melanjutkan pengatur waktu.
-     * Tidak ada pengatur waktu, tidak ada yang perlu dijeda.
+     * semuanya cuma melayani satu hal: menjeda dan melanjutkan timer.
+     * Tidak ada timer, tidak ada yang perlu dijeda.
      *
-     * Pendengar media query juga hilang bersama ukuran khusus ponsel; sejak
-     * ukurannya satu untuk semua lebar, ResizeObserver di tiap kartu sudah
+     * Listener media query juga hilang bersama ukuran khusus ponsel; sejak
+     * ukurannya satu untuk semua lebar, ResizeObserver di tiap card sudah
      * menangkap semua perubahan yang perlu diukur ulang.
      */
-    ukur();
-    tata(false);
+    measure();
+    relayout(false);
   }
 
 
   /*
-   * GALERI AKORDEON — satu panel terbuka, sisanya menyempit jadi bilah.
+   * GALERI AKORDEON — satu panel terbuka, sisanya menyempit jadi bar.
    *
-   * Menggantikan panggung kedatangan sertifikat yang lama (kisi yang di-pin
-   * setinggi satu layar, kartu hanyut dari empat sudut, gelombang kertas di
-   * ticker). Yang itu animasi SEKALI JALAN saat digulir; ini interaksi yang
+   * Menggantikan panggung kedatangan sertifikat yang lama (grid yang di-pin
+   * setinggi satu screen, card hanyut dari empat sudut, gelombang kertas di
+   * ticker). Yang itu animasi SEKALI JALAN saat di-scroll; ini interaksi yang
    * bisa dijelajahi, dan enam sertifikat memang lebih masuk akal ditelusuri
    * satu per satu daripada ditabur sekaligus.
    *
    * CARA MEMBAGI RUANGNYA. Semua panel flex item. Yang aktif diberi flexGrow
    * `tumbuh`, sisanya 1, jadi pembagiannya proporsional dan tidak pernah
-   * dihitung dalam piksel -- lebar wadah boleh berubah tanpa satu angka pun
-   * ikut disesuaikan. `tumbuh` diturunkan dari RASIO, porsi layar yang ingin
+   * dihitung dalam piksel -- lebar container boleh berubah tanpa satu angka pun
+   * ikut disesuaikan. `tumbuh` diturunkan dari RATIO, porsi screen yang ingin
    * ditempati panel aktif:
    *
-   *     tumbuh = RASIO * (n - 1) / (1 - RASIO)
+   *     tumbuh = RATIO * (n - 1) / (1 - RATIO)
    *
-   * Dengan RASIO 0,52 dan n 6: tumbuh = 0,52*5/0,48 = 5,42. Panel aktif jadi
+   * Dengan RATIO 0,52 dan n 6: tumbuh = 0,52*5/0,48 = 5,42. Panel aktif jadi
    * 5,42 bagian dari total 10,42 bagian, yaitu 52%. Sisanya 9,6% seorang.
    *
-   * KENAPA TIDAK ADA grayscale. Komponen aslinya meredupkan panel non-aktif
-   * dengan filter: grayscale(). Filter dihitung ulang oleh peramban tiap
+   * KENAPA TIDAK ADA grayscale. Component aslinya meredupkan panel non-aktif
+   * dengan filter: grayscale(). Filter dihitung ulang oleh browser tiap
    * frame untuk seluruh piksel gambar, dan di sini gambarnya enam pindaian
    * sertifikat berukuran penuh. Repo ini sudah pernah membuang dua filter
-   * karena alasan yang sama (blur kabut dan backdrop-filter kartu, +6 fps di
+   * karena alasan yang sama (blur kabut dan backdrop-filter card, +6 fps di
    * ponsel). Peredupnya di sini <span> hitam ber-opacity: compositor cuma
-   * menyusun ulang lapisan, tidak menghitung ulang piksel.
+   * menyusun ulang layer, tidak menghitung ulang piksel.
    *
-   * TIGA JALAN MASUK, SATU KEADAAN. pilih() satu-satunya pintu, dipanggil
-   * oleh hover (hanya di penunjuk halus), fokus keyboard, dan posisi gulir
+   * TIGA JALAN MASUK, SATU KEADAAN. select() satu-satunya pintu, dipanggil
+   * oleh hover (hanya di fine pointer), fokus keyboard, dan posisi scroll
    * (hanya di perangkat tanpa hover — lihat blok panjang di bawah). Ketiganya
-   * cuma memindahkan `aktif`; terapkan() yang menggambar.
+   * cuma memindahkan `aktif`; apply() yang menggambar.
    *
    * KETUK PERTAMA MEMILIH, KETUK KEDUA MEMBUKA. Di perangkat sentuh tidak ada
    * hover, jadi tanpa aturan ini panel pertama yang disentuh langsung membuka
-   * PDF-nya tanpa pernah sempat dilihat. Sejak gulir ikut memilih, aturan ini
+   * PDF-nya tanpa pernah sempat dilihat. Sejak scroll ikut memilih, aturan ini
    * bukan lagi satu-satunya jalan menelusuri, melainkan jalan pintas — dan
    * itu yang membuatnya tidak lagi terasa seperti ketukan yang gagal.
    */
-  function initGaleriAkordeon() {
-    var akar = $('[data-component="galeri"]');
-    if (!akar) return;
+  function initAccordionGallery() {
+    var root = $('[data-component="gallery"]');
+    if (!root) return;
 
-    var panel = $$("[data-panel]", akar);
+    var panel = $$("[data-panel]", root);
     if (!panel.length) return;
 
-    var RASIO = 0.52;
-    var MIRING = 6;
-    var DURASI = 0.55;
-    var tumbuh = panel.length > 1 ? (RASIO * (panel.length - 1)) / (1 - RASIO) : 1;
+    var RATIO = 0.52;
+    var TILT = 6;
+    var DUR = 0.55;
+    var grow = panel.length > 1 ? (RATIO * (panel.length - 1)) / (1 - RATIO) : 1;
 
-    /* Pergantian yang dipicu gulir lebih pendek dari yang dipicu hover.
-       Alasannya KECEPATAN TANGGAP, bukan performa: pita gulirnya ~190px, dan
-       transisi 0,55 detik belum selesai saat pita berikutnya sudah masuk,
+    /* Pergantian yang di-trigger scroll lebih short dari yang di-trigger hover.
+       Alasannya KECEPATAN TANGGAP, bukan performa: band scroll-nya ~190px, dan
+       transisi 0,55 detik belum selesai saat band berikutnya sudah masuk,
        sehingga panel selalu tertinggal di belakang jari.
 
-       Sempat diduga ini juga menghemat tata letak -- flex-grow memaksa tata
-       letak ulang tiap frame, dan saat dipicu gulir itu terjadi BERSAMAAN
-       dengan gulir. Diukur di 390x844 dengan CPU dicekik 6x, tiga jalan
+       Sempat diduga ini juga menghemat layout -- flex-grow memaksa layout
+        ulang tiap frame, dan saat di-trigger scroll itu terjadi BERSAMAAN
+       dengan scroll. Diukur di 390x844 dengan CPU dicekik 6x, tiga jalan
        masing-masing: 43,2 fps rata-rata pada 0,55 dan 44,7 pada 0,35. Selisih
        itu di dalam derau; jangan pakai angka ini untuk membenarkan
        memperpendek durasi di tempat lain. */
-    /* 0,3 bukan 0,35 lagi. Pita gulir per panel dipendekkan drastis (lihat
-       blok GULIR YANG MEMILIH di bawah) jadi ~63px di ponsel; transisi yang
-       lebih lama dari waktu tempuh satu pita membuat panel selalu tertinggal
+    /* 0,3 bukan 0,35 lagi. Band scroll per panel dipendekkan drastis (lihat
+       blok SCROLL YANG MEMILIH di bawah) jadi ~63px di ponsel; transisi yang
+       lebih lama dari waktu tempuh satu band membuat panel selalu tertinggal
        di belakang jari, dan yang terlihat bukan pergantian melainkan antrean
        pergantian yang saling menyusul. */
-    var DURASI_GULIR = 0.3;
-    var aktif = 0;
+    var DUR_SCROLL = 0.3;
+    var active = 0;
     var tl = null;
-    var pertama = true;
-    var durasiSekali = null;
+    var first = true;
+    var durOnce = null;
 
-    /* Gerak dikurangi = tidak ada kedatangan sama sekali; galeri sudah berdiri
+    /* Reduced motion = tidak ada kedatangan sama sekali; gallery sudah berdiri
        lengkap sejak awal. Disimpan sekali, bukan ditanya ulang tiap kali,
-       supaya keadaan awal dan pemicunya tidak mungkin berbeda pendapat. */
-    var diam = prefersReducedMotion();
+       supaya keadaan awal dan trigger-nya tidak mungkin berbeda pendapat. */
+    var reducedMotion = prefersReducedMotion();
 
     /*
-     * TITIK BERANGKAT KEDATANGAN — diukur ke TEPI KANAN LAYAR, bukan ke tepi
-     * kanan galeri. Galeri berhenti di 1180px di tengah layar 1440, jadi
+     * TITIK BERANGKAT KEDATANGAN — diukur ke TEPI KANAN SCREEN, bukan ke tepi
+     * kanan gallery. Galeri berhenti di 1180px di tengah screen 1440, jadi
      * berangkat dari tepinya berarti keenam panel menyembul dari titik yang
-     * mengambang 130px di dalam layar, di ruang yang jelas kosong. Yang
+     * mengambang 130px di dalam screen, di ruang yang jelas kosong. Yang
      * terbaca bukan sertifikat yang datang dari luar, melainkan sertifikat
      * yang muncul begitu saja di tengah halaman. Pelajaran yang sama dengan
-     * kartu Keahlian, lihat #keahlian di index.css.
+     * card Keahlian, lihat #keahlian di index.css.
      *
      * offsetLeft, BUKAN getBoundingClientRect(). Fungsi ini dipanggil ulang
      * tiap kali ukuran berubah, termasuk SAAT panelnya masih terparkir di
      * kanan — dan rect ikut menghitung transform yang sedang terpasang, jadi
      * ia akan mengukur jarak dari posisi parkirnya sendiri dan mendorong
-     * panel makin jauh tiap kali dipanggil. offsetLeft murni tata letak.
+     * panel makin jauh tiap kali dipanggil. offsetLeft murni layout.
      *
-     * Semuanya berangkat dari satu titik yang sama di luar layar, jadi yang
-     * terlihat seperti setumpuk kartu yang dibagikan: panel pertama menempuh
+     * Semuanya berangkat dari satu titik yang sama di luar screen, jadi yang
+     * terlihat seperti setumpuk card yang dibagikan: panel pertama menempuh
      * jarak paling jauh ke kiri, yang terakhir nyaris tidak bergerak.
      */
-    function jarakMasuk(p) {
-      var kiri = akar.getBoundingClientRect().left + (p.offsetLeft - akar.offsetLeft);
-      return Math.max(0, window.innerWidth - kiri + 24);
+    function enterDistance(p) {
+      var left = root.getBoundingClientRect().left + (p.offsetLeft - root.offsetLeft);
+      return Math.max(0, window.innerWidth - left + 24);
     }
 
     /* Panel sebelum yang aktif miring ke satu arah, sesudahnya ke arah
        sebaliknya, jadi keduanya seolah membuka jalan ke tengah. Dipisah jadi
        fungsi karena kedatangan juga harus mendarat tepat di sudut ini --
-       kalau ia mendarat di 0 lalu terapkan() membetulkannya, ada sentakan
+       kalau ia mendarat di 0 lalu apply() membetulkannya, ada sentakan
        kecil di akhir tiap lipatan. */
-    function derajat(i) {
-      return i === aktif ? 0 : i < aktif ? MIRING : -MIRING;
+    function degrees(i) {
+      return i === active ? 0 : i < active ? TILT : -TILT;
     }
 
-    function terapkan() {
-      var durasi = pertama || prefersReducedMotion()
+    function apply() {
+      var dur = first || prefersReducedMotion()
         ? 0
-        : durasiSekali != null ? durasiSekali : DURASI;
-      durasiSekali = null;
+        : durOnce != null ? durOnce : DUR;
+      durOnce = null;
 
       if (tl) tl.kill();
       tl = gsap.timeline();
 
       panel.forEach(function (p, i) {
-        var ini = i === aktif;
+        var self = i === active;
         var media = $("[data-panel-media] img", p);
-        var tirai = $("[data-panel-tirai]", p);
-        var teks = $("[data-panel-teks]", p);
+        var veil = $("[data-panel-veil]", p);
+        var text = $("[data-panel-text]", p);
 
-        /* Selama masih terlipat, tata letaknya tetap dihitung dan dipasang --
-           yang ditahan cuma tampilannya. Jadi mengubah ukuran layar sebelum
+        /* Selama masih terlipat, layout-nya tetap dihitung dan dipasang --
+           yang ditahan cuma tampilannya. Jadi mengubah ukuran screen sebelum
            galerinya tiba tidak membatalkan kedatangan, dan tidak ada satu
            frame pun yang menampilkan panel tegak sebelum waktunya. */
         /* x dan opacity panel SENGAJA tidak disebut di sini. Keduanya milik
-           penuh linimasa kedatangan di bawah, yang bisa dibalik arah kapan
-           saja; kalau terapkan() ikut menulisinya, tiap pergantian panel di
+           penuh timeline kedatangan di bawah, yang bisa dibalik arah kapan
+           saja; kalau apply() ikut menulisinya, tiap pergantian panel di
            tengah kedatangan akan menariknya kembali ke tempat. Yang diurus
-           terapkan() hanya lebar, sudut, dan isi panel. */
+           apply() hanya lebar, sudut, dan isi panel. */
         tl.to(p, {
-          flexGrow: ini ? tumbuh : 1,
-          rotationY: derajat(i),
-          duration: durasi, ease: EASE,
+          flexGrow: self ? grow : 1,
+          rotationY: degrees(i),
+          duration: dur, ease: EASE,
         }, 0);
 
-        p.setAttribute("aria-current", ini ? "true" : "false");
+        p.setAttribute("aria-current", self ? "true" : "false");
 
         if (media) {
           /*
-           * PARALAKS. Yang digeser GAMBARNYA DI DALAM BINGKAI, bukan
-           * bingkainya. Dulu yang ditweenkan .galeri-media -- span
+           * PARALAKS. Yang digeser GAMBARNYA DI DALAM FRAME, bukan
+           * frame-nya. Dulu yang ditweenkan .gallery-media -- span
            * `position:absolute; inset:0` yang sekaligus jadi kotak
            * pengguntingnya -- jadi menggesernya memindahkan gunting dan
-           * isinya sekaligus, dan yang tersingkap di sisi berlawanan adalah
-           * latar panel. Sekarang bingkainya diam dan <img>-nya yang bergerak
+           * isinya sekaligus, dan yang ter-reveal di sisi berlawanan adalah
+           * latar panel. Sekarang frame-nya diam dan <img>-nya yang bergerak
            * di baliknya, persis arti kata paralaks.
            *
-           * xPercent, BUKAN x. Geseran 26px tetap masih masuk akal pada bilah
-           * desktop selebar ~106px, tapi bilah ponsel cuma 28px -- gambarnya
-           * praktis terdorong keluar seluruhnya. Persen mengikat geseran ke
+           * xPercent, BUKAN x. Offset 26px tetap masih masuk akal pada bar
+           * desktop selebar ~106px, tapi bar ponsel cuma 28px -- gambarnya
+           * praktis terdorong keluar seluruhnya. Persen mengikat offset ke
            * lebar panelnya sendiri, jadi satu angka benar di semua lebar.
            *
-           * SKALANYA TERIKAT KE GESERAN, dan syaratnya: setengah kelebihan
-           * skala harus menutupi geseran terbesar. Geseran maksimum 1,5 x 4%
+           * SKALANYA TERIKAT KE OFFSET, dan syaratnya: setengah kelebihan
+           * skala harus menutupi offset terbesar. Offset maksimum 1,5 x 4%
            * = 6%; skala 1,18 menggantung (1,18-1)/2 = 9% di tiap sisi, jadi
            * tersisa 3% sebagai kelonggaran. Kelonggaran itu bukan hiasan:
-           * 6% lawan 7% sempat dipakai dan sisanya cuma 1% — pada bilah
+           * 6% lawan 7% sempat dipakai dan sisanya cuma 1% — pada bar
            * ponsel selebar 28px itu 0,28px, cukup untuk menyisakan garis
            * rambut latar panel di tepi setelah pembulatan subpiksel. Kalau
            * salah satu angka diubah, hitung ulang pertidaksamaan ini.
            *
            * Batas 1,5 langkah BUKAN kasus tepi: dengan enam panel, setiap
            * panel yang berjarak dua atau lebih dari yang aktif kena batas itu,
-           * jadi 6% adalah geseran yang paling sering dipakai — bukan yang
+           * jadi 6% adalah offset yang paling sering dipakai — bukan yang
            * paling jarang. Batasnya sendiri ada supaya panel di ujung tidak
            * melompat sejauh jaraknya dari yang aktif.
            */
-          var jarak = Math.max(-1.5, Math.min(1.5, aktif - i));
+          var distance = Math.max(-1.5, Math.min(1.5, active - i));
           tl.to(media, {
-            xPercent: ini ? 0 : jarak * 4,
-            scale: ini ? 1 : 1.18,
-            duration: durasi, ease: EASE,
+            xPercent: self ? 0 : distance * 4,
+            scale: self ? 1 : 1.18,
+            duration: dur, ease: EASE,
           }, 0);
         }
 
-        if (tirai) tl.to(tirai, { opacity: ini ? 0 : 0.55, duration: durasi, ease: EASE }, 0);
-        if (teks) {
-          tl.to(teks, {
-            opacity: ini ? 1 : 0,
-            x: ini ? 0 : -12,
-            duration: ini ? durasi : durasi * 0.6,
+        if (veil) tl.to(veil, { opacity: self ? 0 : 0.55, duration: dur, ease: EASE }, 0);
+        if (text) {
+          tl.to(text, {
+            opacity: self ? 1 : 0,
+            x: self ? 0 : -12,
+            duration: self ? dur : dur * 0.6,
             ease: EASE,
           }, 0);
         }
       });
 
-      pertama = false;
+      first = false;
     }
 
-    function pilih(i, durasi) {
-      if (i === aktif) return;
-      aktif = (i + panel.length) % panel.length;
-      durasiSekali = typeof durasi === "number" ? durasi : null;
-      terapkan();
+    function select(i, dur) {
+      if (i === active) return;
+      active = (i + panel.length) % panel.length;
+      durOnce = typeof dur === "number" ? dur : null;
+      apply();
     }
 
-    /* Hover hanya dipasang di penunjuk yang benar-benar bisa melayang. Di
-       layar sentuh pointerenter tetap terkirim saat jari menyentuh, dan itu
+    /* Hover hanya dipasang di pointer yang benar-benar bisa melayang. Di
+       touch screen pointerenter tetap terkirim saat jari menyentuh, dan itu
        membuat panel berganti tepat sebelum klik diproses. */
-    var bisaHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+    var canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
 
     panel.forEach(function (p, i) {
-      dengar(p, "pointerenter", function () { if (bisaHover.matches) pilih(i); });
-      dengar(p, "focus", function () { pilih(i); });
-      dengar(p, "click", function (e) {
-        if (i !== aktif) { e.preventDefault(); pilih(i); }
+      listen(p, "pointerenter", function () { if (canHover.matches) select(i); });
+      listen(p, "focus", function () { select(i); });
+      listen(p, "click", function (e) {
+        if (i !== active) { e.preventDefault(); select(i); }
       });
-      dengar(p, "keydown", function (e) {
-        var maju = e.key === "ArrowRight" || e.key === "ArrowDown";
-        var mundur = e.key === "ArrowLeft" || e.key === "ArrowUp";
-        if (!maju && !mundur) return;
+      listen(p, "keydown", function (e) {
+        var forward = e.key === "ArrowRight" || e.key === "ArrowDown";
+        var backward = e.key === "ArrowLeft" || e.key === "ArrowUp";
+        if (!forward && !backward) return;
         e.preventDefault();
-        var tujuan = (i + (maju ? 1 : -1) + panel.length) % panel.length;
-        pilih(tujuan);
-        panel[tujuan].focus();
+        var destIdx = (i + (forward ? 1 : -1) + panel.length) % panel.length;
+        select(destIdx);
+        panel[destIdx].focus();
       });
     });
 
     /*
      * KEDATANGAN — enam sertifikat masuk satu per satu dari luar tepi kanan
-     * layar, seperti setumpuk kartu yang dibagikan.
+     * screen, seperti setumpuk card yang dibagikan.
      *
      * Sebelumnya kedatangannya berupa lipatan: rotationY dari -74 derajat ke
      * sudut istirahatnya. Secara teknis itu lebih hemat — ia menumpang ruang
      * tiga dimensi yang memang sudah tergelar untuk akordeonnya. Tapi panel
-     * yang melipat di tempat tidak menempuh jarak apa pun, dan pada bilah
+     * yang melipat di tempat tidak menempuh jarak apa pun, dan pada bar
      * selebar 28px di ponsel yang terjadi praktis cuma perubahan lebar
-     * beberapa piksel. Gerak yang tidak berpindah tempat tidak terbaca
+     * beberapa piksel. Motion yang tidak berpindah tempat tidak terbaca
      * sebagai kedatangan.
      *
      * SUMBUNYA X, DAN rotationY DIBIARKAN DIAM di sudut istirahatnya sejak
      * awal. Dua sumbu yang bergerak sekaligus pada enam elemen bertingkah
-     * saling menutupi: lipatannya menyamarkan geseran, geserannya menyamarkan
+     * saling menutupi: lipatannya menyamarkan offset, offset-nya menyamarkan
      * lipatan. Satu sumbu yang jelas mengalahkan dua sumbu yang ramai.
      *
-     * OPACITY LEBIH PENDEK DARIPADA GESERAN (0,6 lawan 1). Panel berangkat
-     * dari luar layar, jadi bagian awal lintasannya toh tak terlihat;
-     * membiarkan pudarnya berjalan sepanjang geseran membuat panel masih
-     * setengah tembus pandang saat sudah lama di dalam layar — yang terlihat
-     * seperti hantu yang lewat, bukan kartu padat yang meluncur.
+     * OPACITY LEBIH PENDEK DARIPADA OFFSET (0,6 lawan 1). Panel berangkat
+     * dari luar screen, jadi bagian awal lintasannya toh tak terlihat;
+     * membiarkan pudarnya berjalan sepanjang offset membuat panel masih
+     * setengah tembus pandang saat sudah lama di dalam screen — yang terlihat
+     * seperti hantu yang lewat, bukan card padat yang meluncur.
      *
      * Sudut istirahat tiap panel berbeda (0 untuk yang aktif, ±6 untuk
-     * sisanya) dan itu sudah dipasang terapkan() sejak sebelum kedatangan,
+     * sisanya) dan itu sudah dipasang apply() sejak sebelum kedatangan,
      * jadi tidak ada pembetulan sudut di ujung lintasan yang bisa menyentak.
      *
      * opacity, BUKAN autoAlpha. autoAlpha menambahkan visibility:hidden, dan
@@ -1434,69 +1434,69 @@ export function pasangAnimasi() {
      * aksesibilitas selama masih terparkir — pengguna keyboard tidak akan
      * pernah bisa men-tab ke sana.
      *
-     * DIIKAT KE POSISI GULIR, BUKAN KE JAM. Ini perbaikan atas percobaan
+     * DIIKAT KE POSISI SCROLL, BUKAN KE JAM. Ini perbaikan atas percobaan
      * pertama, dan alasannya seluruhnya soal kepulangan.
      *
-     * Versi pertama memakai satu linimasa berjam yang di-play() saat turun
+     * Versi pertama memakai satu timeline berjam yang di-play() saat turun
      * dan di-reverse() saat naik. Kedatangannya bagus. Kepulangannya
-     * praktis tidak pernah terlihat, dan itu bukan soal ambang yang kurang
-     * pas: animasi berjam ikut lomba dengan gulir, dan gulir selalu menang.
+     * praktis tidak pernah terlihat, dan itu bukan soal threshold yang kurang
+     * pas: animasi berjam ikut lomba dengan scroll, dan scroll selalu menang.
      * Kepulangan 0,5 detik menuntut galerinya masih terlihat selama 0,5
-     * detik penuh SESUDAH pemicunya menyala — padahal saat itu pengguna
-     * sedang menggulir menjauh. Diukur di 1222x900, 1440x900, 768x1024, dan
-     * 390x844 pada dua kecepatan gulir naik: pada gulir cepat (~1000px/detik)
-     * cuma 0-1% lintasan kepulangan yang tergambar selagi galeri masih
-     * separuh terlihat; pada gulir sedang (~440px/detik) 4% di ponsel dan
-     * 60% di kasus terbaiknya. Memindahkan ambangnya, memendekkan
+     * detik penuh SESUDAH trigger-nya menyala — padahal saat itu pengguna
+     * sedang men-scroll menjauh. Diukur di 1222x900, 1440x900, 768x1024, dan
+     * 390x844 pada dua kecepatan scroll naik: pada scroll cepat (~1000px/detik)
+     * cuma 0-1% lintasan kepulangan yang tergambar selagi gallery masih
+     * separuh terlihat; pada scroll sedang (~440px/detik) 4% di ponsel dan
+     * 60% di kasus terbaiknya. Memindahkan threshold-nya, memendekkan
      * durasinya, mempercepat pemutarannya — semuanya cuma menggeser angka
-     * itu, tidak pernah memperbaikinya, sebab kecepatan gulir bukan sesuatu
+     * itu, tidak pernah memperbaikinya, sebab kecepatan scroll bukan sesuatu
      * yang bisa dianggap tetap.
      *
-     * Terikat gulir, pertanyaannya hilang: sejauh apa panel sudah masuk
+     * Terikat scroll, pertanyaannya hilang: sejauh apa panel sudah masuk
      * SELALU merupakan fungsi dari seberapa jauh galerinya sudah naik. Tidak
-     * ada yang bisa selesai di luar layar, di kecepatan gulir mana pun, di
-     * perangkat mana pun. Digulir naik ia mundur persis di jalan yang sama —
+     * ada yang bisa selesai di luar screen, di kecepatan scroll mana pun, di
+     * perangkat mana pun. Di-scroll naik ia mundur persis di jalan yang sama —
      * kepulangan yang diminta tidak perlu ditulis sebagai animasi kedua.
      *
      * Yang HILANG dengan ini cuma satu: kedatangannya tidak lagi berjalan
-     * sendiri kalau pengguna berhenti menggulir tepat di tengah pita.
+     * sendiri kalau pengguna berhenti men-scroll tepat di tengah band.
      * Sebagai gantinya ia tidak pernah salah waktu.
      *
-     * EASE_SCRUB ("none"), bukan power4.out. Pada gerak yang diikat gulir,
-     * ease memetakan jarak gulir ke jarak tempuh, jadi power4.out berarti
-     * 23% lintasan habis di 3% pita pertama lalu sisanya merayap. Rasa
+     * EASE_SCRUB ("none"), bukan power4.out. Pada motion yang diikat scroll,
+     * ease memetakan jarak scroll ke jarak tempuh, jadi power4.out berarti
+     * 23% lintasan habis di 3% band pertama lalu sisanya merayap. Rasa
      * meredamnya datang dari scrub 0,35, bukan dari kurva easenya — persis
-     * seperti semua gerak terikat gulir lain di berkas ini.
+     * seperti semua motion terikat scroll lain di file ini.
      *
-     * PITANYA PENDEK DAN LETAKNYA TINGGI: "top 88%" sampai "center 80%",
+     * BAND-nya PENDEK DAN LETAKNYA TINGGI: "top 88%" sampai "center 80%",
      * bukan "top bottom" sampai "top 65%" seperti percobaan pertama. Dua
      * batasan menjepitnya dari kedua sisi.
      *
-     * Dari atas: pemilih di bawah mulai saat pusat galeri di 75% tinggi
-     * layar, jadi pita ini harus tuntas sebelum itu — berhenti di pusat 80%
+     * Dari atas: pemilih di bawah mulai saat pusat gallery di 75% tinggi
+     * viewport, jadi band ini harus tuntas sebelum itu — berhenti di pusat 80%
      * menyisakan jarak, dan tidak pernah ada panel yang sedang dibagikan dan
      * sedang dipilih pada saat yang sama.
      *
-     * Dari bawah: pangkal pita adalah tempat panel PERTAMA menyelesaikan
+     * Dari bawah: pangkal band adalah tempat panel PERTAMA menyelesaikan
      * kepulangannya, sebab urutan mundur membuatnya yang terakhir pergi.
-     * Dipangkal di "top bottom" — galeri baru menyembul setinggi nol — panel
-     * itu pulang sepenuhnya di luar layar. Diukur di tujuh ukuran, saat tiap
+     * Dipangkal di "top bottom" — gallery baru menyembul setinggi nol — panel
+     * itu pulang sepenuhnya di luar screen. Diukur di tujuh ukuran, saat tiap
      * panel berada di separuh kepulangannya: dengan pangkal "top bottom"
      * galerinya cuma 0-10% terlihat di kasus terburuk tiap perangkat; dengan
-     * pangkal "top 88%" jadi 27-44%. Pitanya memang lebih pendek (275px di
+     * pangkal "top 88%" jadi 27-44%. Band-nya memang lebih short (275px di
      * 1440x900, 152px di 390x844), dan itu justru yang membuat seluruh
-     * urutannya muat di bagian layar yang benar-benar dilihat orang.
+     * urutannya muat di bagian screen yang benar-benar dilihat orang.
      *
      * invalidateOnRefresh + nilai berupa fungsi: jarak berangkat diukur
-     * dalam piksel dan ikut lebar layar, jadi ia harus diukur ulang tiap
+     * dalam piksel dan ikut lebar viewport, jadi ia harus diukur ulang tiap
      * ScrollTrigger menghitung ulang. Itu juga yang membereskan pengukuran
      * pertama di init, saat flexGrow panel aktif belum tentu sudah
      * terpasang.
      */
-    if (!diam) {
-      var tlDatang = gsap.timeline({
+    if (!reducedMotion) {
+      var tlEnter = gsap.timeline({
         scrollTrigger: {
-          trigger: akar,
+          trigger: root,
           start: "top 88%",
           end: "center 80%",
           scrub: SCRUB,
@@ -1506,29 +1506,29 @@ export function pasangAnimasi() {
 
       panel.forEach(function (p, i) {
         /* 0,15 jeda x 5 + 1 durasi = 1,75 satuan untuk keenamnya; tiap panel
-           berangkat setelah 8,6% pita berlalu. Perbandingan yang sama dengan
+           berangkat setelah 8,6% band berlalu. Perbandingan yang sama dengan
            versi berjamnya (0,075 dari 0,875 detik), jadi iramanya tidak
-           berubah — cuma jamnya yang berganti jadi posisi gulir. */
-        tlDatang.fromTo(p,
-          { x: function () { return jarakMasuk(p); } },
+           berubah — cuma jamnya yang berganti jadi posisi scroll. */
+        tlEnter.fromTo(p,
+          { x: function () { return enterDistance(p); } },
           { x: 0, duration: 1, ease: EASE_SCRUB }, i * 0.15);
-        tlDatang.fromTo(p,
+        tlEnter.fromTo(p,
           { opacity: 0 },
           { opacity: 1, duration: 0.6, ease: EASE_SCRUB }, i * 0.15);
       });
     }
 
     /*
-     * GULIR YANG MEMILIH, UNTUK PERANGKAT TANPA HOVER.
+     * SCROLL YANG MEMILIH, UNTUK PERANGKAT TANPA HOVER.
      *
-     * Di penunjuk halus menelusuri galeri ini gratis: arahkan kursor, panel
-     * terbuka. Di layar sentuh tidak ada gerak yang setara. Yang tersisa cuma
+     * Di fine pointer menelusuri gallery ini gratis: arahkan kursor, panel
+     * terbuka. Di touch screen tidak ada motion yang setara. Yang tersisa cuma
      * ketuk, dan ketuk pertama sudah habis dipakai untuk memilih — jadi
      * melihat keenam sertifikat menuntut sebelas ketukan, dan ketukan pertama
      * yang tidak membuka apa pun terbaca sebagai kegagalan, bukan pilihan.
      *
-     * Peran hover karena itu diambil alih posisi gulir: lintasan galeri
-     * melewati layar dibagi rata sejumlah panel, dan panel yang pitanya
+     * Peran hover karena itu diambil alih posisi scroll: lintasan gallery
+     * melewati screen dibagi rata sejumlah panel, dan panel yang band-nya
      * sedang dilewati adalah yang terbuka. Menelusuri kembali gratis, nol
      * ketukan; ketuk kembali murni berarti "buka yang ini".
      *
@@ -1536,94 +1536,94 @@ export function pasangAnimasi() {
      * IntersectionObserver dengan rootMargin "-50% 0px -50% 0px" — rusak di
      * sini justru karena panelnya berubah ukuran: yang terbuka mengambil 52%
      * ruang dan lima sisanya berbagi 48%, jadi melewati panel terbuka
-     * menuntut sekitar lima kali lebih banyak gulir daripada melewati bilah.
+     * menuntut sekitar lima kali lebih banyak scroll daripada melewati bar.
      * Pemilihannya menempel pada dirinya sendiri, dan dalam satu lintasan
-     * layar dua panel terakhir tidak akan pernah tercapai. Pita berbasis
+     * screen dua panel terakhir tidak akan pernah tercapai. Band berbasis
      * kemajuan tidak bergantung pada ukuran yang sedang dianimasikan, jadi
-     * keenamnya kebagian jarak gulir yang persis sama.
+     * keenamnya kebagian jarak scroll yang persis sama.
      *
-     * Argumen ini SELAMAT dari perubahan 8 Agustus 2026 yang membuat galeri
+     * Argumen ini SELAMAT dari perubahan 8 Agustus 2026 yang membuat gallery
      * mendatar di semua lebar, dan itu bukan kebetulan: ia ditulis dalam
      * porsi, bukan piksel. Yang berganti cuma sumbu pembagiannya — dulu
      * tinggi, sekarang lebar — sementara ketimpangan 52:48 yang jadi
      * pokok masalahnya tidak berubah sama sekali.
      *
-     * `terakhirGulir` yang membuat ketukan manual tidak langsung ditimpa:
-     * gulir hanya bicara saat pitanya BERGANTI, bukan tiap frame. Setelah
-     * mengetuk panel lain, geseran beberapa piksel karena jari tidak
-     * mengembalikan pilihan — gulir baru mengambil alih lagi saat pengguna
-     * memang berpindah pita.
+     * `lastScroll` yang membuat ketukan manual tidak langsung ditimpa:
+     * scroll hanya bicara saat band-nya BERGANTI, bukan tiap frame. Setelah
+     * mengetuk panel lain, offset beberapa piksel karena jari tidak
+     * mengembalikan pilihan — scroll baru mengambil alih lagi saat pengguna
+     * memang berpindah band.
      *
-     * Pemicunya tetap dibuat di penunjuk halus, cuma diam. Menanyakan
-     * bisaHover di dalam onUpdate, bukan saat membuat, membuat perangkat
-     * hibrida yang berpindah modus penunjuk langsung benar tanpa perlu
-     * membangun ulang pemicunya.
+     * Trigger-nya tetap dibuat di fine pointer, cuma diam. Menanyakan
+     * canHover di dalam onUpdate, bukan saat membuat, membuat perangkat
+     * hibrida yang berpindah modus pointer langsung benar tanpa perlu
+     * membangun ulang trigger-nya.
      */
-    var terakhirGulir = -1;
+    var lastScroll = -1;
     ScrollTrigger.create({
-      trigger: akar,
+      trigger: root,
       /*
-       * PITANYA DIPUSATKAN DI TENGAH LAYAR, DAN PENDEK.
+       * BAND-nya DIPUSATKAN DI TENGAH SCREEN, DAN PENDEK.
        *
        * Sebelum ini "top 85%" sampai "bottom 15%": pemilihan mulai begitu
-       * tepi atas galeri menyembul dari dasar layar dan baru habis saat tepi
+       * tepi atas gallery menyembul dari dasar screen dan baru habis saat tepi
        * bawahnya nyaris keluar dari puncak. Lintasannya ~809px di ponsel,
        * 135px per panel, dan yang lebih parah dari panjangnya adalah LETAKNYA
        * — dua panel pertama sudah lewat sebelum galerinya sempat berada di
        * tempat yang enak dipandang, dan dua terakhir baru datang saat ia
-       * sedang pergi. Menelusurinya menuntut menggulir sepanjang seluruh
-       * lintasan galeri melewati layar.
+       * sedang pergi. Menelusurinya menuntut men-scroll sepanjang seluruh
+       * lintasan gallery melewati screen.
        *
-       * Sekarang yang dijadikan patokan TITIK TENGAH galeri, bukan tepinya.
+       * Sekarang yang dijadikan patokan TITIK TENGAH gallery, bukan tepinya.
        *
        * UJUNGNYA DINAIKKAN DARI 17% KE 40%, dan itu perbaikan atas percobaan
-       * pertama. Pada 17%, titik tengah galeri sudah nyaris menyentuh puncak
-       * layar saat sertifikat terakhir baru terbuka — bagiannya praktis sudah
+       * pertama. Pada 17%, titik tengah gallery sudah nyaris menyentuh puncak
+       * screen saat sertifikat terakhir baru terbuka — bagiannya praktis sudah
        * lewat, jadi lipatan terakhir tidak pernah sempat dilihat. Sekarang
-       * seluruh urutan tuntas saat pusat galeri masih di 40% tinggi layar,
+       * seluruh urutan tuntas saat pusat gallery masih di 40% tinggi viewport,
        * yaitu masih di atas garis tengah dan seluruh galerinya masih utuh
-       * di layar.
+       * di screen.
        *
-       * Pangkalnya ikut turun 62% -> 75% supaya pitanya tidak jadi terlalu
-       * sempit setelah ujungnya dinaikkan: 35% tinggi layar, bukan 45%.
+       * Pangkalnya ikut turun 62% -> 75% supaya band-nya tidak jadi terlalu
+       * sempit setelah ujungnya dinaikkan: 35% tinggi viewport, bukan 45%.
        *
-       * PERSEN TINGGI LAYAR, BUKAN PIKSEL — itu yang membuatnya benar di
+       * PERSEN TINGGI viewport, BUKAN PIKSEL — itu yang membuatnya benar di
        * semua perangkat tanpa satu pun titik henti: 35% dari 844 (ponsel)
        * = 295px, 49px per panel; 35% dari 1024 (tablet) = 358px, 60px per
-       * panel. Jarak per panelnya ikut tumbuh bersama layarnya, jadi rasanya
+       * panel. Jarak per panelnya ikut tumbuh bersama screen-nya, jadi rasanya
        * sama di keduanya.
        */
       start: "center 75%",
       end: "center 40%",
       onUpdate: function (diri) {
-        if (bisaHover.matches) return;
+        if (canHover.matches) return;
         var i = Math.min(panel.length - 1, Math.floor(diri.progress * panel.length));
-        if (i === terakhirGulir) return;
-        terakhirGulir = i;
-        pilih(i, DURASI_GULIR);
+        if (i === lastScroll) return;
+        lastScroll = i;
+        select(i, DUR_SCROLL);
       },
     });
 
-    /* Satu-satunya yang perlu memicu gambar ulang sekarang adalah perubahan
-       ukuran wadah. Dulu ada pendengar kedua di media query 900px, karena di
-       bawahnya galeri ini menumpuk ke bawah dan sumbu miring ikut bertukar;
+    /* Satu-satunya yang perlu men-trigger gambar ulang sekarang adalah perubahan
+       ukuran container. Dulu ada listener kedua di media query 900px, karena di
+       bawahnya gallery ini menumpuk ke bawah dan sumbu miring ikut bertukar;
        sejak ia mendatar di semua lebar, tidak ada lagi orientasi yang bisa
        berganti — dan ResizeObserver ini toh sudah menangkap setiap pergantian
-       titik henti, sebab semuanya mengubah tinggi wadahnya. */
-    amati(akar, function () { terapkan(); });
+       titik henti, sebab semuanya mengubah tinggi container-nya. */
+    observe(root, function () { apply(); });
 
-    terapkan();
+    apply();
   }
 
 
   /*
    * LATAR HIDUP — MEDAN GARIS.
    *
-   * Bidang gelap sebesar layar penuh tanpa apa-apa di belakangnya terbaca
+   * Bidang gelap sebesar screen penuh tanpa apa-apa di belakangnya terbaca
    * sebagai halaman gagal muat, bukan keputusan desain. Kontrasnya sangat
    * rendah; yang dirasakan pengunjung adalah ruangnya "bernafas". Kursor
-   * menariknya — satu-satunya hal di situs yang menanggapi gerak mouse tanpa
-   * harus diklik. Berhenti sendiri saat di luar layar.
+   * menariknya — satu-satunya hal di situs yang menanggapi motion mouse tanpa
+   * harus diklik. Berhenti sendiri saat di luar screen.
    */
   function initAmbientLines() {
     $$('canvas[data-component="ambient-lines"]').forEach(function (canvas) {
@@ -1686,7 +1686,7 @@ export function pasangAnimasi() {
 
       build();
 
-      /* Canvas di luar layar tidak perlu menggambar apa pun. */
+      /* Canvas di luar screen tidak perlu menggambar apa pun. */
       var io = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting) {
           if (!running) { running = true; raf = requestAnimationFrame(draw); }
@@ -1695,70 +1695,70 @@ export function pasangAnimasi() {
         }
       }, { threshold: 0 });
       io.observe(canvas);
-      bersih.push(function () { io.disconnect(); running = false; cancelAnimationFrame(raf); });
+      cleanups.push(function () { io.disconnect(); running = false; cancelAnimationFrame(raf); });
 
-      amati(canvas, build);
+      observe(canvas, build);
 
-      dengar(window, "pointermove", function (e) {
+      listen(window, "pointermove", function (e) {
         var rect = canvas.getBoundingClientRect();
         pointer.x = e.clientX - rect.left;
         pointer.y = e.clientY - rect.top;
       }, { passive: true });
-      dengar(window, "pointerleave", function () { pointer.x = -9999; pointer.y = -9999; });
+      listen(window, "pointerleave", function () { pointer.x = -9999; pointer.y = -9999; });
     });
   }
 
   /* ── 6. PERILAKU ────────────────────────────────────────────────────────*/
 
   /*
-   * TIMER-NYA DIDAFTARKAN, dan sampai 9 Agustus 2026 ia satu-satunya efek
-   * samping di berkas ini yang TIDAK — melanggar aturan yang ditulis di
-   * kepala berkas ini sendiri.
+   * TIMER-NYA DIDAFTARKAN, dan sampai 9 Agustus 2026 ia satu-satunya side
+   * effect di file ini yang TIDAK — melanggar aturan yang ditulis di
+   * kepala file ini sendiri.
    *
    * Gejalanya persis yang diperingatkan komentar itu, dan persis jenis cacat
-   * yang tidak pernah melempar galat: StrictMode memasang efek dua kali pada
-   * simpul DOM yang SAMA, jadi ada dua putaran ketik menulisi satu <span>
+   * yang tidak pernah melempar error: StrictMode memasang efek dua kali pada
+   * node DOM yang SAMA, jadi ada dua putaran ketik menulisi satu <span>
    * bergantian. Yang terlihat huruf yang berkedut dan kata yang kadang
    * melompat — mudah disalahartikan sebagai masalah performa, padahal murni
    * dua timer yang berebut.
    *
    * Di produksi StrictMode tidak menggandakan, jadi cacatnya tidak terlihat
    * di sana. Yang tetap berlaku di produksi: tanpa pendaftaran ini timernya
-   * hidup selamanya setelah dibongkar.
+   * hidup selamanya setelah di-teardown.
    */
   function initTypewriter() {
     var el = $("[data-typewriter]");
     if (!el) return;
     var words = JSON.parse(el.getAttribute("data-typewriter"));
-    var indexKata = 0, indexHuruf = 0, sedangHapus = false;
+    var wordIndex = 0, indexHuruf = 0, sedangHapus = false;
     var id = 0;
-    bersih.push(function () { clearTimeout(id); });
+    cleanups.push(function () { clearTimeout(id); });
 
     (function ketik() {
-      var kata = words[indexKata];
-      var jeda = sedangHapus ? 50 : 100;
+      var word = words[wordIndex];
+      var gap = sedangHapus ? 50 : 100;
       indexHuruf += sedangHapus ? -1 : 1;
-      el.textContent = kata.substring(0, indexHuruf);
+      el.textContent = word.substring(0, indexHuruf);
 
-      if (!sedangHapus && indexHuruf === kata.length) {
-        sedangHapus = true; jeda = 1500;
+      if (!sedangHapus && indexHuruf === word.length) {
+        sedangHapus = true; gap = 1500;
       } else if (sedangHapus && indexHuruf === 0) {
         sedangHapus = false;
-        indexKata = (indexKata + 1) % words.length;
-        jeda = 300;
+        wordIndex = (wordIndex + 1) % words.length;
+        gap = 300;
       }
-      id = setTimeout(ketik, jeda);
+      id = setTimeout(ketik, gap);
     })();
   }
 
   /*
-   * BILAH STATUS — pengganti navbar. Fungsinya sama, memberi tahu posisi, tapi
+   * BAR STATUS — pengganti navbar. Fungsinya sama, memberi tahu posisi, tapi
    * tanpa meminta perhatian.
    *
    * Pergantiannya bukan fade. Kata lama naik keluar dan kata baru menyusul dari
-   * bawah, di dalam jendela setinggi satu baris. Fade antar dua kata berbeda
+   * bawah, di dalam window setinggi satu baris. Fade antar dua kata berbeda
    * menghasilkan momen di mana keduanya terbaca sekaligus dan tak satu pun
-   * terbaca jelas; gerak vertikal tidak pernah punya masalah itu.
+   * terbaca jelas; motion vertikal tidak pernah punya masalah itu.
    */
   var CHAPTERS = [
     { id: "tentang", label: "Tentang" },
@@ -1780,18 +1780,18 @@ export function pasangAnimasi() {
     var index = 0, prevIndex = 0;
     var total = String(CHAPTERS.length).padStart(2, "0");
 
-    CHAPTERS.forEach(function (bab, i) {
+    CHAPTERS.forEach(function (chapter, i) {
       var b = document.createElement("button");
       b.type = "button";
-      b.setAttribute("aria-label", bab.label);
+      b.setAttribute("aria-label", chapter.label);
       b.className = "chapter-dot group pointer-events-auto relative flex h-6 w-6 cursor-pointer items-center justify-center" +
         (i === CHAPTERS.length - 1 ? " chapter-dot--last" : "");
       /* Nama bagiannya muncul tepat di atas garis saat disentuh. `aria-hidden`
          karena tombolnya sudah punya aria-label dengan teks yang sama. */
-      b.innerHTML = '<span aria-hidden="true" class="chapter-tip -caption-small">' + bab.label + "</span>" +
+      b.innerHTML = '<span aria-hidden="true" class="chapter-tip -caption-small">' + chapter.label + "</span>" +
         '<span data-dot class="block h-px transition-all duration-500 ease-brand w-2 bg-line group-hover:w-4 group-hover:bg-text-muted"></span>';
-      dengar(b, "click", function () { scrollTo("#" + bab.id); });
-      tambahSimpul(dotsEl, b);
+      listen(b, "click", function () { scrollTo("#" + chapter.id); });
+      addNode(dotsEl, b);
     });
     var dots = $$("[data-dot]", dotsEl);
 
@@ -1814,44 +1814,44 @@ export function pasangAnimasi() {
     }
     render();
 
-    CHAPTERS.forEach(function (bab, i) {
-      var el = document.getElementById(bab.id);
+    CHAPTERS.forEach(function (chapter, i) {
+      var el = document.getElementById(chapter.id);
       if (!el) return;
       ScrollTrigger.create({
         trigger: el,
-        /* Ambang di tengah layar: bagian dianggap aktif begitu ia melewati
-           titik pandang, bukan begitu tepi atasnya menyentuh layar. Tanpa itu
-           penanda berkedip bolak-balik di batas antar bagian. */
+        /* Threshold di tengah screen: bagian dianggap aktif begitu ia melewati
+           titik pandang, bukan begitu tepi atasnya menyentuh screen. Tanpa itu
+           marker berkedip bolak-balik di batas antar bagian. */
         start: "top 50%", end: "bottom 50%",
         onToggle: function (self) { if (self.isActive) { index = i; render(); } },
       });
     });
 
-    dengar(jumpBtn, "click", function () { scrollTo("#" + CHAPTERS[index].id); });
+    listen(jumpBtn, "click", function () { scrollTo("#" + CHAPTERS[index].id); });
 
     /*
-     * WARNA BILAH MENGIKUTI PITA DI BELAKANGNYA.
+     * WARNA BAR MENGIKUTI BAND DI BELAKANGNYA.
      *
-     * Bilah ini `fixed`, jadi ia melayang DI LUAR pita nada mana pun — dan
+     * Bar ini `fixed`, jadi ia melayang DI LUAR band nada mana pun — dan
      * karena itu tidak ikut membalik warna saat bagian terang lewat di
-     * belakangnya. AMBANGNYA BUKAN TEPI BAGIAN, MELAINKAN TENGAH GRADIEN
-     * PENGHUBUNG: bilah duduk di sekitar 96% tinggi layar, jadi ambangnya
+     * belakangnya. THRESHOLD-nya BUKAN TEPI BAGIAN, MELAINKAN TENGAH GRADIEN
+     * PENGHUBUNG: bar duduk di sekitar 96% tinggi viewport, jadi threshold-nya
      * 96% ± separuh tinggi gradien.
      *
-     * ANGKANYA TERIKAT KE TINGGI PITA DI Pendidikan.jsx DAN Kontak.jsx. Dulu
-     * pita itu 50vh di desktop, jadi separuhnya 25 dan ambangnya 121/71.
-     * Sejak pitanya dipendekkan jadi 20/24/28vh, separuhnya ~12 dan
-     * ambangnya jadi 108/84.
+     * ANGKANYA TERIKAT KE TINGGI BAND DI Pendidikan.jsx DAN Kontak.jsx. Dulu
+     * band itu 50vh di desktop, jadi separuhnya 25 dan threshold-nya 121/71.
+     * Sejak band-nya dipendekkan jadi 20/24/28vh, separuhnya ~12 dan
+     * threshold-nya jadi 108/84.
      *
      * SATU ANGKA UNTUK TIGA TITIK HENTI, dan itu memang kompromi — tapi
-     * kompromi yang JAUH lebih kecil dari sebelumnya. Dengan pita 20/24/28,
+     * kompromi yang JAUH lebih kecil dari sebelumnya. Dengan band 20/24/28,
      * separuhnya 10/12/14, jadi meleset paling jauh 2vh (~17px di ponsel).
-     * Dengan pita lama 28/40/50 sementara angkanya dipatok ke 50, melesetnya
-     * 11vh di ponsel — sekitar 93px, cukup untuk membalik warna bilah saat
-     * latarnya masih jelas gelap. Merapatkan rentang pita itulah yang
+     * Dengan band lama 28/40/50 sementara angkanya dipatok ke 50, melesetnya
+     * 11vh di ponsel — sekitar 93px, cukup untuk membalik warna bar saat
+     * latarnya masih jelas gelap. Merapatkan rentang band itulah yang
      * membereskannya, bukan angka di sini.
      *
-     * Kalau tinggi pita diubah lagi, ambang ini WAJIB ikut dihitung ulang:
+     * Kalau tinggi band diubah lagi, threshold ini WAJIB ikut dihitung ulang:
      * start = 96 + separuhPita, end = 96 - separuhPita.
      */
     var panels = $$('[data-band="panel"]');
@@ -1867,7 +1867,7 @@ export function pasangAnimasi() {
   /*
    * Perjalanan pulang dihitung dari JARAK, bukan durasi tetap. Lenis memakai
    * satu durasi untuk semua tujuan; dari dasar halaman yang panjangnya belasan
-   * ribu piksel, durasi yang sama berarti kecepatan berlipat — semua pemicu
+   * ribu piksel, durasi yang sama berarti kecepatan berlipat — semua trigger
    * scrub dan bagian ter-pin harus melewati seluruh rentangnya dalam waktu itu
    * juga, dan hasilnya patah-patah.
    */
@@ -1883,21 +1883,21 @@ export function pasangAnimasi() {
     };
 
     btn.style.transition = "opacity .25s ease, transform .25s ease";
-    var terlihat = null;
+    var visible = null;
     function sync() {
       var next = window.scrollY > 600;
-      if (next === terlihat) return;
-      terlihat = next;
+      if (next === visible) return;
+      visible = next;
       btn.style.opacity = next ? "1" : "0";
       btn.style.transform = next ? "translateY(0)" : "translateY(8px)";
       btn.style.pointerEvents = next ? "auto" : "none";
     }
     sync();
-    dengar(window, "scroll", sync, { passive: true });
+    listen(window, "scroll", sync, { passive: true });
 
-    dengar(btn, "click", function () {
-      var jarak = window.scrollY;
-      scrollTo(0, { duration: Math.min(Math.max(jarak / SPEED, MIN), MAX), easing: easeInOutCubic });
+    listen(btn, "click", function () {
+      var distance = window.scrollY;
+      scrollTo(0, { duration: Math.min(Math.max(distance / SPEED, MIN), MAX), easing: easeInOutCubic });
     });
   }
 
@@ -1905,7 +1905,7 @@ export function pasangAnimasi() {
      dicegah — kalau tidak, halaman menyentak lalu Lenis menariknya balik. */
   function initAnchors() {
     $$('a[href^="#"]').forEach(function (a) {
-      dengar(a, "click", function (e) {
+      listen(a, "click", function (e) {
         var target = document.querySelector(a.getAttribute("href"));
         if (!target) return;
         e.preventDefault();
@@ -1915,7 +1915,7 @@ export function pasangAnimasi() {
   }
 
   /*
-   * FORMULIR KONTAK — dua jalur, satu isian. Keduanya mengirim pesan yang
+   * FORM KONTAK — dua jalur, satu isian. Keduanya mengirim pesan yang
    * bentuknya sama; yang berbeda hanya aplikasi yang membukanya.
    *
    * wa.me hanya menerima format internasional TANPA "+" dan tanpa nol depan,
@@ -1923,49 +1923,49 @@ export function pasangAnimasi() {
    * nomornya. Jadi nomor dinormalkan di sini.
    */
   function initContactForm() {
-    var form = $("#form-kontak");
+    var form = $("#contact-form");
     if (!form) return;
 
-    var TELEPON = "6285790226536";
-    var SUREL = "arif.herfian@gmail.com";
+    var PHONE = "6285790226536";
+    var EMAIL_ADDR = "arif.herfian@gmail.com";
 
-    function ambilIsian() {
-      var nama = $("#namaPengirim").value.trim();
-      var email = $("#emailPengirim").value.trim();
-      var pesan = $("#isiPesan").value.trim();
+    function readFields() {
+      var name = $("#senderName").value.trim();
+      var email = $("#senderEmail").value.trim();
+      var message = $("#messageBody").value.trim();
       /* Pemeriksaan yang sama dipakai kedua tombol. Kalau masing-masing
          memeriksa sendiri, cepat atau lambat salah satunya ketinggalan saat
          aturannya berubah — dan yang lolos adalah pesan kosong. */
-      if (nama === "" || pesan === "") {
+      if (name === "" || message === "") {
         alert("Mohon isi nama dan pesan terlebih dahulu!");
         return null;
       }
-      return { nama: nama, email: email, pesan: pesan };
+      return { name: name, email: email, message: message };
     }
 
-    function susunPesan(isian) {
-      var teks = "Halo Arif! Saya " + isian.nama;
-      if (isian.email) teks += " (" + isian.email + ")";
-      return teks + "\n\n" + isian.pesan;
+    function composeMessage(fields) {
+      var text = "Halo Arif! Saya " + fields.name;
+      if (fields.email) text += " (" + fields.email + ")";
+      return text + "\n\n" + fields.message;
     }
 
-    dengar(form, "submit", function (e) {
+    listen(form, "submit", function (e) {
       e.preventDefault();
-      var isian = ambilIsian();
-      if (!isian) return;
-      var nomor = TELEPON.replace(/\D/g, "");
-      if (nomor.indexOf("0") === 0) nomor = "62" + nomor.slice(1);
-      window.open("https://wa.me/" + nomor + "?text=" + encodeURIComponent(susunPesan(isian)),
+      var fields = readFields();
+      if (!fields) return;
+      var number = PHONE.replace(/\D/g, "");
+      if (number.indexOf("0") === 0) number = "62" + number.slice(1);
+      window.open("https://wa.me/" + number + "?text=" + encodeURIComponent(composeMessage(fields)),
         "_blank", "noopener,noreferrer");
     });
 
-    dengar($("#kirim-email"), "click", function () {
-      var isian = ambilIsian();
-      if (!isian) return;
+    listen($("#send-email"), "click", function () {
+      var fields = readFields();
+      if (!fields) return;
       window.location.href = "https://mail.google.com/mail/?view=cm&fs=1&to=" +
-        encodeURIComponent(SUREL) +
-        "&su=" + encodeURIComponent("Pesan dari " + isian.nama + " — lewat portofolio") +
-        "&body=" + encodeURIComponent(susunPesan(isian));
+        encodeURIComponent(EMAIL_ADDR) +
+        "&su=" + encodeURIComponent("Pesan dari " + fields.name + " — lewat portofolio") +
+        "&body=" + encodeURIComponent(composeMessage(fields));
     });
   }
 
@@ -1980,93 +1980,93 @@ export function pasangAnimasi() {
    * menariknya masuk dari pangkal ke ujung, jadi garisnya seolah ditulis.
    *
    * Panjangnya DIUKUR, bukan ditulis tangan, supaya mengubah koordinat di
-   * Pembuka.jsx tidak menuntut angka di berkas ini ikut diperbarui.
+   * Pembuka.jsx tidak menuntut angka di file ini ikut diperbarui.
    *
-   * KENAPA `lanjut` DIPANGGIL SEBAGAI CALLBACK, BUKAN SETELAH initPembuka.
+   * KENAPA `lanjut` DIPANGGIL SEBAGAI CALLBACK, BUKAN SETELAH initIntro.
    *
    * Seluruh animasi situs dipasang lewat parameter itu, dan pemasangannya
-   * ditunda sampai panelnya mulai terangkat. Alasannya: gerak masuk Beranda
-   * -- topeng judul, clip foto, mesin ketik -- berjalan begitu dipasang. Kalau
-   * dipasang bersamaan dengan pembuka, semuanya sudah selesai di balik panel
+   * ditunda sampai panelnya mulai terangkat. Alasannya: motion masuk Beranda
+   * -- mask judul, clip foto, typewriter -- berjalan begitu dipasang. Kalau
+   * dipasang bersamaan dengan intro, semuanya sudah selesai di balik panel
    * dan yang terlihat saat panel naik cuma halaman diam. Ini persis jenis
-   * cacat yang tidak akan pernah muncul sebagai galat.
+   * cacat yang tidak akan pernah muncul sebagai error.
    *
    * BEDANYA DENGAN PRELOADER YANG DIBUANG PADA 2 AGUSTUS 2026. Yang itu
    * menahan halaman sampai skripnya jalan. Panel ini sudah tergambar sejak
    * frame pertama lewat CSS biasa, jadi tidak ada yang ditunda; ia hanya
    * menutupi. Ia juga punya batas keras 3,5 detik dan dilewati sama sekali
-   * kalau pengguna minta gerak dikurangi.
+   * kalau pengguna minta reduced motion.
    */
-  function initPembuka(lanjut) {
-    var panel = $('[data-component="pembuka"]');
-    if (!panel) { lanjut(); return; }
+  function initIntro(next) {
+    var panel = $('[data-component="intro"]');
+    if (!panel) { next(); return; }
 
-    var isi = $("[data-pembuka-isi]", panel);
+    var content = $("[data-intro-inner]", panel);
 
     /* Batas keras dipasang PALING AWAL, sebelum satu baris pun yang bisa
        melempar. Kalau ada yang gagal di bawah, panelnya tetap terbuka dan
        situs tidak tertutup selamanya. */
-    var sudah = false;
-    var pemaksa = setTimeout(function () { keluar(); }, 3000);
-    bersih.push(function () { clearTimeout(pemaksa); });
-    bersih.push(function () {
-      document.documentElement.classList.remove("pembuka-aktif");
+    var done = false;
+    var forcer = setTimeout(function () { exit(); }, 3000);
+    cleanups.push(function () { clearTimeout(forcer); });
+    cleanups.push(function () {
+      document.documentElement.classList.remove("intro-active");
     });
 
-    /* StrictMode memasang ulang efek ini pada simpul DOM yang SAMA, jadi
+    /* StrictMode memasang ulang efek ini pada node DOM yang SAMA, jadi
        panelnya bisa mewarisi display:none dan opacity 0 dari putaran
        sebelumnya. Dikembalikan dulu ke keadaan berangkat. */
-    gsap.set([panel, isi], { clearProps: "all" });
+    gsap.set([panel, content], { clearProps: "all" });
     panel.style.display = "";
 
-    function bereskan() {
+    function reset() {
       panel.style.display = "none";
-      document.documentElement.classList.remove("pembuka-aktif");
+      document.documentElement.classList.remove("intro-active");
       if (lenis) lenis.start();
     }
 
-    function keluar() {
-      if (sudah) return;
-      sudah = true;
-      clearTimeout(pemaksa);
+    function exit() {
+      if (done) return;
+      done = true;
+      clearTimeout(forcer);
 
-      if (prefersReducedMotion()) { lanjut(); bereskan(); return; }
+      if (prefersReducedMotion()) { next(); reset(); return; }
 
       /*
        * ANGKA 0,45 ITU HASIL UKUR, BUKAN SELERA.
        *
-       * Percobaan pertama memanggil lanjut() di awal fungsi ini. Terukur:
+       * Percobaan pertama memanggil next() di awal fungsi ini. Terukur:
        * panel pergi pada 2180ms, dan sesudah itu baris judul bergeser 0px --
-       * seluruh gerak masuk Beranda sudah habis di balik panel, jadi yang
+       * seluruh motion masuk Beranda sudah habis di balik panel, jadi yang
        * terlihat saat halaman terbuka justru halaman diam.
        *
        * Sapuan membuka dari bawah ke atas (inset bawah 0% -> 100%). Memanggil
-       * lanjut() pada 0,45 detik menaruh awal gerak Beranda di saat sapuan
+       * next() pada 0,45 detik menaruh awal motion Beranda di saat sapuan
        * sudah membuka sebagian: ekornya tersembunyi di balik sisa panel, dan
        * bagian terbesarnya berjalan di halaman yang sudah terbuka penuh.
        */
-      gsap.timeline({ onComplete: bereskan })
-        .to(isi, { autoAlpha: 0, duration: 0.25, ease: "power2.in" })
+      gsap.timeline({ onComplete: reset })
+        .to(content, { autoAlpha: 0, duration: 0.25, ease: "power2.in" })
         .to(panel, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.6, ease: EASE }, "-=0.1")
-        .call(lanjut, null, 0.45);
+        .call(next, null, 0.45);
     }
 
-    if (prefersReducedMotion()) { keluar(); return; }
+    if (prefersReducedMotion()) { exit(); return; }
 
-    document.documentElement.classList.add("pembuka-aktif");
+    document.documentElement.classList.add("intro-active");
     if (lenis) lenis.stop();
-    /* Peramban memulihkan posisi gulir kunjungan sebelumnya; tanpa ini situs
+    /* Browser memulihkan posisi scroll kunjungan sebelumnya; tanpa ini situs
        terbuka di tengah halaman begitu panelnya naik. */
     window.scrollTo(0, 0);
 
-    var bingkai = $$("[data-pembuka-bingkai] path", panel);
-    var goresan = $$("[data-pembuka-goresan] path", panel);
-    var kunci = $$("[data-pembuka-kunci] path", panel);
+    var frameEl = $$("[data-intro-frame] path", panel);
+    var strokeEl = $$("[data-intro-stroke] path", panel);
+    var lockEl = $$("[data-intro-lock] path", panel);
 
-    bingkai.concat(goresan, kunci).forEach(function (p) {
-      var panjang = p.getTotalLength();
-      p.style.strokeDasharray = panjang;
-      p.style.strokeDashoffset = panjang;
+    frameEl.concat(strokeEl, lockEl).forEach(function (p) {
+      var length = p.getTotalLength();
+      p.style.strokeDasharray = length;
+      p.style.strokeDashoffset = length;
     });
 
     var tl = gsap.timeline({
@@ -2083,38 +2083,38 @@ export function pasangAnimasi() {
          *
          * Jadi yang duluan selesai, itu yang dipakai: font atau 500ms.
          */
-        var siapFont = (document.fonts && document.fonts.ready) || Promise.resolve();
-        var batasFont = new Promise(function (lepas) {
+        var fontReady = (document.fonts && document.fonts.ready) || Promise.resolve();
+        var fontLimit = new Promise(function (lepas) {
           var id = setTimeout(lepas, 500);
-          bersih.push(function () { clearTimeout(id); });
+          cleanups.push(function () { clearTimeout(id); });
         });
-        Promise.race([siapFont, batasFont]).then(keluar);
+        Promise.race([fontReady, fontLimit]).then(exit);
       },
     });
 
     /*
      * Urutannya menceritakan bentuknya terbentuk, bukan sekadar muncul:
-     * heksagon menggariskan wilayahnya, satu goresan menyusur naik dari kaki
+     * heksagon menggariskan wilayahnya, satu stroke menyusur naik dari kaki
      * kiri melewati puncak lalu turun ke kaki kanan, baru palangnya mengunci
      * keduanya jadi satu tanda. Palang itu sengaja paling akhir DAN sendirian
      * di ujung timeline -- sampai ia turun, bentuknya masih terbaca sebagai
-     * gerbang kosong. Seluruh lambang satu warna, jadi urutan inilah
+     * gerbang kosong. Seluruh logo satu warna, jadi urutan inilah
      * satu-satunya yang membedakan perannya.
      */
-    tl.to(bingkai, { strokeDashoffset: 0, duration: 0.45, stagger: 0.07, ease: "power2.out" }, 0);
-    tl.to(goresan, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut" }, 0.22);
-    tl.to(kunci, { strokeDashoffset: 0, duration: 0.38, ease: "power2.out" }, 0.98);
+    tl.to(frameEl, { strokeDashoffset: 0, duration: 0.45, stagger: 0.07, ease: "power2.out" }, 0);
+    tl.to(strokeEl, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut" }, 0.22);
+    tl.to(lockEl, { strokeDashoffset: 0, duration: 0.38, ease: "power2.out" }, 0.98);
   }
 
   /* ── 7. PENYALAAN ───────────────────────────────────────────────────────
    *
-   * Urutannya bukan selera. Struktur dibangun lebih dulu (huruf, lambang,
+   * Urutannya bukan selera. Struktur dibangun lebih dulu (huruf, logo,
    * odometer, salinan marquee) karena setiap transisi di bawahnya mencari
    * elemen yang baru saja dibuat itu. Baru setelah semuanya ada di DOM,
    * animasi dipasang.
    *
-   * Lenis dinyalakan sebelum pembuka supaya ada yang bisa dihentikan selama
-   * panelnya menutup; sisanya menunggu panggilan balik dari initPembuka().
+   * Lenis dinyalakan sebelum intro supaya ada yang bisa dihentikan selama
+   * panelnya menutup; sisanya menunggu panggilan balik dari initIntro().
    */
   function start() {
     buildGlyphs();
@@ -2124,10 +2124,10 @@ export function pasangAnimasi() {
     buildMarquees();
 
     initScroller();
-    initPembuka(pasangSisanya);
+    initIntro(setupRest);
   }
 
-  function pasangSisanya() {
+  function setupRest() {
     initLineMasks();
     initScrubReveals();
     initRevealImages();
@@ -2135,10 +2135,10 @@ export function pasangAnimasi() {
     initSplitWords();
     initOdometers();
     initGlyphRings();
-    initKartuPeran();
+    initRoleCards();
     initMarquees();
-    initTukarKartu();
-    initGaleriAkordeon();
+    initCardSwap();
+    initAccordionGallery();
     initAmbientLines();
 
     initTypewriter();
@@ -2148,20 +2148,20 @@ export function pasangAnimasi() {
     initContactForm();
 
     /*
-     * Hitung ulang semua posisi pemicu setelah tata letak benar-benar final.
+     * Hitung ulang semua posisi trigger setelah layout benar-benar final.
      *
      * Ini bukan kehati-hatian berlebih. Panggung yang di-pin menyisipkan
      * spacer setinggi lebih dari seribu piksel, dan itu mendorong turun SEMUA
-     * bagian di bawahnya. Pemicu milik bagian-bagian itu sudah menghitung titik
+     * bagian di bawahnya. Trigger milik bagian-bagian itu sudah menghitung titik
      * start dan end-nya lebih dulu, saat spacer belum ada.
      *
      * Dijalankan di rAF supaya jatuh setelah frame pertama selesai digambar.
      */
     requestAnimationFrame(function () { ScrollTrigger.refresh(); });
 
-    /* SEKALI LAGI setelah font khusus benar-benar terpasang: tata letak sudah
+    /* SEKALI LAGI setelah font khusus benar-benar terpasang: layout sudah
        tergambar memakai font cadangan, dan begitu Inter menggantikannya, tinggi
-       tiap blok teks berubah dan SEMUA titik pemicu di bawahnya ikut bergeser. */
+       tiap blok teks berubah dan SEMUA titik trigger di bawahnya ikut bergeser. */
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
     }
@@ -2170,14 +2170,14 @@ export function pasangAnimasi() {
   start();
 
   /*
-   * PEMBONGKAR. Urutannya penting: Lenis dimatikan lebih dulu supaya ia tidak
-   * lagi memanggil ScrollTrigger.update saat pemicunya sedang dibunuh.
+   * TEARDOWN. Urutannya penting: Lenis dimatikan lebih dulu supaya ia tidak
+   * lagi memanggil ScrollTrigger.update saat trigger-nya sedang dibunuh.
    */
   return function bongkar() {
     if (lenis) { lenis.destroy(); lenis = null; }
     ScrollTrigger.getAll().forEach(function (t) { t.kill(true); });
     gsap.globalTimeline.clear();
-    for (var i = bersih.length - 1; i >= 0; i--) bersih[i]();
-    bersih = [];
+    for (var i = cleanups.length - 1; i >= 0; i--) cleanups[i]();
+    cleanups = [];
   };
 }

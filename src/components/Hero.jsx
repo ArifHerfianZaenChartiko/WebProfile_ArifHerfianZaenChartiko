@@ -2,31 +2,31 @@ export default function Hero() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           BERANDA — pembuka, bukan salah satu bab, jadi tidak diberi nomor urut.
+           BERANDA — intro, bukan salah satu bab, jadi tidak diberi nomor urut.
 
-           Susunannya dipilih dari BENTUK layar, bukan lebarnya: `wide:` hanya
-           berlaku di layar mendatar (@custom-variant di src/index.css), jadi tablet
+           Susunannya dipilih dari BENTUK screen, bukan lebarnya: `wide:` hanya
+           berlaku di screen mendatar (@custom-variant di src/index.css), jadi tablet
            potret selebar apa pun tetap bertumpuk.
 
            UKURAN FOTO DIPATOK KE svh, BUKAN KE SISA TINGGI BARIS.
 
-           Sampai 8 Agustus 2026 bingkainya memakai `h-[min(100%,32svh,60vw)]`.
+           Sampai 8 Agustus 2026 frame-nya memakai `h-[min(100%,32svh,60vw)]`.
            `100%` di situ merujuk tinggi baris `minmax(0,1fr)` — sisa ruang setelah
            judul dan tombol — sehingga ukurannya jadi akibat, bukan keputusan: di
-           layar pendek sisanya sedikit dan fotonya ikut menciut sampai 101x139 px
+           screen short sisanya sedikit dan fotonya ikut menciut sampai 101x139 px
            pada 360x640. Sekarang `min(34svh,58vw)`, jadi ia proporsional terhadap
-           layar dan tidak lagi bergantung pada tinggi sisa. Terukur 33-34% tinggi
-           layar di semua ukuran tegak.
+           screen dan tidak lagi bergantung pada tinggi sisa. Terukur 33-34% tinggi
+           viewport di semua ukuran tegak.
 
            Di jalur `wide:`, patokannya turun dari `min(26rem,48svh)` ke
-           `min(17rem,30svh)`. Yang lama menghasilkan foto setinggi 57-70% layar —
+           `min(17rem,30svh)`. Yang lama menghasilkan foto setinggi 57-70% screen —
            secara visual ia jadi tokoh utama, padahal perannya pendamping judul.
-           Yang baru 37-44%. Karena rasio berkasnya 853:1280, tinggi = lebar x 1,5;
+           Yang baru 37-44%. Karena rasio file-nya 853:1280, tinggi = lebar x 1,5;
            patokan berbasis svh membuat proporsinya tetap sama lintas ukuran, bukan
-           membesar mengikuti lebar layar.
+           membesar mengikuti lebar viewport.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="home" data-component="chapter"
-        className="relative flex min-h-svh flex-col justify-center overflow-hidden pt-[8svh] pb-20 min-[640px]:pt-[9svh] min-[640px]:pb-24 roomy:pt-16 roomy:pb-28 pendek:pt-6 pendek:pb-6">
+        className="relative flex min-h-svh flex-col justify-center overflow-hidden pt-[8svh] pb-20 min-[640px]:pt-[9svh] min-[640px]:pb-24 roomy:pt-16 roomy:pb-28 short:pt-6 short:pb-6">
 
         <canvas data-component="ambient-lines" data-density="52" aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full"></canvas>
@@ -39,12 +39,12 @@ export default function Hero() {
             {/* BARIS 1 — sapaan dan nama */}
             <div>
               <div data-component="scrub-reveal" data-delay="0.07"
-                className="mb-4 flex items-center justify-center gap-3 min-[640px]:mb-8 roomy:mb-10 pendek:mb-2 wide:justify-start">
+                className="mb-4 flex items-center justify-center gap-3 min-[640px]:mb-8 roomy:mb-10 short:mb-2 wide:justify-start">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent"></span>
                 <p className="-caption-small text-text-muted">Halo, perkenalkan saya</p>
               </div>
 
-              <h1 className="-display mb-4 min-[640px]:mb-8 roomy:mb-10 pendek:mb-0" data-line-mask data-delay="0.14" data-stagger="0.09">
+              <h1 className="-display mb-4 min-[640px]:mb-8 roomy:mb-10 short:mb-0" data-line-mask data-delay="0.14" data-stagger="0.09">
                 <span data-anim="line-mask" className="last:text-text-muted"><span>Arif Herfian</span></span>
                 <span data-anim="line-mask" className="last:text-text-muted"><span>Zaen Chartiko</span></span>
               </h1>
@@ -59,26 +59,26 @@ export default function Hero() {
                   <div data-component="image-reveal" data-delay="0.21"
                     className="aspect-[853/1280] h-full w-auto max-w-full wide:h-auto wide:w-full">
                     <span className="bg" aria-hidden="true"></span>
-                    {/* `object-fit` ditulis SEBARIS, bukan sebagai kelas: `.media` di
+                    {/* `object-fit` ditulis SEBARIS, bukan sebagai class: `.media` di
                          style.css sudah menyetel `cover` dan ia CSS tak-berlapis, jadi
-                         ia mengalahkan kelas utilitas apa pun. Yang sebaris menang
+                         ia mengalahkan class utilitas apa pun. Yang sebaris menang
                          atas keduanya.
 
-                         `contain` berarti foto DIPASKAN utuh ke dalam bingkai. Karena
-                         rasio bingkainya sekarang persis rasio berkasnya (853/1280)
+                         `contain` berarti foto DIPASKAN utuh ke dalam frame. Karena
+                         rasio frame-nya sekarang persis rasio file-nya (853/1280)
                          di SEMUA lebar, `contain` dan `cover` menghasilkan hal yang
-                         sama — tidak ada pita kosong dan tidak ada yang terpotong.
+                         sama — tidak ada band kosong dan tidak ada yang terpotong.
                          `contain` yang dipilih karena ia yang aman kalau suatu saat
                          fotonya diganti dengan rasio lain: yang muncul foto utuh
-                         dengan sedikit pita, bukan wajah yang terpotong diam-diam.
+                         dengan sedikit band, bukan wajah yang terpotong diam-diam.
 
                          Sampai 7 Agustus 2026 baris ini memakai `wide:aspect-[4/5]`
-                         khusus desktop. Itu yang membuat bingkainya lebih gemuk dari
-                         fotonya dan menyisakan 34,6px pita gelap di kiri dan kanan
-                         SAJA — atas-bawah tetap menempel. Jadi di desktop bingkainya
+                         khusus desktop. Itu yang membuat frame-nya lebih gemuk dari
+                         fotonya dan menyisakan 34,6px band gelap di kiri dan kanan
+                         SAJA — atas-bawah tetap menempel. Jadi di desktop frame-nya
                          terlihat renggang sebelah, di ponsel dan tablet menempel
                          rapat. Jangan dipatok ulang ke rasio yang berbeda dari
-                         berkasnya. */}
+                         file-nya. */}
                     <img src="assets/photo/foto.jpeg" alt="Foto Arif Herfian Zaen Chartiko" className="media" style={{ objectFit: "contain" }} />
                   </div>
                 </div>
@@ -99,15 +99,15 @@ export default function Hero() {
                     daftar ini, menggeser "Pendidik Informatika" (20). Itu yang
                     menentukan lebar terpanjang baris ini, jadi kalau nanti ada
                     peran yang lebih panjang lagi ditambahkan, periksa ulang
-                    layar 320px — di sanalah barisnya pertama kali membungkus. */}
+                    screen 320px — di sanalah barisnya pertama kali membungkus. */}
                 <p className="-body text-text-muted">
                   Saya seorang{" "}
-                  <span className="font-medium text-text" data-typewriter='["Fullstack Web Developer","Pendidik Informatika","Staf Administrasi"]'></span><span className="animate-kedip text-accent">_</span>
+                  <span className="font-medium text-text" data-typewriter='["Fullstack Web Developer","Pendidik Informatika","Staf Administrasi"]'></span><span className="animate-blink text-accent">_</span>
                 </p>
                 <p className="-caption-small text-text-muted">Kab. Blitar, Jawa Timur</p>
               </div>
 
-              <div className="mt-3 flex flex-col gap-3 min-[640px]:mt-6 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:justify-center min-[640px]:gap-4 roomy:mt-10 pendek:mt-2 wide:justify-start">
+              <div className="mt-3 flex flex-col gap-3 min-[640px]:mt-6 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:justify-center min-[640px]:gap-4 roomy:mt-10 short:mt-2 wide:justify-start">
                 <a href="#kontak" data-component="button"
                   className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power bg-text text-background border-text w-full min-[640px]:w-auto">
                   <span className="relative block overflow-hidden">

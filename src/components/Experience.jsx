@@ -1,7 +1,7 @@
-export default function Pengalaman() {
+export default function Experience() {
   return (
     <>
-      {/* Pita berjalan sebagai jeda antar bagian. Salinannya digandakan oleh
+      {/* Band berjalan sebagai jeda antar bagian. Salinannya digandakan oleh
            src/lib/animasi.js — cukup tulis satu, sisanya diurus di sana. */}
       <div data-anim="marquee" data-speed="30" className="border-y border-line py-5">
         <div className="marquee-track">
@@ -15,22 +15,22 @@ export default function Pengalaman() {
 
 
       {/* ══════════════════════════════════════════════════════════════════════════
-           02 PENGALAMAN — kartu bertumpuk. Yang terdepan dibaca utuh, yang di
+           02 PENGALAMAN — card bertumpuk. Yang terdepan dibaca utuh, yang di
            belakang mengintip di sudut sebagai tanda masih ada lagi. Tiap beberapa
-           detik yang depan jatuh turun lalu masuk ke belakang tumpukan.
+           detik yang depan jatuh turun lalu masuk ke belakang stack.
 
            TIGA HAL YANG SENGAJA BERBEDA DARI CardSwap ASLINYA:
 
-           1. Kartunya TIDAK berukuran tetap. Aslinya dipatok 500x400 dan isinya
-              dipotong; di sini tinggi tumpukan diukur dari kartu tertinggi
-              (initTukarKartu di animasi.js), jadi tidak ada satu baris pun yang
+           1. Card-nya TIDAK berukuran tetap. Aslinya dipatok 500x400 dan isinya
+              dipotong; di sini tinggi stack diukur dari card tertinggi
+              (initCardSwap di animasi.js), jadi tidak ada satu baris pun yang
               terpotong berapa pun panjang rincian pekerjaannya.
 
-           2. Hanya kartu BELAKANG yang dimiringkan. Aslinya seluruh tumpukan
+           2. Hanya card BELAKANG yang dimiringkan. Aslinya seluruh stack
               di-skew, termasuk yang sedang dibaca. Teks CV yang miring 6 derajat
               melelahkan dibaca dan tidak ada gunanya di sini.
 
-           3. Susunannya dua kolom di >=900px. Kartu selebar 56rem dengan rincian
+           3. Susunannya dua kolom di >=900px. Card selebar 56rem dengan rincian
               satu kolom penuh menghasilkan baris sekitar 120 karakter — mata
               kehilangan tempat saat berpindah baris. Kiri identitas pekerjaan,
               kanan rinciannya.
@@ -56,12 +56,12 @@ export default function Pengalaman() {
             Riwayat pekerjaan yang pernah saya jalani
           </p>
 
-          <div className="tukar mx-auto w-full max-w-[56rem]" data-component="tukar">
-            <div className="tukar-tumpuk" data-tukar-tumpuk>
+          <div className="swap mx-auto w-full max-w-[56rem]" data-component="swap">
+            <div className="swap-stack" data-swap-stack>
 
-              <article data-kartu className="tukar-kartu">
-                <div className="tukar-isi">
-                  <div className="tukar-kiri">
+              <article data-card className="swap-card">
+                <div className="swap-body">
+                  <div className="swap-left">
                     <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
                       <span className="-mono tabular-nums text-text-muted">01 / 02</span>
                       <span className="-caption-small text-text-muted">Februari – Juni 2024</span>
@@ -78,7 +78,7 @@ export default function Pengalaman() {
                     </div>
                   </div>
 
-                  <ul className="tukar-rinci">
+                  <ul className="swap-details">
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mengajar mata pelajaran pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan (TLJ)</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Membimbing proyek akhir pemrograman dasar kelas 10, dari nol sampai siswa punya web profil sekolah yang berjalan</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mengawasi dan mengevaluasi siswa, serta memastikan pemahaman dan capaian belajar terpenuhi sesuai timeline dan target</li>
@@ -88,9 +88,9 @@ export default function Pengalaman() {
                 </div>
               </article>
 
-              <article data-kartu className="tukar-kartu">
-                <div className="tukar-isi">
-                  <div className="tukar-kiri">
+              <article data-card className="swap-card">
+                <div className="swap-body">
+                  <div className="swap-left">
                     <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
                       <span className="-mono tabular-nums text-text-muted">02 / 02</span>
                       <span className="-caption-small text-text-muted">Juni – Agustus 2024</span>
@@ -107,7 +107,7 @@ export default function Pengalaman() {
                     </div>
                   </div>
 
-                  <ul className="tukar-rinci">
+                  <ul className="swap-details">
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendata, mengelola, dan melayani serah terima seragam sekolah serta buku kurikulum</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendata penulisan disposisi serta pencatatan surat masuk dan keluar</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Melayani koreksi kesalahan penulisan ijazah siswa</li>
@@ -118,11 +118,11 @@ export default function Pengalaman() {
 
             </div>
 
-            {/* Titik pemilih dibuat di animasi.js dari JUMLAH kartu, bukan
+            {/* Selector dot dibuat di animasi.js dari JUMLAH card, bukan
                 ditulis tangan di sini: menambah pengalaman berarti menambah satu
                 <article>, dan titiknya ikut sendiri. Ia juga yang memberi jalan
-                keyboard ke kartu yang tidak sedang di depan. */}
-            <div className="tukar-kendali" data-tukar-kendali role="tablist" aria-label="Pilih pengalaman kerja"></div>
+                keyboard ke card yang tidak sedang di depan. */}
+            <div className="swap-controls" data-swap-controls role="tablist" aria-label="Pilih pengalaman kerja"></div>
           </div>
 
         </div>

@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 /* ══════════════════════════════════════════════════════════════════════════
-   TEMA — satu sumber kebenaran untuk warna, font, dan lengkung gerak.
+   TEMA — satu sumber kebenaran untuk warna, font, dan lengkung motion.
 
-   Bedanya besar dengan versi sebelumnya. Dulu berkas ini HASIL KOMPILASI yang
-   dibekukan: ia cuma berisi kelas yang kebetulan sudah dipakai, dan kelas baru
+   Bedanya besar dengan versi sebelumnya. Dulu file ini HASIL KOMPILASI yang
+   dibekukan: ia cuma berisi class yang kebetulan sudah dipakai, dan class baru
    seperti `p-3` atau `mt-10` tidak berefek apa-apa — diam-diam, tanpa tanda.
-   Sekarang Tailwind berjalan sungguhan waktu build, jadi kelas apa pun hidup.
+   Sekarang Tailwind berjalan sungguhan waktu build, jadi class apa pun hidup.
 
-   Token di bawah ini yang membuat kelas seperti `bg-accent`, `text-text-muted`,
+   Token di bawah ini yang membuat class seperti `bg-accent`, `text-text-muted`,
    dan `ease-brand` ada. Menambah warna baru cukup menambah satu baris di sini.
    ═══════════════════════════════════════════════════════════════════════ */
 @theme {
@@ -34,7 +34,7 @@
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-power: cubic-bezier(0.4, 0, 0.2, 1);
 
-  --animate-kedip: kedip 1.1s step-end infinite;
+  --animate-blink: kedip 1.1s step-end infinite;
 
   @keyframes kedip {
     50% { opacity: 0 }
@@ -42,11 +42,11 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   VARIAN KHUSUS — `wide:` dan `roomy:` BUKAN sekadar lebar layar.
+   VARIAN KHUSUS — `wide:` dan `roomy:` BUKAN sekadar lebar viewport.
 
    Keduanya juga menanyakan ORIENTASI, dan `roomy:` menanyakan tinggi. Itu
-   disengaja: tata letak dua kolom di halaman sampul hanya masuk akal kalau
-   layarnya benar-benar mendatar. Tablet 800px tegak akan kejang kalau dipaksa
+   disengaja: layout dua kolom di halaman sampul hanya masuk akal kalau
+   screen-nya benar-benar mendatar. Tablet 800px tegak akan kejang kalau dipaksa
    dua kolom, padahal lebarnya cukup.
 
    Kalau ditulis sebagai breakpoint biasa (--breakpoint-wide: 640px), syarat
@@ -56,19 +56,19 @@
 @custom-variant wide (@media (width >= 640px) and (orientation: landscape));
 @custom-variant roomy (@media (width >= 900px) and (orientation: landscape) and (height >= 600px));
 
-/* `pendek:` menutup lubang yang ditinggalkan ketiganya: ponsel yang diputar.
+/* `short:` menutup lubang yang ditinggalkan ketiganya: ponsel yang diputar.
    844x390 lolos syarat `wide:` (width >= 640px + mendatar) sehingga memakai
-   tata letak dua kolom, tapi gagal syarat `roomy:` (height >= 600px) sehingga
+   layout dua kolom, tapi gagal syarat `roomy:` (height >= 600px) sehingga
    jarak tegaknya jatuh ke nilai `min-[640px]:` yang dipatok LEBAR saja —
-   pt 9svh + pb 6rem = 131px pada layar setinggi 390px.
+   pt 9svh + pb 6rem = 131px pada screen setinggi 390px.
 
    Terukur akibatnya: kolom kiri 364px + padding 131px = hero 495px, meluber
-   105px dari layar. Varian ini dipatok TINGGI, bukan lebar, karena tinggi
+   105px dari screen. Varian ini dipatok TINGGI, bukan lebar, karena tinggi
    itulah yang langka saat ponsel diputar. */
-@custom-variant pendek (@media (height < 600px) and (orientation: landscape));
+@custom-variant short (@media (height < 600px) and (orientation: landscape));
 
 /* ══════════════════════════════════════════════════════════════════════════
-   ALIAS TOKEN — nama pendek untuk dipakai CSS tulisan tangan di bawah.
+   ALIAS TOKEN — nama short untuk dipakai CSS tulisan tangan di bawah.
 
    Aturan khusus di bawah memakai var(--accent), bukan var(--color-accent).
    Alias ini yang menyambungkannya, jadi nilainya tetap SATU tempat: @theme.
@@ -98,7 +98,7 @@
   --duration-slow: 0.5s;
 
   /* Butiran halus yang ditumpuk di beberapa bagian. Ditulis sebagai SVG
-     sebaris, bukan berkas gambar: ia cuma 300-an bita dan tidak menambah
+     sebaris, bukan file gambar: ia cuma 300-an bita dan tidak menambah
      satu pun permintaan jaringan. */
   --noise-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23f)'/%3E%3C/svg%3E");
 }
@@ -106,9 +106,9 @@
 /* ══════════════════════════════════════════════════════════════════════════
    ATURAN MILIK SITUS — semua yang bukan utilitas Tailwind.
 
-   Skala tipografi, bilah status, penanda bab, kartu keahlian, kisi perkakas,
+   Skala tipografi, bar status, chapter marker, card keahlian, grid perkakas,
    panggung sertifikat, dan tanda sudut foto. Dipindahkan apa adanya dari
-   berkas hasil kompilasi yang lama, jadi tampilannya tidak bergeser.
+   file hasil kompilasi yang lama, jadi tampilannya tidak bergeser.
    ═══════════════════════════════════════════════════════════════════════ */
 /*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
 @layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){*,:before,:after,::backdrop{--tw-translate-x:0;--tw-translate-y:0;--tw-translate-z:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scale-z:1;--tw-rotate-x:initial;--tw-rotate-y:initial;--tw-rotate-z:initial;--tw-skew-x:initial;--tw-skew-y:initial;--tw-border-style:solid;--tw-leading:initial;--tw-font-weight:initial;--tw-tracking:initial;--tw-ordinal:initial;--tw-slashed-zero:initial;--tw-numeric-figure:initial;--tw-numeric-spacing:initial;--tw-numeric-fraction:initial;--tw-shadow:0 0 #0000;--tw-shadow-color:initial;--tw-shadow-alpha:100%;--tw-inset-shadow:0 0 #0000;--tw-inset-shadow-color:initial;--tw-inset-shadow-alpha:100%;--tw-ring-color:initial;--tw-ring-shadow:0 0 #0000;--tw-inset-ring-color:initial;--tw-inset-ring-shadow:0 0 #0000;--tw-ring-inset:initial;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-offset-shadow:0 0 #0000;--tw-outline-style:solid;--tw-backdrop-blur:initial;--tw-backdrop-brightness:initial;--tw-backdrop-contrast:initial;--tw-backdrop-grayscale:initial;--tw-backdrop-hue-rotate:initial;--tw-backdrop-invert:initial;--tw-backdrop-opacity:initial;--tw-backdrop-saturate:initial;--tw-backdrop-sepia:initial;--tw-duration:initial;--tw-ease:initial}}}
@@ -227,33 +227,33 @@ html.lenis,html.lenis body{height:auto}
 .stage-orbit{grid-template-columns:1fr 1fr;place-items:stretch center;gap:1rem;width:100%;display:grid;position:relative}
 
 /*
- * KANDANG GESERAN KARTU PERAN — DIPASANG DI SECTION, BUKAN DI .stage-orbit.
+ * KANDANG OFFSET CARD PERAN — DIPASANG DI SECTION, BUKAN DI .stage-orbit.
  *
- * Kandangnya memang perlu ada: dua kartu penunjang masuk dan keluar sejauh
- * 55% lebarnya sendiri, dan walau transform tidak mengubah tata letak, ia
- * TETAP memperlebar daerah yang bisa digulir — terukur tanpa kandang, lebar
- * dokumen jadi 1568px pada layar 1440 dan 472px pada layar 390.
+ * Kandangnya memang perlu ada: dua card penunjang masuk dan keluar sejauh
+ * 55% lebarnya sendiri, dan walau transform tidak mengubah layout, ia
+ * TETAP memperlebar daerah yang bisa di-scroll — terukur tanpa kandang, document
+ * width jadi 1568px pada screen 1440 dan 472px pada screen 390.
  *
  * TAPI LETAK KANDANGNYA PENTING, dan percobaan pertama menaruhnya di
- * .stage-orbit. Itu salah, dan salahnya baru terlihat di layar lebar: orbit
- * cuma 1100px di tengah layar 1440, jadi tepi potongnya jatuh di x=158 dan
- * x=1282 — 158px dari tepi layar, di tengah ruang yang jelas-jelas kosong.
- * Kartu yang meluncur masuk terpenggal rata oleh garis tak terlihat di area
- * kosong itu. Yang terbaca bukan kartu yang datang dari luar layar,
- * melainkan kartu yang rusak.
+ * .stage-orbit. Itu salah, dan salahnya baru terlihat di screen lebar: orbit
+ * cuma 1100px di tengah screen 1440, jadi tepi potongnya jatuh di x=158 dan
+ * x=1282 — 158px dari tepi screen, di tengah ruang yang jelas-jelas kosong.
+ * Card yang meluncur masuk terpenggal rata oleh garis tak terlihat di area
+ * kosong itu. Yang terbaca bukan card yang datang dari luar screen,
+ * melainkan card yang rusak.
  *
- * Dipasang di section, tepi potongnya berimpit dengan tepi layar, jadi kartu
- * benar-benar muncul DARI LUAR layar. Di ponsel keduanya nyaris sama karena
- * orbit hampir selebar layar; di desktop bedanya 158px di tiap sisi.
+ * Dipasang di section, tepi potongnya berimpit dengan tepi screen, jadi card
+ * benar-benar muncul DARI LUAR screen. Di ponsel keduanya nyaris sama karena
+ * orbit hampir selebar screen; di desktop bedanya 158px di tiap sisi.
  *
- * overflow-x: clip, BUKAN hidden. `hidden` menjadikan elemennya wadah gulir,
- * dan wadah gulir memutus `position: sticky` serta mengacaukan perhitungan
- * ScrollTrigger di dalamnya. `clip` memotong tanpa membuat wadah gulir sama
+ * overflow-x: clip, BUKAN hidden. `hidden` menjadikan elemennya container scroll,
+ * dan container scroll memutus `position: sticky` serta mengacaukan perhitungan
+ * ScrollTrigger di dalamnya. `clip` memotong tanpa membuat container scroll sama
  * sekali — itu memang gunanya ia ada.
  *
  * overflow-y WAJIB tetap visible, dan pasangan clip+visible ini SAH (tidak
  * seperti hidden+visible yang diam-diam dipaksa jadi auto). Kalau sumbu Y
- * ikut terpotong, penyingkapan scrub milik seluruh isi bagian ini akan
+ * ikut terpotong, reveal scrub milik seluruh isi bagian ini akan
  * terpangkas di tepi atas dan bawah section.
  */
 #keahlian {
@@ -261,12 +261,12 @@ html.lenis,html.lenis body{height:auto}
   overflow-y: visible;
 }
 
-/* Alasan yang persis sama untuk kedatangan galeri sertifikat: keenam panelnya
-   berangkat dari luar tepi kanan layar, dan tanpa ini titik berangkat itu
+/* Alasan yang persis sama untuk kedatangan gallery sertifikat: keenam panelnya
+   berangkat dari luar tepi kanan screen, dan tanpa ini titik berangkat itu
    melebarkan dokumen. `body` memang sudah `overflow-x: hidden` sehingga tidak
-   ada bilah gulir mendatar yang muncul — tapi yang dipotong hanya TAMPILANNYA;
+   ada bar scroll mendatar yang muncul — tapi yang dipotong hanya TAMPILANNYA;
    scrollWidth tetap tumbuh, dan ScrollTrigger menghitung ulang seluruh halaman
-   dari lebar itu. Persis begitu empat penyingkapan di Kontak dan Footer pernah
+   dari lebar itu. Persis begitu empat reveal di Kontak dan Footer pernah
    macet. */
 #sertifikat {
   overflow-x: clip;
@@ -323,9 +323,9 @@ html.lenis,html.lenis body{height:auto}
 
 
 
-.animate-kedip{animation:1.1s step-end infinite kedip}
+.animate-blink{animation:1.1s step-end infinite kedip}
 
-@media (prefers-reduced-motion:reduce){.animate-kedip{animation:none}[data-component=scrub-reveal],[data-component=image-reveal] .media{clip-path:inset(0%)}[data-component=image-reveal] .bg{display:none}[data-anim=line-mask]>span{transform:none}[data-anim=marquee]>.marquee-track{transform:none!important}}
+@media (prefers-reduced-motion:reduce){.animate-blink{animation:none}[data-component=scrub-reveal],[data-component=image-reveal] .media{clip-path:inset(0%)}[data-component=image-reveal] .bg{display:none}[data-anim=line-mask]>span{transform:none}[data-anim=marquee]>.marquee-track{transform:none!important}}
 
 @property --tw-translate-x{syntax:"*";inherits:false;initial-value:0}
 
@@ -425,10 +425,10 @@ html.lenis,html.lenis body{height:auto}
    aman ditambah tanpa menyentuh baris hasil kompilasi.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* KISI PERKAKAS — lima kelompok berlabel, jumlah kartu per baris dikunci.
+/* GRID PERKAKAS — lima kelompok berlabel, jumlah card per baris dikunci.
 
-   Susunannya 4-3-2-2-3 dan tidak berubah di lebar layar mana pun, karena tiap
-   kelompok adalah wadahnya sendiri: baris berisi empat kartu selamanya
+   Susunannya 4-3-2-2-3 dan tidak berubah di lebar viewport mana pun, karena tiap
+   kelompok adalah container-nya sendiri: baris berisi empat card selamanya
    berisi empat. Tidak ada satu pun titik henti (breakpoint) yang menentukan
    pengelompokannya.
 
@@ -456,29 +456,29 @@ html.lenis,html.lenis body{height:auto}
   width: 100%;
 }
 
-/* Di layar sempit label berdiri sendiri di atas, dan kartu berbagi lebar
-   layar berempat. Seperempat itulah yang menjaga baris berisi empat tetap
+/* Di screen sempit label berdiri sendiri di atas, dan card berbagi lebar
+   viewport berempat. Seperempat itulah yang menjaga baris berisi empat tetap
    muat tanpa membungkus. */
 .tool-items > * {
   width: 25%;
 }
 
-/* Ambangnya 1024px, bukan 640px, dan itu hasil ukur bukan tebak: dengan
-   label duduk di samping, area kartu di tablet 768px hanya tersisa 512px --
-   tidak cukup untuk empat kartu selebar 9,5rem, jadi baris Desain membungkus
-   diam-diam jadi 3+1. Di bawah 1024px label naik ke atas, kartu memakai
-   lebar penuh, dan empat kartu kembali muat. */
+/* Threshold-nya 1024px, bukan 640px, dan itu hasil ukur bukan tebak: dengan
+   label duduk di samping, area card di tablet 768px hanya tersisa 512px --
+   tidak cukup untuk empat card selebar 9,5rem, jadi baris Desain membungkus
+   diam-diam jadi 3+1. Di bawah 1024px label naik ke atas, card memakai
+   lebar penuh, dan empat card kembali muat. */
 @media (min-width: 1024px) {
   /* Lebar tetap, bukan mengikuti panjang tulisan: inilah yang membuat garis
      rambut keempat kelompok lurus sejajar.
 
      Angka 10,5rem dulu dipas ke "RISET & DESAIN" (142px), label terpanjang
      waktu itu. Kelompok itu sudah dibuang, dan yang terpanjang sekarang
-     "PENGEMBANGAN" — lebih pendek, jadi kelonggarannya bertambah. Sengaja
+     "PENGEMBANGAN" — lebih short, jadi kelonggarannya bertambah. Sengaja
      TIDAK dikecilkan mengikuti label baru: pas-pasan berbahaya di sini,
      karena begitu satu label pecah dua baris, kelurusan garis rambut seluruh
      kelompok ikut hilang, dan huruf tidak selalu dirender sama persis di
-     setiap peramban dan sistem operasi. Angka ini baru perlu dinaikkan kalau
+     setiap browser dan sistem operasi. Angka ini baru perlu dinaikkan kalau
      ada label yang lebih panjang dari "RISET & DESAIN" ditambahkan. */
   .tool-label {
     width: 10.5rem;
@@ -489,11 +489,11 @@ html.lenis,html.lenis body{height:auto}
     width: auto;
   }
 
-  /* Lebar tetap juga di sini, supaya kolom kartu lurus dari kelompok satu
+  /* Lebar tetap juga di sini, supaya kolom card lurus dari kelompok satu
      ke kelompok berikutnya meski jumlahnya berbeda.
 
      9,5rem bukan angka selera. "Google Workspace" pada 14px selebar 127px;
-     dikurangi padding kiri-kanan kartu 2x8px, 9,5rem menyisakan 136px --
+     dikurangi padding kiri-kanan card 2x8px, 9,5rem menyisakan 136px --
      lebar terkecil yang masih memuatnya dalam satu baris. Nama yang pecah
      dua baris membuat tinggi tiap kelompok berbeda-beda, dan tepi bawah
      bergerigi itulah yang tadi terbaca sebagai tidak rapi. */
@@ -505,19 +505,19 @@ html.lenis,html.lenis body{height:auto}
 /* ══════════════════════════════════════════════════════════════════════════
    KEAHLIAN — apa yang dibuang dari sini, dan kenapa jangan dihidupkan lagi.
 
-   Bagian ini dulu panggung selebar layar yang di-pin, berisi tiga hal:
+   Bagian ini dulu panggung selebar screen yang di-pin, berisi tiga hal:
 
-     1. Monolit 3D (.slab) — kotak miring berputar dengan butiran, kisi, dan
+     1. Monolit 3D (.slab) — kotak miring berputar dengan butiran, grid, dan
         kilau, ditumpuk dari empat elemen.
      2. Kabut abu (.stage-fog) — tiga radial-gradient putih samar yang
         melayang pelan, ditambah latar .stage sendiri yang punya
         radial-gradient #0b0d12 di tengahnya.
      3. Kata raksasa (.stage-word) yang pecah jadi 40 huruf dan terlempar ke
-        segala arah waktu digulir.
+        segala arah waktu di-scroll.
 
    Ketiganya dibuang pada 8 Agustus 2026, beserta pin dan scrub yang jadi
    mesinnya — karena ketiganya memang satu-satunya alasan mesin itu ada.
-   Yang tersisa tiga kartu peran, dalam wadah biasa yang ikut aliran halaman,
+   Yang tersisa tiga card peran, dalam container biasa yang ikut aliran halaman,
    memakai scrub-reveal yang sama seperti bagian lain.
 
    RIWAYAT PENGUKURANNYA DISIMPAN, karena ia yang menjelaskan kenapa jangan
@@ -535,8 +535,8 @@ html.lenis,html.lenis body{height:auto}
 
    - Jumlah elemen tidak penting. Memotong 40 huruf jadi 4 baris kata cuma
      memberi 1 fps, di dalam derau pengukuran.
-   - Yang memakan frame adalah blur (dihitung PER PIKSEL LAYAR, bukan per
-     elemen) dan `pin: true` yang digabung `scrub` — Lenis memicu
+   - Yang memakan frame adalah blur (dihitung PER PIKSEL SCREEN, bukan per
+     elemen) dan `pin: true` yang digabung `scrub` — Lenis men-trigger
      ScrollTrigger.update tiap frame, dan trigger ter-pin paling mahal
      dihitung ulang. `pinType: "transform"` sudah diuji dan TIDAK menolong
      (22,9 fps, di bawah angka dasar). Jangan dicoba lagi.
@@ -544,9 +544,9 @@ html.lenis,html.lenis body{height:auto}
    Diukur di Poco M3 Pro 5G, bukan di laptop.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Kartu peran. `backdrop-filter: blur(14px)` dari baris hasil kompilasi
-   dimatikan di sini: ia memaksa peramban memburamkan ulang apa pun di
-   belakang kartu setiap frame. Sekarang di belakangnya memang tidak ada apa-
+/* Card peran. `backdrop-filter: blur(14px)` dari baris hasil kompilasi
+   dimatikan di sini: ia memaksa browser memburamkan ulang apa pun di
+   belakang card setiap frame. Sekarang di belakangnya memang tidak ada apa-
    apa lagi yang perlu tembus pandang, jadi latar hampir pekat justru lebih
    tepat — sekaligus gratis. */
 .stage-card {
@@ -558,22 +558,22 @@ html.lenis,html.lenis body{height:auto}
     color-mix(in srgb, var(--surface) 90%, transparent)
   );
   /* Hanya border yang ditransisikan CSS. Naik, skala, dan redupnya diurus
-     GSAP di initKartuPeran(); membiarkan CSS ikut memegang transform atau
+     GSAP di initRoleCards(); membiarkan CSS ikut memegang transform atau
      opacity berarti dua mesin menganimasikan properti yang sama dan yang
      menang bergantung urutan frame. */
   transition: border-color 0.45s var(--ease-brand);
 }
 
-/* Penanda kartu yang sedang disorot. Bedanya sengaja kecil: yang memimpin
-   bacaan adalah naik-dan-terangnya kartu, dan tepi yang ikut menajam cuma
-   menegaskan batas kartunya supaya sorotan itu punya bentuk. Terlalu terang
-   di sini membuat tiga kartu terbaca seperti tiga tombol. */
-.stage-card--sorot {
+/* Marker card yang sedang disorot. Bedanya sengaja kecil: yang memimpin
+   bacaan adalah naik-dan-terangnya card, dan tepi yang ikut menajam cuma
+   menegaskan batas card-nya supaya highlight itu punya bentuk. Terlalu terang
+   di sini membuat tiga card terbaca seperti tiga tombol. */
+.stage-card--highlight {
   border-color: color-mix(in srgb, var(--text) 34%, transparent);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   SOROTAN KURSOR DI KARTU PERAN — pola spotlight MagicBento (reactbits.dev),
+   HIGHLIGHT KURSOR DI CARD PERAN — pola spotlight MagicBento (reactbits.dev),
    ditelanjangi jadi monokrom.
 
    Bawaannya cahaya ungu neon plus partikel. Di palet #040508/#d8d8d8 yang
@@ -582,16 +582,16 @@ html.lenis,html.lenis body{height:auto}
    Yang tersisa di sini cuma bentuk gradiennya; warnanya --text pada 12%.
 
    SATU LAPIS, DUA PERILAKU. Titik pusat gradien dibaca dari --mx/--my yang
-   PUNYA NILAI BAWAAN 50%/30%. Di penunjuk halus, JavaScript menimpanya tiap
-   frame sehingga sorotan mengikuti kursor. Di layar sentuh tidak ada yang
-   menimpanya, jadi ia diam di tengah-atas kartu — dan itu jalur penggantinya:
-   kartu yang sedang dipilih gulir tetap mendapat cahaya, hanya saja diam.
+   PUNYA NILAI BAWAAN 50%/30%. Di fine pointer, JavaScript menimpanya tiap
+   frame sehingga highlight mengikuti kursor. Di touch screen tidak ada yang
+   menimpanya, jadi ia diam di tengah-atas card — dan itu jalur penggantinya:
+   card yang sedang dipilih scroll tetap mendapat cahaya, hanya saja diam.
    Tidak ada cabang JavaScript untuk membedakannya, dan tidak ada satu frame
    pun yang salah sebelum cabang itu dievaluasi.
 
-   Kejernihannya diikat ke .stage-card--sorot, BUKAN ke :hover. Dengan begitu
-   satu keadaan yang sama melayani hover di desktop dan gulir di sentuh —
-   kalau dipasang ke :hover, layar sentuh tidak akan pernah menyalakannya.
+   Kejernihannya diikat ke .stage-card--highlight, BUKAN ke :hover. Dengan begitu
+   satu keadaan yang sama melayani hover di desktop dan scroll di sentuh —
+   kalau dipasang ke :hover, touch screen tidak akan pernah menyalakannya.
    ═══════════════════════════════════════════════════════════════════════ */
 .stage-card::after {
   content: "";
@@ -609,11 +609,11 @@ html.lenis,html.lenis body{height:auto}
   );
 }
 
-.stage-card--sorot::after {
+.stage-card--highlight::after {
   opacity: 1;
 }
 
-/* Isi kartu harus berdiri DI ATAS sorotan. Tanpa ini gradiennya menutupi
+/* Isi card harus berdiri DI ATAS highlight. Tanpa ini gradiennya menutupi
    judul dan keterangan — ia digambar belakangan, jadi dalam urutan lukis ia
    menang meski warnanya samar. */
 .stage-card > * {
@@ -622,12 +622,12 @@ html.lenis,html.lenis body{height:auto}
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   LAMBANG CINCIN — riak yang melebar saat kartu peran disentuh kursor.
+   LOGO CINCIN — riak yang melebar saat card peran disentuh kursor.
 
-   Kartu peran adalah SATU-SATUNYA kartu di halaman ini yang dulu tidak
-   menanggapi kursor sama sekali. Kartu kemampuan meredup latarnya dan
-   isinya naik 2px, ikon perkakas berubah warna, kartu pengalaman bisa
-   diputar — kartu peran, yang justru paling besar dan berdiri paling atas,
+   Card peran adalah SATU-SATUNYA card di halaman ini yang dulu tidak
+   menanggapi kursor sama sekali. Card kemampuan meredup latarnya dan
+   isinya naik 2px, ikon perkakas berubah warna, card pengalaman bisa
+   diputar — card peran, yang justru paling besar dan berdiri paling atas,
    diam. Ini yang mengisinya.
 
    SELURUHNYA CSS, dan itu bukan penghematan baris. Riak ini berjalan saat
@@ -637,7 +637,7 @@ html.lenis,html.lenis body{height:auto}
    transition-delay bertingkat.
 
    `--i` DATANG DARI buildGlyphs(), bukan dari :nth-child. Jumlah cincin tiap
-   kartu berbeda (5, 6, 4), jadi nomor urut yang ditulis di sumbernya lebih
+   card berbeda (5, 6, 4), jadi nomor urut yang ditulis di sumbernya lebih
    jujur daripada yang disimpulkan dari posisi. Cincin luar berangkat paling
    akhir, dan itu yang membuatnya terbaca menyebar keluar alih-alih membesar
    serentak.
@@ -646,14 +646,14 @@ html.lenis,html.lenis body{height:auto}
    tengah cincin — kebetulan, karena semua cincin sepusat. Bedanya view-box
    mengambil 50% dari viewBox 64x64, jadi titiknya (32,32) untuk SEMUA cincin
    tanpa bergantung kotak isi masing-masing; fill-box menghitung ulang per
-   elemen dan ikut menyertakan tebal goresan pada sebagian peramban.
+   elemen dan ikut menyertakan stroke width pada sebagian browser.
 
-   1,08 bukan angka besar dan memang tidak boleh besar: pada lambang 48px,
+   1,08 bukan angka besar dan memang tidak boleh besar: pada logo 48px,
    cincin terluar bergeser sekitar 2px. Lebih dari itu, cincin terluar keluar
    dari viewBox dan terpotong rata — radius terbesarnya 25,8 dari batas 32.
 
-   Dibungkus (hover: hover): di layar sentuh :hover menempel setelah diketuk,
-   dan kartu ini bukan tautan, jadi tidak ada yang akan melepasnya kembali.
+   Dibungkus (hover: hover): di touch screen :hover menempel setelah diketuk,
+   dan card ini bukan link, jadi tidak ada yang akan melepasnya kembali.
    ═══════════════════════════════════════════════════════════════════════ */
 .stage-ring {
   transform-box: view-box;
@@ -668,17 +668,17 @@ html.lenis,html.lenis body{height:auto}
     transition-delay: calc(var(--i) * 45ms);
   }
 
-  /* opacity di sini menimpa atribut presentasi `opacity` yang ditulis
-     buildGlyphs() (0,25 sampai 0,95 tergantung cincinnya). Atribut presentasi
+  /* opacity di sini menimpa attribute presentasi `opacity` yang ditulis
+     buildGlyphs() (0,25 sampai 0,95 tergantung cincinnya). Attribute presentasi
      berada di urutan paling bawah cascade, jadi nilai istirahatnya tetap yang
-     dari atribut — dan transisinya tetap punya dua ujung yang sah. */
+     dari attribute — dan transisinya tetap punya dua ujung yang sah. */
   .stage-card:hover .stage-ring {
     transform: scale(1.08);
     opacity: 1;
   }
 }
 
-/* Gerak dikurangi: transisinya dimatikan DAN keadaan hover-nya dinetralkan.
+/* Reduced motion: transisinya dimatikan DAN keadaan hover-nya dinetralkan.
    Mematikan transisi saja tidak cukup — yang tersisa justru versi terburuknya,
    cincin yang melompat ke ukuran barunya tanpa peralihan sama sekali. */
 @media (prefers-reduced-motion: reduce) {
@@ -690,27 +690,27 @@ html.lenis,html.lenis body{height:auto}
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   KISI 4 — tiga utilitas jarak yang tidak ada di hasil kompilasi.
+   GRID 4 — tiga utilitas jarak yang tidak ada di hasil kompilasi.
 
    Seluruh jarak di situs ini kelipatan 4px. Itu datang gratis dari Tailwind,
    yang satu satuannya 0,25rem = 4px: mb-4 jadi 16px, gap-6 jadi 24px, p-7
-   jadi 28px. Yang meleset cuma kelas pecahan — py-1.5 (6px) di label kotak
+   jadi 28px. Yang meleset cuma class pecahan — py-1.5 (6px) di label kotak
    dan py-3.5 (14px) di tombol.
 
    Penggantinya py-2 dan py-4 TIDAK ADA di baris hasil kompilasi di atas,
-   karena Tailwind hanya mengompilasi kelas yang benar-benar dipakai dan
-   keduanya belum pernah dipakai. Menukar kelasnya begitu saja akan
+   karena Tailwind hanya mengompilasi class yang benar-benar dipakai dan
+   keduanya belum pernah dipakai. Menukar class-nya begitu saja akan
    menghapus paddingnya. Jadi keduanya ditulis di sini.
 
-   p-3 masalahnya kebalikannya, dan lebih licik: kelas itu SUDAH TERPASANG di
-   bingkai foto halaman sampul sejak versi HTML pertama (waktu itu p-2.5),
+   p-3 masalahnya kebalikannya, dan lebih licik: class itu SUDAH TERPASANG di
+   frame foto halaman sampul sejak versi HTML pertama (waktu itu p-2.5),
    tapi tidak pernah ikut terkompilasi juga. Jadi paddingnya 0px dan garis
-   bingkainya menempel rapat ke foto di semua perangkat — terlihat seperti
-   pilihan desain, padahal kelasnya cuma mati. Kelas yang salah ketik gampang
-   ketahuan karena tidak ada apa-apa yang muncul; kelas yang mati begini tidak,
+   frame-nya menempel rapat ke foto di semua perangkat — terlihat seperti
+   pilihan desain, padahal class-nya cuma mati. Class yang salah ketik gampang
+   ketahuan karena tidak ada apa-apa yang muncul; class yang mati begini tidak,
    karena yang lain di elemen sama tetap bekerja. Kalau ada jarak yang
    "kelihatannya sudah diatur tapi kok tidak ada", curigai ini dulu: cari
-   kelasnya di baris hasil kompilasi, bukan di HTML.
+   class-nya di baris hasil kompilasi, bukan di HTML.
 
    Kalau suatu saat Tailwind dijalankan ulang, tiga aturan ini boleh dibuang.
    ═══════════════════════════════════════════════════════════════════════ */
@@ -722,21 +722,21 @@ html.lenis,html.lenis body{height:auto}
 /* 16px — tombol utama */
 .p-3  { padding: 0.75rem }
 
-/* 12px — bingkai foto sampul */
+/* 12px — frame foto sampul */
 
 /* ══════════════════════════════════════════════════════════════════════════
    KEMAMPUAN PROFESIONAL — ikon, judul, dan keterangan yang lurus sejajar.
 
-   Tiap kartu berisi tiga hal bertumpuk: ikon, judul, keterangan. Supaya
+   Tiap card berisi tiga hal bertumpuk: ikon, judul, keterangan. Supaya
    barisnya terbaca sebagai satu baris utuh, ketiganya harus lurus sejajar
-   dengan kartu di sebelahnya. Masalahnya panjang judulnya berbeda-beda —
+   dengan card di sebelahnya. Masalahnya panjang judulnya berbeda-beda —
    "Adaptabilitas" satu baris, "Analisis & Pemecahan Masalah" bisa tiga di
-   layar sempit — jadi kesejajarannya tidak datang dengan sendirinya.
+   screen sempit — jadi kesejajarannya tidak datang dengan sendirinya.
 
    CARA LAMA DAN KENAPA IA GAGAL
 
-   Dulu kartunya flex-column dengan justify-between: ikon didorong ke atas,
-   blok teks ke bawah. Karena kartu satu baris tingginya sama rata, blok teks
+   Dulu card-nya flex-column dengan justify-between: ikon didorong ke atas,
+   blok teks ke bawah. Karena card satu baris tingginya sama rata, blok teks
    yang lebih tinggi mulai lebih ATAS — judul 3 baris jadi tidak sejajar
    dengan judul 2 baris di sebelahnya. Ada tinggi cadangan min-h-12 (48px)
    untuk menahannya, tapi 48px cuma muat dua baris; judul yang tiga baris
@@ -744,19 +744,19 @@ html.lenis,html.lenis body{height:auto}
 
    Diukur sebelum diperbaiki: di >=768px semua judul kebetulan jatuh 2 baris
    sehingga terlihat sejajar, tapi di 360, 390, dan 414px jarak ikon ke judul
-   jadi 60px di satu kartu dan 16px di kartu sebelahnya. Jadi kesejajarannya
+   jadi 60px di satu card dan 16px di card sebelahnya. Jadi kesejajarannya
    selama ini KEBETULAN, bukan diatur — dan yang kebetulan akan lepas lagi
    begitu ada judul yang lebih panjang ditambahkan.
 
    CARA SEKARANG
 
-   subgrid: tiap kartu meminjam tiga baris milik kisi induknya, jadi tinggi
+   subgrid: tiap card meminjam tiga baris milik grid induknya, jadi tinggi
    baris ikon, baris judul, dan baris keterangan ditentukan BERSAMA oleh
-   seluruh kartu dalam satu baris. Yang paling tinggi menentukan, sisanya
+   seluruh card dalam satu baris. Yang paling tinggi menentukan, sisanya
    ikut. Tidak ada angka cadangan yang perlu ditebak, dan berapa pun panjang
    judul yang ditambahkan nanti perataannya tetap.
 
-   Konsekuensinya kartu berjudul pendek menyisakan ruang kosong di bawah
+   Konsekuensinya card berjudul short menyisakan ruang kosong di bawah
    keterangannya. Itu memang pertukarannya, dan ia pilihan yang benar:
    ruang kosong yang rata terbaca sebagai kolom, tulisan yang naik-turun
    tidak terbaca sebagai apa pun.
@@ -770,39 +770,39 @@ html.lenis,html.lenis body{height:auto}
 
    2. Jangan pasang min-height ke .skill-card. Tinggi paksa di elemen yang
       merentang tiga baris akan dibagikan ke ketiga barisnya, dan jarak ikon
-      ke judul mengembang lagi persis seperti cara lama. Tinggi kartu sekarang
+      ke judul mengembang lagi persis seperti cara lama. Tinggi card sekarang
       ditentukan isinya, dan itu memang yang diinginkan.
 
    3. Jaraknya ditulis sebagai margin di anaknya, bukan row-gap di induknya.
-      row-gap milik kisi induk, dan mengubahnya akan merenggangkan seluruh
-      halaman, bukan cuma kartu ini.
+      row-gap milik grid induk, dan mengubahnya akan merenggangkan seluruh
+      halaman, bukan cuma card ini.
 
    KOLOM — DAN KENAPA ANGKANYA ENAM
 
-   Kartunya lima, jumlah ganjil, jadi kisi berkolom tetap selalu menyisakan
+   Card-nya lima, jumlah ganjil, jadi grid berkolom tetap selalu menyisakan
    sel kosong di baris terakhir. Sel kosong itu bukan sekadar jelek: ia
-   dikelilingi garis kartu di kiri dan atasnya tapi tidak punya garis sendiri,
-   sehingga sudut kanan-bawah kisinya menganga dan terbaca seperti isi yang
-   gagal dimuat. Dulu masalah ini dihindari dengan flex-wrap — kartu baris
+   dikelilingi garis card di kiri dan atasnya tapi tidak punya garis sendiri,
+   sehingga sudut kanan-bawah grid-nya menganga dan terbaca seperti isi yang
+   gagal dimuat. Dulu masalah ini dihindari dengan flex-wrap — card baris
    terakhir memanjang sendiri mengisi sisa lebar.
 
-   Sekarang kisinya ENAM kolom, dan kartunya merentang: tiga kartu pertama
-   dua kolom (3 x 2 = 6, baris penuh), dua kartu terakhir tiga kolom
+   Sekarang grid-nya ENAM kolom, dan card-nya merentang: tiga card pertama
+   dua kolom (3 x 2 = 6, baris penuh), dua card terakhir tiga kolom
    (2 x 3 = 6, baris penuh juga). Enam adalah kelipatan persekutuan terkecil
    dari 3 dan 2, jadi kedua baris habis rata tanpa sisa. Hasilnya sama persis
-   dengan flex-wrap dulu — baris atas tiga kartu, baris bawah dua kartu
-   selebar setengah — tapi kali ini di atas kisi sungguhan, yang dibutuhkan
+   dengan flex-wrap dulu — baris atas tiga card, baris bawah dua card
+   selebar setengah — tapi kali ini di atas grid sungguhan, yang dibutuhkan
    subgrid untuk bekerja.
 
-   ANGKA ENAM ITU TERIKAT KE JUMLAH KARTU. Kalau nanti kartunya jadi enam,
-   ubah jadi kisi biasa tiga kolom (2 baris x 3) dan buang perentangannya;
-   kalau jadi empat, dua kolom. Kalau ditambah tanpa dihitung ulang, kartu
+   ANGKA ENAM ITU TERIKAT KE JUMLAH CARD. Kalau nanti card-nya jadi enam,
+   ubah jadi grid biasa tiga kolom (2 baris x 3) dan buang perentangannya;
+   kalau jadi empat, dua kolom. Kalau ditambah tanpa dihitung ulang, card
    keenam akan merentang tiga kolom sendirian dan menyisakan lubang lagi.
 
-   Di >=1024px kelimanya muat berdampingan, jadi kisinya jadi lima kolom dan
+   Di >=1024px kelimanya muat berdampingan, jadi grid-nya jadi lima kolom dan
    perentangannya dimatikan. Angka 1024 bukan selera: sebelum diperbaiki,
-   di lebar itu kartu kelima terlempar ke baris sendirian dan memanjang jadi
-   975px — satu kartu selebar layar penuh di bawah empat kartu sempit.
+   di lebar itu card kelima terlempar ke baris sendirian dan memanjang jadi
+   975px — satu card selebar screen penuh di bawah empat card sempit.
    ═══════════════════════════════════════════════════════════════════════ */
 .skill-grid {
   display: grid;
@@ -811,10 +811,10 @@ html.lenis,html.lenis body{height:auto}
 
 .skill-card              { grid-column: span 2 }
 
-/* tiga kartu pertama */
+/* tiga card pertama */
 .skill-card:nth-child(n + 4) { grid-column: span 3 }
 
-/* dua kartu terakhir */
+/* dua card terakhir */
 
 @media (width >= 1024px) {
   .skill-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) }
@@ -845,8 +845,8 @@ html.lenis,html.lenis body{height:auto}
 .skill-card:hover > span,
 .skill-card:hover > p { transform: translateY(-2px) }
 
-/* Peramban tanpa subgrid — Chrome di bawah 117, Safari di bawah 16, dan
-   sebagian WebView Android bawaan aplikasi. Di sana kartunya kembali jadi
+/* Browser tanpa subgrid — Chrome di bawah 117, Safari di bawah 16, dan
+   sebagian WebView Android bawaan aplikasi. Di sana card-nya kembali jadi
    kotak biasa dan judulnya diberi tinggi cadangan 72px, cukup untuk tiga
    baris pada 14px/1,6. Ikon dan judul tetap sejajar karena jaraknya tetap;
    yang bisa meleset cuma keterangan, dan cuma kalau ada judul yang lebih
@@ -857,40 +857,40 @@ html.lenis,html.lenis body{height:auto}
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   KARTU PERAN UTAMA — melebar dua kolom.
+   CARD PERAN UTAMA — melebar dua kolom.
 
-   Bagian Keahlian berisi tiga kartu, satu untuk tiap peran yang diketikkan
-   di halaman sampul. Kartu pertama melebar sepenuh baris supaya hierarkinya
+   Bagian Keahlian berisi tiga card, satu untuk tiap peran yang diketikkan
+   di halaman sampul. Card pertama melebar sepenuh baris supaya hierarkinya
    TERLIHAT, bukan dijelaskan: pembaca langsung tahu mana peran yang dilamar
    lebih dulu tanpa perlu membaca label "utama" atau "penunjang".
 
-   Ia juga yang membuat tiga kartu tetap mengisi kisi dua kolom dengan rapi.
-   Tanpa ini, kartu ketiga berdiri sendirian menyisakan satu sel kosong yang
+   Ia juga yang membuat tiga card tetap mengisi grid dua kolom dengan rapi.
+   Tanpa ini, card ketiga berdiri sendirian menyisakan satu sel kosong yang
    terbaca sebagai ada yang lupa dipasang.
 
-   Di ponsel (<=639px) kisinya sudah satu kolom, jadi aturan ini tidak
-   mengubah apa pun di sana — semua kartu memang sudah selebar layar.
+   Di ponsel (<=639px) grid-nya sudah satu kolom, jadi aturan ini tidak
+   mengubah apa pun di sana — semua card memang sudah selebar screen.
    ═══════════════════════════════════════════════════════════════════════ */
-/* Penempatan kisi ada di SLOT, bukan di kartunya. Kartunya sudah dipakai
-   sorotan untuk skala dan naik, dan elemen kisi yang di-transform tetap
+/* Penempatan grid ada di SLOT, bukan di card-nya. Card-nya sudah dipakai
+   highlight untuk skala dan naik, dan elemen grid yang di-transform tetap
    menempati selnya yang lama — jadi memisahkannya membuat "di mana ia duduk"
    dan "bagaimana ia bergerak" tidak pernah saling mengganggu.
 
-   .stage-card--lead sengaja dipertahankan sebagai kelas meski penempatannya
+   .stage-card--lead sengaja dipertahankan sebagai class meski penempatannya
    pindah: ia masih dipakai untuk hal lain (lebar teks, ukuran judul). */
 /*
- * width: 100% WAJIB, dan tanpanya kartu utama menciut.
+ * width: 100% WAJIB, dan tanpanya card utama menciut.
  *
  * .stage-orbit memakai `place-items: stretch center` — bagian `center` itu
- * `justify-items`, yang membuat tiap item kisi menciut mengikuti isinya lalu
- * dipusatkan di selnya. Dulu itu tidak terlihat karena KARTU yang jadi item
- * kisi, dan .stage-card punya width:100% yang memaksanya penuh. Begitu slot
- * disisipkan sebagai item kisi, slot itulah yang kena penciutan — dan
- * width:100% di kartunya jadi 100% dari slot yang sudah menciut.
+ * `justify-items`, yang membuat tiap item grid menciut mengikuti isinya lalu
+ * dipusatkan di selnya. Dulu itu tidak terlihat karena CARD yang jadi item
+ * grid, dan .stage-card punya width:100% yang memaksanya penuh. Begitu slot
+ * disisipkan sebagai item grid, slot itulah yang kena penciutan — dan
+ * width:100% di card-nya jadi 100% dari slot yang sudah menciut.
  *
- * Terukur sebelum baris ini ada: kartu utama 740px di dalam sel selebar
- * 1100px, terpusat, sementara dua kartu di bawahnya tetap penuh. Yang
- * terlihat bukan hierarki melainkan tata letak yang salah.
+ * Terukur sebelum baris ini ada: card utama 740px di dalam sel selebar
+ * 1100px, terpusat, sementara dua card di bawahnya tetap penuh. Yang
+ * terlihat bukan hierarki melainkan layout yang salah.
  */
 .stage-slot {
   display: flex;
@@ -901,7 +901,7 @@ html.lenis,html.lenis body{height:auto}
 .stage-slot--lead { grid-column: 1 / -1 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PEMBUKA — panel yang menutup layar sampai monogramnya selesai terbentuk.
+   PEMBUKA — panel yang menutup screen sampai monogramnya selesai terbentuk.
 
    Panel ini SUDAH terlihat sejak gambar pertama, tanpa menunggu JavaScript:
    background dan posisinya ditulis di sini, bukan disetel GSAP. Itu yang
@@ -911,10 +911,10 @@ html.lenis,html.lenis body{height:auto}
    Kalau JavaScript gagal dimuat, panel ini tidak akan menggantung selamanya:
    ia dirender oleh React, jadi tanpa JS ia tidak pernah ada sama sekali.
 
-   z-index 80 di atas bilah status (40) dan tombol naik (50), supaya tidak ada
+   z-index 80 di atas bar status (40) dan tombol naik (50), supaya tidak ada
    yang menyembul di atas panel saat ia sedang menutup.
    ═══════════════════════════════════════════════════════════════════════ */
-.pembuka {
+.intro {
   position: fixed;
   inset: 0;
   z-index: 80;
@@ -927,32 +927,32 @@ html.lenis,html.lenis body{height:auto}
   clip-path: inset(0% 0% 0% 0%);
 }
 
-/* Kunci gulir selama pembuka. Dipasang dan dilepas oleh initPembuka(), dan
-   ikut dilepas oleh pembongkar -- kalau tidak, StrictMode meninggalkan
-   halaman yang tidak bisa digulir di mode pengembangan. */
-html.pembuka-aktif,
-html.pembuka-aktif body {
+/* Kunci scroll selama intro. Dipasang dan dilepas oleh initIntro(), dan
+   ikut dilepas oleh teardown -- kalau tidak, StrictMode meninggalkan
+   halaman yang tidak bisa di-scroll di mode pengembangan. */
+html.intro-active,
+html.intro-active body {
   overflow: hidden;
 }
 
-.pembuka-isi {
+.intro-inner {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.pembuka-lambang {
+.intro-mark {
   width: min(52vw, 168px);
   height: auto;
-  /* Goresan tebal menonjol keluar viewBox di puncak; tanpa ini ujungnya
+  /* Stroke tebal menonjol keluar viewBox di puncak; tanpa ini ujungnya
      terpotong rata. */
   overflow: visible;
 }
 
-.pembuka-lambang path {
+.intro-mark path {
   fill: none;
-  /* butt, bukan square: ujung persegi menambah setengah tebal goresan di
-     kedua ujung tiap garis, dan pada goresan setebal 12 itu membuat tiangnya
+  /* butt, bukan square: ujung persegi menambah setengah stroke width di
+     kedua ujung tiap garis, dan pada stroke setebal 12 itu membuat tiangnya
      menjulur 6 satuan melewati palang. miter yang membentuk sudut lancip di
      puncak -- sudutnya 84,6 derajat, jauh di dalam batas miter bawaan, jadi
      ia tidak pernah dipangkas jadi bevel. */
@@ -960,58 +960,58 @@ html.pembuka-aktif body {
   stroke-linejoin: miter;
 }
 
-/* SATU warna untuk seluruh lambang, termasuk heksagonnya.
+/* SATU warna untuk seluruh logo, termasuk heksagonnya.
 
    --text (#d8d8d8), bukan #fff. Itu warna yang dipakai seluruh teks di situs
    ini; putih murni akan lebih terang daripada apa pun yang menyusul di
-   halaman, dan lambangnya jadi menyala sendiri alih-alih senada.
+   halaman, dan logo-nya jadi menyala sendiri alih-alih senada.
 
-   Yang membedakan heksagon dari tandanya sekarang cuma tebal goresan --
+   Yang membedakan heksagon dari tandanya sekarang cuma stroke width --
    1,5 lawan 12 -- dan itu cukup: rasio delapan kali lipat membuat tandanya
    tetap yang dibaca lebih dulu tanpa perlu dibedakan warnanya. */
-.pembuka-lambang path {
+.intro-mark path {
   stroke: var(--text);
 }
 
-.pembuka-lambang [data-pembuka-bingkai] path {
+.intro-mark [data-intro-frame] path {
   stroke-width: 1.5;
-  /* Rambut heksagonnya tetap setipis itu berapa pun lambangnya diperbesar,
-     sama seperti garis .corner-marks di bingkai foto. */
+  /* Rambut heksagonnya tetap setipis itu berapa pun logo-nya diperbesar,
+     sama seperti garis .corner-marks di frame foto. */
   vector-effect: non-scaling-stroke;
 }
 
 /* Tebal 12 dari 176 satuan lebar. Ini yang membuat tandanya bertubuh alih-alih
    terbaca sebagai garis rambut seperti versi pertama. */
-.pembuka-lambang [data-pembuka-goresan] path,
-.pembuka-lambang [data-pembuka-kunci] path {
+.intro-mark [data-intro-stroke] path,
+.intro-mark [data-intro-lock] path {
   stroke-width: 12;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
    GALERI AKORDEON — bagian Sertifikat.
 
-   Menggantikan .arrival-* (panggung yang di-pin setinggi satu layar dengan
-   kisi kartu yang hanyut masuk). Aturan lamanya ikut dibuang, bukan
+   Menggantikan .arrival-* (panggung yang di-pin setinggi satu screen dengan
+   grid card yang hanyut masuk). Aturan lamanya ikut dibuang, bukan
    ditinggalkan menganggur.
 
    PEMBAGIAN RUANG SEPENUHNYA flex-grow, tanpa satu pun lebar piksel. Nilai
-   grow-nya disetel GSAP di initGaleriAkordeon(), jadi di sini panelnya cuma
-   diberi basis yang sama (flex: 1 1 0) dan wadahnya diberi tinggi tetap --
+   grow-nya disetel GSAP di initAccordionGallery(), jadi di sini panelnya cuma
+   diberi basis yang sama (flex: 1 1 0) dan container-nya diberi tinggi tetap --
    yang membesar mengambil porsi, yang lain menyusut, tanpa ada angka yang
-   harus dihitung ulang saat lebar layar berubah.
+   harus dihitung ulang saat lebar viewport berubah.
 
-   perspective ditaruh di WADAH, bukan di tiap panel. Kalau tiap panel punya
+   perspective ditaruh di CONTAINER, bukan di tiap panel. Kalau tiap panel punya
    perspektifnya sendiri, titik hilangnya ikut berpindah bersama panelnya dan
    deretan yang miring tidak lagi terbaca sebagai satu ruang.
 
    ── MENDATAR DI SEMUA LEBAR, DAN APA ONGKOSNYA ──────────────────────────
 
-   Sampai 8 Agustus 2026 galeri ini TEGAK di bawah 900px, dengan alasan yang
-   ditulis di sini: enam bilah mendatar setinggi ~55px masih bisa disentuh,
-   enam bilah tegak selebar 55px tidak. Alasan itu dilepas atas permintaan,
+   Sampai 8 Agustus 2026 gallery ini TEGAK di bawah 900px, dengan alasan yang
+   ditulis di sini: enam bar mendatar setinggi ~55px masih bisa disentuh,
+   enam bar tegak selebar 55px tidak. Alasan itu dilepas atas permintaan,
    dan penggantinya bukan "ternyata dulu salah" — melainkan bahwa MENGETUK
-   BILAH BUKAN LAGI CARA UTAMA MENELUSURI. Sejak gulir ikut memilih panel di
-   perangkat tanpa hover, bilah sempit cuma jalan pintas; yang harus cukup
+   BAR BUKAN LAGI CARA UTAMA MENELUSURI. Sejak scroll ikut memilih panel di
+   perangkat tanpa hover, bar sempit cuma jalan pintas; yang harus cukup
    besar untuk jari hanyalah panel yang sedang TERBUKA, dan ia 155-190px.
 
    TINGGINYA JUSTRU DIPENDEKKAN, DAN ITU BUKAN SEKADAR "supaya muat".
@@ -1025,9 +1025,9 @@ html.pembuka-aktif body {
 
    Sisa 45% yang tetap terpangkas itu ongkos yang tidak bisa dihapus: bentuk
    landscape di dalam lubang portrait memang tidak pernah muat utuh. Yang
-   dibuka saat diketuk tetap PDF penuh, jadi yang hilang cuma pratinjaunya.
+   dibuka saat diketuk tetap PDF penuh, jadi yang hilang cuma preview-nya.
    ═══════════════════════════════════════════════════════════════════════ */
-.galeri {
+.gallery {
   display: flex;
   flex-direction: row;
   gap: 6px;
@@ -1035,23 +1035,23 @@ html.pembuka-aktif body {
   perspective: 1400px;
 }
 
-/* Tablet punya lebar untuk bernapas: pada 768px bilahnya 65px dan panel
+/* Tablet punya lebar untuk bernapas: pada 768px bar-nya 65px dan panel
    aktifnya 354px, jadi tingginya boleh naik tanpa memangkas terlalu banyak. */
 @media (width >= 640px) {
-  .galeri {
+  .gallery {
     gap: 8px;
     height: clamp(260px, 34svh, 340px);
   }
 }
 
 @media (width >= 900px) {
-  .galeri {
+  .gallery {
     gap: 10px;
     height: clamp(320px, 52svh, 460px);
   }
 }
 
-.galeri-panel {
+.gallery-panel {
   position: relative;
   flex: 1 1 0;
   min-width: 0;
@@ -1060,34 +1060,34 @@ html.pembuka-aktif body {
   overflow: hidden;
   border-radius: 14px;
   background: var(--panel-surface);
-  /* flex-grow ikut disebut karena itu yang dianimasikan; tanpa ini peramban
-     tidak menyiapkan lapisannya dan tiap frame memicu tata letak ulang. */
+  /* flex-grow ikut disebut karena itu yang dianimasikan; tanpa ini browser
+     tidak menyiapkan layer-nya dan tiap frame men-trigger layout ulang. */
   will-change: flex-grow, transform;
 }
 
-.galeri-panel:focus-visible {
+.gallery-panel:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
-.galeri-media {
+.gallery-media {
   position: absolute;
   inset: 0;
   display: block;
   overflow: hidden;
 }
 
-.galeri-media img {
+.gallery-media img {
   width: 100%;
   height: 100%;
   /* object-position atas: sertifikat menaruh judul dan nama di bagian atas
-     lembar, jadi itu yang harus selamat saat panelnya menyempit jadi bilah. */
+     lembar, jadi itu yang harus selamat saat panelnya menyempit jadi bar. */
   object-fit: cover;
   object-position: top center;
   display: block;
 }
 
-.galeri-tirai {
+.gallery-veil {
   position: absolute;
   inset: 0;
   background: #0c0c0c;
@@ -1095,14 +1095,14 @@ html.pembuka-aktif body {
   pointer-events: none;
 }
 
-/* Padding dan gap-nya DIHITUNG DARI LEBAR BILAH TERSEMPIT, bukan dipilih
-   karena enak dilihat. Pada 360px bilah yang tertutup selebar 28,6px; dengan
+/* Padding dan gap-nya DIHITUNG DARI LEBAR BAR TERSEMPIT, bukan dipilih
+   karena enak dilihat. Pada 360px bar yang tertutup selebar 28,6px; dengan
    padding 6px dan ikon 13px, ikon itu berakhir di 19px — masih di dalam 22px
    sisa ruangnya. Menaikkan salah satu dari ketiganya membuat ikon tersentuh
    `overflow: hidden` panelnya dan terpotong separuh, dan itulah satu-satunya
-   penanda yang dipunyai panel tertutup. Teks judul di sebelahnya boleh
+   marker yang dipunyai panel tertutup. Teks judul di sebelahnya boleh
    melimpah: ia ber-opacity 0 selama panelnya tidak aktif. */
-.galeri-label {
+.gallery-label {
   position: absolute;
   inset-inline: 0;
   bottom: 0;
@@ -1118,31 +1118,31 @@ html.pembuka-aktif body {
 }
 
 @media (width >= 640px) {
-  .galeri-label {
+  .gallery-label {
     gap: 0.5rem;
     padding: 0.75rem;
   }
 }
 
 @media (width >= 900px) {
-  .galeri-label {
+  .gallery-label {
     gap: 0.75rem;
     padding: 1rem;
   }
 }
 
-.galeri-ikon {
+.gallery-icon {
   flex: none;
   font-size: 13px;
 }
 
 @media (width >= 900px) {
-  .galeri-ikon {
+  .gallery-icon {
     font-size: 16px;
   }
 }
 
-.galeri-teks {
+.gallery-text {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -1154,7 +1154,7 @@ html.pembuka-aktif body {
    elipsis. Pada 13px ia ~119px dan muat utuh. Kalau nanti ada judul yang
    lebih panjang, yang dipendekkan judulnya, bukan angka ini: di bawah 13px
    sumbernya (11px x 0,85) jatuh ke ukuran yang tidak lagi terbaca. */
-.galeri-judul {
+.gallery-title {
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
@@ -1162,7 +1162,7 @@ html.pembuka-aktif body {
   text-overflow: ellipsis;
 }
 
-.galeri-sumber {
+.gallery-source {
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.12em;
@@ -1172,84 +1172,84 @@ html.pembuka-aktif body {
 }
 
 @media (width >= 900px) {
-  .galeri-judul {
+  .gallery-title {
     font-size: 16px;
   }
-  .galeri-sumber {
+  .gallery-source {
     font-size: 11px;
     letter-spacing: 0.14em;
   }
 }
 
-/* Petunjuk interaksi galeri: dua kalimat, yang dipakai dipilih CSS.
+/* Petunjuk interaksi gallery: dua kalimat, yang dipakai dipilih CSS.
 
    Pembedanya HARUS media query, bukan cabang JavaScript. `@media (hover:
    hover)` sudah dievaluasi sebelum cat pertama, jadi tidak ada satu frame pun
    yang menampilkan kalimat perangkat yang salah — sementara cabang JS baru
    berjalan setelah hidrasi dan akan terlihat berganti. Yang tersembunyi
-   `display: none`, bukan opacity, supaya pembaca layar juga hanya menemukan
+   `display: none`, bukan opacity, supaya screen reader juga hanya menemukan
    satu kalimat.
 
-   Bawaannya versi sentuh, dan versi penunjuk yang harus meminta izin. Sebab
-   `(hover: hover)` bisa salah menjawab "ya" pada beberapa peramban ponsel,
+   Bawaannya versi sentuh, dan versi pointer yang harus meminta izin. Sebab
+   `(hover: hover)` bisa salah menjawab "ya" pada beberapa browser ponsel,
    sedangkan kebalikannya tidak pernah terjadi. */
-.petunjuk-tunjuk {
+.hint-pointer {
   display: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .petunjuk-tunjuk {
+  .hint-pointer {
     display: inline;
   }
-  .petunjuk-sentuh {
+  .hint-touch {
     display: none;
   }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   TUMPUKAN KARTU PENGALAMAN.
+   STACK CARD PENGALAMAN.
 
-   Menggantikan .hinge-list (kartu berdampingan yang berputar pada engsel di
+   Menggantikan .hinge-list (card berdampingan yang berputar pada engsel di
    tepi atasnya). Aturan lamanya ikut dibuang, bukan ditinggalkan menganggur.
 
-   POSISI ABSOLUT BARU BERLAKU SETELAH .tukar-siap, dan kelas itu ditambahkan
-   dari JavaScript. Urutannya disengaja: tanpa skrip, kartunya mengalir ke
+   POSISI ABSOLUT BARU BERLAKU SETELAH .swap-ready, dan class itu ditambahkan
+   dari JavaScript. Urutannya disengaja: tanpa skrip, card-nya mengalir ke
    bawah sebagai daftar biasa yang utuh terbaca. Kalau aturan absolut ini
-   ditulis tanpa syarat, kegagalan memuat skrip meninggalkan dua kartu yang
+   ditulis tanpa syarat, kegagalan memuat skrip meninggalkan dua card yang
    saling menimpa di tempat yang sama.
 
-   perspective ditaruh di WADAH. Kalau tiap kartu punya perspektifnya sendiri,
-   titik hilangnya ikut berpindah bersama kartunya dan tumpukan yang miring
+   perspective ditaruh di CONTAINER. Kalau tiap card punya perspektifnya sendiri,
+   titik hilangnya ikut berpindah bersama card-nya dan stack yang miring
    tidak lagi terbaca sebagai satu ruang.
 
-   Tinggi .tukar-tumpuk dan --tukar-atas DISETEL DARI JS, hasil pengukuran
-   kartu tertinggi. Tidak ada tinggi tetap di sini: rincian pekerjaan boleh
+   Tinggi .swap-stack dan --swap-top DISETEL DARI JS, hasil pengukuran
+   card tertinggi. Tidak ada tinggi tetap di sini: rincian pekerjaan boleh
    sepanjang apa pun tanpa satu baris pun terpotong.
    ═══════════════════════════════════════════════════════════════════════ */
-.tukar-tumpuk {
+.swap-stack {
   position: relative;
   perspective: 1600px;
 }
 
-.tukar-kartu {
+.swap-card {
   border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--divider);
   padding: 1.5rem;
   margin-bottom: 1rem;
-  /* Kolom flex, supaya .tukar-isi bisa flex:1 dan MEREGANG setinggi kartu.
+  /* Kolom flex, supaya .swap-body bisa flex:1 dan MEREGANG setinggi card.
      Tanpa ini height:100% di dalamnya tidak punya tinggi induk untuk dirujuk
-     (kartunya cuma punya min-height), grid di dalamnya berhenti setinggi
+     (card-nya cuma punya min-height), grid di dalamnya berhenti setinggi
      isinya, dan `mt-auto` pada baris tag tidak punya sisa ruang untuk
-     didorong -- tagnya menempel di bawah tautan alih-alih di dasar kartu. */
+     didorong -- tagnya menempel di bawah link alih-alih di dasar card. */
   display: flex;
   flex-direction: column;
 }
 
-.tukar-siap .tukar-kartu {
+.swap-ready .swap-card {
   position: absolute;
   inset-inline: 0;
-  top: var(--tukar-atas, 0px);
+  top: var(--swap-top, 0px);
   margin-bottom: 0;
   transform-origin: 50% 50%;
   backface-visibility: hidden;
@@ -1257,32 +1257,32 @@ html.pembuka-aktif body {
 }
 
 @media (width >= 640px) {
-  .tukar-kartu { padding: 2rem }
+  .swap-card { padding: 2rem }
 }
 
 @media (width >= 900px) {
-  .tukar-kartu {
+  .swap-card {
     padding: 2.5rem;
-    /* "Satu kartu memenuhi layar": di desktop kartunya diberi lantai tinggi
+    /* "Satu card memenuhi screen": di desktop card-nya diberi lantai tinggi
        supaya ia mengisi ruang, bukan mengambang kecil di tengah bagian. Ini
        LANTAI, bukan tinggi tetap -- isi yang lebih panjang tetap mendorongnya
-       tumbuh, dan tumpukannya ikut karena tingginya diukur dari isi. */
+       tumbuh, dan stack-nya ikut karena tingginya diukur dari isi. */
     min-height: min(56svh, 480px);
   }
 }
 
-.tukar-isi {
+.swap-body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   flex: 1;
 }
 
-/* Dua kolom di >=900px. Kartu selebar 56rem dengan rincian satu kolom penuh
+/* Dua kolom di >=900px. Card selebar 56rem dengan rincian satu kolom penuh
    menghasilkan baris sekitar 120 karakter; mata kehilangan tempat saat
    berpindah baris. Kiri identitas pekerjaan, kanan rinciannya. */
 @media (width >= 900px) {
-  .tukar-isi {
+  .swap-body {
     display: grid;
     grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
     gap: 3.5rem;
@@ -1290,50 +1290,50 @@ html.pembuka-aktif body {
   }
 }
 
-.tukar-kiri {
+.swap-left {
   display: flex;
   flex-direction: column;
 }
 
-.tukar-rinci {
+.swap-details {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
 /* 0,75rem, bukan 2rem seperti sebelumnya. Titiknya sekarang setinggi 44px
-   (dulu 4px) demi area sentuh, dan bilah tampaknya duduk di tengah tinggi itu
-   — jadi 20px dari kenaikan tinggi itu jatuh DI ATAS bilah. Menahan margin di
-   2rem akan mendorong bilahnya turun 20px dari tempatnya semula. */
-.tukar-kendali {
+   (dulu 4px) demi area sentuh, dan bar tampaknya duduk di tengah tinggi itu
+   — jadi 20px dari kenaikan tinggi itu jatuh DI ATAS bar. Menahan margin di
+   2rem akan mendorong bar-nya turun 20px dari tempatnya semula. */
+.swap-controls {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
   margin-top: 0.75rem;
 }
 
-/* Bilah, bukan bulatan: bentuk yang sama dengan penanda bab di bilah status,
+/* Bar, bukan bulatan: bentuk yang sama dengan chapter marker di bar status,
    jadi "yang ini sedang aktif" dinyatakan dengan kosakata yang sudah dipakai
    di tempat lain di situs ini. */
 /*
- * BILAHNYA 4px, TAPI TOMBOLNYA 44px — dan pemisahan itu bukan kerapian.
+ * BAR-nya 4px, TAPI TOMBOLNYA 44px — dan pemisahan itu bukan kerapian.
  *
  * Sebelum 9 Agustus 2026 tombolnya SENDIRI setinggi 4px. Terukur di audit
- * lintas perangkat: itu sasaran sentuh 34x4 dan 56x4. Pedoman Apple dan
+ * lintas perangkat: itu target sentuh 34x4 dan 56x4. Pedoman Apple dan
  * Google sama-sama meminta minimal 44 dan 48px pada sisi TERPENDEK, dan 4px
- * bukan sekadar di bawah ambang — ia praktis tidak bisa dikenai jempol.
+ * bukan sekadar di bawah threshold — ia praktis tidak bisa dikenai jempol.
  *
  * Yang membuatnya parah bukan titiknya sendiri, melainkan apa yang ada di
- * baliknya: kartu belakang di tumpukan Pengalaman sengaja `inert`, jadi
+ * baliknya: card belakang di stack Pengalaman sengaja `inert`, jadi
  * titik inilah SATU-SATUNYA jalan sentuh dan keyboard ke sana. Pengunjung
  * ponsel yang tidak bisa mengenainya tidak punya cara lain melihat
  * pengalaman kedua dan ketiga selain menunggu putaran otomatis.
  *
- * Jadi tombolnya diberi tinggi 44px yang tembus pandang, dan bilah yang
+ * Jadi tombolnya diberi tinggi 44px yang tembus pandang, dan bar yang
  * terlihat pindah ke ::before. Tampilannya tidak berubah satu piksel pun;
  * yang berubah cuma daerah yang menangkap sentuhan.
  */
-.tukar-titik {
+.swap-dot {
   position: relative;
   width: 34px;
   height: 44px;
@@ -1342,7 +1342,7 @@ html.pembuka-aktif body {
   transition: width 0.4s var(--ease);
 }
 
-.tukar-titik::before {
+.swap-dot::before {
   content: "";
   position: absolute;
   inset-inline: 0;
@@ -1354,22 +1354,22 @@ html.pembuka-aktif body {
   transition: background 0.4s var(--ease);
 }
 
-.tukar-titik[aria-selected="true"] {
+.swap-dot[aria-selected="true"] {
   width: 56px;
 }
 
-.tukar-titik[aria-selected="true"]::before {
+.swap-dot[aria-selected="true"]::before {
   background: var(--text);
 }
 
-/* Cincin fokus mengelilingi BILAHNYA, bukan kotak sentuh 44px — kalau tidak,
+/* Cincin fokus mengelilingi BAR-nya, bukan kotak sentuh 44px — kalau tidak,
    yang tergambar persegi tinggi yang mengambang jauh dari apa pun yang
    terlihat, dan pengguna keyboard kehilangan jejak posisinya. */
-.tukar-titik:focus-visible {
+.swap-dot:focus-visible {
   outline: none;
 }
 
-.tukar-titik:focus-visible::before {
+.swap-dot:focus-visible::before {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
 }

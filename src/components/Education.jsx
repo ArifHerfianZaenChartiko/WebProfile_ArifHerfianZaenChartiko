@@ -1,16 +1,16 @@
-export default function Pendidikan() {
+export default function Education() {
   return (
     <>
       {/* Jembatan gelap → terang. Batas keras antara hitam dan putih terbaca
            sebagai bug render, jadi perlu peralihan — tapi TIDAK setinggi
-           setengah layar seperti dulu (28/40/50vh). Yang dibutuhkan mata cuma
+           setengah screen seperti dulu (28/40/50vh). Yang dibutuhkan mata cuma
            gradien yang cukup panjang untuk tidak terbaca sebagai garis; sisanya
-           jadi ruang kosong yang harus digulir. Bersama pita kembarnya sebelum
+           jadi ruang kosong yang harus di-scroll. Bersama band kembarnya sebelum
            Kontak, keduanya dulu menyumbang 100vh ruang kosong di desktop.
 
            Rentangnya juga DIRAPATKAN, bukan cuma dikecilkan: 20/24/28vh, bukan
-           20/30/40. Alasannya ada di initStatusBar() — ambang pembalik warna
-           bilah status satu angka untuk semua lebar, jadi makin jauh jarak
+           20/30/40. Alasannya ada di initStatusBar() — threshold pembalik warna
+           bar status satu angka untuk semua lebar, jadi makin jauh jarak
            antar titik henti, makin besar melesetnya di salah satu ujung. */}
       <div aria-hidden="true" className="band-fade-to-panel h-[20vh] sm:h-[24vh] nav:h-[28vh]"></div>
 
@@ -76,10 +76,10 @@ export default function Pendidikan() {
                        src/lib/animasi.js, bukan ditulis di sini. Menambah sertifikat
                        berarti angka ini ikut sendiri.
 
-                       Selektornya [data-panel], bukan [data-arrive]: bagian itu
-                       dirombak jadi galeri akordeon pada 8 Agustus 2026 dan
-                       atribut lamanya ikut hilang. Kalau selektor ini terlewat,
-                       yang muncul bukan galat melainkan angka 0 yang terbaca
+                       Selector-nya [data-panel], bukan [data-arrive]: bagian itu
+                       dirombak jadi gallery akordeon pada 8 Agustus 2026 dan
+                       attribute lamanya ikut hilang. Kalau selector ini terlewat,
+                       yang muncul bukan error melainkan angka 0 yang terbaca
                        seperti keterangan yang benar. */}
                   <span className="odometer-value -h2 leading-none" data-odometer-count="#sertifikat [data-panel]"></span>
                 </div>

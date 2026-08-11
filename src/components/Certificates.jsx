@@ -5,7 +5,7 @@
  * satu baris di sini; angka di bagian Pendidikan ikut sendiri karena ia
  * menghitung [data-panel].
  *
- * `berkas` dipakai dua kali: .pdf yang dibuka, dan .jpg pratinjaunya. Itu
+ * `file` dipakai dua kali: .pdf yang dibuka, dan .jpg preview-nya. Itu
  * sebabnya nama dasar keduanya WAJIB sama di public/assets/certificate/.
  */
 const SERTIFIKAT = [
@@ -53,25 +53,25 @@ const SERTIFIKAT = [
   },
 ];
 
-export default function Sertifikat() {
+export default function Certificates() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           05 SERTIFIKAT — galeri akordeon. Satu panel terbuka, sisanya menyempit
-           jadi bilah dan miring menjauh. Yang terbuka mengikuti kursor di
-           penunjuk halus, POSISI GULIR di perangkat sentuh, dan fokus keyboard
-           di keduanya — sebab hover tidak punya padanan di layar sentuh, dan
-           galeri yang cuma bisa ditelusuri dengan mengetuk berulang kali sama
-           saja dengan galeri yang tidak bisa ditelusuri.
+           05 SERTIFIKAT — gallery akordeon. Satu panel terbuka, sisanya menyempit
+           jadi bar dan miring menjauh. Yang terbuka mengikuti kursor di
+           fine pointer, POSISI SCROLL di perangkat sentuh, dan fokus keyboard
+           di keduanya — sebab hover tidak punya padanan di touch screen, dan
+           gallery yang cuma bisa ditelusuri dengan mengetuk berulang kali sama
+           saja dengan gallery yang tidak bisa ditelusuri.
 
            Panelnya <a> ke PDF, bukan <div> yang dibuat bisa diklik. Konsekuensinya
            disengaja: ia dapat fokus keyboard, bisa dibuka di tab baru lewat klik
-           tengah, dan pembaca layar mengumumkannya sebagai tautan. Perilaku
+           tengah, dan screen reader mengumumkannya sebagai link. Perilaku
            ketuk-pertama-memilih diurus di animasi.js dengan preventDefault, jadi
-           tanpa JavaScript keenam tautannya tetap berfungsi apa adanya.
+           tanpa JavaScript keenam link-nya tetap berfungsi apa adanya.
 
-           Pratinjaunya gambar statis, bukan PDF yang dirender di browser — hasilnya
-           sama, tanpa 1,7 MB JavaScript. Berkas PDF aslinya tetap yang dibuka.
+           Preview-nya gambar statis, bukan PDF yang dirender di browser — hasilnya
+           sama, tanpa 1,7 MB JavaScript. File PDF aslinya tetap yang dibuka.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="sertifikat" data-band="panel" data-component="chapter">
         <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 nav:px-10 py-16 sm:py-20 nav:py-28">
@@ -87,43 +87,43 @@ export default function Sertifikat() {
             </h2>
             {/* Dua kalimat, satu ditampilkan CSS lewat @media (hover: hover),
                 bukan satu kalimat kompromi. Cara menelusurinya memang berbeda
-                per perangkat: di penunjuk halus cukup diarahkan, di sentuh
+                per perangkat: di fine pointer cukup diarahkan, di sentuh
                 gulirlah yang memilih. Kalimat sebelumnya berbunyi "ketuk untuk
-                membuka berkasnya" di keduanya, padahal di sentuh ketukan
+                membuka file-nya" di keduanya, padahal di sentuh ketukan
                 pertama pada panel yang tertutup hanya memilih — petunjuk yang
                 menjanjikan sesuatu yang tidak terjadi lebih buruk daripada
                 tidak ada petunjuk sama sekali. */}
             <p className="-body-small max-w-[22rem] text-text-muted" data-component="scrub-reveal">
-              <span className="petunjuk-tunjuk">
+              <span className="hint-pointer">
                 Arahkan kursor untuk melihat, klik untuk membuka berkasnya.
               </span>
-              <span className="petunjuk-sentuh">
+              <span className="hint-touch">
                 Gulir untuk menelusuri, ketuk panel yang terbuka untuk membuka berkasnya.
               </span>
             </p>
           </div>
 
-          <div data-component="galeri" className="galeri" role="list" aria-label="Galeri sertifikat">
+          <div data-component="gallery" className="gallery" role="list" aria-label="Galeri sertifikat">
             {SERTIFIKAT.map(function (s) {
               return (
-                <a key={s.berkas} data-panel role="listitem" className="galeri-panel"
+                <a key={s.berkas} data-panel role="listitem" className="gallery-panel"
                   href={"assets/certificate/" + s.berkas + ".pdf"}
                   target="_blank" rel="noopener noreferrer"
                   aria-label={"Buka " + s.judul + " — " + s.rinci}>
-                  <span className="galeri-media" data-panel-media>
+                  <span className="gallery-media" data-panel-media>
                     <img src={"assets/certificate/" + s.berkas + ".jpg"} alt="" loading="lazy" decoding="async" />
                   </span>
                   {/* Tirai peredup: <span> ber-opacity, BUKAN filter grayscale
-                      seperti komponen aslinya. Alasannya di komentar
-                      initGaleriAkordeon() -- filter dihitung ulang tiap frame,
+                      seperti component aslinya. Alasannya di komentar
+                      initAccordionGallery() -- filter dihitung ulang tiap frame,
                       opacity cuma disusun ulang oleh compositor. */}
-                  <span className="galeri-tirai" data-panel-tirai aria-hidden="true"></span>
+                  <span className="gallery-veil" data-panel-veil aria-hidden="true"></span>
 
-                  <span className="galeri-label">
-                    <i className={s.ikon + " galeri-ikon"} aria-hidden="true"></i>
-                    <span className="galeri-teks" data-panel-teks>
-                      <span className="galeri-judul">{s.judul}</span>
-                      <span className="galeri-sumber">{s.sumber}</span>
+                  <span className="gallery-label">
+                    <i className={s.ikon + " gallery-icon"} aria-hidden="true"></i>
+                    <span className="gallery-text" data-panel-text>
+                      <span className="gallery-title">{s.judul}</span>
+                      <span className="gallery-source">{s.sumber}</span>
                     </span>
                   </span>
                 </a>

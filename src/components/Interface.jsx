@@ -1,9 +1,9 @@
-export default function Antarmuka() {
+export default function Interface() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           BILAH STATUS — pengganti navbar. Fungsinya sama, memberi tahu posisi, tapi
-           tanpa meminta perhatian dan tanpa deretan tautan yang harus dihindari mata.
+           BAR STATUS — pengganti navbar. Fungsinya sama, memberi tahu posisi, tapi
+           tanpa meminta perhatian dan tanpa deretan link yang harus dihindari mata.
            Hanya kata terakhirnya yang berganti mengikuti bagian yang sedang dibaca.
            ═══════════════════════════════════════════════════════════════════════ */}
       <div className="status-bar pointer-events-none fixed inset-x-0 bottom-5 z-40 px-6 nav:px-10">
@@ -24,10 +24,10 @@ export default function Antarmuka() {
 
           Repo ini sudah mematikan backdrop-filter di .stage-card dengan alasan
           tertulis panjang (+6 fps di ponsel), tapi yang ini lolos — padahal ia
-          jauh lebih mahal daripada yang sudah dibuang itu. Kartu keahlian diam
+          jauh lebih mahal daripada yang sudah dibuang itu. Card keahlian diam
           di tempatnya; tombol ini `fixed`, jadi isi halaman mengalir di
-          belakangnya SEPANJANG halaman digulir, dan peramban harus memburamkan
-          ulang petak itu di tiap frame gulir, bukan sesekali.
+          belakangnya SEPANJANG halaman di-scroll, dan browser harus memburamkan
+          ulang petak itu di tiap frame scroll, bukan sesekali.
 
           /92 hampir pekat, jadi ikon panahnya tetap terbaca di atas apa pun
           yang lewat — yang justru tidak dijamin oleh /70 berblur. */}

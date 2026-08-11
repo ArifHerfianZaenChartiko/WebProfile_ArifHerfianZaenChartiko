@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Judul dan deskripsi ini yang dibaca mesin pencari dan yang jadi kartu
-       pratinjau saat tautannya dibagikan. Peran harus tersebut di sini: di
-       halaman, peran hanya muncul di dalam animasi mesin ketik — bagus untuk
+  <!-- Judul dan deskripsi ini yang dibaca mesin pencari dan yang jadi preview
+       card saat link-nya dibagikan. Peran harus tersebut di sini: di
+       halaman, peran hanya muncul di dalam animasi typewriter — bagus untuk
        pembaca, tapi tidak membantu siapa pun menemukannya lewat pencarian.
 
-       Tetap ditulis di sini, BUKAN di React. Berkas ini yang dikirim server
+       Tetap ditulis di sini, BUKAN di React. File ini yang dikirim server
        apa adanya; kalau judul dan deskripsi dipasang belakangan oleh React,
        perayap yang tidak menjalankan JavaScript tidak akan melihatnya.
 
@@ -26,18 +26,18 @@
   <meta property="og:description" content="Arif Herfian Zaen Chartiko — Fullstack Web Developer (HTML, CSS, JavaScript, PHP, Laravel, Blade, MySQL), Pendidik Informatika, dan Staf Administrasi. Lulusan Universitas Negeri Malang.">
   <meta property="og:url" content="https://webprofile-arifherfianzaenchartiko.vercel.app/">
 
-  <!-- Kartu pratinjau saat tautannya dibagikan. Sampai 9 Agustus 2026 tag ini
-       tidak ada sama sekali, jadi tautan yang dikirim lewat WhatsApp atau
+  <!-- Preview card saat link-nya dibagikan. Sampai 9 Agustus 2026 tag ini
+       tidak ada sama sekali, jadi link yang dikirim lewat WhatsApp atau
        LinkedIn tampil sebagai baris teks polos tanpa gambar — kehilangan yang
-       nyata untuk portofolio yang penyebarannya justru lewat tautan.
+       nyata untuk portofolio yang penyebarannya justru lewat link.
 
-       URL-NYA HARUS MUTLAK, bukan relatif. Perayap yang mengambil kartu ini
+       URL-NYA HARUS MUTLAK, bukan relatif. Perayap yang mengambil card ini
        tidak menjalankan halaman, jadi tidak ada basis untuk menyelesaikan
-       "assets/og.png"; yang relatif diam-diam gagal dan kartunya kembali
-       kosong tanpa satu pun pesan galat.
+       "assets/og.png"; yang relatif diam-diam gagal dan card-nya kembali
+       kosong tanpa satu pun pesan error.
 
        1200x630 itu ukuran yang diminta Open Graph, dan alt-nya dibaca
-       pembaca layar di Twitter/X. Berkasnya dibuat dengan merender
+       screen reader di Twitter/X. File-nya dibuat dengan merender
        tools/og-template.html pada ukuran itu, bukan digambar tangan — jadi
        ia memakai warna dan tipografi yang sama persis dengan situsnya. -->
   <meta property="og:image" content="https://webprofile-arifherfianzaenchartiko.vercel.app/assets/og.png">
@@ -46,21 +46,21 @@
   <meta property="og:image:alt" content="Arif Herfian Zaen Chartiko — Fullstack Web Developer, Pendidik Informatika, Staf Administrasi">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- SVG, bukan .ico: satu berkas 700 byte yang tajam di semua ukuran, dan
-       ia monogram yang sama dengan panel pembuka. Kalau salah satu diubah,
+  <!-- SVG, bukan .ico: satu file 700 byte yang tajam di semua ukuran, dan
+       ia monogram yang sama dengan panel intro. Kalau salah satu diubah,
        ubah keduanya. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- Dua keluarga saja. Inter untuk seluruh teks DAN judul; JetBrains Mono
        untuk label kecil berspasi lebar. Dulu Fraunces ikut dimuat sebagai
        serif judul, tapi tidak pernah benar-benar dipasang — --font-display
-       menunjuk ke Inter — jadi 356 KB terunduh tanpa pernah tampil.
+       menunjuk ke Inter — jadi 356 KB ter-download tanpa pernah tampil.
 
        Bobotnya juga dipangkas ke yang benar-benar dipakai: Inter 400 dan 500
        (font-medium), JetBrains Mono 400. Halaman ini tidak punya satu pun
-       <strong> atau <em>, dan tidak memakai kelas bobot selain font-medium,
+       <strong> atau <em>, dan tidak memakai class bobot selain font-medium,
        jadi 300/600/700/800 cuma menambah unduhan tanpa mengubah apa pun di
-       layar. Beban font: 731 KB -> 115 KB.
+       screen. Beban font: 731 KB -> 115 KB.
 
        Tanda & ditulis &amp; karena di HTML & mengawali entitas; tanpa itu
        "&family" bisa terbaca sebagai entitas yang tidak dikenal. -->
@@ -70,7 +70,7 @@
 
   <!-- Font Awesome TIDAK lagi dimuat di sini. Ia diimpor dari src/main.jsx
        supaya ikut dibundel Vite dan dilayani dari domain sendiri; alasan
-       lengkapnya ada di berkas itu. Jangan kembalikan <link> ke cdnjs. -->
+       lengkapnya ada di file itu. Jangan kembalikan <link> ke cdnjs. -->
 </head>
 <body>
   <div id="root"></div>

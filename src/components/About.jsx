@@ -1,4 +1,4 @@
-export default function Tentang() {
+export default function About() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -33,7 +33,7 @@ export default function Tentang() {
             <div className="flex flex-col gap-16">
               <p className="-h2 max-w-[38rem]" data-word-scrub>Saya membangun web dari antarmukanya sampai sisi servernya, dengan kebiasaan menjelaskan yang dibawa dari ruang kelas, dan perhatian pada rancangan yang menjaga hasilnya tetap enak dipakai.</p>
 
-              {/* Baris bergaris, bukan kartu. Tiga kartu bertumpuk di kolom sempit
+              {/* Baris bergaris, bukan card. Tiga card bertumpuk di kolom sempit
                    terbaca sebagai tiga hal setara yang saling bersaing; baris
                    bernomor terbaca sebagai satu daftar yang bisa dipindai. */}
               <div className="border-t border-line">
