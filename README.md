@@ -1,7 +1,7 @@
 # Web Profil — Arif Herfian Zaen Chartiko
 
 Situs satu halaman. **React 19 + Vite + Tailwind CSS v4**, dengan GSAP
-(ScrollTrigger) dan Lenis sebagai mesin geraknya.
+(ScrollTrigger) dan Lenis sebagai mesin motion-nya.
 
 ## Prasyarat
 
@@ -17,7 +17,7 @@ npm run dev     # buka alamat yang muncul, biasanya http://localhost:5173
 `npm run build` menghasilkan folder `dist/`. `npm run preview` menayangkan hasil
 build itu supaya bisa diperiksa sebelum deploy.
 
-**Klik dua kali `index.html` TIDAK bekerja.** Berkas itu cuma kerangka; isinya
+**Klik dua kali `index.html` TIDAK bekerja.** File itu cuma kerangka; isinya
 di-mount React saat runtime. Ini konsekuensi yang disengaja dari kembali ke
 React — versi situs ini yang lebih lama memang benar-benar bisa dijalankan
 langsung dari filesystem.
@@ -29,9 +29,9 @@ index.html            kerangka: meta tag, font, satu <div id="root">
 src/main.jsx          entry point React
 src/App.jsx           susunan bagian halaman
 src/index.css         theme Tailwind + seluruh CSS tulisan tangan
-src/components/       satu berkas per bagian halaman
-src/lib/animasi.js    seluruh gerak situs, dalam satu berkas
-public/assets/        foto, sertifikat, lambang tool
+src/components/       satu file per bagian halaman
+src/lib/animations.js    seluruh motion situs, dalam satu file
+public/assets/        foto, sertifikat, logo tool
 tools/og-template.html  sumber gambar OG preview (tidak ikut di-deploy)
 ```
 
@@ -47,7 +47,7 @@ terbawa pulang, dan itu yang paling penting diketahui:
 yang merupakan build artifact yang dibekukan: ia cuma berisi class yang kebetulan
 sudah dipakai, dan **class baru tidak berefek apa-apa — diam-diam, tanpa pesan
 error**. Itu memakan korban berkali-kali: `p-3` di frame foto tidak pernah
-bekerja sejak berkas itu dibuat, dan `mt-10` mati waktu dipasang. Sekarang class
+bekerja sejak file itu dibuat, dan `mt-10` mati waktu dipasang. Sekarang class
 apa pun hidup.
 
 ### Satu perbedaan render yang perlu diketahui
@@ -74,8 +74,8 @@ Cari kalimatnya di `src/components/`, ketik ulang. HMR menyegarkan sendiri.
 ### Foto
 
 Timpa `public/assets/photo/foto.jpeg`, lalu **sesuaikan aspect ratio frame-nya**
-di `src/components/Hero.jsx`: `aspect-[853/1280]` adalah rasio berkas yang
-sekarang. Kalau terlewat, akan muncul pita kosong di satu sumbu dan jarak foto
+di `src/components/Hero.jsx`: `aspect-[853/1280]` adalah rasio file yang
+sekarang. Kalau terlewat, akan muncul band kosong di satu sumbu dan jarak foto
 ke garis frame tidak lagi sama di keempat sisinya.
 
 ### Sertifikat
@@ -83,16 +83,16 @@ ke garis frame tidak lagi sama di keempat sisinya.
 1. Taruh PDF **dan** gambar preview-nya (JPG, lebar sekitar 900px) di
    `public/assets/certificate/`, dengan **nama dasar yang sama** — nama itu
    dipakai dua kali, untuk `.pdf` yang dibuka dan `.jpg` yang di-render.
-2. Tambahkan satu entri ke array `SERTIFIKAT` di paling atas
-   `src/components/Sertifikat.jsx`: `berkas`, `judul`, `sumber`, `ikon`,
-   `rinci`.
+2. Tambahkan satu entri ke array `CERTIFICATES` di paling atas
+   `src/components/Certificates.jsx`: `file`, `title`, `source`, `icon`,
+   `detail`.
 
 Tidak ada markup yang perlu disalin — keenam panelnya dihasilkan dari array itu.
 Angka jumlah sertifikat di bagian Pendidikan juga ikut sendiri, karena ia
 menghitung `[data-panel]`.
 
-Bagian ini **galeri akordeon**: satu panel terbuka, sisanya menyempit jadi
-bilah. Mendatar di semua lebar viewport. Menambah sertifikat membuat tiap bilah
+Bagian ini **accordion gallery**: satu panel terbuka, sisanya menyempit jadi
+bar. Mendatar di semua lebar viewport. Menambah sertifikat membuat tiap bar
 makin sempit, jadi di atas sekitar sepuluh panel pertimbangkan layout lain.
 
 **Yang membuka panel berbeda per device**, dan ini yang paling mudah terlewat
@@ -101,32 +101,32 @@ saat menyunting bagian ini:
 | device | cara menelusuri | cara membuka PDF |
 |---|---|---|
 | pointer halus | hover | klik |
-| sentuh | **scroll** — lintasan galeri dibagi jadi satu pita per panel | ketuk panel yang terbuka |
+| sentuh | **scroll** — lintasan gallery dibagi jadi satu band per panel | ketuk panel yang terbuka |
 
-Hover tidak punya padanan di layar sentuh, jadi di sana posisi scroll yang
+Hover tidak punya padanan di touch screen, jadi di sana posisi scroll yang
 mengambil perannya. Konsekuensinya **jumlah sertifikat menentukan lebar tiap
-pita**: enam panel dapat sekitar 63px scroll masing-masing di ponsel. Kalau
-jumlahnya digandakan, tiap pita jadi separuhnya dan panel akan berkedip cepat
-saat di-scroll — itu batas praktis yang lain, di samping lebar bilah.
+band**: enam panel dapat sekitar 63px scroll masing-masing di ponsel. Kalau
+jumlahnya digandakan, tiap band jadi separuhnya dan panel akan berkedip cepat
+saat di-scroll — itu batas praktis yang lain, di samping lebar bar.
 
-Kalimat petunjuk di atas galeri ada **dua**, dan yang tampil dipilih
+Kalimat petunjuk di atas gallery ada **dua**, dan yang tampil dipilih
 `@media (hover: hover)` di `index.css`, bukan JavaScript. Kalau cara
 berinteraksinya diubah, ubah keduanya. Kalimat yang menjanjikan sesuatu yang
 tidak terjadi lebih buruk daripada tidak ada kalimat.
 
 ### Pengalaman kerja
 
-Salin satu blok `<article data-kartu>` di `src/components/Pengalaman.jsx`. Titik
-pemilih di bawah tumpukan ikut sendiri — jumlahnya dihitung dari jumlah card.
+Salin satu blok `<article data-card>` di `src/components/Experience.jsx`. Selector
+dot di bawah stack ikut sendiri — jumlahnya dihitung dari jumlah card.
 
-Tumpukannya **menyamakan tinggi semua card ke yang tertinggi**, dan tinggi itu
+Stack-nya **menyamakan tinggi semua card ke yang tertinggi**, dan tinggi itu
 diukur, bukan dipatok. Jadi rincian pekerjaan boleh sepanjang apa pun tanpa ada
 yang terpotong. Kalau satu card jauh lebih panjang dari yang lain, yang pendek
 akan menyisakan ruang kosong di bawah, jadi seimbangkan jumlah butirnya.
 
 ### Kemampuan profesional
 
-Lima card berikon di `src/components/Keahlian.jsx`. Dua hal kalau menambah atau
+Lima card berikon di `src/components/Skills.jsx`. Dua hal kalau menambah atau
 menghapus:
 
 - **Ikon, judul, dan keterangan harus jadi anak langsung `.skill-card`.**
@@ -152,7 +152,7 @@ Perkakas    Pengembangan    VS Code, GitHub, Vercel, Figma        (4)
             AI              Claude, Claude Code, Stitch           (3)
 ```
 
-Jumlah card per baris ditentukan oleh Anda, bukan lebar layar: sama persis di
+Jumlah card per baris ditentukan oleh Anda, bukan lebar viewport: sama persis di
 ponsel, tablet, maupun desktop.
 
 **Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang.**
@@ -161,15 +161,15 @@ pertamanya. Kedua bagian itu **rantai terpisah** yang sama-sama mulai dari nol �
 `Teknologi` 0 → 0,21, `Perkakas` 0 → 0,30. Jangan disambung: dengan satu rantai,
 card terakhir jatuh di sekitar 0,48 detik dan pembaca sudah melewatinya sebelum
 ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional (0 / 0,04 /
-0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai atribut yang sama.
+0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute yang sama.
 
-Untuk lambangnya, **buka situs resmi tool-nya, bukan kumpulan icon pihak
+Untuk logo-nya, **buka situs resmi tool-nya, bukan kumpulan icon pihak
 ketiga.** Tiga jebakan yang sudah pernah kena:
 
-- **Warna di halaman mereka belum tentu warna mereknya.** Lambang Wayground
+- **Warna di halaman mereka belum tentu warna mereknya.** Logo Wayground
   tampil krem di situs mereka semata karena latar halamannya merah tua; warna
   mereknya merah muda. Kalau ragu, buka favicon-nya.
-- **Sebagian merek tidak punya berkas lambang sama sekali.** Wordmark Stitch
+- **Sebagian merek tidak punya file logo sama sekali.** Wordmark Stitch
   adalah teks hidup. SVG-nya di sini dibuat dengan mengurai font yang dimuat
   halaman itu.
 - **Palet lama masih banyak beredar.** Figma sudah berganti.
@@ -182,11 +182,11 @@ keduanya dihasilkan dari token yang sama.
 
 ## Yang perlu diketahui sebelum mengutak-atik
 
-**Semua spacing kelipatan 4px, dan hampir semua ukuran font juga.** Satu satuan
+**Semua spacing kelipatan 4px, dan hampir semua font size juga.** Satu satuan
 Tailwind 0,25rem = 4px: `mb-4` jadi 16px, `gap-6` jadi 24px. Jangan pakai class
 pecahan seperti `py-1.5`. Margin tepi halaman `px-4` (16px).
 
-Ukuran font memakai sepuluh langkah: 12, 14, 16, 18, 20, 24, 28, 40, 52, 68.
+Font size memakai sepuluh langkah: 12, 14, 16, 18, 20, 24, 28, 40, 52, 68.
 Delapan di antaranya kelipatan 4; **14 dan 18 sengaja dikecualikan**, karena
 tanpa keduanya `-body-small` dan `-title-4` runtuh jadi 16px dan tiga tingkat
 hierarki hilang sekaligus.
@@ -194,17 +194,17 @@ hierarki hilang sekaligus.
 **`wide:` dan `roomy:` bukan sekadar lebar.** Keduanya juga menanyakan
 orientation, dan `roomy:` menanyakan height, supaya tablet potret tidak dipaksa
 layout dua kolom. Definisinya `@custom-variant` di `src/index.css`, bersama
-`pendek:` untuk ponsel yang diputar.
+`short:` untuk ponsel yang diputar.
 
-**Gerak dipasang lewat `useLayoutEffect` dan WAJIB men-teardown dirinya.** React
+**Motion dipasang lewat `useLayoutEffect` dan WAJIB men-teardown dirinya.** React
 StrictMode melakukan mount-unmount-mount tiap effect di mode development, dan
 node DOM-nya tidak dibuat ulang. Tanpa teardown, tiap listener dan scroll
-trigger terpasang dua kali. Karena itu setiap side effect di `src/lib/animasi.js`
-didaftarkan lewat `dengar()`, `tambahTicker()`, `amati()`, dan `tambahSimpul()` —
+trigger terpasang dua kali. Karena itu setiap side effect di `src/lib/animations.js`
+didaftarkan lewat `listen()`, `addTicker()`, `observe()`, dan `addNode()` —
 jangan panggil `addEventListener`, `gsap.ticker.add`, `new ResizeObserver`, atau
 `appendChild` secara langsung.
 
-`tambahSimpul()` yang paling mudah terlupa, karena `removeEventListener()` tidak
+`addNode()` yang paling mudah terlupa, karena `removeEventListener()` tidak
 mengeluarkan node dari DOM — jadi `appendChild()` adalah side effect tersendiri.
 StrictMode menjalankan mount → unmount → mount pada host node yang sama,
 sehingga `appendChild` yang tidak terdaftar berjalan dua kali dan **menumpuk,
@@ -214,7 +214,7 @@ bar tampil utuh tapi separuh titiknya diam saat diklik.
 
 ### Lompatan antar bagian harus mendarat di 0
 
-Semua lompatan bermuara ke satu `scrollTo()` di `animasi.js`, dan tepi atas
+Semua lompatan bermuara ke satu `scrollTo()` di `animations.js`, dan tepi atas
 section tujuan harus berhenti **persis** di tepi atas viewport.
 
 **Jangan memasang `scroll-mt-*` pada `<section id>`.** Class itu menghasilkan
@@ -224,7 +224,7 @@ cadangan ruang, sehingga titik berhentinya jadi `offsetTop - nilai` — dulu
 Cadangan itu gunanya menghindari header `position: fixed`; halaman ini tidak
 punya, chapter bar-nya di bawah. Jarak di atas judul sudah dari padding section.
 
-**Komentar di dalam berkas menjelaskan KENAPA, bukan apa.** Sebagian besar angka
+**Komentar di dalam file menjelaskan KENAPA, bukan apa.** Sebagian besar angka
 di proyek ini hasil pengukuran, bukan selera.
 
 ## Cara deploy

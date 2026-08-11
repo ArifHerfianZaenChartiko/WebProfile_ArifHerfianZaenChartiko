@@ -8,48 +8,48 @@
  * `file` dipakai dua kali: .pdf yang dibuka, dan .jpg preview-nya. Itu
  * sebabnya nama dasar keduanya WAJIB sama di public/assets/certificate/.
  */
-const SERTIFIKAT = [
+const CERTIFICATES = [
   {
-    berkas: "python-essentials-1-cisco",
-    judul: "Python Essentials 1",
-    sumber: "Cisco",
-    ikon: "fa-brands fa-python",
-    rinci: "Cisco Networking Academy & Python Institute",
+    file: "python-essentials-1-cisco",
+    title: "Python Essentials 1",
+    source: "Cisco",
+    icon: "fa-brands fa-python",
+    detail: "Cisco Networking Academy & Python Institute",
   },
   {
-    berkas: "ukbing-arif-herfian",
-    judul: "UKBIng",
-    sumber: "Bahasa Inggris",
-    ikon: "fa-solid fa-language",
-    rinci: "Pre-Advanced — Skor 444",
+    file: "ukbing-arif-herfian",
+    title: "UKBIng",
+    source: "Bahasa Inggris",
+    icon: "fa-solid fa-language",
+    detail: "Pre-Advanced — Skor 444",
   },
   {
-    berkas: "sertifikat-keorganisasian-wse",
-    judul: "PJ Service Center",
-    sumber: "WSE",
-    ikon: "fa-solid fa-screwdriver-wrench",
-    rinci: "Koordinasi Perawatan Hardware & Software",
+    file: "sertifikat-keorganisasian-wse",
+    title: "PJ Service Center",
+    source: "WSE",
+    icon: "fa-solid fa-screwdriver-wrench",
+    detail: "Koordinasi Perawatan Hardware & Software",
   },
   {
-    berkas: "sertifikat-keorganisasian-wats",
-    judul: "Pemateri IoT",
-    sumber: "WSE",
-    ikon: "fa-solid fa-microchip",
-    rinci: "Instruktur Internet of Things",
+    file: "sertifikat-keorganisasian-wats",
+    title: "Pemateri IoT",
+    source: "WSE",
+    icon: "fa-solid fa-microchip",
+    detail: "Instruktur Internet of Things",
   },
   {
-    berkas: "sertifikat-keorganisasian-lktin",
-    judul: "Panitia LKTIN PESC",
-    sumber: "WSE",
-    ikon: "fa-solid fa-pen-nib",
-    rinci: "Lomba Karya Tulis Ilmiah Nasional",
+    file: "sertifikat-keorganisasian-lktin",
+    title: "Panitia LKTIN PESC",
+    source: "WSE",
+    icon: "fa-solid fa-pen-nib",
+    detail: "Lomba Karya Tulis Ilmiah Nasional",
   },
   {
-    berkas: "sertifikat-keorganisasian-ltdc",
-    judul: "Panitia LTDC",
-    sumber: "WSE",
-    ikon: "fa-solid fa-robot",
-    rinci: "Line Tracer Design and Contest Nasional",
+    file: "sertifikat-keorganisasian-ltdc",
+    title: "Panitia LTDC",
+    source: "WSE",
+    icon: "fa-solid fa-robot",
+    detail: "Line Tracer Design and Contest Nasional",
   },
 ];
 
@@ -57,7 +57,7 @@ export default function Certificates() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           05 SERTIFIKAT — gallery akordeon. Satu panel terbuka, sisanya menyempit
+           05 CERTIFICATES — gallery akordeon. Satu panel terbuka, sisanya menyempit
            jadi bar dan miring menjauh. Yang terbuka mengikuti kursor di
            fine pointer, POSISI SCROLL di perangkat sentuh, dan fokus keyboard
            di keduanya — sebab hover tidak punya padanan di touch screen, dan
@@ -104,14 +104,14 @@ export default function Certificates() {
           </div>
 
           <div data-component="gallery" className="gallery" role="list" aria-label="Galeri sertifikat">
-            {SERTIFIKAT.map(function (s) {
+            {CERTIFICATES.map(function (s) {
               return (
-                <a key={s.berkas} data-panel role="listitem" className="gallery-panel"
-                  href={"assets/certificate/" + s.berkas + ".pdf"}
+                <a key={s.file} data-panel role="listitem" className="gallery-panel"
+                  href={"assets/certificate/" + s.file + ".pdf"}
                   target="_blank" rel="noopener noreferrer"
-                  aria-label={"Buka " + s.judul + " — " + s.rinci}>
+                  aria-label={"Buka " + s.title + " — " + s.detail}>
                   <span className="gallery-media" data-panel-media>
-                    <img src={"assets/certificate/" + s.berkas + ".jpg"} alt="" loading="lazy" decoding="async" />
+                    <img src={"assets/certificate/" + s.file + ".jpg"} alt="" loading="lazy" decoding="async" />
                   </span>
                   {/* Tirai peredup: <span> ber-opacity, BUKAN filter grayscale
                       seperti component aslinya. Alasannya di komentar
@@ -120,10 +120,10 @@ export default function Certificates() {
                   <span className="gallery-veil" data-panel-veil aria-hidden="true"></span>
 
                   <span className="gallery-label">
-                    <i className={s.ikon + " gallery-icon"} aria-hidden="true"></i>
+                    <i className={s.icon + " gallery-icon"} aria-hidden="true"></i>
                     <span className="gallery-text" data-panel-text>
-                      <span className="gallery-title">{s.judul}</span>
-                      <span className="gallery-source">{s.sumber}</span>
+                      <span className="gallery-title">{s.title}</span>
+                      <span className="gallery-source">{s.source}</span>
                     </span>
                   </span>
                 </a>
