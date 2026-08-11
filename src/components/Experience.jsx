@@ -2,7 +2,7 @@ export default function Experience() {
   return (
     <>
       {/* Band berjalan sebagai jeda antar bagian. Salinannya digandakan oleh
-           src/lib/animasi.js — cukup tulis satu, sisanya diurus di sana. */}
+           src/lib/animations.js — cukup tulis satu, sisanya diurus di sana. */}
       <div data-anim="marquee" data-speed="30" className="border-y border-line py-5">
         <div className="marquee-track">
           <div className="flex shrink-0" data-marquee-copy>
@@ -23,7 +23,7 @@ export default function Experience() {
 
            1. Card-nya TIDAK berukuran tetap. Aslinya dipatok 500x400 dan isinya
               dipotong; di sini tinggi stack diukur dari card tertinggi
-              (initCardSwap di animasi.js), jadi tidak ada satu baris pun yang
+              (initCardSwap di animations.js), jadi tidak ada satu baris pun yang
               terpotong berapa pun panjang rincian pekerjaannya.
 
            2. Hanya card BELAKANG yang dimiringkan. Aslinya seluruh stack
@@ -118,7 +118,7 @@ export default function Experience() {
 
             </div>
 
-            {/* Selector dot dibuat di animasi.js dari JUMLAH card, bukan
+            {/* Selector dot dibuat di animations.js dari JUMLAH card, bukan
                 ditulis tangan di sini: menambah pengalaman berarti menambah satu
                 <article>, dan titiknya ikut sendiri. Ia juga yang memberi jalan
                 keyboard ke card yang tidak sedang di depan. */}

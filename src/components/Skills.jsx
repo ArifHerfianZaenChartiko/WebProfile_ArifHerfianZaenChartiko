@@ -116,9 +116,17 @@ export default function Skills() {
             </div>
           </div>
 
-          {/* mt-7 (28px), bukan mt-10: .mt-10 tidak ikut terkompilasi ke
-               css/style.css, jadi ia class mati dan jaraknya akan jadi nol. Yang
-               tersedia mt-2, mt-3, mt-7, mt-16. */}
+          {/* mt-7 = 28px, dan itu ritme bagian ini: judul ke card 32px, card
+               ke caption 28px, blok ke blok 64px di ponsel dan 80px di atasnya.
+
+               Di sini dulu tertulis peringatan lain: mt-10 katanya class mati
+               karena tidak ikut terkompilasi ke css/style.css, dan yang tersedia
+               cuma mt-2, mt-3, mt-7, mt-16. Itu SUDAH TIDAK BERLAKU sejak
+               Tailwind berjalan sungguhan. Buktinya bukan teori: Hero.jsx
+               memakai `roomy:mt-10` dan .mt-10 ada di CSS hasil build. Jadi
+               angka ini dipilih karena ritmenya, bukan karena keterbatasan.
+               Class apa pun boleh dipakai; yang masih mengikat tinggal
+               grid 4px. */}
           <p data-component="scrub-reveal" className="-caption-small mt-7 text-center">
             <span aria-hidden="true" className="mr-2 text-accent">✦</span>Tiga peran. Satu cara kerja.
           </p>
@@ -131,7 +139,7 @@ export default function Skills() {
                lurus sejajar dengan card di sebelahnya meski panjang judulnya
                berbeda-beda, dan itu diurus `grid-template-rows: subgrid` di
                .skill-card — bukan oleh tinggi cadangan yang ditebak. Alasan
-               lengkapnya ada di bagian "KEMAMPUAN PROFESIONAL" di css/style.css.
+               lengkapnya ada di bagian "KEMAMPUAN PROFESIONAL" di src/index.css.
 
                Yang penting diketahui di sini: JANGAN membungkus ikon, judul, dan
                keterangan ke dalam div. Ketiganya harus jadi anak LANGSUNG .skill-card

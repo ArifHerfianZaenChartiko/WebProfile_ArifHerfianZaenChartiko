@@ -59,10 +59,16 @@ export default function Hero() {
                   <div data-component="image-reveal" data-delay="0.21"
                     className="aspect-[853/1280] h-full w-auto max-w-full wide:h-auto wide:w-full">
                     <span className="bg" aria-hidden="true"></span>
-                    {/* `object-fit` ditulis SEBARIS, bukan sebagai class: `.media` di
-                         style.css sudah menyetel `cover` dan ia CSS tak-berlapis, jadi
-                         ia mengalahkan class utilitas apa pun. Yang sebaris menang
-                         atas keduanya.
+                    {/* `object-fit` ditulis SEBARIS, bukan sebagai class:
+                         `[data-component=image-reveal] .media` di src/index.css
+                         sudah menyetel `cover`, dan ia CSS tak-berlapis -- di luar
+                         @layer mana pun -- jadi ia mengalahkan class utilitas apa
+                         pun, yang oleh Tailwind ditaruh di dalam layer. Selector-nya
+                         juga lebih spesifik. Yang sebaris menang atas keduanya.
+
+                         (Rujukan lamanya `style.css`; file itu sudah tidak ada sejak
+                         pindah ke Tailwind sungguhan. Aturannya sendiri tidak
+                         berubah, cuma pindah ke src/index.css.)
 
                          `contain` berarti foto DIPASKAN utuh ke dalam frame. Karena
                          rasio frame-nya sekarang persis rasio file-nya (853/1280)

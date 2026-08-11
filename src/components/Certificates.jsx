@@ -67,7 +67,7 @@ export default function Certificates() {
            Panelnya <a> ke PDF, bukan <div> yang dibuat bisa diklik. Konsekuensinya
            disengaja: ia dapat fokus keyboard, bisa dibuka di tab baru lewat klik
            tengah, dan screen reader mengumumkannya sebagai link. Perilaku
-           ketuk-pertama-memilih diurus di animasi.js dengan preventDefault, jadi
+           ketuk-pertama-memilih diurus di animations.js dengan preventDefault, jadi
            tanpa JavaScript keenam link-nya tetap berfungsi apa adanya.
 
            Preview-nya gambar statis, bukan PDF yang dirender di browser — hasilnya

@@ -32,7 +32,7 @@ export default function Intro() {
 
            Semua <path> hanya bergaris tanpa isi supaya bisa digambar bertahap
            lewat stroke-dashoffset; panjangnya diukur getTotalLength() di
-           src/lib/animasi.js, tidak ditulis tangan di sini.
+           src/lib/animations.js, tidak ditulis tangan di sini.
            ═══════════════════════════════════════════════════════════════════════ */}
       <div data-component="intro" className="intro" aria-hidden="true">
         <div className="intro-inner" data-intro-inner>

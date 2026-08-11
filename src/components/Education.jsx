@@ -73,7 +73,7 @@ export default function Education() {
                 <div className="flex items-baseline justify-between gap-4">
                   <span className="-caption-small text-text-muted">Sertifikat</span>
                   {/* Angkanya DIHITUNG dari jumlah panel di bagian Sertifikat oleh
-                       src/lib/animasi.js, bukan ditulis di sini. Menambah sertifikat
+                       src/lib/animations.js, bukan ditulis di sini. Menambah sertifikat
                        berarti angka ini ikut sendiri.
 
                        Selector-nya [data-panel], bukan [data-arrive]: bagian itu

@@ -631,7 +631,7 @@ export function setupAnimations() {
    * dengan dua puluhan elemen lain di bagian ini — tidak ada yang menandai
    * bahwa merekalah pokok bagiannya. Sekarang ketiganya meluncur masuk dari
    * kanan berurutan, sekali jalan. Attribute scrub-reveal-nya DIBUANG dari
-   * Keahlian.jsx, bukan ditumpuk: keduanya sama-sama menganimasikan
+   * Skills.jsx, bukan ditumpuk: keduanya sama-sama menganimasikan
    * pergeseran dan kejernihan, jadi memasang dua-duanya berarti dua tween
    * berebut properti yang sama pada elemen yang sama.
    *
@@ -1838,7 +1838,7 @@ export function setupAnimations() {
      * PENGHUBUNG: bar duduk di sekitar 96% tinggi viewport, jadi threshold-nya
      * 96% ± separuh tinggi gradien.
      *
-     * ANGKANYA TERIKAT KE TINGGI BAND DI Pendidikan.jsx DAN Kontak.jsx. Dulu
+     * ANGKANYA TERIKAT KE TINGGI BAND DI Education.jsx DAN Contact.jsx. Dulu
      * band itu 50vh di desktop, jadi separuhnya 25 dan threshold-nya 121/71.
      * Sejak band-nya dipendekkan jadi 20/24/28vh, separuhnya ~12 dan
      * threshold-nya jadi 108/84.
@@ -1972,7 +1972,7 @@ export function setupAnimations() {
   /*
    * PEMBUKA — monogram AH digambar bertahap, lalu situsnya masuk.
    *
-   * MEKANISMENYA. Tiap <path> di Pembuka.jsx digambar dengan trik
+   * MEKANISMENYA. Tiap <path> di Intro.jsx digambar dengan trik
    * stroke-dasharray: panjang garisnya diukur getTotalLength(), lalu
    * strokeDasharray DAN strokeDashoffset disetel sebesar panjang itu --
    * garisnya jadi satu strip putus-putus yang seluruhnya digeser keluar,
@@ -1980,7 +1980,7 @@ export function setupAnimations() {
    * menariknya masuk dari pangkal ke ujung, jadi garisnya seolah ditulis.
    *
    * Panjangnya DIUKUR, bukan ditulis tangan, supaya mengubah koordinat di
-   * Pembuka.jsx tidak menuntut angka di file ini ikut diperbarui.
+   * Intro.jsx tidak menuntut angka di file ini ikut diperbarui.
    *
    * KENAPA `lanjut` DIPANGGIL SEBAGAI CALLBACK, BUKAN SETELAH initIntro.
    *
