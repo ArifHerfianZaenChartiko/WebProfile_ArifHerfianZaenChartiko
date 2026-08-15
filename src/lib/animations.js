@@ -378,7 +378,14 @@ export function setupAnimations() {
      dan kurva per panggilan — scroll bawaan browser hanya kenal "smooth". */
   function scrollTo(target, opts) {
     if (!lenis) {
-      window.scrollTo({ top: targetTop(target), behavior: "smooth" });
+      /* "auto", BUKAN "smooth" — dibetulkan 15 Agustus 2026.
+         Cabang ini HANYA pernah dijalankan saat pengunjung minta reduced
+         motion, sebab itulah satu-satunya sebab lenis tidak menyala. Jadi
+         "smooth" di sini berarti satu-satunya kelompok yang secara tegas
+         meminta tidak ada animasi adalah satu-satunya yang mendapatkannya.
+         Bahasa awamnya: lompatan antar bagian sekarang seketika bagi yang
+         mematikan animasi lewat pengaturan perangkatnya. */
+      window.scrollTo({ top: targetTop(target), behavior: "auto" });
       return;
     }
 
@@ -1819,10 +1826,43 @@ export function setupAnimations() {
    * di sana. Yang tetap berlaku di produksi: tanpa pendaftaran ini timernya
    * hidup selamanya setelah di-teardown.
    */
+  /*
+   * JSON.parse DIJAGA, dan taruhannya jauh lebih besar daripada typewriter-nya
+   * sendiri. Ditambahkan 15 Agustus 2026.
+   *
+   * Fungsi ini dipanggil PALING AWAL di antara kelompok "perilaku" di
+   * setupRest(). Satu tanda kutip yang salah ketik di attribute
+   * data-typewriter melempar SyntaxError, dan exception itu menghentikan
+   * seluruh sisa setupRest() — bar status, tombol panah ke atas, semua
+   * lompatan anchor, dan form kontak ikut mati bersamanya. Kerusakan yang
+   * tampak di halaman karena itu tidak akan menunjuk ke sebabnya sama sekali.
+   *
+   * Isinya ikut diperiksa, bukan cuma sintaksnya: `[]` lolos JSON.parse tapi
+   * membuat words[0] undefined, dan .substring() pada undefined melempar di
+   * dalam timer — di tempat yang bahkan tidak punya jalur untuk dijaga.
+   *
+   * Gagal = typewriter-nya diam, sisanya tetap hidup. Peran-perannya masih
+   * terbaca di judul halaman, deskripsi meta, dan card Keahlian.
+   *
+   * Bahasa awamnya: dulu satu salah ketik kecil di satu baris bisa mematikan
+   * tombol kirim pesan dan tombol-tombol lompat sekaligus. Sekarang paling
+   * jauh cuma tulisan berjalan di halaman sampul yang berhenti.
+   */
   function initTypewriter() {
     var el = $("[data-typewriter]");
     if (!el) return;
-    var words = JSON.parse(el.getAttribute("data-typewriter"));
+
+    var words;
+    try {
+      words = JSON.parse(el.getAttribute("data-typewriter"));
+    } catch (e) {
+      return;
+    }
+    if (!Array.isArray(words) || !words.length) return;
+    for (var w = 0; w < words.length; w++) {
+      if (typeof words[w] !== "string" || words[w] === "") return;
+    }
+
     var wordIndex = 0, indexHuruf = 0, sedangHapus = false;
     var id = 0;
     cleanups.push(function () { clearTimeout(id); });
@@ -2098,8 +2138,9 @@ export function setupAnimations() {
    * BEDANYA DENGAN PRELOADER YANG DIBUANG PADA 2 AGUSTUS 2026. Yang itu
    * menahan halaman sampai skripnya jalan. Panel ini sudah tergambar sejak
    * frame pertama lewat CSS biasa, jadi tidak ada yang ditunda; ia hanya
-   * menutupi. Ia juga punya batas keras 3,5 detik dan dilewati sama sekali
-   * kalau pengguna minta reduced motion.
+   * menutupi. Ia juga punya batas keras 3 detik (angka itu ada di setTimeout
+   * beberapa baris di bawah; komentar ini sempat menulis 3,5 dan itu keliru)
+   * dan dilewati sama sekali kalau pengguna minta reduced motion.
    */
   function initIntro(next) {
     var panel = $('[data-component="intro"]');
@@ -2160,7 +2201,26 @@ export function setupAnimations() {
     document.documentElement.classList.add("intro-active");
     if (lenis) lenis.stop();
     /* Browser memulihkan posisi scroll kunjungan sebelumnya; tanpa ini situs
-       terbuka di tengah halaman begitu panelnya naik. */
+       terbuka di tengah halaman begitu panelnya naik.
+
+       scrollRestoration DIMATIKAN LEBIH DULU, ditambahkan 15 Agustus 2026.
+       scrollTo(0,0) saja tidak cukup: pemulihan itu dijadwalkan browser secara
+       asinkron di sekitar event load, sedangkan baris ini berjalan dari
+       useLayoutEffect. Urutannya tidak dijamin, jadi sesekali pemulihannya
+       mendarat BELAKANGAN dan menang. "manual" menutup lombanya, bukan
+       memenangkannya.
+
+       Nilai lamanya dikembalikan saat teardown supaya kami tidak mengubah
+       perilaku dokumen di luar masa hidup situs ini.
+
+       Sengaja HANYA di jalur ini, bukan di kepala setupAnimations(): jalur
+       reduced motion di atas memang tidak memaksa halaman ke puncak, dan
+       mematikan pemulihan di sana akan mengubah perilaku yang sudah benar. */
+    var restorasiLama = history.scrollRestoration;
+    if (restorasiLama) {
+      history.scrollRestoration = "manual";
+      cleanups.push(function () { history.scrollRestoration = restorasiLama; });
+    }
     window.scrollTo(0, 0);
 
     var strokeEl = $$("[data-intro-stroke] path", panel);
