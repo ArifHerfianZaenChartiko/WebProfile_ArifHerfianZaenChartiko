@@ -419,26 +419,39 @@ export default function Skills() {
                        diganti, jangan pakai versi tanpa garis luar — di latar
                        segelap ini badannya menyatu dengan halaman.
 
-                       TIDAK DISKALAKAN, DAN ITU PILIHAN YANG PERLU DICATAT.
-                       viewBox-nya "0 0 432.071 445.383" tapi tintanya cuma
-                       mengisi 394,86x409,44 di dalamnya (terukur getBBox), jadi
-                       tinggi tintanya 91,9% tinggi kotak — 33,1px di kotak 36px,
-                       sementara kelima tetangganya mendarat di 35,5-36,0px.
-                       Komentar Power BI di bawah pernah mengklaim keempat logo
-                       lama sama-sama 36,0px termasuk yang ini; klaim itu keliru
-                       dan sudah dibetulkan di sana. Perbaikannya sepele —
-                       scale(1.09) — tapi ia mengubah tampilan yang sudah tayang,
-                       jadi ditahan sampai diminta.
+                       DINAIKKAN 1,09 pada 15 Agustus 2026, dan sebabnya KOTAKNYA,
+                       bukan warnanya — persoalan yang sama dengan Power BI di
+                       bawah, cuma lebih kecil. viewBox-nya "0 0 432.071 445.383"
+                       tapi tintanya hanya mengisi 394,86x409,44 di dalamnya
+                       (terukur getBBox), jadi tinggi tintanya 91,9% tinggi kotak.
+                       Dengan object-contain itu berarti 33,1px di kotak 36px,
+                       sementara kelima tetangganya mendarat di 35,5-36,0px — ia
+                       satu-satunya yang meleset, dan di baris berisi enam logo
+                       selisih itu jadi terlihat.
 
-                       Bahasa awamnya: logo gajah PostgreSQL tampil sedikit
-                       lebih kecil daripada lima logo di sebelahnya, sekitar
-                       sepertiga belas lebih pendek. Itu karena file logonya
-                       punya ruang kosong bawaan di tepinya, bukan karena salah
-                       pasang. Bisa disamakan kapan saja kalau diminta. */}
+                       445,383/409,44 = 1,0878, dibulatkan ke 1,09, dan hasilnya
+                       36,1px. Yang dikoreksi RASIO, jadi satu angka ini benar di
+                       kedua ukuran kotak sekaligus — 32px di bawah 900px maupun
+                       36px di atasnya.
+
+                       Kotak elemennya jadi 39,2px dan menjulur 1,6px ke tiap
+                       sisi; bagian itu transparan, tidak ada `overflow: hidden`
+                       di jalur induknya, dan jarak ke label di bawahnya 12px,
+                       jadi tidak ada yang bersentuhan.
+
+                       Komentar Power BI di bawah pernah mengklaim keempat logo
+                       lama sama-sama 36,0px termasuk yang ini. Klaim itu keliru
+                       waktu ditulis; sejak baris ini ada, ia jadi benar.
+
+                       Bahasa awamnya: logo gajah PostgreSQL dulu tampil sedikit
+                       lebih kecil daripada logo di sebelahnya — bukan karena
+                       salah pasang, tapi karena file logonya punya ruang kosong
+                       bawaan di tepinya. Sekarang tingginya sudah sama dengan
+                       kelima logo lain di barisnya. */}
                   <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/postgresql.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
+                        <img src="assets/icons/postgresql.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.09)" }} className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">PostgreSQL</span>
@@ -512,17 +525,18 @@ export default function Skills() {
 
                        Terukur setelahnya di 1180px: Python 36,0px, Tableau
                        35,5px, Excel 36,0px, VS Code 35,9px, Anaconda 35,9px,
-                       Power BI 36,0px. Kotak elemennya sendiri jadi 43,2px dan
-                       menjulur 3,6px ke tiap sisi, tapi bagian itu transparan
-                       dan tidak ada `overflow: hidden` di jalur induknya —
-                       jarak ke label di bawahnya 12px, jadi tidak ada yang
-                       bersentuhan.
+                       PostgreSQL 36,1px, Power BI 36,0px. Kotak elemennya
+                       sendiri jadi 43,2px dan menjulur 3,6px ke tiap sisi, tapi
+                       bagian itu transparan dan tidak ada `overflow: hidden` di
+                       jalur induknya — jarak ke label di bawahnya 12px, jadi
+                       tidak ada yang bersentuhan.
 
-                       DAFTAR DI ATAS DULU MENYEBUT "PostgreSQL 36,0px" DAN ITU
-                       KELIRU. Tintanya cuma 91,9% viewBox-nya, jadi ia mendarat
-                       di 33,1px — satu-satunya logo di baris ini yang meleset.
-                       Alasannya tidak dibetulkan sekarang ada di komentar
-                       card-nya sendiri di atas.
+                       Angka PostgreSQL di daftar itu sempat KELIRU: ia ditulis
+                       36,0px padahal tintanya cuma 91,9% viewBox sehingga
+                       mendarat di 33,1px. Cacatnya diperbaiki di card-nya
+                       sendiri pada 15 Agustus 2026 dengan scale(1.09), jadi
+                       daftar ini sekarang benar apa adanya. Kalau nanti ada
+                       logo baru masuk, ukur — jangan salin angka dari sini.
 
                        DISKALAKAN, BUKAN viewBox-nya dirapatkan seperti
                        Wayground. Keduanya sama benarnya. Yang ini dipilih

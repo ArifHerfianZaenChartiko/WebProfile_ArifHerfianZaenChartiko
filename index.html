@@ -55,9 +55,24 @@
   <meta property="og:image:alt" content="Arif Herfian Zaen Chartiko — Data Analyst, Pendidik Informatika, Staf Administrasi">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- SVG, bukan .ico: satu file 700 byte yang tajam di semua ukuran, dan
-       ia monogram yang sama dengan panel intro. Kalau salah satu diubah,
-       ubah keduanya. -->
+  <!-- SVG, bukan .ico: satu file yang tajam di semua ukuran, dan ia monogram
+       yang sama dengan panel intro. Kalau BENTUKNYA diubah, ubah keduanya —
+       heksagon pembingkainya dibuang di kedua tempat pada 15 Agustus 2026.
+
+       UKURANNYA boleh berbeda, dan memang berbeda: di panel intro tandanya
+       dibiarkan seukuran semula di dalam viewBox yang longgar, di sini ia
+       diskalakan mengisi petaknya. Alasannya ada di komentar favicon.svg
+       sendiri, dan singkatnya: panel intro hitam sepenuh layar sehingga ruang
+       kosong tidak terlihat, sedangkan favicon punya tepi yang kelihatan.
+
+       Berkasnya 3,4 KB, bukan 700 byte seperti yang dulu tertulis di sini —
+       angka itu sudah keliru bahkan sebelum perubahan ini (file lamanya
+       1,3 KB). Hampir seluruhnya komentar, dan komentar di public/ TIDAK
+       dibuang saat build: isinya disalin apa adanya ke dist. Itu ongkos yang
+       diterima dengan sadar — satu permintaan yang di-cache peramban, ditukar
+       dengan geometri yang terdokumentasi di tempat ia dipakai. Kalau suatu
+       saat ukuran berkas ini jadi penting, yang dipangkas komentarnya, bukan
+       ketelitian angkanya. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- Dua keluarga saja. Inter untuk seluruh teks DAN judul; JetBrains Mono

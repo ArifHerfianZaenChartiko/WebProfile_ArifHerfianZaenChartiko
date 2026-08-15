@@ -1,28 +1,68 @@
 <!--
-  Monogram yang sama persis dengan panel pembuka (src/components/Pembuka.jsx):
-  gerbang bersegi di dalam heksagon, dengan geometri dan viewBox yang identik.
-  Kalau salah satu diubah, ubah keduanya.
+  Monogram yang sama dengan panel pembuka (src/components/Intro.jsx): gerbang
+  bersegi yang sekaligus terbaca sebagai A dan H. Kalau bentuknya diubah di
+  salah satu, ubah keduanya.
 
-  Tiga beda yang disengaja, semuanya karena ini digambar pada 16-32 piksel:
+  HEKSAGON PEMBINGKAINYA DIBUANG di kedua tempat pada 15 Agustus 2026. Di sini
+  ia tidak digantikan apa pun: latar bersudut tumpul di bawah sudah memberi
+  bentuk badge yang dulu diberikan heksagon, dan pada 16px dua lapis garis
+  saling bersarang cuma jadi bubur.
 
-  1. Goresannya lebih tebal (16 lawan 12) dan rambut heksagonnya lebih tebal
-     (6 lawan 1,5). Pada ukuran tab, 1,5 dari 176 satuan menipis sampai hilang.
-  2. Palangnya digabung ke dalam satu <g>, sebab di sini tidak ada urutan
-     waktu yang perlu dibedakan -- ia digambar sekaligus.
-  3. Ada latar sendiri. Favicon tanpa latar akan tampil di atas warna tab
-     peramban, yang bisa terang atau gelap; monogram --text (#d8d8d8) akan
-     nyaris lenyap di tab terang.
+  ── KENAPA GEOMETRINYA TIDAK SAMA PERSIS DENGAN PEMBUKA ────────────────────
+
+  Dulu keduanya berbagi viewBox 176x168 dan koordinat yang identik. Sekarang
+  tidak, dan itu keputusan, bukan kelalaian.
+
+  Di Intro.jsx viewBox-nya SENGAJA dibiarkan longgar: yang dulu mengisi kotak
+  itu heksagonnya, dan tanpa heksagon monogramnya cuma menempati bagian tengah.
+  Itu benar di sana -- panelnya hitam sepenuh layar, jadi ruang kosong di
+  sekeliling tanda tidak terlihat sama sekali, dan membiarkannya membuat tanda
+  itu tetap seukuran dan sepenempatan seperti sebelum heksagonnya dibuang.
+
+  Di sini kebalikannya. Favicon digambar pada petak 16-32px yang tepinya
+  KELIHATAN, jadi ruang kosong yang sama justru jadi bingkai kosong yang
+  menyusutkan tandanya sampai tidak terbaca. Karena itu tandanya diskalakan
+  mengisi petaknya.
+
+  ── GEOMETRI, viewBox 100x100 ──────────────────────────────────────────────
+
+    gerbang    M 28 79 L 28 53 L 50 29 L 72 53 L 72 79
+    palang     M 28 65 L 72 65
+
+  Proporsinya dipertahankan dari aslinya, bukan digambar ulang sekenanya:
+
+                        pembuka (176x168)   di sini (100x100)
+    lebar : tinggi      80 : 92 = 0,870     44 : 50 = 0,880
+    bahu, diukur dari puncak    47,8%              48,0%
+    palang, diukur dari puncak  71,7%              72,0%
+    sudut puncak                84,5 derajat       85,0 derajat
+
+  Sudut puncak itu hasil miter join, bukan bentuk yang digambar terpisah, dan
+  85 derajat jauh di dalam batas miter bawaan sehingga tidak pernah dipangkas
+  jadi bevel.
+
+  Dengan stroke 11, tinta menempati 55x58 di tengah petak 100x100 -- sisa 22,5
+  di kiri-kanan dan 21 di atas-bawah. Puncaknya menjulur 8,1 satuan melewati
+  y=29 karena miter, dan itu sudah ikut dihitung; tanpa memperhitungkannya
+  tandanya akan duduk terlalu rendah.
+
+  ── DUA BEDA YANG DISENGAJA DARI PEMBUKA ───────────────────────────────────
+
+  1. Goresannya lebih tebal secara relatif: 11 dari 100 satuan lebar (11%)
+     lawan 12 dari 176 (6,8%). Pada ukuran tab, goresan setipis pembuka
+     menipis sampai nyaris hilang.
+  2. Palangnya digabung ke dalam satu <g> bersama gerbangnya, sebab di sini
+     tidak ada urutan waktu yang perlu dibedakan -- ia digambar sekaligus,
+     bukan dianimasikan.
+
+  Latarnya sendiri wajib ada. Favicon tanpa latar tampil di atas warna tab
+  peramban, yang bisa terang atau gelap; monogram --text (#d8d8d8) akan
+  nyaris lenyap di tab terang.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 168" width="176" height="168">
-  <rect width="176" height="168" rx="30" fill="#040508"/>
-  <g fill="none" stroke="#d8d8d8" stroke-linecap="butt" stroke-linejoin="miter">
-    <g stroke-width="6">
-      <path d="M 88 6 L 158 46 L 158 122 L 88 162"/>
-      <path d="M 88 6 L 18 46 L 18 122 L 88 162"/>
-    </g>
-    <g stroke-width="16">
-      <path d="M 48 132 L 48 84 L 88 40 L 128 84 L 128 132"/>
-      <path d="M 48 106 L 128 106"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" rx="22" fill="#040508"/>
+  <g fill="none" stroke="#d8d8d8" stroke-width="11" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M 28 79 L 28 53 L 50 29 L 72 53 L 72 79"/>
+    <path d="M 28 65 L 72 65"/>
   </g>
 </svg>
