@@ -75,21 +75,27 @@
        ketelitian angkanya. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- TIDAK ADA SATU PUN <link> KE HOST LUAR DI SINI, dan itu disengaja.
+  <!-- TIDAK ADA SATU PUN TAG LINK KE HOST LUAR DI SINI, dan itu disengaja.
+
+       Kata "link" di komentar ini sengaja tidak ditulis sebagai tag sungguhan.
+       Sempat begitu, dan akibatnya `grep '<link'` pada halaman hasil build
+       melaporkan empat tag yang sebenarnya cuma prosa — cukup untuk membuat
+       pemeriksaan "masih ada rujukan ke host luar?" terbaca gagal padahal
+       lolos.
 
        Dua keluarga saja dipakai: Inter untuk seluruh teks DAN judul, JetBrains
        Mono untuk label kecil berspasi lebar. Keduanya diimpor dari
        src/main.jsx sebagai paket npm @fontsource, sama seperti Font Awesome,
        supaya ikut dibundel Vite dan dilayani dari domain sendiri.
 
-       Sampai 15 Agustus 2026 di sinilah berdiri tiga <link> ke
+       Sampai 15 Agustus 2026 di sinilah berdiri tiga tag link ke
        fonts.googleapis.com dan fonts.gstatic.com. Ketiganya dibuang: yang
-       terakhir itu <link> di <head> sehingga MEMBLOKIR render sampai
+       terakhir itu tag link di head sehingga MEMBLOKIR render sampai
        permintaan ke host asing selesai, ia titik gagal tunggal, dan ia
        mengirimkan alamat IP tiap pengunjung ke Google. Alasan lengkapnya ada
        di src/main.jsx.
 
-       JANGAN KEMBALIKAN <link> KE fonts.googleapis.com MAUPUN KE cdnjs.
+       JANGAN KEMBALIKAN tag link ke fonts.googleapis.com maupun ke cdnjs.
        Content-Security-Policy di vercel.json sekarang berbunyi
        `default-src 'self'` tanpa satu pun host luar — mengembalikan salah
        satunya berarti fontnya diblokir peramban tanpa pesan apa pun di
