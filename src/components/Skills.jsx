@@ -301,40 +301,150 @@ export default function Skills() {
                Developer. Slot pertama memang selalu ikut peran yang dilamar,
                jadi ia yang paling sering berganti isi.
 
-               Isinya sekarang 3-2-2-3 dan jedanya berakhir di 0,27. Rantainya
+               Isinya sekarang 6-2-2-3 dan jedanya berakhir di 0,36. Rantainya
                berdiri sendiri, tidak menyambung dari bagian Teknologi — lihat
                alasannya di komentar bagian itu. Menambah atau menghapus card
                berarti SELURUH rantai di bawahnya dihitung ulang: tiap card naik
                0,03 berurutan menembus kelompok, dan label tiap kelompok memakai
-               jeda card pertamanya. */}
+               jeda card pertamanya.
+
+               EKORNYA 0,36 DETIK, DAN ITU SUDAH DEKAT BATAS. Tiga card yang
+               ditambahkan ke baris Data pada 15 Agustus 2026 mendorong ujung
+               rantai dari 0,27 ke 0,36. Peringatan di bagian Teknologi soal
+               rantai yang terlalu panjang — card terakhir jatuh terlalu jauh
+               dan pembaca sudah melewatinya sebelum ikonnya datang — berlaku
+               di sini juga. Kalau nanti ada card lagi yang ditambahkan,
+               pertimbangkan memulai rantai baru per kelompok alih-alih terus
+               menyambung, sebab keempat kelompok ini toh punya labelnya
+               sendiri-sendiri.
+
+               Bahasa awamnya: logo-logo di bagian ini tidak muncul serentak,
+               melainkan menyusul satu per satu dari kiri ke kanan saat
+               di-scroll. Angka-angka di atas yang mengatur giliran itu, dan
+               logo terakhir sekarang datang 0,36 detik setelah yang pertama. */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Perkakas</h3>
             <div className="border-t border-line">
 
-              {/* Urutannya sumber dulu, penyajinya belakangan: PostgreSQL
-                   tempat datanya tinggal, Power BI dan Tableau yang
-                   membacanya. Pola yang sama dipakai baris lain di grid ini —
-                   yang menopang berdiri di depan, sama seperti bahasa
-                   mendahului kerangka kerja. */}
+              {/* Urutannya ditentukan pemiliknya, dan alurnya alat kerja dulu
+                   baru penyajinya: Excel dan PostgreSQL tempat datanya tinggal,
+                   VS Code dan Anaconda tempat mengolahnya, Power BI dan Tableau
+                   yang menyajikannya. Pola yang sama dipakai baris lain di grid
+                   ini — yang menopang berdiri di depan.
+
+                   ENAM CARD, dan ini baris terpanjang di seluruh grid. Sebelum
+                   14 Agustus 2026 yang terpanjang cuma empat, jadi jumlah ini
+                   melewati batas yang pernah diuji `.tool-items > *` di
+                   src/index.css. Lebar card di >=1180px diturunkan 9,5rem ->
+                   8,5rem supaya keenamnya tetap muat satu baris; hitungannya
+                   ada di komentar aturan itu.
+
+                   Bahasa awamnya: baris "Data" sekarang berisi enam logo. Di
+                   layar komputer keenamnya berjajar dalam satu baris; di ponsel
+                   dan tablet ia turun jadi dua baris berisi tiga-tiga, sama
+                   rata, bukan empat di atas dan dua menggantung di bawah. */}
               <div className="tool-row border-b border-line">
                 <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Data</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
+                  {/* viewBox "0 0 486 500" dan tintanya mengisinya PERSIS
+                       (terukur getBBox: 0,0 486,01x500) — jadi tidak
+                       diskalakan, sama seperti Tableau. Ia satu-satunya logo
+                       di baris ini yang lebih tinggi daripada lebarnya, jadi
+                       object-contain memaskan tingginya dan lebarnya menyisakan
+                       1px; itu memang bentuk logonya, bukan salah ukuran. */}
+                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/microsoft-excel.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Excel</span>
+                  </div>
+
                   {/* Gajah Slonik, biru #336791 dengan garis luar putih. Garis
                        putih itu BUKAN tambahan dan bukan salah unduh: ia bagian
                        dari logo resmi versi latar gelap, dan justru itu yang
                        membuat siluetnya terbaca di atas #040508. Kalau nanti
                        diganti, jangan pakai versi tanpa garis luar — di latar
-                       segelap ini badannya menyatu dengan halaman. */}
-                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                       segelap ini badannya menyatu dengan halaman.
+
+                       TIDAK DISKALAKAN, DAN ITU PILIHAN YANG PERLU DICATAT.
+                       viewBox-nya "0 0 432.071 445.383" tapi tintanya cuma
+                       mengisi 394,86x409,44 di dalamnya (terukur getBBox), jadi
+                       tinggi tintanya 91,9% tinggi kotak — 33,1px di kotak 36px,
+                       sementara kelima tetangganya mendarat di 35,5-36,0px.
+                       Komentar Power BI di bawah pernah mengklaim keempat logo
+                       lama sama-sama 36,0px termasuk yang ini; klaim itu keliru
+                       dan sudah dibetulkan di sana. Perbaikannya sepele —
+                       scale(1.09) — tapi ia mengubah tampilan yang sudah tayang,
+                       jadi ditahan sampai diminta.
+
+                       Bahasa awamnya: logo gajah PostgreSQL tampil sedikit
+                       lebih kecil daripada lima logo di sebelahnya, sekitar
+                       sepertiga belas lebih pendek. Itu karena file logonya
+                       punya ruang kosong bawaan di tepinya, bukan karena salah
+                       pasang. Bisa disamakan kapan saja kalau diminta. */}
+                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/postgresql.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">PostgreSQL</span>
+                  </div>
+
+                  {/* DIBANGUN DARI PNG RESMI DI code.visualstudio.com, bukan
+                       diambil dari kumpulan ikon pihak ketiga — dan bukan pula
+                       file lama yang dibuang 14 Agustus 2026. Yang itu memakai
+                       #2196f3, biru Material generik yang BUKAN warna merek
+                       VS Code; jangan dipulihkan dari git history.
+
+                       Microsoft tidak menerbitkan logo ini sebagai SVG. Situs
+                       resminya memuatnya sebagai PNG base64 1024x1024 di dalam
+                       aturan `.navbar-brand` pada /dist/style.css. File ini
+                       hasil menelusuri artwork itu: tiga region warnanya
+                       dipisah per luminance, konturnya ditelusuri, lalu
+                       disederhanakan Douglas-Peucker pada toleransi 2,2 dari
+                       1024 satuan — sekitar 0,08px pada ukuran tampilnya.
+
+                       Warnanya BUKAN hasil sampel piksel, melainkan tiga warna
+                       resmi #0065A9 / #007ACC / #1F9CF0. Sampelnya sendiri
+                       terbaca lebih terang (#006EB1 / #0081C9 / #22A8F1) karena
+                       artwork resminya menumpuk kilau putih tembus pandang di
+                       atas ketiganya. Kilau itu sengaja tidak ikut ditiru: pada
+                       36px ia tidak terlihat, dan ia menuntut mix-blend-mode
+                       yang mahal.
+
+                       Tinta mengisi 99,7% viewBox-nya, jadi tidak diskalakan.
+
+                       Bahasa awamnya: logo VS Code di halaman ini digambar
+                       ulang dari logo asli di situs resmi Microsoft, bukan
+                       diunduh dari situs kumpulan logo. Warnanya karena itu
+                       warna biru VS Code yang sebenarnya — yang dipakai versi
+                       lama dulu birunya salah. */}
+                  <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/vscode.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">VS Code</span>
+                  </div>
+
+                  {/* Hijau #44A833, warna merek resminya, dan file-nya satu
+                       path satu warna — tidak ada versi terang/gelap yang bisa
+                       tertukar seperti Wayground. viewBox "0 0 24 24" dengan
+                       tinta 24x23,93: rapat, jadi tidak diskalakan. */}
+                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/anaconda.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Anaconda</span>
                   </div>
 
                   {/* POWER BI DINAIKKAN ke 1,2, dan sebabnya KOTAKNYA, bukan
@@ -353,11 +463,18 @@ export default function Skills() {
                        piksel.
 
                        Terukur setelahnya di 1180px: Python 36,0px, Tableau
-                       36,0px, PostgreSQL 36,0px, Power BI 36,0px. Kotak
-                       elemennya sendiri jadi 43,2px dan menjulur 3,6px ke tiap
-                       sisi, tapi bagian itu transparan dan tidak ada
-                       `overflow: hidden` di jalur induknya — jarak ke label di
-                       bawahnya 12px, jadi tidak ada yang bersentuhan.
+                       35,5px, Excel 36,0px, VS Code 35,9px, Anaconda 35,9px,
+                       Power BI 36,0px. Kotak elemennya sendiri jadi 43,2px dan
+                       menjulur 3,6px ke tiap sisi, tapi bagian itu transparan
+                       dan tidak ada `overflow: hidden` di jalur induknya —
+                       jarak ke label di bawahnya 12px, jadi tidak ada yang
+                       bersentuhan.
+
+                       DAFTAR DI ATAS DULU MENYEBUT "PostgreSQL 36,0px" DAN ITU
+                       KELIRU. Tintanya cuma 91,9% viewBox-nya, jadi ia mendarat
+                       di 33,1px — satu-satunya logo di baris ini yang meleset.
+                       Alasannya tidak dibetulkan sekarang ada di komentar
+                       card-nya sendiri di atas.
 
                        DISKALAKAN, BUKAN viewBox-nya dirapatkan seperti
                        Wayground. Keduanya sama benarnya. Yang ini dipilih
@@ -365,7 +482,7 @@ export default function Skills() {
                        jadi kalau nanti diganti dengan unduhan baru dari
                        Microsoft, satu-satunya yang perlu diperiksa ulang angka
                        di baris ini — bukan isi file yang sudah diedit tangan. */}
-                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/microsoft-power-bi.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.2)" }} className="max-h-full max-w-full object-contain" />
@@ -380,7 +497,7 @@ export default function Skills() {
                        di barisnya, tapi tidak ada satu pun bidang terisi penuh
                        seperti kotak kuning JavaScript dulu — jadi bobot tampaknya
                        tetap sepadan dengan tetangganya tanpa perlu diturunkan. */}
-                  <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/tableau.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -393,18 +510,23 @@ export default function Skills() {
               </div>
 
               {/* PENGAJARAN. Isinya cuma dua karena sisanya sudah berdiri di baris
-                   lain: Word, Excel, dan PowerPoint untuk modul ajar dan penilaian ada
-                   di MS Office (Administrasi), dan VS Code — yang dipakai mengajar
-                   pemrograman dasar — ada di Pengembangan. Perkakas yang sama tidak
+                   lain: Word dan PowerPoint untuk modul ajar dan penilaian ada di
+                   MS Office (Administrasi), dan VS Code — yang dipakai mengajar
+                   pemrograman dasar — ada di baris Data. Perkakas yang sama tidak
                    ditulis dua kali; yang memberi tahu perannya adalah card pengalaman
-                   "Guru Informatika" di bagian Pengalaman. */}
+                   "Guru Informatika" di bagian Pengalaman.
+
+                   Rujukan ke "baris Pengembangan" di sini sudah salah sejak
+                   kelompok itu dibuang 14 Agustus 2026, dan Excel disebut dua
+                   kali sejak ia berdiri sendiri di baris Data 15 Agustus 2026.
+                   Keduanya diluruskan. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.09" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
-                <span data-component="scrub-reveal" data-delay="0.09" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0.18" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
+                <span data-component="scrub-reveal" data-delay="0.18" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/google-classroom.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.25)" }} className="max-h-full max-w-full object-contain" />
@@ -444,7 +566,7 @@ export default function Skills() {
                        ditambahkan: terangkan pada rona aslinya, jangan diganti
                        warnanya. Wordmark Quizizz dulu aslinya #5D2057 dan nyaris
                        tak terlihat di latar #040508. */}
-                  <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/wayground.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -457,12 +579,12 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.15" className="-caption-small tool-label text-text-muted">Administrasi</h4>
-                <span data-component="scrub-reveal" data-delay="0.15" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0.24" className="-caption-small tool-label text-text-muted">Administrasi</h4>
+                <span data-component="scrub-reveal" data-delay="0.24" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.24" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/ms-office.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -474,7 +596,7 @@ export default function Skills() {
                   {/* Google Workspace memakai wordmark penuhnya, perbandingan 7,76:1.
                        Ia memang tampil lebih short daripada logo persegi di
                        sebelahnya — itu sifat wordmark sepanjang ini, bukan salah ukuran. */}
-                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.27" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/google-workspace.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -487,12 +609,12 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.21" className="-caption-small tool-label text-text-muted">AI</h4>
-                <span data-component="scrub-reveal" data-delay="0.21" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0.3" className="-caption-small tool-label text-text-muted">AI</h4>
+                <span data-component="scrub-reveal" data-delay="0.3" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.3" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/claude.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.14)" }} className="max-h-full max-w-full object-contain" />
@@ -501,7 +623,7 @@ export default function Skills() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Claude</span>
                   </div>
 
-                  <div data-component="scrub-reveal" data-delay="0.24" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.33" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/claude-code.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -518,6 +640,10 @@ export default function Skills() {
                        apa-apa dalam ukuran 32px, apalagi berdampingan dengan logo
                        yang punya bentuk khas seperti Claude dan VS Code. Wordmark-nya
                        dikembalikan pada 7 Agustus 2026. Jangan diganti lagi ke kapsul.
+                       (Logo yang jadi pembandingnya waktu itu Claude dan VS Code;
+                       VS Code sempat hilang dari grid ini 14 Agustus 2026 dan
+                       kembali di baris Data pada 15 Agustus 2026, jadi
+                       perbandingan itu berlaku lagi apa adanya.)
 
                        Google tidak menerbitkan logo Stitch dalam bentuk SVG, dan
                        halaman mereka tidak memuat file logo APA PUN — wordmark
@@ -535,15 +661,17 @@ export default function Skills() {
                        tinta sama persis, lebar meleset 1 piksel dari 982, tumpang
                        tindih 97,8% (sisanya pelunakan tepi).
 
-                       Warnanya #d8d8d8, sama dengan Vercel di baris Pengembangan —
-                       itu perlakuan baku situs ini untuk logo yang aslinya putih
-                       atau hitam polos. Aslinya di halaman Stitch memang putih
+                       Warnanya #d8d8d8 — perlakuan baku situs ini untuk logo yang
+                       aslinya putih atau hitam polos. (Pembandingnya dulu Vercel,
+                       yang ikut dibuang 14 Agustus 2026; sekarang Stitch
+                       satu-satunya yang memakai perlakuan ini.) Aslinya di
+                       halaman Stitch memang putih
                        penuh, tapi putih penuh di sini lebih terang dari semua
                        logo lain dan menarik perhatian melebihi porsinya.
 
                        scale(0.85) menahannya supaya tidak lebih dominan dari
                        logo tetangganya yang bujur sangkar. */}
-                  <div data-component="scrub-reveal" data-delay="0.27" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.36" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/stitch.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(0.85)" }} className="max-h-full max-w-full object-contain" />

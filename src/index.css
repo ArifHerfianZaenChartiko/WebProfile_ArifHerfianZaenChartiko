@@ -425,12 +425,27 @@ html.lenis,html.lenis body{height:auto}
    aman ditambah tanpa menyentuh baris hasil kompilasi.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* GRID PERKAKAS — lima kelompok berlabel, jumlah card per baris dikunci.
+/* GRID PERKAKAS — lima kelompok berlabel, jumlah card per kelompok dikunci.
 
-   Susunannya 4-3-2-2-3 dan tidak berubah di lebar viewport mana pun, karena tiap
-   kelompok adalah container-nya sendiri: baris berisi empat card selamanya
-   berisi empat. Tidak ada satu pun titik henti (breakpoint) yang menentukan
+   Susunannya 1-6-2-2-3 dan tidak berubah di lebar viewport mana pun, karena tiap
+   kelompok adalah container-nya sendiri: kelompok berisi enam card selamanya
+   berisi enam. Tidak ada satu pun titik henti (breakpoint) yang menentukan
    pengelompokannya.
+
+   SATU KELOMPOK SEKARANG MEMBUTUHKAN DUA BARIS, dan itu batas yang sudah
+   tersentuh. Sampai 14 Agustus 2026 kelompok terbesar berisi empat card dan
+   semuanya muat satu baris di setiap lebar, sehingga "satu kelompok = satu
+   baris" berlaku tanpa kecuali. Baris Data yang berisi enam melewatinya: di
+   bawah 1024px ia pecah 3+3. Yang dipertahankan bukan jumlah barisnya
+   melainkan pecahnya yang RATA dan SAMA di semua lebar — bukan 4+2 di satu
+   lebar dan 5+1 di lebar lain. Angka yang mengatur itu ada dua, dan keduanya
+   dihitung dari jumlah card: 33,3333% di bawah 1180px, dan 8,5rem di atasnya.
+
+   Bahasa awamnya: bagian ini deretan logo perkakas, dikelompokkan lima baris
+   berlabel. Kelompok "Data" yang berisi enam logo terlalu panjang untuk muat
+   satu baris di layar kecil, jadi ia turun jadi dua baris berisi tiga-tiga
+   yang sama panjang — dan pembagian itu sama persis di ponsel, tablet, maupun
+   komputer.
 
    Kenapa berlabel dan rata kiri, bukan dipusatkan: baris yang panjangnya
    berbeda-beda kalau dipusatkan tidak punya tepi lurus untuk dipegang mata,
@@ -457,23 +472,54 @@ html.lenis,html.lenis body{height:auto}
 }
 
 /* Di screen sempit label berdiri sendiri di atas, dan card berbagi lebar
-   viewport berempat. Seperempat itulah yang menjaga baris berisi empat tetap
-   muat tanpa membungkus. */
+   viewport bertiga.
+
+   SEPERTIGA, BUKAN SEPEREMPAT LAGI, sejak baris Data berisi enam card pada
+   15 Agustus 2026. Seperempat membuat baris itu pecah 4+2 — dua card
+   tertinggal sendiri di bawah empat, dan tepi bawah kelompoknya jadi
+   bergerigi. Sepertiga memecahnya 3+3, dua baris yang sama panjang.
+
+   Card jadi LEBIH LEBAR, bukan lebih sempit, dan itu menolong hal lain:
+   pada 390px card naik dari 89,5px ke 117px, cukup untuk memuat
+   "Google Classroom" dan "Google Workspace" dalam dua baris yang lega
+   alih-alih tiga yang sesak. Baris berisi tiga (AI) sekarang mengisi penuh
+   lebarnya alih-alih berhenti di tiga perempat.
+
+   Yang perlu diketahui kalau nanti ada kelompok berisi lebih dari enam:
+   angka ini yang menentukan pecahnya, dan kelipatan tiga yang jatuh rata.
+   Tujuh card akan pecah 3+3+1 dan menyisakan masalah yang sama.
+
+   Bahasa awamnya: di ponsel dan tablet, tiap baris logo memuat tiga buah.
+   Logonya jadi sedikit lebih besar dan lebih lega daripada sebelumnya, dan
+   nama panjang seperti "Google Workspace" tidak lagi sesak. */
 .tool-items > * {
-  width: 25%;
+  width: 33.3333%;
 }
 
-/* Threshold-nya 1024px, bukan 640px, dan itu hasil ukur bukan tebak: dengan
-   label duduk di samping, area card di tablet 768px hanya tersisa 512px --
-   tidak cukup untuk empat card selebar 9,5rem, jadi barisnya membungkus
-   diam-diam. Di bawah 1024px label naik ke atas, card memakai lebar penuh,
-   dan barisnya kembali muat.
+/* Threshold-nya 1180px, dan angka itu BUKAN jumlah card melainkan LEBAR
+   CONTAINER-nya sendiri: blok Keahlian dipatok max-w-[1180px]. Di situlah
+   isinya berhenti tumbuh, jadi di situ pula label baru punya cukup ruang
+   untuk duduk di samping tanpa menggencet card.
 
-   Baris terpanjang sekarang tiga card (Data dan AI), bukan empat, jadi
-   kelonggarannya bertambah -- tapi threshold-nya TIDAK ikut diturunkan.
-   Menurunkannya berarti mengikat titik henti ini ke jumlah card yang
-   kebetulan berlaku hari ini, dan jumlah itu sudah berganti tiga kali. */
-@media (min-width: 1024px) {
+   Dulu 1024px, dengan alasan yang masih benar tapi tidak lagi cukup: pada
+   768px area card cuma tersisa 512px kalau label duduk di samping, tidak
+   cukup untuk empat card, jadi barisnya membungkus diam-diam. Baris Data
+   yang berisi enam menggeser batas itu ke atas. Terukur pada 1100px, label
+   di samping menyisakan 764px untuk card sementara enam card menuntut 816px
+   -- barisnya pecah 5+1 dengan Tableau berdiri sendiri, persis cacat yang
+   sedang diperbaiki. Menurunkan lebar card sampai muat di 1024px menuntut
+   7,17rem, dan di bawah 8rem nama terpanjang pecah dua baris.
+
+   Jadi yang digeser titik hentinya, bukan lebar card-nya lagi. Ia diikat ke
+   angka yang TIDAK ikut berubah saat card ditambah atau dikurangi -- kalau
+   suatu saat container-nya dilebarkan, angka ini ikut ke sana, bukan ke
+   jumlah card yang kebetulan berlaku hari itu.
+
+   Bahasa awamnya: nama kelompok ("DATA", "PENGAJARAN") duduk di samping kiri
+   deretan logo hanya di layar lebar. Di layar yang lebih sempit ia naik ke
+   atas deretan itu, supaya logonya tidak terjepit. Batas pergantiannya
+   sekarang sedikit lebih lebar daripada sebelumnya. */
+@media (min-width: 1180px) {
   /* Lebar tetap, bukan mengikuti panjang tulisan: inilah yang membuat garis
      rambut kelima kelompok lurus sejajar.
 
@@ -507,13 +553,32 @@ html.lenis,html.lenis body{height:auto}
   /* Lebar tetap juga di sini, supaya kolom card lurus dari kelompok satu
      ke kelompok berikutnya meski jumlahnya berbeda.
 
-     9,5rem bukan angka selera. "Google Workspace" pada 14px selebar 127px;
-     dikurangi padding kiri-kanan card 2x8px, 9,5rem menyisakan 136px --
-     lebar terkecil yang masih memuatnya dalam satu baris. Nama yang pecah
-     dua baris membuat tinggi tiap kelompok berbeda-beda, dan tepi bawah
-     bergerigi itulah yang tadi terbaca sebagai tidak rapi. */
+     DITURUNKAN 9,5rem -> 8,5rem pada 15 Agustus 2026, dan angka barunya
+     dihitung dari baris terpanjang. Baris Data sekarang berisi enam card.
+     Container-nya dipatok max-w-[1180px] dengan nav:px-10, jadi selebar apa
+     pun screen-nya isi baris ini tidak pernah lebih dari 1100px; dikurangi
+     .tool-label 12rem, garis rambut 2rem, dan dua celah 1rem, yang tersisa
+     untuk card 844px. Enam card menuntut lebar <= 844/6 = 140,6px. 9,5rem
+     (152px) melewatinya, dan akibatnya terukur: barisnya pecah 5+1 dengan
+     Tableau berdiri sendiri di bawah. 8,5rem (136px) memberi 816px, sisa
+     28px.
+
+     BATAS BAWAHNYA DIJAGA NAMA TERPANJANG, dan itu sebabnya angka ini tidak
+     diturunkan lebih jauh: "Google Workspace" pada 12px selebar ~105px, dan
+     8,5rem dikurangi padding card 2x8px menyisakan 120px. Sisa 15px itu
+     kelonggaran yang tipis tapi cukup; di bawah 8rem ia pecah dua baris dan
+     tepi bawah kelompoknya jadi bergerigi lagi.
+
+     (Komentar lama menyebut "Google Workspace pada 14px selebar 127px".
+     Ukuran itu keliru sejak label card memakai .-body-smaller yang 12px,
+     bukan 14px. Angkanya sudah dibetulkan dari pengukuran ulang.)
+
+     Bahasa awamnya: di layar komputer tiap logo diberi jatah lebar tetap
+     supaya kolomnya lurus sejajar dari satu kelompok ke kelompok berikutnya.
+     Jatah itu dipersempit sedikit agar keenam logo "Data" muat satu baris,
+     tapi tetap cukup lebar supaya tidak ada nama yang pecah dua baris. */
   .tool-items > * {
-    width: 9.5rem;
+    width: 8.5rem;
   }
 }
 
