@@ -896,6 +896,38 @@ html.lenis,html.lenis body{height:auto}
 
 /* dua card terakhir */
 
+/* ══════════════════════════════════════════════════════════════════════════
+   DI BAWAH 640px KOLOMNYA TURUN JADI DUA, dan aturan ini lahir dari
+   keterangan yang ditulis ulang 15 Agustus 2026.
+
+   Susunan 3+2 di atas berlaku di semua lebar sampai 1024px, dan itu memang
+   cukup selama keterangannya pendek -- kelimanya dulu 37-54 huruf. Setelah
+   ditulis ulang jadi 99-148 huruf, kolom selebar sepertiga layar ponsel
+   tidak lagi memadai: pada 390px tiap card cuma 110px, sisa ~94px untuk teks
+   setelah padding, dan "Melek terhadap perubahan..." pecah jadi 13 baris.
+   Yang terbaca bukan card melainkan lajur huruf.
+
+   Dua kolom memberi ~147px untuk teks pada lebar yang sama, jadi keterangan
+   terpanjang turun ke sekitar enam baris.
+
+   CARD TERAKHIR MERENTANG DUA KOLOM. Card-nya lima, jumlah ganjil, jadi dua
+   kolom menyisakan satu sel kosong di baris terakhir -- sel yang dikelilingi
+   garis card di kiri dan atasnya tapi tidak punya garis sendiri, sehingga
+   sudut kanan-bawah grid menganga dan terbaca seperti isi yang gagal dimuat.
+   Ini persoalan yang sama persis dengan yang dijawab angka enam di atas,
+   cuma di jumlah kolom yang berbeda.
+
+   ANGKA 640 TERIKAT KE JUMLAH KOLOM, BUKAN KE PANJANG TULISAN. Kalau nanti
+   keterangannya dipendekkan lagi, aturan ini boleh dibuang seluruhnya dan
+   susunan 3+2 kembali berlaku sampai 1024px.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (width < 640px) {
+  .skill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .skill-card,
+  .skill-card:nth-child(n + 4) { grid-column: auto }
+  .skill-card:last-child       { grid-column: span 2 }
+}
+
 @media (width >= 1024px) {
   .skill-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) }
   .skill-card,

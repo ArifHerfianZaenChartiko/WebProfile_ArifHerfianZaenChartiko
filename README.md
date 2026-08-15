@@ -143,25 +143,36 @@ aplikasi yang dibuka lalu dipakai. Menaruh bahasa pemrograman di bawah judul
 "Perkakas" kira-kira sama dengan menyebut bahasa Indonesia sebagai alat tulis.
 
 ```
-Teknologi   Bahasa Pemrograman   Python                           (1)
+Teknologi   Bahasa Pemrograman   Python                                   (1)
 
-Perkakas    Data                 PostgreSQL, Power BI, Tableau    (3)
-            Pengajaran           Google Classroom, Wayground      (2)
-            Administrasi         MS Office, Google Workspace      (2)
-            AI                   Claude, Claude Code, Stitch      (3)
+Perkakas    Data                 Excel, PostgreSQL, VS Code,
+                                 Anaconda, Power BI, Tableau              (6)
+            Pengajaran           Google Classroom, Wayground              (2)
+            Administrasi         MS Office, Google Workspace              (2)
+            AI                   Claude, Claude Code                      (2)
 ```
 
-Jumlah card per baris ditentukan oleh Anda, bukan lebar viewport: sama persis di
-ponsel, tablet, maupun desktop.
+**Pengelompokannya ditentukan oleh Anda, bukan lebar viewport** — kelompok berisi
+enam card selamanya berisi enam. Yang ikut lebar viewport hanya berapa baris yang
+dipakai untuk menampungnya: sampai 1180px, kelompok `Data` turun jadi dua baris
+berisi tiga-tiga, dan dari 1180px ke atas keenamnya berjajar satu baris. Pecahnya
+sengaja dibuat **rata dan sama di semua lebar** — bukan 4+2 di satu lebar dan 5+1
+di lebar lain. Dua angka yang mengaturnya ada di `src/index.css`: `33,3333%` di
+bawah 1180px dan `8,5rem` di atasnya, keduanya dihitung dari jumlah card
+terbanyak.
 
 **Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang.**
 Tiap card naik 0,03 detik berurutan, dan label tiap kelompok memakai delay card
 pertamanya. Kedua bagian itu **rantai terpisah** yang sama-sama mulai dari nol —
-`Teknologi` 0, `Perkakas` 0 → 0,27. Jangan disambung: satu rantai yang menembus
+`Teknologi` 0, `Perkakas` 0 → 0,33. Jangan disambung: satu rantai yang menembus
 keduanya membuat card terakhir jatuh terlalu jauh dan pembaca sudah melewatinya
 sebelum ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional
 (0 / 0,04 / 0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute
 yang sama.
+
+Ekor 0,33 detik itu sudah dekat batas. Kalau kelompoknya bertambah lagi,
+pertimbangkan memulai rantai baru per kelompok alih-alih terus menyambung —
+keempat kelompok itu toh punya labelnya sendiri-sendiri.
 
 **Nama kelompok terpanjang mengikat satu angka di CSS.** `.tool-label` dipatok
 lebar tetap supaya garis rambut kelima kelompok lurus sejajar, dan lebarnya
@@ -175,10 +186,16 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
 - **Warna di halaman mereka belum tentu warna mereknya.** Logo Wayground
   tampil krem di situs mereka semata karena latar halamannya merah tua; warna
   mereknya merah muda. Kalau ragu, buka favicon-nya.
-- **Sebagian merek tidak punya file logo sama sekali.** Wordmark Stitch
-  adalah teks hidup. SVG-nya di sini dibuat dengan mengurai font yang dimuat
-  halaman itu.
-- **Palet lama masih banyak beredar.** Figma sudah berganti.
+- **Sebagian merek tidak menerbitkan SVG sama sekali.** Logo VS Code di situs
+  resminya berupa PNG base64 yang ditanam di dalam aturan `.navbar-brand` pada
+  `/dist/style.css` — tidak ada file SVG yang bisa diunduh. SVG di repo ini
+  dibangun dari PNG itu, dan warnanya diambil dari palet resmi
+  (`#0065A9` / `#007ACC` / `#1F9CF0`), bukan disampel dari pikselnya — sampel
+  mentahnya terbaca lebih terang karena artwork resminya menumpuk kilau putih
+  tembus pandang di atasnya.
+- **Palet lama masih banyak beredar.** Jangan ambil dari kumpulan icon pihak
+  ketiga: file VS Code yang dulu dipakai di sini memakai `#2196f3`, biru
+  Material generik yang bukan warna merek mereka.
 
 ### Kartu pratinjau (OG image)
 

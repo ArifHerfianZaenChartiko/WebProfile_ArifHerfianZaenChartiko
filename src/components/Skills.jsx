@@ -91,10 +91,29 @@ export default function Skills() {
                 <h3 className="-h2 max-w-[9em]">Analisis Data</h3>
                 <span data-glyph="1"></span>
               </div>
-              {/* Lebar teks dibatasi meski card-nya melebar. Tanpa ini satu baris
-                   memuat sekitar 130 karakter di desktop, dan mata kehilangan tempat
-                   saat berpindah ke baris berikutnya. 42rem menahannya di sekitar
-                   88 karakter. */}
+              {/* BATAS LEBAR TEKSNYA DIBUANG pada 15 Agustus 2026 atas permintaan:
+                   keterangan ini harus memenuhi card sampai tepi kanan, tidak lagi
+                   menyempil di kiri.
+
+                   Dulu `max-w-2xl` (42rem, 672px) sementara ruang isi card 1044px
+                   di 1180px — jadi teksnya berhenti di 64% lebar card dan
+                   menyisakan 372px kosong di kanan, di bawah judul yang justru
+                   merentang penuh. Yang terbaca bukan kolom teks yang sengaja
+                   dipersempit melainkan blok yang lupa dilebarkan.
+
+                   ONGKOSNYA NYATA DAN SUDAH DIUKUR, jadi jangan dikira gratis:
+                   pada 1044px baris penuh memuat sekitar 150 karakter, naik dari
+                   88. Itu di atas rentang 45-90 karakter yang biasa dianjurkan
+                   untuk teks berjalan, dan alasan batas lama ada memang itu —
+                   mata kehilangan tempat saat berpindah baris. Yang menahannya
+                   tetap terbaca di sini: teksnya cuma 208 karakter, jadi ia
+                   selesai dalam dua baris, dan dua baris tidak menuntut mata
+                   melakukan perpindahan berulang seperti paragraf panjang.
+
+                   Kalau nanti keterangannya diperpanjang jauh melewati ini,
+                   pertimbangkan mengembalikan batas lebarnya — di angka yang
+                   lebih besar dari 42rem, misalnya 64rem, supaya tetap memenuhi
+                   card tanpa jatuh ke baris sepanjang 150 karakter. */}
               {/* KALIMAT INI MENYEBUT TEKNOLOGINYA HARFIAH, bukan meringkasnya
                    jadi "mengolah data" saja — alasannya sama dengan deskripsi
                    meta di index.html: penyaring lamaran mencocokkan teks apa
@@ -108,7 +127,7 @@ export default function Skills() {
                    ongkosnya. Pelajaran itu sudah pernah dibayar: sampai
                    9 Agustus 2026 kalimat ini berbunyi "tanpa kerangka kerja"
                    di halaman yang dibangun dengan React. */}
-              <p className="-body-small max-w-2xl text-text-muted">Menarik dan merapikan data dengan Python, menyusun serta mengueri basis data PostgreSQL, membangun dashboard Power BI dan Tableau, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti.</p>
+              <p className="-body-small text-text-muted">Menarik dan merapikan data dengan Python, menyusun serta mengueri basis data PostgreSQL, membangun dashboard Power BI dan Tableau, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti.</p>
             </article>
             </div>
 
@@ -162,34 +181,62 @@ export default function Skills() {
                keterangan ke dalam div. Ketiganya harus jadi anak LANGSUNG .skill-card
                supaya masing-masing menempati barisnya sendiri di subgrid. Dulu judul
                dan keterangan dibungkus satu div demi efek naik saat disentuh kursor;
-               efek itu sekarang dipasang langsung ke keduanya lewat CSS. */}
+               efek itu sekarang dipasang langsung ke keduanya lewat CSS.
+
+               KELIMA KETERANGANNYA DITULIS ULANG pada 15 Agustus 2026, dan
+               panjangnya naik tajam — dari 37-54 huruf jadi 99-148. Bentuknya
+               sekarang seragam: apa yang dikerjakan, lalu "sehingga" atau
+               "supaya" yang menyebut hasilnya. Yang lama cuma menyebut
+               kegiatannya dan berhenti di situ ("Menjelaskan hal teknis ke orang
+               awam"), jadi pembaca harus menyimpulkan sendiri apa gunanya.
+
+               INILAH UJI SUNGGUHAN PERTAMA UNTUK subgrid DI BLOK INI. Sampai
+               kemarin kelima keterangannya sama-sama muat dua baris di hampir
+               semua lebar, jadi kesejajarannya tidak pernah benar-benar
+               dibuktikan — persis keadaan "kebetulan sejajar" yang dulu bikin
+               cara lama gagal, dan yang alasan lengkapnya ditulis di blok
+               KEMAMPUAN PROFESIONAL di src/index.css. Sekarang selisihnya nyata:
+               Adaptabilitas 148 huruf lawan Komunikasi Teknis 99, cukup untuk
+               berbeda satu sampai dua baris di lebar yang sama. Kalau nanti ada
+               keterangan yang ditambahkan dan barisnya tampak tidak lurus lagi,
+               yang pertama diperiksa BUKAN panjang tulisannya melainkan apakah
+               ikon, judul, dan keterangan masih jadi anak langsung .skill-card.
+
+               Ejaan tiga kata dibetulkan dari sumber tulisannya: produktifitas ->
+               produktivitas, efisensi -> efisiensi, penyelsaian -> penyelesaian.
+
+               Bahasa awamnya: lima kotak kemampuan di bawah judul ini sekarang
+               menjelaskan bukan cuma APA yang Anda bisa, tapi juga apa gunanya
+               bagi tempat kerja. Karena kalimatnya lebih panjang, kotaknya ikut
+               lebih tinggi — tapi ikon, judul, dan keterangannya tetap lurus
+               sejajar antar kotak. */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Kemampuan Profesional</h3>
             <div className="skill-grid border-t border-l border-line">
               <div data-component="scrub-reveal" data-delay="0" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <i className="fa-solid fa-comments text-text-muted"></i>
                 <span className="-body-small font-medium">Komunikasi Teknis</span>
-                <p className="-body-smaller text-text-muted">Menjelaskan hal teknis ke orang awam.</p>
+                <p className="-body-smaller text-text-muted">Menjelaskan hal teknis dengan bahasa sederhana beserta analogi supaya lebih mudah dipahami orang awam.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.04" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <i className="fa-solid fa-magnifying-glass-chart text-text-muted"></i>
                 <span className="-body-small font-medium">Analisis &amp; Pemecahan Masalah</span>
-                <p className="-body-smaller text-text-muted">Menelusuri akar masalah sebelum memilih solusinya.</p>
+                <p className="-body-smaller text-text-muted">Menelusuri akar masalah dengan menimbang berbagai kemungkinan sehingga bisa memutuskan penyelesaian terbaik dan cara menempuhnya.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.08" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <i className="fa-solid fa-arrows-rotate text-text-muted"></i>
                 <span className="-body-small font-medium">Adaptabilitas</span>
-                <p className="-body-smaller text-text-muted">Terbiasa berganti peran dan perkakas sesuai kebutuhan.</p>
+                <p className="-body-smaller text-text-muted">Melek terhadap perubahan dan perkembangan lingkungan serta teknologi sehingga bisa meningkatkan produktivitas dan efisiensi dalam penyelesaian tugas.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.12" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <i className="fa-solid fa-list-check text-text-muted"></i>
                 <span className="-body-small font-medium">Ketelitian</span>
-                <p className="-body-smaller text-text-muted">Terlatih dari pendataan dan pengelolaan surat dinas.</p>
+                <p className="-body-smaller text-text-muted">Memeriksa data dan dokumen sampai ke rinciannya sehingga kekeliruan tertangkap sebelum sampai ke tangan berikutnya.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.16" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <i className="fa-solid fa-people-group text-text-muted"></i>
                 <span className="-body-small font-medium">Koordinasi Tim</span>
-                <p className="-body-smaller text-text-muted">Kepanitiaan proker dan pengarahan tim service center.</p>
+                <p className="-body-smaller text-text-muted">Menyelaraskan pembagian tugas dan alur komunikasi antaranggota sehingga pekerjaan tuntas sesuai target tanpa ada yang tumpang tindih.</p>
               </div>
             </div>
           </div>
@@ -301,16 +348,17 @@ export default function Skills() {
                Developer. Slot pertama memang selalu ikut peran yang dilamar,
                jadi ia yang paling sering berganti isi.
 
-               Isinya sekarang 6-2-2-3 dan jedanya berakhir di 0,36. Rantainya
+               Isinya sekarang 6-2-2-2 dan jedanya berakhir di 0,33. Rantainya
                berdiri sendiri, tidak menyambung dari bagian Teknologi — lihat
                alasannya di komentar bagian itu. Menambah atau menghapus card
                berarti SELURUH rantai di bawahnya dihitung ulang: tiap card naik
                0,03 berurutan menembus kelompok, dan label tiap kelompok memakai
                jeda card pertamanya.
 
-               EKORNYA 0,36 DETIK, DAN ITU SUDAH DEKAT BATAS. Tiga card yang
+               EKORNYA 0,33 DETIK, DAN ITU SUDAH DEKAT BATAS. Tiga card yang
                ditambahkan ke baris Data pada 15 Agustus 2026 mendorong ujung
-               rantai dari 0,27 ke 0,36. Peringatan di bagian Teknologi soal
+               rantai dari 0,27 ke 0,36; dibuangnya Stitch di hari yang sama
+               menariknya kembali ke 0,33. Peringatan di bagian Teknologi soal
                rantai yang terlalu panjang — card terakhir jatuh terlalu jauh
                dan pembaca sudah melewatinya sebelum ikonnya datang — berlaku
                di sini juga. Kalau nanti ada card lagi yang ditambahkan,
@@ -632,54 +680,30 @@ export default function Skills() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Claude Code</span>
                   </div>
 
-                  {/* Yang dipakai di sini WORDMARK tulisan "Stitch", bukan logo
-                       kapsulnya. Pernah diganti ke logo kapsul (SVG buatan sendiri,
-                       dibangun ulang dari PNG resmi 512px mereka) supaya sebaris
-                       dengan perkakas lain yang memakai logo; hasilnya justru
-                       janggal — kapsul dengan dua titik itu tidak terbaca sebagai
-                       apa-apa dalam ukuran 32px, apalagi berdampingan dengan logo
-                       yang punya bentuk khas seperti Claude dan VS Code. Wordmark-nya
-                       dikembalikan pada 7 Agustus 2026. Jangan diganti lagi ke kapsul.
-                       (Logo yang jadi pembandingnya waktu itu Claude dan VS Code;
-                       VS Code sempat hilang dari grid ini 14 Agustus 2026 dan
-                       kembali di baris Data pada 15 Agustus 2026, jadi
-                       perbandingan itu berlaku lagi apa adanya.)
+                  {/* GOOGLE STITCH DIBUANG pada 15 Agustus 2026 atas permintaan,
+                       beserta public/assets/icons/stitch.svg. Kelompok AI tinggal
+                       dua card, dan rantai data-delay Perkakas karenanya berakhir
+                       di 0,33, bukan 0,36 lagi.
 
-                       Google tidak menerbitkan logo Stitch dalam bentuk SVG, dan
-                       halaman mereka tidak memuat file logo APA PUN — wordmark
-                       di pojok kiri atasnya teks hidup ber-font Google Sans. Jadi
-                       file ini dibuat dengan mengurai woff2 yang dimuat halaman
-                       itu, mengambil lekuk keenam hurufnya dari tabel glyf, lalu
-                       menyusunnya jadi satu path. Bukan penelusuran ulang dari
-                       gambar: lekuknya lekuk asli dari fontnya.
+                       Yang ikut hilang bersamanya sebuah catatan pembuatan yang
+                       panjang, dan ia disebut di sini supaya tidak dikira tidak
+                       pernah ada: Google tidak menerbitkan logo Stitch sebagai
+                       SVG, dan halaman mereka tidak memuat file logo apa pun --
+                       wordmark di pojok kiri atasnya teks hidup ber-font Google
+                       Sans. File yang dibuang itu dibangun dengan mengurai woff2
+                       yang dimuat halaman tersebut, mengambil lekuk keenam
+                       hurufnya dari tabel glyf, lalu menyusunnya jadi satu path,
+                       lengkap dengan dua pasang kerning GPOS (S-t dan t-c,
+                       masing-masing -25 unit). Kalau suatu saat Stitch kembali,
+                       jangan menelusuri ulang dari gambar -- ambil file lamanya
+                       dari git history commit ini, sebab lekuknya lekuk asli dari
+                       fontnya.
 
-                       Jarak antar hurufnya bukan jumlah advance mentah. Ada dua
-                       pasangan yang dirapatkan GPOS, S-t dan t-c, masing-masing
-                       -25 unit; posisinya diukur dari penataan Chrome memakai font
-                       yang sama. Tanpa kerning itu wordmark-nya 50 unit terlalu
-                       lebar. Hasilnya diadu piksel dengan render Chrome: tinggi
-                       tinta sama persis, lebar meleset 1 piksel dari 982, tumpang
-                       tindih 97,8% (sisanya pelunakan tepi).
-
-                       Warnanya #d8d8d8 — perlakuan baku situs ini untuk logo yang
-                       aslinya putih atau hitam polos. (Pembandingnya dulu Vercel,
-                       yang ikut dibuang 14 Agustus 2026; sekarang Stitch
-                       satu-satunya yang memakai perlakuan ini.) Aslinya di
-                       halaman Stitch memang putih
-                       penuh, tapi putih penuh di sini lebih terang dari semua
-                       logo lain dan menarik perhatian melebihi porsinya.
-
-                       scale(0.85) menahannya supaya tidak lebih dominan dari
-                       logo tetangganya yang bujur sangkar. */}
-                  <div data-component="scrub-reveal" data-delay="0.36" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/stitch.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(0.85)" }} className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Stitch</span>
-                  </div>
-
+                       Satu aturan yang ikut kehilangan pemakainya: #d8d8d8 sebagai
+                       perlakuan baku untuk logo yang aslinya putih atau hitam
+                       polos. Stitch pemakai terakhirnya setelah Vercel dibuang
+                       14 Agustus 2026. Aturannya sendiri masih benar dan layak
+                       dipakai lagi kalau nanti ada logo semacam itu masuk. */}
                 </div>
               </div>
 
