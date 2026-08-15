@@ -320,16 +320,86 @@ export function setupAnimations() {
     addTicker(function (time) { lenis.raf(time * 1000); });
   }
 
+  /*
+   * ══════════════════════════════════════════════════════════════════════════
+   * TEMPO LOMPATAN — SATU TEMPAT UNTUK SEMUA, sejak 15 Agustus 2026.
+   *
+   * Angka-angka ini dulu hidup di dalam initBackToTop() dan hanya dipakai
+   * tombol panah. Akibatnya lompatan lain -- "Hubungi Saya", "Lihat Profil",
+   * chapter marker di bar status, dan tombol bagian-yang-sedang-dibaca --
+   * jatuh ke bawaan Lenis: durasi 1,1 detik untuk jarak SEBERAPA PUN, dengan
+   * kurva expo-out.
+   *
+   * Dua-duanya bermasalah, dan yang kedua yang paling terasa.
+   *
+   *   DURASI TETAP berarti kecepatan berbanding lurus dengan jarak. Lompatan
+   *   Beranda -> Kontak menempuh belasan ribu piksel dalam 1,1 detik yang
+   *   sama dengan lompatan Beranda -> Tentang yang cuma sekitar 900px.
+   *   Halaman terbaca seperti disentak, bukan diantar.
+   *
+   *   EXPO-OUT berangkat dengan sentakan: sekitar 23% lintasan habis di 3%
+   *   waktu pertama. Itulah yang terbaca sebagai "kecepetan" bahkan pada
+   *   jarak pendek, dan itu sudah tertulis di komentar tombol panah sejak
+   *   awal -- cuma perbaikannya waktu itu tidak ikut dibagikan ke pemanggil
+   *   lain.
+   *
+   * Sekarang keduanya dihitung DI SINI, jadi semua lompatan otomatis
+   * seragam tanpa satu pun pemanggil perlu tahu angkanya. Menambah tombol
+   * lompat baru tidak menuntut apa-apa selain memanggil scrollTo().
+   *
+   * Bahasa awamnya: ke bagian mana pun Anda melompat -- lewat tombol di
+   * halaman sampul, lewat garis-garis kecil di bar bawah, atau lewat tombol
+   * panah ke atas -- lajunya sekarang sama dan tidak lagi menyentak di awal.
+   * Lompatan jauh memakan waktu lebih lama daripada lompatan dekat, seperti
+   * seharusnya.
+   * ═══════════════════════════════════════════════════════════════════════ */
+  var JUMP = { speed: 2200, min: 0.9, max: 3 };
+
+  /* easeInOutCubic: berangkat pelan, cepat di tengah, mendarat pelan.
+     Menggantikan expo-out bawaan Lenis, yang sentakan awalnya itulah yang
+     terbaca sebagai kecepetan. */
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  /* Tepi atas tujuan dalam koordinat dokumen. rect + scrollY, BUKAN
+     offsetTop: offsetTop diukur relatif ke offsetParent terdekat, dan itu
+     benar hanya selama section-nya anak langsung <body>. Rect selalu benar
+     berapa pun dalamnya ia bersarang. */
+  function targetTop(target) {
+    if (typeof target === "number") return target;
+    var el = typeof target === "string" ? $(target) : target;
+    if (!el) return 0;
+    return el.getBoundingClientRect().top + window.scrollY;
+  }
+
   /* Satu-satunya pintu untuk melompat antar bagian. Jalur cadangan dipakai
      kalau Lenis tidak menyala (reduced motion); ia tidak bisa meniru durasi
      dan kurva per panggilan — scroll bawaan browser hanya kenal "smooth". */
   function scrollTo(target, opts) {
-    if (lenis) {
-      lenis.scrollTo(target, opts || {});
+    if (!lenis) {
+      window.scrollTo({ top: targetTop(target), behavior: "smooth" });
       return;
     }
-    var top = typeof target === "number" ? target : ($(target) || {}).offsetTop || 0;
-    window.scrollTo({ top: top, behavior: "smooth" });
+
+    /* Salinan dangkal, bukan objek pemanggil yang disunting di tempat:
+       pemanggil boleh mengoper literal yang sama berulang kali, dan
+       menuliskan durasi ke dalamnya membuat panggilan kedua memakai durasi
+       hasil hitungan panggilan pertama. */
+    var given = opts || {};
+    var o = {};
+    for (var k in given) o[k] = given[k];
+
+    /* Keduanya hanya diisi kalau pemanggil TIDAK menentukan sendiri, supaya
+       masih ada jalan keluar kalau suatu saat ada lompatan yang memang perlu
+       tempo lain. Sampai sekarang tidak ada satu pun yang memakainya. */
+    if (o.duration == null) {
+      var distance = Math.abs(targetTop(target) - window.scrollY);
+      o.duration = Math.min(Math.max(distance / JUMP.speed, JUMP.min), JUMP.max);
+    }
+    if (o.easing == null) o.easing = easeInOutCubic;
+
+    lenis.scrollTo(target, o);
   }
 
   /* ── 5. TRANSISI ────────────────────────────────────────────────────────*/
@@ -1870,17 +1940,16 @@ export function setupAnimations() {
    * ribu piksel, durasi yang sama berarti kecepatan berlipat — semua trigger
    * scrub dan bagian ter-pin harus melewati seluruh rentangnya dalam waktu itu
    * juga, dan hasilnya patah-patah.
+   *
+   * ANGKANYA SUDAH TIDAK DI SINI LAGI sejak 15 Agustus 2026. SPEED 2200,
+   * MIN 0,9, MAX 3, dan easeInOutCubic dipindahkan ke scrollTo() supaya
+   * SEMUA lompatan memakainya, bukan tombol ini saja. Tombol ini karena itu
+   * tinggal memanggil scrollTo(0) tanpa argumen kedua — perilakunya tidak
+   * berubah satu milidetik pun, cuma tidak lagi jadi satu-satunya yang benar.
    */
   function initBackToTop() {
     var btn = $('[data-component="back-to-top"]');
     if (!btn) return;
-
-    var SPEED = 2200, MIN = 0.9, MAX = 3;
-    /* easeInOutCubic menggantikan bawaan Lenis (expo-out): sentakan awal
-       expo-out itulah yang terbaca sebagai "kecepetan". */
-    var easeInOutCubic = function (t) {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    };
 
     btn.style.transition = "opacity .25s ease, transform .25s ease";
     var visible = null;
@@ -1895,10 +1964,7 @@ export function setupAnimations() {
     sync();
     listen(window, "scroll", sync, { passive: true });
 
-    listen(btn, "click", function () {
-      var distance = window.scrollY;
-      scrollTo(0, { duration: Math.min(Math.max(distance / SPEED, MIN), MAX), easing: easeInOutCubic });
-    });
+    listen(btn, "click", function () { scrollTo(0); });
   }
 
   /* Lenis yang memegang scroll, jadi lompatan anchor bawaan browser harus
