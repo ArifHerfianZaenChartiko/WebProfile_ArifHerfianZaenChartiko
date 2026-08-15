@@ -25,8 +25,8 @@ langsung dari filesystem.
 ## Struktur proyek
 
 ```
-index.html            kerangka: meta tag, font, satu <div id="root">
-src/main.jsx          entry point React
+index.html            kerangka: meta tag, favicon, satu <div id="root">
+src/main.jsx          entry point React, dan tempat font + ikon dibundel
 src/App.jsx           susunan bagian halaman
 src/index.css         theme Tailwind + seluruh CSS tulisan tangan
 src/components/       satu file per bagian halaman
@@ -222,6 +222,12 @@ Dua flag itu wajib, dan keduanya gagal **diam-diam** kalau dilewat:
 - `--virtual-time-budget=10000` — kedua fontnya diambil dari Google Fonts lewat
   jaringan. Tanpa menunggu, tangkapannya jadi memakai font cadangan sistem, dan
   yang keluar bukan pesan error melainkan kartu yang hurufnya meleset.
+
+  Ini **satu-satunya tempat yang masih menyentuh Google Fonts**, dan itu tidak
+  apa-apa: `tools/og-template.html` cuma dijalankan di komputer Anda saat
+  membuat ulang gambar OG, tidak pernah dikirim ke pengunjung. Situsnya sendiri
+  membundel kedua font itu sejak 15 Agustus 2026 — lihat `src/main.jsx`. Jadi
+  butuh koneksi saat merender kartu, tapi tidak saat orang membuka situsnya.
 
 Sesudah render, **buka gambarnya dan bandingkan dengan yang lama** sebelum
 menimpanya. Yang boleh berbeda hanya bagian yang memang Anda ubah.

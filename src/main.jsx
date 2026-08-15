@@ -30,6 +30,35 @@ import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/brands.min.css";
 
+/*
+ * KEDUA FONT JUGA DIBUNDEL, sejak 15 Agustus 2026 — alasan yang sama persis
+ * dengan Font Awesome di atas, dan ini yang terakhir tersisa.
+ *
+ * Sampai hari itu index.html memuat fonts.googleapis.com lewat <link> di
+ * <head>. Tiga ongkosnya: ia MEMBLOKIR render sampai permintaan ke host asing
+ * itu selesai; ia titik gagal tunggal; dan ia mengirimkan alamat IP setiap
+ * pengunjung ke Google — yang di Eropa sudah beberapa kali dinyatakan
+ * melanggar GDPR. Tidak ada satu pun dari ketiganya yang bisa ditutup dengan
+ * SRI, sebab CSS yang dikirim Google berbeda-beda per peramban sehingga
+ * hash-nya tidak pernah tetap.
+ *
+ * SUBSET `latin` SAJA, bukan berkas penuh. Halaman ini seluruhnya bahasa
+ * Indonesia, dan subset latin sudah memuat tanda baca yang dipakai (em dash,
+ * tanda kutip melengkung, elipsis). Berkas penuh menyeret pula sirilik,
+ * yunani, dan vietnam yang tidak akan pernah tergambar satu huruf pun.
+ *
+ * BOBOTNYA PERSIS YANG DIMINTA URL LAMA: Inter 400 dan 500, JetBrains Mono
+ * 400. Kalau nanti ada class bobot baru dipakai, tambahkan barisnya di sini —
+ * kalau tidak, peramban akan menebalkan sendiri secara sintetis dan hurufnya
+ * terlihat kotor.
+ *
+ * `font-display: swap` sudah ada di dalam berkasnya, sama dengan parameter
+ * `&display=swap` di URL lama, jadi perilaku muatnya tidak berubah.
+ */
+import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-500.css";
+import "@fontsource/jetbrains-mono/latin-400.css";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <App />

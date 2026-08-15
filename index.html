@@ -75,26 +75,25 @@
        ketelitian angkanya. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Dua keluarga saja. Inter untuk seluruh teks DAN judul; JetBrains Mono
-       untuk label kecil berspasi lebar. Dulu Fraunces ikut dimuat sebagai
-       serif judul, tapi tidak pernah benar-benar dipasang — --font-display
-       menunjuk ke Inter — jadi 356 KB ter-download tanpa pernah tampil.
+  <!-- TIDAK ADA SATU PUN <link> KE HOST LUAR DI SINI, dan itu disengaja.
 
-       Bobotnya juga dipangkas ke yang benar-benar dipakai: Inter 400 dan 500
-       (font-medium), JetBrains Mono 400. Halaman ini tidak punya satu pun
-       <strong> atau <em>, dan tidak memakai class bobot selain font-medium,
-       jadi 300/600/700/800 cuma menambah unduhan tanpa mengubah apa pun di
-       screen. Beban font: 731 KB -> 115 KB.
+       Dua keluarga saja dipakai: Inter untuk seluruh teks DAN judul, JetBrains
+       Mono untuk label kecil berspasi lebar. Keduanya diimpor dari
+       src/main.jsx sebagai paket npm @fontsource, sama seperti Font Awesome,
+       supaya ikut dibundel Vite dan dilayani dari domain sendiri.
 
-       Tanda & ditulis &amp; karena di HTML & mengawali entitas; tanpa itu
-       "&family" bisa terbaca sebagai entitas yang tidak dikenal. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
+       Sampai 15 Agustus 2026 di sinilah berdiri tiga <link> ke
+       fonts.googleapis.com dan fonts.gstatic.com. Ketiganya dibuang: yang
+       terakhir itu <link> di <head> sehingga MEMBLOKIR render sampai
+       permintaan ke host asing selesai, ia titik gagal tunggal, dan ia
+       mengirimkan alamat IP tiap pengunjung ke Google. Alasan lengkapnya ada
+       di src/main.jsx.
 
-  <!-- Font Awesome TIDAK lagi dimuat di sini. Ia diimpor dari src/main.jsx
-       supaya ikut dibundel Vite dan dilayani dari domain sendiri; alasan
-       lengkapnya ada di file itu. Jangan kembalikan <link> ke cdnjs. -->
+       JANGAN KEMBALIKAN <link> KE fonts.googleapis.com MAUPUN KE cdnjs.
+       Content-Security-Policy di vercel.json sekarang berbunyi
+       `default-src 'self'` tanpa satu pun host luar — mengembalikan salah
+       satunya berarti fontnya diblokir peramban tanpa pesan apa pun di
+       halaman, dan yang terlihat cuma huruf yang tiba-tiba berganti bentuk. -->
 </head>
 <body>
   <div id="root"></div>
