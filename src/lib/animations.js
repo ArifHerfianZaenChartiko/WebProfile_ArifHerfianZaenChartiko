@@ -2059,11 +2059,10 @@ export function setupAnimations() {
        terbuka di tengah halaman begitu panelnya naik. */
     window.scrollTo(0, 0);
 
-    var frameEl = $$("[data-intro-frame] path", panel);
     var strokeEl = $$("[data-intro-stroke] path", panel);
     var lockEl = $$("[data-intro-lock] path", panel);
 
-    frameEl.concat(strokeEl, lockEl).forEach(function (p) {
+    strokeEl.concat(lockEl).forEach(function (p) {
       var length = p.getTotalLength();
       p.style.strokeDasharray = length;
       p.style.strokeDashoffset = length;
@@ -2093,17 +2092,38 @@ export function setupAnimations() {
     });
 
     /*
-     * Urutannya menceritakan bentuknya terbentuk, bukan sekadar muncul:
-     * heksagon menggariskan wilayahnya, satu stroke menyusur naik dari kaki
-     * kiri melewati puncak lalu turun ke kaki kanan, baru palangnya mengunci
-     * keduanya jadi satu tanda. Palang itu sengaja paling akhir DAN sendirian
-     * di ujung timeline -- sampai ia turun, bentuknya masih terbaca sebagai
-     * gerbang kosong. Seluruh logo satu warna, jadi urutan inilah
-     * satu-satunya yang membedakan perannya.
+     * Urutannya menceritakan bentuknya terbentuk, bukan sekadar muncul: satu
+     * stroke menyusur naik dari kaki kiri melewati puncak lalu turun ke kaki
+     * kanan, baru palangnya mengunci keduanya jadi satu tanda. Palang itu
+     * sengaja paling akhir DAN sendirian di ujung timeline -- sampai ia turun,
+     * bentuknya masih terbaca sebagai gerbang kosong. Seluruh logo satu warna,
+     * jadi urutan inilah satu-satunya yang membedakan perannya.
+     *
+     * TWEEN HEKSAGON DIBUANG pada 15 Agustus 2026 bersama path-nya di
+     * Intro.jsx. Yang itu berbunyi:
+     *
+     *   tl.to(frameEl, { strokeDashoffset: 0, duration: 0.45,
+     *                    stagger: 0.07, ease: "power2.out" }, 0);
+     *
+     * KEDUA TWEEN SISANYA DIMAJUKAN 0,22 DETIK, dan itu bukan sekadar
+     * kerapian. Angka 0,22 dan 0,98 dulu dipilih relatif terhadap heksagon
+     * yang mengisi detik pertama: stroke berangkat saat heksagonnya sudah
+     * separuh tergambar. Membuang tween-nya tanpa menggeser sisanya akan
+     * meninggalkan 0,22 detik layar hitam yang benar-benar diam di awal --
+     * bukan jeda yang disengaja, melainkan lubang yang ditinggalkan sesuatu
+     * yang sudah tidak ada, dan pada pembuka sependek ini ia terbaca sebagai
+     * situs yang lambat memuat.
+     *
+     * Jarak ANTAR keduanya sengaja dipertahankan persis: palang dulu turun
+     * 0,04 detik sebelum stroke selesai (0,98 lawan 1,02), sekarang 0,76
+     * lawan 0,80. Tumpang tindih kecil itulah yang membuat palangnya terbaca
+     * mengunci bentuk yang baru saja jadi, bukan menyusul belakangan.
+     *
+     * Total timeline 1,36 -> 1,14 detik. Batas keras 3 detik di atas tidak
+     * perlu ikut disesuaikan; ia memang cuma jaring pengaman.
      */
-    tl.to(frameEl, { strokeDashoffset: 0, duration: 0.45, stagger: 0.07, ease: "power2.out" }, 0);
-    tl.to(strokeEl, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut" }, 0.22);
-    tl.to(lockEl, { strokeDashoffset: 0, duration: 0.38, ease: "power2.out" }, 0.98);
+    tl.to(strokeEl, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut" }, 0);
+    tl.to(lockEl, { strokeDashoffset: 0, duration: 0.38, ease: "power2.out" }, 0.76);
   }
 
   /* ── 7. PENYALAAN ───────────────────────────────────────────────────────
