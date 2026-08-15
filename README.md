@@ -143,13 +143,12 @@ aplikasi yang dibuka lalu dipakai. Menaruh bahasa pemrograman di bawah judul
 "Perkakas" kira-kira sama dengan menyebut bahasa Indonesia sebagai alat tulis.
 
 ```
-Teknologi   Frontend        HTML, CSS, JavaScript, Tailwind CSS   (4)
-            Backend         PHP, Laravel, Blade, MySQL            (4)
+Teknologi   Bahasa Pemrograman   Python                           (1)
 
-Perkakas    Pengembangan    VS Code, GitHub, Vercel, Figma        (4)
-            Pengajaran      Google Classroom, Wayground           (2)
-            Administrasi    MS Office, Google Workspace           (2)
-            AI              Claude, Claude Code, Stitch           (3)
+Perkakas    Data                 PostgreSQL, Power BI, Tableau    (3)
+            Pengajaran           Google Classroom, Wayground      (2)
+            Administrasi         MS Office, Google Workspace      (2)
+            AI                   Claude, Claude Code, Stitch      (3)
 ```
 
 Jumlah card per baris ditentukan oleh Anda, bukan lebar viewport: sama persis di
@@ -158,10 +157,17 @@ ponsel, tablet, maupun desktop.
 **Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang.**
 Tiap card naik 0,03 detik berurutan, dan label tiap kelompok memakai delay card
 pertamanya. Kedua bagian itu **rantai terpisah** yang sama-sama mulai dari nol —
-`Teknologi` 0 → 0,21, `Perkakas` 0 → 0,30. Jangan disambung: dengan satu rantai,
-card terakhir jatuh di sekitar 0,48 detik dan pembaca sudah melewatinya sebelum
-ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional (0 / 0,04 /
-0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute yang sama.
+`Teknologi` 0, `Perkakas` 0 → 0,27. Jangan disambung: satu rantai yang menembus
+keduanya membuat card terakhir jatuh terlalu jauh dan pembaca sudah melewatinya
+sebelum ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional
+(0 / 0,04 / 0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute
+yang sama.
+
+**Nama kelompok terpanjang mengikat satu angka di CSS.** `.tool-label` dipatok
+lebar tetap supaya garis rambut kelima kelompok lurus sejajar, dan lebarnya
+sekarang 12rem — pas untuk "BAHASA PEMROGRAMAN" (168,5px) plus kelonggaran.
+Label yang lebih panjang dari itu akan pecah dua baris dan kelurusannya hilang;
+hitungannya ada di komentar aturan `.tool-label` di `src/index.css`.
 
 Untuk logo-nya, **buka situs resmi tool-nya, bukan kumpulan icon pihak
 ketiga.** Tiga jebakan yang sudah pernah kena:
@@ -173,6 +179,39 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
   adalah teks hidup. SVG-nya di sini dibuat dengan mengurai font yang dimuat
   halaman itu.
 - **Palet lama masih banyak beredar.** Figma sudah berganti.
+
+### Kartu pratinjau (OG image)
+
+`public/assets/og.png` adalah gambar yang muncul saat link situs ini dibagikan
+lewat WhatsApp, LinkedIn, atau X. Ia **hasil render** dari
+`tools/og-template.html`, bukan gambar yang digambar terpisah — jadi warna,
+tipografi, dan monogramnya persis sama dengan situsnya.
+
+Kalau peran, nama, atau lokasi berubah, sunting templatnya lalu render ulang:
+
+```
+chrome --headless=new --disable-gpu --hide-scrollbars \
+       --force-device-scale-factor=1 --window-size=1200,630 \
+       --virtual-time-budget=10000 \
+       --screenshot=public/assets/og.png \
+       file:///…/tools/og-template.html
+```
+
+Dua flag itu wajib, dan keduanya gagal **diam-diam** kalau dilewat:
+
+- `--force-device-scale-factor=1` — tanpa ini Chrome ikut skala layar yang
+  sedang aktif, dan di layar HiDPI hasilnya 2400x630 atau 2400x1260. Masih
+  terbaca, tapi bukan ukuran yang dijanjikan `<meta property="og:image:width">`.
+- `--virtual-time-budget=10000` — kedua fontnya diambil dari Google Fonts lewat
+  jaringan. Tanpa menunggu, tangkapannya jadi memakai font cadangan sistem, dan
+  yang keluar bukan pesan error melainkan kartu yang hurufnya meleset.
+
+Sesudah render, **buka gambarnya dan bandingkan dengan yang lama** sebelum
+menimpanya. Yang boleh berbeda hanya bagian yang memang Anda ubah.
+
+Satu hal yang di luar kendali repo ini: **link yang sudah terlanjur tersebar
+menyimpan kartu lamanya.** WhatsApp dan LinkedIn men-cache gambar OG, jadi
+memperbarui `og.png` tidak mengubah pratinjau di percakapan yang sudah ada.
 
 ### Warna
 

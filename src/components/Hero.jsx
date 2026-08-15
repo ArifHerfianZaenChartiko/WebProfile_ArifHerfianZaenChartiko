@@ -97,18 +97,21 @@ export default function Hero() {
                 {/* `{" "}` WAJIB, bukan spasi biasa. JSX membuang whitespace yang
                     mengandung baris baru di antara teks dan elemen, jadi
                     "Saya seorang" + newline + <span> ter-render rapat jadi
-                    "Saya seorangFullstack Web Developer". Di HTML lama newline
-                    itu tetap jadi satu spasi, karena itu cacat ini baru muncul
-                    setelah markupnya jadi JSX. Spasi eksplisit lolos dari
+                    "Saya seorangData Analyst". Di HTML lama newline itu tetap
+                    jadi satu spasi, karena itu cacat ini baru muncul setelah
+                    markupnya jadi JSX. Spasi eksplisit lolos dari
                     pembuangan. */}
-                {/* "Fullstack Web Developer" (23 huruf) kini kata TERPANJANG di
-                    daftar ini, menggeser "Pendidik Informatika" (20). Itu yang
-                    menentukan lebar terpanjang baris ini, jadi kalau nanti ada
-                    peran yang lebih panjang lagi ditambahkan, periksa ulang
-                    screen 320px — di sanalah barisnya pertama kali membungkus. */}
+                {/* "Pendidik Informatika" (20 huruf) KEMBALI jadi yang
+                    terpanjang di daftar ini sejak peran utama berganti dari
+                    "Fullstack Web Developer" (23) ke "Data Analyst" (12) pada
+                    14 Agustus 2026. Barisnya jadi lebih longgar, bukan lebih
+                    sesak — jadi tidak ada yang perlu diperiksa ulang kali ini.
+                    Kalau nanti ada peran yang lebih panjang dari 20 huruf
+                    ditambahkan, periksa screen 320px: di sanalah barisnya
+                    pertama kali membungkus. */}
                 <p className="-body text-text-muted">
                   Saya seorang{" "}
-                  <span className="font-medium text-text" data-typewriter='["Fullstack Web Developer","Pendidik Informatika","Staf Administrasi"]'></span><span className="animate-blink text-accent">_</span>
+                  <span className="font-medium text-text" data-typewriter='["Data Analyst","Pendidik Informatika","Staf Administrasi"]'></span><span className="animate-blink text-accent">_</span>
                 </p>
                 <p className="-caption-small text-text-muted">Kab. Blitar, Jawa Timur</p>
               </div>

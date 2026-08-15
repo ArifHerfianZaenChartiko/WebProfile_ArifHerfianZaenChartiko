@@ -465,23 +465,38 @@ html.lenis,html.lenis body{height:auto}
 
 /* Threshold-nya 1024px, bukan 640px, dan itu hasil ukur bukan tebak: dengan
    label duduk di samping, area card di tablet 768px hanya tersisa 512px --
-   tidak cukup untuk empat card selebar 9,5rem, jadi baris Desain membungkus
-   diam-diam jadi 3+1. Di bawah 1024px label naik ke atas, card memakai
-   lebar penuh, dan empat card kembali muat. */
+   tidak cukup untuk empat card selebar 9,5rem, jadi barisnya membungkus
+   diam-diam. Di bawah 1024px label naik ke atas, card memakai lebar penuh,
+   dan barisnya kembali muat.
+
+   Baris terpanjang sekarang tiga card (Data dan AI), bukan empat, jadi
+   kelonggarannya bertambah -- tapi threshold-nya TIDAK ikut diturunkan.
+   Menurunkannya berarti mengikat titik henti ini ke jumlah card yang
+   kebetulan berlaku hari ini, dan jumlah itu sudah berganti tiga kali. */
 @media (min-width: 1024px) {
   /* Lebar tetap, bukan mengikuti panjang tulisan: inilah yang membuat garis
-     rambut keempat kelompok lurus sejajar.
+     rambut kelima kelompok lurus sejajar.
 
-     Angka 10,5rem dulu dipas ke "RISET & DESAIN" (142px), label terpanjang
-     waktu itu. Kelompok itu sudah dibuang, dan yang terpanjang sekarang
-     "PENGEMBANGAN" — lebih short, jadi kelonggarannya bertambah. Sengaja
-     TIDAK dikecilkan mengikuti label baru: pas-pasan berbahaya di sini,
-     karena begitu satu label pecah dua baris, kelurusan garis rambut seluruh
-     kelompok ikut hilang, dan huruf tidak selalu dirender sama persis di
-     setiap browser dan sistem operasi. Angka ini baru perlu dinaikkan kalau
-     ada label yang lebih panjang dari "RISET & DESAIN" ditambahkan. */
+     DINAIKKAN 10,5rem -> 12rem pada 14 Agustus 2026, dan ini kali pertama
+     angka itu benar-benar kurang -- bukan sekadar dilonggarkan. Label
+     terpanjang sekarang "BAHASA PEMROGRAMAN", 18 huruf, menggeser
+     "PENGEMBANGAN" yang dibuang bersama barisnya.
+
+     Hitungannya: JetBrains Mono ber-advance 0,6em, jadi pada 12px tiap huruf
+     7,2px; letter-spacing 0,18em menambah 2,16px SETELAH setiap huruf,
+     termasuk yang terakhir. 18 x 9,36 = 168,5px -- melewati 10,5rem (168px)
+     sebanyak setengah piksel, dan setengah piksel itu cukup untuk memecah
+     labelnya jadi dua baris. 12rem (192px) menyisakan 23,5px, sekitar dua
+     setengah huruf.
+
+     Kelonggaran itu bukan hiasan: pas-pasan berbahaya di sini, karena begitu
+     satu label pecah dua baris, kelurusan garis rambut seluruh kelompok ikut
+     hilang, dan huruf tidak selalu dirender sama persis di setiap browser dan
+     sistem operasi. Angka ini baru perlu dinaikkan lagi kalau ada label yang
+     lebih panjang dari "BAHASA PEMROGRAMAN" ditambahkan; kalau label itu
+     dipendekkan, ia boleh ikut turun. */
   .tool-label {
-    width: 10.5rem;
+    width: 12rem;
   }
 
   .tool-items {

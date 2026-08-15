@@ -48,15 +48,25 @@ export default function Skills() {
                Dulu ada card keempat, "Antarmuka & Responsif", yang berdiri sendiri
                di samping "Pengembangan Web". Keempatnya lalu tampil setara padahal
                tiga di antaranya peran dan satu cuma kemampuan penunjang — pembaca
-               tidak punya cara membedakannya. Isinya sekarang masuk ke card
-               Pengembangan Fullstack, karena memang di situ tempatnya: menyusun
-               tampilan adalah bagian dari membangunnya.
+               tidak punya cara membedakannya, jadi card itu dibubarkan.
 
-               Card itu berganti nama dari "Pengembangan Web" jadi "Pengembangan
-               Fullstack" pada 9 Agustus 2026, seiring peran utama di typewriter.
-               Namanya sengaja menyebut cakupan, bukan teknologinya: nama kerangka
-               kerja berganti setiap beberapa tahun, sedangkan "dua sisi" tidak.
-               Teknologinya disebut di kalimat bawahnya dan di grid Perkakas. */}
+               NAMA CARD PERTAMA SUDAH BERGANTI DUA KALI: "Pengembangan Web" jadi
+               "Pengembangan Fullstack" pada 9 Agustus 2026, lalu jadi "Analisis
+               Data" pada 14 Agustus 2026 — keduanya mengikuti peran utama di
+               typewriter, yang sekarang "Data Analyst".
+
+               NAMANYA KEGIATAN, BUKAN JABATAN: "Analisis Data", bukan "Data
+               Analyst". Itu menjaganya sebangun dengan dua card di sebelahnya,
+               "Pengajaran Teknis" dan "Administrasi Digital" — yang juga
+               kegiatan, bukan jabatan. Jabatannya sendiri sudah berdiri di tiga
+               tempat yang memang dibaca mesin pencari dan penyaring lamaran:
+               judul halaman, deskripsi meta, dan typewriter.
+
+               Baris 01 di bagian Tentang justru memakai "Data Analyst", dan
+               perbedaan register itu memang disengaja — ia sudah berlaku sejak
+               sebelum pergantian ini, waktu bagian Tentang menulis "Fullstack
+               Web Developer" sementara card ini menulis "Pengembangan
+               Fullstack". Jangan diseragamkan. */}
           {/* KENAPA TIAP CARD DIBUNGKUS .stage-slot, dan jangan dibuang.
                Ada DUA motion yang bekerja pada card yang sama sekaligus, dan
                keduanya butuh `opacity`:
@@ -78,20 +88,27 @@ export default function Skills() {
             <div className="stage-slot stage-slot--lead" data-card-slot data-direction="fade">
             <article data-role-card className="stage-card stage-card--lead">
               <div className="mb-6 flex items-start justify-between gap-6">
-                <h3 className="-h2 max-w-[9em]">Pengembangan Fullstack</h3>
+                <h3 className="-h2 max-w-[9em]">Analisis Data</h3>
                 <span data-glyph="1"></span>
               </div>
               {/* Lebar teks dibatasi meski card-nya melebar. Tanpa ini satu baris
                    memuat sekitar 130 karakter di desktop, dan mata kehilangan tempat
                    saat berpindah ke baris berikutnya. 42rem menahannya di sekitar
                    88 karakter. */}
-              {/* "tanpa kerangka kerja" DIBUANG dari kalimat ini pada 9 Agustus
-                   2026, dan bukan cuma karena Laravel masuk. Frasa itu memang
-                   sudah keliru sejak situs ini dikembalikan ke React sehari
-                   sebelumnya — halaman yang memuat kalimatnya sendiri dibangun
-                   dengan kerangka kerja. Kalimat yang dibantah oleh halaman
-                   tempat ia berdiri adalah yang paling mahal ongkosnya. */}
-              <p className="-body-small max-w-2xl text-text-muted">Mengerjakan dua sisi sekaligus: antarmuka dengan HTML, CSS, dan JavaScript — menyusun layout, hierarki visual, dan gerak yang terukur supaya tetap ringan di perangkat kelas menengah — lalu sisi server dengan PHP dan Laravel, merangkai tampilannya lewat Blade, serta merancang skema dan kueri MySQL yang menopangnya.</p>
+              {/* KALIMAT INI MENYEBUT TEKNOLOGINYA HARFIAH, bukan meringkasnya
+                   jadi "mengolah data" saja — alasannya sama dengan deskripsi
+                   meta di index.html: penyaring lamaran mencocokkan teks apa
+                   adanya.
+
+                   Yang disebut di sini PERSIS isi grid Teknologi dan Perkakas
+                   di bawahnya, tidak lebih. Kalimat yang menjanjikan perkakas
+                   yang tidak muncul di grid mana pun akan dibantah oleh
+                   halamannya sendiri beberapa layar kemudian, dan kalimat yang
+                   dibantah halaman tempat ia berdiri adalah yang paling mahal
+                   ongkosnya. Pelajaran itu sudah pernah dibayar: sampai
+                   9 Agustus 2026 kalimat ini berbunyi "tanpa kerangka kerja"
+                   di halaman yang dibangun dengan React. */}
+              <p className="-body-small max-w-2xl text-text-muted">Menarik dan merapikan data dengan Python, menyusun serta mengueri basis data PostgreSQL, membangun dashboard Power BI dan Tableau, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti.</p>
             </article>
             </div>
 
@@ -179,16 +196,14 @@ export default function Skills() {
 
           {/* ══════════════════════════════════════════════════════════════════
                TEKNOLOGI — DIPISAH DARI PERKAKAS pada 9 Agustus 2026, dan
-               pemisahan ini membereskan salah kategori yang sudah lama ada.
+               pemisahan itu tetap berlaku meski isinya sekarang tinggal satu.
 
-               Sebelumnya semuanya tumpah ke satu bagian bernama "Perkakas",
-               padahal isinya dua jenis benda yang berbeda. VS Code, GitHub,
-               Vercel, dan Figma adalah APLIKASI — sesuatu yang dibuka lalu
-               dipakai. HTML, PHP, Laravel, dan MySQL bukan: yang pertama
-               bahasa markah, yang kedua bahasa pemrograman, yang ketiga
-               kerangka kerja, yang keempat basis data. Menaruh bahasa
-               pemrograman di bawah judul "Perkakas" kira-kira sama dengan
-               menyebut bahasa Indonesia sebagai alat tulis.
+               Dua jenis benda yang berbeda tidak boleh berbagi satu judul.
+               PostgreSQL, Power BI, dan Tableau di bawah adalah APLIKASI —
+               sesuatu yang dibuka lalu dipakai. Python bukan: ia bahasa
+               pemrograman. Menaruh bahasa pemrograman di bawah judul
+               "Perkakas" kira-kira sama dengan menyebut bahasa Indonesia
+               sebagai alat tulis.
 
                PEMBEDAANNYA DIPIKUL JUDUL BAGIAN, BUKAN NAMA KELOMPOK. Itu
                sebabnya "Sisi Server" yang sempat berdiri di bawah Perkakas
@@ -199,13 +214,24 @@ export default function Skills() {
                Ditaruh SEBELUM Perkakas karena apa yang dibangun lebih menjawab
                pertanyaan "bisa apa" daripada apa yang dipakai membangunnya.
 
-               JEDANYA MULAI DARI NOL LAGI DI SINI, tidak menyambung ke bagian
-               Perkakas di bawahnya. Dua bagian yang punya judulnya
-               sendiri-sendiri dibaca sebagai dua blok terpisah, dan satu
-               rantai yang menembus keduanya membuat card terakhir jatuh di
-               sekitar 0,48 detik — pembaca sudah melewatinya sebelum ikon itu
-               sempat datang. Di dalam satu bagian aturannya tetap: 0,03
-               berurutan menembus kelompok, label memakai jeda card pertamanya.
+               ISINYA MENYUSUT JADI SATU pada 14 Agustus 2026. Sebelumnya dua
+               baris berisi delapan entri — Frontend (HTML, CSS, JavaScript,
+               Tailwind CSS) dan Backend (PHP, Laravel, Blade, MySQL) — dan
+               keduanya dibuang atas permintaan beserta ketujuh file ikonnya.
+               Rincian kenapa Laravel dan Blade dulu ditaruh di Backend ikut
+               dibuang bersama barisnya; kalau susunan itu suatu saat kembali,
+               alasannya ada di git history commit 6e86f17.
+
+               LABEL BARISNYA "BAHASA PEMROGRAMAN", BUKAN "BACKEND". Python
+               memang jalan di server, tapi kelompok Data di bawahnya
+               menyiratkan arah analisis data, bukan backend web — dan label
+               yang menyebut JENIS bendanya tidak akan keliru lagi kalau nanti
+               bahasa kedua ditambahkan.
+
+               JEDANYA TINGGAL SATU ANGKA, dan rantainya berdiri sendiri:
+               bagian ini mulai dan berakhir di 0, Perkakas di bawah mulai lagi
+               dari 0. Jangan disambung — dua bagian yang punya judulnya
+               sendiri-sendiri dibaca sebagai dua blok terpisah.
 
                REACT BELUM DISEBUT, DAN ITU DITUNDA — BUKAN DITOLAK. Situs ini
                memang dibangun dengan React, jadi buktinya ada di repo, tapi
@@ -217,217 +243,35 @@ export default function Skills() {
 
                Jadi kalau suatu saat React ditambahkan, itu memang rencananya
                — tapi tanyakan dulu, jangan diputuskan sendiri.
-
-               CATATAN YANG PERLU DILURUSKAN kalau pertanyaan ini muncul lagi:
-               React TIDAK bertabrakan dengan Laravel. Laravel punya Inertia
-               yang didukung resmi, yang membuat component React dipakai
-               langsung sebagai view Laravel tanpa perlu API terpisah, dan
-               starter kit resminya menyediakan opsi React. Alasan menundanya
-               murni kesiapan, bukan kecocokan teknologi.
                ═════════════════════════════════════════════════════════════ */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Teknologi</h3>
             <div className="border-t border-line">
 
-              {/* Urutannya dasar dulu, kerangka kerja belakangan — HTML, CSS,
-                   JavaScript, baru Tailwind. Pola yang sama dipakai di baris
-                   Backend: PHP dulu, Laravel sesudahnya. Kerangka kerja berdiri
-                   di atas bahasanya, jadi membacanya terbalik menyiratkan
-                   Tailwind bisa dipakai tanpa tahu CSS. */}
+              {/* "BAHASA PEMROGRAMAN" (18 huruf) kini label TERPANJANG di
+                   seluruh grid ini, menggeser "PENGEMBANGAN" yang ikut dibuang.
+                   Lebar .tool-label di src/index.css dinaikkan dari 10,5rem ke
+                   12rem karenanya — pada 10,5rem label ini pecah dua baris dan
+                   kelurusan garis rambut seluruh kelompok ikut hilang.
+                   Hitungannya ada di komentar aturan itu. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Frontend</h4>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Bahasa Pemrograman</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
+                  {/* Logo dua warna resminya — biru #366994/#387EB8 dan kuning
+                       #FFC331/#FFE052 — dipakai apa adanya. viewBox-nya sudah
+                       rapat ("16 16 32 32"), jadi tintanya mengisi penuh kotak
+                       32px dan tidak perlu diskalakan. Bandingkan dengan Power
+                       BI di baris Data, yang kotaknya justru kelonggaran. */}
                   <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/html5.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
+                        <img src="assets/icons/python.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">HTML</span>
-                  </div>
-
-                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/css.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">CSS</span>
-                  </div>
-
-                  {/* JavaScript DITURUNKAN ke 0,86, alasan yang sama dengan PHP
-                       tapi sebabnya berbeda. Logo ini satu-satunya BIDANG
-                       TERISI PENUH di seluruh grid: kotak kuning #F0DB4F
-                       memenuhi 100% bounding box-nya, sementara perisai HTML
-                       dan CSS berongga dan logo lain bergaris. Pada 36px
-                       dan skala 1,0 ia terbaca sebagai blok paling menyala di
-                       barisnya, mengalahkan tetangganya yang sama besar.
-
-                       Terukur berdampingan dengan VS Code, Figma, dan Laravel:
-                       0,86 menyamakan bobot tampaknya tanpa membuat huruf "JS"
-                       mengecil. Warnanya tidak disentuh.
-
-                       CATATAN SUMBER, dan ini pengecualian yang perlu ditulis:
-                       JavaScript TIDAK PUNYA logo resmi. Ecma tidak pernah
-                       menerbitkan satu pun, jadi kotak kuning ini logo
-                       komunitas yang sudah jadi kesepakatan de facto. Aturan
-                       repo ini — ambil dari situs resmi mereknya — tidak bisa
-                       dipenuhi untuk yang satu ini karena tidak ada situs
-                       resminya. Sama halnya dengan wordmark Stitch di bagian
-                       AI, yang harus dibangun sendiri dari font. */}
-                  <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/javascript.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(0.86)" }} className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">JavaScript</span>
-                  </div>
-
-                  {/* "Tailwind CSS", bukan "Tailwind". Nama lengkap dipakai di
-                       seluruh grid ini dengan alasan yang sama seperti Google
-                       Workspace dan MS Office: penyaring lamaran mencocokkan
-                       teks secara harfiah. */}
-                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/tailwind.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Tailwind CSS</span>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* KENAPA LARAVEL DAN BLADE ADA DI BACKEND, bukan di Frontend
-                   atau di kelompok tersendiri. Pertanyaan ini sudah pernah
-                   diajukan pada 9 Agustus 2026, ditimbang, lalu susunan ini
-                   dipertahankan — dicatat di sini supaya tidak di-teardown ulang
-                   dengan alasan yang sama.
-
-                   KEBERATANNYA MASUK AKAL: Blade menghasilkan HTML, jadi
-                   sekilas ia terasa milik sisi antarmuka. Tapi Blade tidak
-                   pernah berjalan di browser. Ia dijalankan PHP di server, dan
-                   yang dikirim ke pengunjung cuma HTML hasil jadinya —
-                   kode Blade-nya sendiri tidak ikut. Bandingkan dengan
-                   Tailwind, yang class-nya benar-benar sampai ke browser.
-                   Laravel pun begitu: ia memang disebut full-stack framework,
-                   tapi inti kerjanya (rute, controller, ORM) di server, dan
-                   pasar kerja menyebutnya backend — "Backend Developer
-                   (Laravel)" itu judul lowongan yang baku.
-
-                   ALTERNATIF YANG DITOLAK: mengelompokkan per jenis (Bahasa /
-                   Kerangka / Basis Data). Susunan itu lebih presisi soal jenis
-                   benda, tapi membuang justru hal yang paling dicari pembaca —
-                   sisi mana yang dikerjakan. Menghilangkannya berarti kembali
-                   ke keadaan sebelum seluruh perubahan ini dimulai, sebab
-                   pertanyaan "frontend, backend, atau yang mana" itulah yang
-                   men-trigger-nya. Ia juga menyisakan kelompok Basis Data berisi
-                   satu ikon sendirian.
-
-                   Pengelompokan per jenis TETAP ADA, tapi sebagai URUTAN di
-                   dalam kelompok, bukan sebagai namanya: bahasa dulu, kerangka
-                   kerja menyusul, basis data menutup. Lihat komentar urutan di
-                   baris Frontend. */}
-              <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.12" className="-caption-small tool-label text-text-muted">Backend</h4>
-                <span data-component="scrub-reveal" data-delay="0.12" className="h-px w-8 self-center bg-line"></span>
-
-                <div className="tool-items">
-
-                  {/* Logo resmi PHP adalah wordmark "php" DI DALAM elips
-                       lavender berlis putih — ia satu-satunya di baris ini yang
-                       membawa latarnya sendiri. Di halaman segelap ini elips itu
-                       terbaca sebagai gumpalan paling terang di barisnya, jauh
-                       melebihi porsinya dibanding Laravel dan MySQL.
-
-                       Diukur pada 36px berdampingan dengan tetangganya: pada
-                       skala 1,0 ia mendominasi, pada 0,80 ia jadi terlalu kecil
-                       untuk terbaca hurufnya. 0,88 titik tengahnya — bobotnya
-                       setara GitHub dan VS Code, tulisan "php"-nya masih terbaca.
-
-                       Ini perlakuan yang sama dengan Vercel (0,86), Stitch
-                       (0,85), dan JavaScript (0,86) di baris atas: SKALANYA
-                       yang diturunkan, bukan warnanya diganti. Mengubah warna
-                       logo resmi orang lain melanggar pedoman mereknya;
-                       mengecilkannya tidak. */}
-                  <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/php.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(0.88)" }} className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">PHP</span>
-                  </div>
-
-                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/laravel.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Laravel</span>
-                  </div>
-
-                  {/* BLADE ADALAH SATU-SATUNYA ENTRI DI GRID INI YANG BUKAN
-                       LOGO MEREK, dan itu tidak bisa dihindari: Blade tidak
-                       punya logo resmi karena ia bukan produk tersendiri —
-                       ia mesin templating DI DALAM Laravel. Tidak ada situs
-                       resmi yang bisa dibuka untuk mengunduhnya, jadi aturan
-                       baku repo ini tidak berlaku di sini. Pengecualian yang
-                       sama sudah pernah ditulis untuk JavaScript (tidak punya
-                       logo resmi) dan Stitch (harus dibangun dari font).
-
-                       Dipakai glyph Font Awesome fa-code, bukan file SVG.
-                       Font Awesome sudah dibundel lewat src/main.jsx, jadi ini
-                       tidak menambah satu pun permintaan jaringan.
-
-                       PILIHAN GLYPH-NYA DIUKUR, bukan diambil yang pertama
-                       terlihat. fa-file-code — file terisi penuh — sempat
-                       dicoba dan bobotnya terlalu berat berdampingan dengan
-                       logo Laravel yang bergaris tipis, persis masalah yang
-                       sama dengan kotak JavaScript. fa-code yang berupa tanda
-                       kurung sudut justru sebangun dengan Laravel, dan bentuk
-                       "</>": itu sendiri memang membaca sebagai markah — yang
-                       persis pekerjaan Blade.
-
-                       WARNANYA #FF2D20, merah Laravel, dan itu disengaja.
-                       Blade bagian dari Laravel, jadi warna yang sama menandai
-                       kekerabatannya tanpa menggandakan logo-nya. Sempat
-                       dicoba abu #d8d8d8 mengikuti perlakuan logo tak
-                       berwarna seperti Vercel, tapi hasilnya justru memutus
-                       hubungan itu — ia tampak seperti entri asing.
-
-                       28px, bukan 30px yang tampak paling pas di mata: 28
-                       salah satu dari sepuluh langkah font size situs ini,
-                       30 bukan. Selisihnya tidak terlihat, keseragamannya
-                       terlihat. */}
-                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <i className="fa-solid fa-code text-[28px]" style={{ color: "#FF2D20" }} aria-hidden="true"></i>
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Blade</span>
-                  </div>
-
-                  {/* MySQL DINAIKKAN ke 1,06, kebalikan dari PHP. Logo-nya
-                       lumba-lumba di atas wordmark, jadi tingginya terbagi dua
-                       dan tulisan "MySQL" cuma kebagian sekitar 40% dari 36px.
-                       Pada skala 1,0 tulisannya mengecil sampai hampir tak
-                       terbaca; 1,06 mengembalikannya tanpa membuat lumba-lumbanya
-                       melewati tinggi kotak. */}
-                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/mysql.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.06)" }} className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">MySQL</span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Python</span>
                   </div>
 
                 </div>
@@ -438,88 +282,111 @@ export default function Skills() {
 
 
           {/* PERKAKAS — APLIKASI yang dipakai bekerja, bukan yang dibangun.
-               Bahasa, kerangka kerja, dan basis data pindah ke bagian Teknologi
-               di atas pada 9 Agustus 2026; alasan pemisahannya ditulis lengkap
-               di sana.
+               Bahasa pemrogramannya berdiri di bagian Teknologi di atas;
+               alasan pemisahannya ditulis lengkap di sana.
 
                Urutan kelompoknya mengikuti urutan peran di typewriter bagian
-               sampul — pengembangan → pengajaran → administrasi — supaya tiap
-               peran yang diklaim di sana punya alasnya di sini, lalu ditutup AI
-               sebagai cara kerja. Nama ditulis lengkap karena penyaring lamaran
-               mencocokkan teks secara harfiah.
+               sampul, lalu ditutup AI sebagai cara kerja. Nama ditulis lengkap
+               karena penyaring lamaran mencocokkan teks secara harfiah.
 
-               Kelompok "Riset & Desain" (Figma, Google Analytics, Maze, Notion)
-               dibuang bersama keempat file ikonnya waktu peran utama berganti
-               dari UI/UX Designer jadi Web Developer: ia berdiri paling depan
-               padahal tidak lagi mewakili peran mana pun yang diklaim di sampul.
+               KELOMPOK PERTAMANYA "DATA" sejak 14 Agustus 2026, menggantikan
+               "Pengembangan" (VS Code, GitHub, Vercel, Figma) yang dibuang
+               seluruhnya atas permintaan, beserta ketiga file ikonnya — logo
+               GitHub tidak punya file, ia SVG sebaris di markup ini.
 
-               Isinya kembali 4-2-2-3 dan jedanya kembali berakhir di 0,30,
-               sama persis seperti sebelum Laravel, PHP, dan MySQL sempat
-               disisipkan ke sini. Rantainya berdiri sendiri, tidak menyambung
-               dari bagian Teknologi — lihat alasannya di komentar bagian itu. */}
+               Ini pergantian KEDUA di slot yang sama, dan itu perlu dicatat
+               supaya polanya kelihatan: sebelumnya "Riset & Desain" (Figma,
+               Google Analytics, Maze, Notion) yang berdiri di sini, dibuang
+               waktu peran utama berganti dari UI/UX Designer jadi Web
+               Developer. Slot pertama memang selalu ikut peran yang dilamar,
+               jadi ia yang paling sering berganti isi.
+
+               Isinya sekarang 3-2-2-3 dan jedanya berakhir di 0,27. Rantainya
+               berdiri sendiri, tidak menyambung dari bagian Teknologi — lihat
+               alasannya di komentar bagian itu. Menambah atau menghapus card
+               berarti SELURUH rantai di bawahnya dihitung ulang: tiap card naik
+               0,03 berurutan menembus kelompok, dan label tiap kelompok memakai
+               jeda card pertamanya. */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Perkakas</h3>
             <div className="border-t border-line">
 
+              {/* Urutannya sumber dulu, penyajinya belakangan: PostgreSQL
+                   tempat datanya tinggal, Power BI dan Tableau yang
+                   membacanya. Pola yang sama dipakai baris lain di grid ini —
+                   yang menopang berdiri di depan, sama seperti bahasa
+                   mendahului kerangka kerja. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Pengembangan</h4>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Data</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
+                  {/* Gajah Slonik, biru #336791 dengan garis luar putih. Garis
+                       putih itu BUKAN tambahan dan bukan salah unduh: ia bagian
+                       dari logo resmi versi latar gelap, dan justru itu yang
+                       membuat siluetnya terbaca di atas #040508. Kalau nanti
+                       diganti, jangan pakai versi tanpa garis luar — di latar
+                       segelap ini badannya menyatu dengan halaman. */}
                   <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/vscode.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.14)" }} className="max-h-full max-w-full object-contain" />
+                        <img src="assets/icons/postgresql.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">VS Code</span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">PostgreSQL</span>
                   </div>
 
-                  {/* GitHub dan Notion tampil satu warna, dan itu BUKAN
-                       penambal: logo resmi keduanya memang tidak punya versi
-                       berwarna menurut pedoman mereknya sendiri. */}
+                  {/* POWER BI DINAIKKAN ke 1,2, dan sebabnya KOTAKNYA, bukan
+                       warnanya. viewBox-nya "0 0 48 48" tapi tintanya cuma
+                       menempati 30x40 di dalamnya (x 9-39, y 4-44) — kelonggaran
+                       yang terbawa dari file aslinya. Tintanya terpusat di kedua
+                       sumbu (sisa 9 di kiri-kanan, 4 di atas-bawah), jadi
+                       menskalakannya dari titik tengah tetap menaruhnya di tengah.
+
+                       Dengan object-contain, tinggi tintanya cuma 40/48 = 83%
+                       tinggi kotak: 30px di kotak 36px (nav:h-9, >=900px) dan
+                       26,7px di kotak 32px (h-8, di bawahnya). Dua-duanya 17%
+                       lebih pendek daripada Python dan Tableau yang viewBox-nya
+                       rapat. 48/40 = 1,2 mengembalikannya ke tinggi penuh di
+                       KEDUA kotak sekaligus, karena yang dikoreksi rasio, bukan
+                       piksel.
+
+                       Terukur setelahnya di 1180px: Python 36,0px, Tableau
+                       36,0px, PostgreSQL 36,0px, Power BI 36,0px. Kotak
+                       elemennya sendiri jadi 43,2px dan menjulur 3,6px ke tiap
+                       sisi, tapi bagian itu transparan dan tidak ada
+                       `overflow: hidden` di jalur induknya — jarak ke label di
+                       bawahnya 12px, jadi tidak ada yang bersentuhan.
+
+                       DISKALAKAN, BUKAN viewBox-nya dirapatkan seperti
+                       Wayground. Keduanya sama benarnya. Yang ini dipilih
+                       karena file ikonnya tidak perlu disentuh sama sekali,
+                       jadi kalau nanti diganti dengan unduhan baru dari
+                       Microsoft, satu-satunya yang perlu diperiksa ulang angka
+                       di baris ini — bukan isi file yang sudah diedit tangan. */}
                   <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="aspect-square h-full"><path d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
+                        <img src="assets/icons/microsoft-power-bi.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.2)" }} className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">GitHub</span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Power BI</span>
                   </div>
 
-                  {/* Vercel digambar satu warna: logo resminya memang hanya
-                       hitam atau putih. Aslinya hitam, dibalik ke #d8d8d8 karena
-                       latar bagian ini gelap. */}
+                  {/* Tableau TIDAK diskalakan: viewBox "0 0 500 500" dan tintanya
+                       benar-benar mengisi kotak itu (x 0-500, y 3,4-496,6).
+                       Sembilan tanda plus berwarna-warni membuatnya paling ramai
+                       di barisnya, tapi tidak ada satu pun bidang terisi penuh
+                       seperti kotak kuning JavaScript dulu — jadi bobot tampaknya
+                       tetap sepadan dengan tetangganya tanpa perlu diturunkan. */}
                   <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/vercel.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(0.86)" }} className="max-h-full max-w-full object-contain" />
+                        <img src="assets/icons/tableau.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Vercel</span>
-                  </div>
-
-                  {/* Figma ditaruh PALING BELAKANG di baris ini, bukan paling depan,
-                       meski di alur kerja ia datang lebih dulu dari menulis kode.
-                       Baris ini dibaca dari kiri sebagai apa yang paling mewakili
-                       peran Fullstack Web Developer, dan yang harus berdiri di depan
-                       adalah perkakas membangunnya — sejak 9 Agustus 2026 itu berarti
-                       Laravel, PHP, dan MySQL. Kalau nanti barisnya mau dibaca sebagai
-                       alur — rancang, tulis, simpan, terbitkan — pindahkan Figma ke
-                       depan dan hitung ulang jedanya.
-
-                       Logo-nya lima bentuk berwarna, diambil apa adanya dari
-                       halaman unduhan Figma. Warnanya rona baru mereka (#FF7237,
-                       #FF3737, #00B6FF, #874FFF, #24CB71), bukan rona lama yang
-                       masih banyak beredar di kumpulan logo pihak ketiga. */}
-                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
-                    <span className="flex w-full justify-center text-text">
-                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/figma.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
-                      </span>
-                    </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Figma</span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Tableau</span>
                   </div>
 
                 </div>
@@ -532,12 +399,12 @@ export default function Skills() {
                    ditulis dua kali; yang memberi tahu perannya adalah card pengalaman
                    "Guru Informatika" di bagian Pengalaman. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.12" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
-                <span data-component="scrub-reveal" data-delay="0.12" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0.09" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
+                <span data-component="scrub-reveal" data-delay="0.09" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/google-classroom.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.25)" }} className="max-h-full max-w-full object-contain" />
@@ -577,7 +444,7 @@ export default function Skills() {
                        ditambahkan: terangkan pada rona aslinya, jangan diganti
                        warnanya. Wordmark Quizizz dulu aslinya #5D2057 dan nyaris
                        tak terlihat di latar #040508. */}
-                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/wayground.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -590,12 +457,12 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.18" className="-caption-small tool-label text-text-muted">Administrasi</h4>
-                <span data-component="scrub-reveal" data-delay="0.18" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0.15" className="-caption-small tool-label text-text-muted">Administrasi</h4>
+                <span data-component="scrub-reveal" data-delay="0.15" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/ms-office.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -607,7 +474,7 @@ export default function Skills() {
                   {/* Google Workspace memakai wordmark penuhnya, perbandingan 7,76:1.
                        Ia memang tampil lebih short daripada logo persegi di
                        sebelahnya — itu sifat wordmark sepanjang ini, bukan salah ukuran. */}
-                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/google-workspace.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -620,12 +487,12 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.24" className="-caption-small tool-label text-text-muted">AI</h4>
-                <span data-component="scrub-reveal" data-delay="0.24" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0.21" className="-caption-small tool-label text-text-muted">AI</h4>
+                <span data-component="scrub-reveal" data-delay="0.21" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.24" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/claude.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.14)" }} className="max-h-full max-w-full object-contain" />
@@ -634,7 +501,7 @@ export default function Skills() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Claude</span>
                   </div>
 
-                  <div data-component="scrub-reveal" data-delay="0.27" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.24" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/claude-code.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -676,7 +543,7 @@ export default function Skills() {
 
                        scale(0.85) menahannya supaya tidak lebih dominan dari
                        logo tetangganya yang bujur sangkar. */}
-                  <div data-component="scrub-reveal" data-delay="0.30" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.27" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/stitch.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(0.85)" }} className="max-h-full max-w-full object-contain" />

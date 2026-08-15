@@ -11,6 +11,23 @@
      <body> pada 1200x630 — itu ukuran yang diminta Open Graph dan sudah
      dipatok di CSS bawah — lalu timpa public/assets/og.png.
 
+     BISA JUGA TANPA MEMBUKA PERAMBAN, lewat Chrome headless. Perintah
+     lengkapnya ada di README, bagian "Kartu pratinjau (OG image)" —
+     sengaja ditaruh di sana, bukan di sini, karena flag Chrome diawali dua
+     tanda hubung dan rangkaian itu tidak sah di dalam komentar HTML.
+
+     Dua flag di antaranya WAJIB, dan alasannya ditulis di README juga: satu
+     mengunci skala layar supaya hasilnya benar 1200x630 dan bukan dua kali
+     lipat di layar HiDPI, satu lagi menunggu Google Fonts selesai dimuat.
+     Tanpa yang kedua, tangkapannya jadi dengan font cadangan sistem — yang
+     keluar bukan galat, melainkan kartu yang hurufnya meleset dari situsnya.
+     Persis jenis kesalahan yang tidak ketahuan sampai ada yang membagikan
+     link-nya.
+
+     TERAKHIR DIRENDER 14 Agustus 2026, waktu peran utama berganti dari
+     "Fullstack Web Developer" ke "Data Analyst". Hasilnya diadu piksel
+     dengan berkas lama: identik di seluruh bidang kecuali badge pertama.
+
      KENAPA TEMPLAT, BUKAN GAMBAR YANG DIGAMBAR TERPISAH. Warna, font, dan
      monogramnya di sini disalin dari situsnya (#040508, #d8d8d8, #ff6a3d,
      Inter + JetBrains Mono, viewBox 176x168 yang sama dengan panel pembuka).
@@ -82,7 +99,7 @@
     <h1>Arif Herfian<br><span>Zaen Chartiko</span></h1>
     <div class="garis"></div>
     <div class="peran">
-      <span>Fullstack Web Developer</span>
+      <span>Data Analyst</span>
       <span>Pendidik Informatika</span>
       <span>Staf Administrasi</span>
     </div>

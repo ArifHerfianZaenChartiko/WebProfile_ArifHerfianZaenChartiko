@@ -6,7 +6,7 @@ export default function Experience() {
       <div data-anim="marquee" data-speed="30" className="border-y border-line py-5">
         <div className="marquee-track">
           <div className="flex shrink-0" data-marquee-copy>
-            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Fullstack Web Developer<span aria-hidden="true" className="text-accent">✦</span></span>
+            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Data Analyst<span aria-hidden="true" className="text-accent">✦</span></span>
             <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pendidik Informatika<span aria-hidden="true" className="text-accent">✦</span></span>
             <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Universitas Negeri Malang<span aria-hidden="true" className="text-accent">✦</span></span>
           </div>
@@ -80,9 +80,8 @@ export default function Experience() {
 
                   <ul className="swap-details">
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mengajar mata pelajaran pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan (TLJ)</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Membimbing proyek akhir pemrograman dasar kelas 10, dari nol sampai siswa punya web profil sekolah yang berjalan</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mengawasi dan mengevaluasi siswa, serta memastikan pemahaman dan capaian belajar terpenuhi sesuai timeline dan target</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Merencanakan, mengadakan, dan mengoordinasi program kerja SEMAR “Seminar Marketing”</li>
+                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mengawasi, mengevaluasi, serta memastikan pemahaman dan proyek akhir siswa terpenuhi sesuai timeline dan target</li>
+                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Merencanakan, mengadakan, dan mengoordinasi berjalannya program kerja SEMAR “Seminar Marketing”</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendigitalisasi arsip sekolah dan mendukung kegiatan operasional sekolah</li>
                   </ul>
                 </div>
@@ -109,7 +108,7 @@ export default function Experience() {
 
                   <ul className="swap-details">
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendata, mengelola, dan melayani serah terima seragam sekolah serta buku kurikulum</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendata penulisan disposisi serta pencatatan surat masuk dan keluar</li>
+                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendigitalisasi dan mendata disposisi, surat masuk, dan surat keluar</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Melayani koreksi kesalahan penulisan ijazah siswa</li>
                     <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-line"></span>Mendata dan melayani pengajuan dana BOSDA dan NPHD</li>
                   </ul>
