@@ -1384,10 +1384,70 @@ html.intro-active body {
   flex-direction: column;
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   RINCIAN PEKERJAAN — dua aturan yang keduanya ditaruh DI SINI, bukan sebagai
+   class di Experience.jsx, dan itu inti perubahan 15 Agustus 2026.
+
+   Sebelumnya garis kecil di tiap butir dipasang `mt-2` satu per satu di
+   markup: delapan span, delapan tempat yang bisa lupa diikutkan. Menambah
+   butir berarti menyalin <li> lengkap dengan class itu, dan yang lupa
+   menyalinnya mendapat garis yang menempel di tepi atas tanpa satu pun tanda
+   bahwa ada yang salah. Ditaruh di CSS, butir baru ikut dengan sendirinya --
+   itu yang diminta: "kalau misal suatu saat ditambahi baru selalu center".
+
+   1. GARISNYA DI TENGAH, BUKAN DI ATAS.
+
+   `align-items: center` pada <li>, dan `mt-2` di markup dibuang bersamanya.
+   Keduanya harus berpasangan: menambah center tanpa membuang mt-2 menggeser
+   garisnya 8px di bawah titik tengah, dan itu justru lebih salah daripada
+   sebelumnya karena tidak lagi sejajar dengan apa pun.
+
+   Kenapa `mt-2` dulu perlu: garisnya `h-px`, tinggi 1px yang ditulis
+   eksplisit. Nilai bawaan `align-items: stretch` tidak berlaku pada elemen
+   yang tingginya sudah dipatok, jadi ia jatuh di tepi atas baris dan
+   didorong turun 8px secara manual. Angka 8px itu kira-kira setengah tinggi
+   SATU baris teks (-body-small, 14px x 1,6 = 22,4px), jadi ia kebetulan
+   benar untuk butir sebaris -- dan meleset makin jauh tiap kali butirnya
+   bertambah panjang. Pada butir dua baris (44,8px) titik tengahnya 22,4px,
+   jadi garisnya berdiri 14px terlalu tinggi.
+
+   2. DAFTARNYA MENGISI PENUH KOLOMNYA.
+
+   `flex: 1` pada daftarnya membuat ia mengambil sisa tinggi kolom, dan
+   `flex: 1 0 auto` pada tiap butir membagi sisa itu rata ke semua butir.
+   Hasilnya rincian tersebar dari atas ke bawah alih-alih menumpuk di
+   seperempat atas card dan meninggalkan ruang kosong -- ruang yang paling
+   terlihat pada card yang butirnya lebih sedikit, sebab tinggi semua card
+   disamakan ke yang tertinggi (lihat measure() di animations.js).
+
+   `1 0 auto`, BUKAN `1`. Angka tengahnya flex-shrink, dan nol di situ yang
+   menjamin tidak ada butir yang bisa diperas lebih pendek daripada teksnya
+   sendiri. `flex: 1` berarti `1 1 0` -- basis nol dan boleh menyusut, jadi
+   di card yang sempit butir tiga baris akan dipaksa setinggi butir sebaris
+   dan barisnya terpotong. Itu melanggar janji utama bagian ini: rincian
+   pekerjaan boleh sepanjang apa pun tanpa satu baris pun hilang.
+
+   Konsekuensinya butir yang lebih panjang tetap lebih tinggi daripada yang
+   pendek -- yang dibagi rata cuma SISA ruangnya, bukan tinggi totalnya. Itu
+   memang yang benar: baris yang tingginya dipaksa sama persis akan membuat
+   butir sebaris tampak mengambang di tengah kotak kosong.
+
+   Bahasa awamnya: di bagian Pengalaman Kerja, tiap poin rincian punya garis
+   kecil di sebelah kirinya. Garis itu sekarang duduk pas di tengah tulisan,
+   bukan menempel di baris pertama -- dan tetap di tengah walau poinnya nanti
+   jadi dua atau tiga baris. Daftarnya juga dibuat memenuhi tinggi kartunya,
+   jadi tidak ada lagi ruang kosong menganga di bawah. */
 .swap-details {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.swap-details li {
+  align-items: center;
+  flex: 1 0 auto;
 }
 
 /* 0,75rem, bukan 2rem seperti sebelumnya. Titiknya sekarang setinggi 44px
