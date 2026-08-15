@@ -1175,6 +1175,29 @@ export function setupAnimations() {
         b.setAttribute("data-swap-dot", "");
         b.setAttribute("role", "tab");
         b.setAttribute("aria-label", "Pengalaman ke-" + (i + 1));
+
+        /* SAMBUNGAN tab <-> tabpanel, dipasang 15 Agustus 2026. Sampai saat itu
+           tombol ini mengaku `tab` tanpa pernah menunjuk panel mana pun, jadi
+           screen reader mengumumkan "tab 1 dari 2" lalu tidak punya apa-apa
+           untuk dituju — dan karena kartu belakang di-inert DAN aria-hidden,
+           menekannya tidak menghasilkan satu pun pengumuman.
+
+           Dibaca DARI kartunya (cards[i].id), bukan dinomori ulang di sini:
+           penomoran kedua adalah tempat kedua yang bisa meleset. Kalau
+           <article>-nya lupa diberi id, sambungannya dilewat — atribut yang
+           menunjuk id yang tidak ada lebih buruk daripada tidak ada atribut.
+
+           Tidak perlu didaftarkan ke cleanups: menulis atribut itu mengganti
+           nilai, bukan menambah, jadi sudah idempoten terhadap pemasangan ulang
+           StrictMode — alasan yang sama dengan innerHTML di addNode().
+
+           Bahasa awamnya: ini yang memberi tahu pembaca layar bahwa titik
+           nomor 2 berpasangan dengan kartu pengalaman nomor 2. */
+        b.id = "swap-tab-" + (i + 1);
+        if (cards[i].id) {
+          b.setAttribute("aria-controls", cards[i].id);
+          cards[i].setAttribute("aria-labelledby", b.id);
+        }
         listen(b, "click", function () { select(i); });
         listen(b, "keydown", function (e) {
           var forward = e.key === "ArrowRight" || e.key === "ArrowDown";
@@ -2025,13 +2048,28 @@ export function setupAnimations() {
         "_blank", "noopener,noreferrer");
     });
 
+    /* window.open("_blank"), BUKAN window.location.href — disamakan dengan
+       tombol WhatsApp di atas pada 15 Agustus 2026.
+
+       Yang lama mengganti isi tab yang sedang dibuka, jadi halaman ini
+       dibongkar dan isian formnya ikut pergi. Itu paling merugikan justru saat
+       jalurnya gagal: URL compose Gmail menuntut sesi Google yang aktif, dan
+       pengunjung bersurel kantor mendarat di halaman login TANPA portofolio
+       ini tersisa di layar. Dibuka di tab baru, form-nya masih utuh di
+       belakangnya — teksnya bisa disalin, atau tombol WhatsApp dipakai tanpa
+       mengetik ulang.
+
+       Bahasa awamnya: tombol ini dulu menutup web profil Anda dan menggantinya
+       dengan Gmail. Sekarang Gmail terbuka di tab baru dan situs Anda tetap
+       terbuka di sebelahnya. */
     listen($("#send-email"), "click", function () {
       var fields = readFields();
       if (!fields) return;
-      window.location.href = "https://mail.google.com/mail/?view=cm&fs=1&to=" +
+      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" +
         encodeURIComponent(EMAIL_ADDR) +
         "&su=" + encodeURIComponent("Pesan dari " + fields.name + " — lewat portofolio") +
-        "&body=" + encodeURIComponent(composeMessage(fields));
+        "&body=" + encodeURIComponent(composeMessage(fields)),
+        "_blank", "noopener,noreferrer");
     });
   }
 

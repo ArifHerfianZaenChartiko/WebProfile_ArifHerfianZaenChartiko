@@ -59,7 +59,24 @@ export default function Experience() {
           <div className="swap mx-auto w-full max-w-[56rem]" data-component="swap">
             <div className="swap-stack" data-swap-stack>
 
-              <article data-card className="swap-card">
+              {/* id + role="tabpanel" ditambahkan 15 Agustus 2026, dan keduanya
+                   WAJIB berpasangan dengan titik selector di bawah.
+
+                   Titik itu sudah lama diberi role="tab", tapi tanpa panel yang
+                   ditunjuknya — padahal peran `tab` justru didefinisikan sebagai
+                   pemilih sebuah `tabpanel`. Akibatnya bukan pelanggaran formal
+                   belaka: kartu belakang di-inert DAN aria-hidden, jadi pengguna
+                   screen reader menekan titiknya lalu tidak mendengar apa pun.
+
+                   `aria-controls` dan `aria-labelledby` dipasang dari
+                   initCardSwap() supaya id-nya cuma ditulis sekali (di sini).
+                   Kalau menambah pengalaman, salin juga id dan role-nya —
+                   tanpa id, sambungannya diam-diam tidak terpasang.
+
+                   Bahasa awamnya: dua titik kecil di bawah kartu ini sekarang
+                   benar-benar tersambung ke kartunya, jadi pembaca layar bisa
+                   mengumumkan kartu mana yang barusan terbuka. */}
+              <article data-card id="swap-panel-1" role="tabpanel" className="swap-card">
                 <div className="swap-body">
                   <div className="swap-left">
                     <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
@@ -87,7 +104,7 @@ export default function Experience() {
                 </div>
               </article>
 
-              <article data-card className="swap-card">
+              <article data-card id="swap-panel-2" role="tabpanel" className="swap-card">
                 <div className="swap-body">
                   <div className="swap-left">
                     <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">

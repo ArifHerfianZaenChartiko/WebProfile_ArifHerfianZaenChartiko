@@ -103,10 +103,30 @@ export default function Certificates() {
             </p>
           </div>
 
-          <div data-component="gallery" className="gallery" role="list" aria-label="Galeri sertifikat">
+          {/* role="group", BUKAN role="list" — dan panelnya tanpa role sama
+              sekali. Diperbaiki 15 Agustus 2026.
+
+              Dulu container ini role="list" dan tiap <a> diberi role="listitem".
+              Role eksplisit MENIMPA peran bawaan, bukan menambahinya, jadi
+              keenam <a> berhenti jadi `link` di pohon aksesibilitas — dan
+              daftar link yang dipakai pengguna screen reader untuk menjelajah
+              (NVDA Insert+F7, rotor VoiceOver) menyusun isinya dari peran itu.
+              Keenam sertifikat tidak pernah muncul di sana.
+
+              Membungkus tiap <a> dengan <div role="listitem"> bukan jalan
+              keluar di sini: keenamnya anak flex LANGSUNG dari .gallery dan
+              flexGrow-nya dianimasikan satu per satu di initAccordionGallery().
+              Pembungkus akan memutus rantai flex itu. Semantik daftar toh tidak
+              dibutuhkan enam link berjajar; yang perlu cuma namanya, dan
+              role="group" mendukung aria-label tanpa menyentuh anak-anaknya.
+
+              Bahasa awamnya: pembaca layar tunanetra punya fitur "tampilkan
+              semua tautan di halaman ini". Sertifikat Anda dulu tidak muncul di
+              daftar itu sama sekali; sekarang muncul. */}
+          <div data-component="gallery" className="gallery" role="group" aria-label="Galeri sertifikat">
             {CERTIFICATES.map(function (s) {
               return (
-                <a key={s.file} data-panel role="listitem" className="gallery-panel"
+                <a key={s.file} data-panel className="gallery-panel"
                   href={"assets/certificate/" + s.file + ".pdf"}
                   target="_blank" rel="noopener noreferrer"
                   aria-label={"Buka " + s.title + " — " + s.detail}>
