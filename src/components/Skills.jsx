@@ -261,13 +261,14 @@ export default function Skills() {
                Ditaruh SEBELUM Perkakas karena apa yang dibangun lebih menjawab
                pertanyaan "bisa apa" daripada apa yang dipakai membangunnya.
 
-               ISINYA MENYUSUT JADI SATU pada 14 Agustus 2026. Sebelumnya dua
-               baris berisi delapan entri — Frontend (HTML, CSS, JavaScript,
-               Tailwind CSS) dan Backend (PHP, Laravel, Blade, MySQL) — dan
-               keduanya dibuang atas permintaan beserta ketujuh file ikonnya.
-               Rincian kenapa Laravel dan Blade dulu ditaruh di Backend ikut
-               dibuang bersama barisnya; kalau susunan itu suatu saat kembali,
-               alasannya ada di git history commit 6e86f17.
+               ISINYA MENYUSUT JADI SATU pada 14 Agustus 2026, lalu NAIK JADI
+               DUA pada 16 Agustus 2026 waktu SQL masuk. Sebelum penyusutan itu
+               ada dua baris berisi delapan entri — Frontend (HTML, CSS,
+               JavaScript, Tailwind CSS) dan Backend (PHP, Laravel, Blade,
+               MySQL) — dan keduanya dibuang atas permintaan beserta ketujuh
+               file ikonnya. Rincian kenapa Laravel dan Blade dulu ditaruh di
+               Backend ikut dibuang bersama barisnya; kalau susunan itu suatu
+               saat kembali, alasannya ada di git history commit 6e86f17.
 
                LABEL BARISNYA "BAHASA PEMROGRAMAN", BUKAN "BACKEND". Python
                memang jalan di server, tapi kelompok Data di bawahnya
@@ -275,10 +276,32 @@ export default function Skills() {
                yang menyebut JENIS bendanya tidak akan keliru lagi kalau nanti
                bahasa kedua ditambahkan.
 
-               JEDANYA TINGGAL SATU ANGKA, dan rantainya berdiri sendiri:
-               bagian ini mulai dan berakhir di 0, Perkakas di bawah mulai lagi
-               dari 0. Jangan disambung — dua bagian yang punya judulnya
-               sendiri-sendiri dibaca sebagai dua blok terpisah.
+               DAN ITU YANG TERJADI, dua hari kemudian. SQL memang bahasa
+               kedua di bagian ini, tapi ia BUKAN bahasa pemrograman — ia
+               bahasa kueri, yang menyatakan data apa yang diminta dan bukan
+               langkah-langkah mendapatkannya. Karena labelnya menyebut jenis
+               benda, salahnya ketahuan seketika dan jalan keluarnya cuma satu:
+               baris kedua dengan label sendiri, "Bahasa Kueri". Kalau label
+               lama dulu ditulis "Backend", SQL akan masuk ke sana tanpa
+               terlihat janggal sedikit pun, dan salah kategorinya menetap.
+
+               KENAPA BUKAN DIGABUNG ke satu baris berlabel "Bahasa": kata itu
+               sudah dipakai blok terakhir bagian ini untuk bahasa manusia
+               (Indonesia dan Inggris). Dua "Bahasa" di satu halaman yang
+               menunjuk hal berbeda lebih merugikan daripada satu baris
+               tambahan.
+
+               KEDUANYA TETAP DI BAWAH "TEKNOLOGI", bukan dipindah ke Perkakas.
+               Batas antara kedua bagian itu APLIKASI lawan BUKAN APLIKASI, dan
+               SQL jelas bukan aplikasi — PostgreSQL yang aplikasinya, dan ia
+               memang sudah berdiri di baris Data milik Perkakas. Keduanya
+               bertetangga tapi bukan hal yang sama: yang satu bahasa untuk
+               bertanya, yang satu program yang menjawab.
+
+               JEDANYA TINGGAL DUA ANGKA, dan rantainya berdiri sendiri:
+               bagian ini mulai di 0 dan berakhir di 0,03, Perkakas di bawah
+               mulai lagi dari 0. Jangan disambung — dua bagian yang punya
+               judulnya sendiri-sendiri dibaca sebagai dua blok terpisah.
 
                REACT BELUM DISEBUT, DAN ITU DITUNDA — BUKAN DITOLAK. Situs ini
                memang dibangun dengan React, jadi buktinya ada di repo, tapi
@@ -319,6 +342,69 @@ export default function Skills() {
                       </span>
                     </span>
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Python</span>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* BAHASA KUERI — 12 huruf, jadi ia TIDAK menggeser lebar
+                   .tool-label. Yang mengikat angka 12rem di src/index.css tetap
+                   "BAHASA PEMROGRAMAN" (18 huruf, 168,5px); label ini berhenti
+                   di 112,3px dan menyisakan lebih dari cukup. Tidak ada yang
+                   perlu dihitung ulang di sana.
+
+                   IKONNYA IKON DATABASE AZURE (judul aslinya di dalam berkas
+                   "Icon-databases-130"), dan itu memang pilihan yang tersedia:
+                   SQL sebuah standar ISO, bukan produk, jadi tidak ada pemilik
+                   merek yang menerbitkan logo resminya. Yang beredar semua
+                   milik salah satu vendor atau buatan pihak ketiga. Tabung
+                   basis data bertuliskan SQL ini setidaknya menggambarkan
+                   bendanya, bukan meminjam merek yang keliru — tapi kalau
+                   suatu saat diganti, jangan ambil logo yang jelas-jelas
+                   milik satu produk (MySQL, MSSQL) untuk mewakili SQL sebagai
+                   bahasa.
+
+                   DINAIKKAN 1,06, dan sebabnya KOTAKNYA — persoalan yang sama
+                   dengan PostgreSQL dan Power BI di baris Data, cuma paling
+                   kecil di antara ketiganya. viewBox-nya "0 0 18 18" tapi
+                   tintanya berhenti di y 0,5 sampai 17,5, jadi tinggi tintanya
+                   17 dari 18 satuan alias 94,4% tinggi kotak. Dengan
+                   object-contain itu 30,2px di kotak 32px, sementara Python di
+                   baris atas mendarat di 31,8px.
+
+                   18/17 = 1,0588, dibulatkan ke 1,06, dan hasilnya 32,0px —
+                   yang dikoreksi RASIO, jadi satu angka ini benar di kedua
+                   ukuran kotak sekaligus. Kotak elemennya jadi 33,9px dan
+                   menjulur 0,95px ke tiap sisi; bagian itu transparan, tidak
+                   ada `overflow: hidden` di jalur induknya, dan jarak ke label
+                   di bawahnya 12px.
+
+                   SELISIH 1,6px ITU LEBIH KECIL daripada yang biasanya dianggap
+                   perlu dikoreksi di repo ini (PostgreSQL 2,9px), dan tetap
+                   dikerjakan karena letaknya: ia satu-satunya card di barisnya,
+                   persis di bawah Python yang juga sendirian. Keduanya
+                   bertumpuk di titik x yang sama, jadi matanya membandingkan
+                   langsung — beda yang tersamar di baris berisi enam logo
+                   justru terlihat di sini.
+
+                   Bahasa awamnya: logo SQL ini dibesarkan sedikit supaya
+                   tingginya sama persis dengan logo Python tepat di atasnya.
+                   Tanpa itu ia tampak sedikit lebih kecil, bukan karena salah
+                   pasang tapi karena berkas logonya punya ruang kosong bawaan
+                   di tepi atas dan bawahnya. */}
+              <div className="tool-row border-b border-line">
+                <h4 data-component="scrub-reveal" data-delay="0.03" className="-caption-small tool-label text-text-muted">Bahasa Kueri</h4>
+                <span data-component="scrub-reveal" data-delay="0.03" className="h-px w-8 self-center bg-line"></span>
+
+                <div className="tool-items">
+
+                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/sql.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.06)" }} className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">SQL</span>
                   </div>
 
                 </div>

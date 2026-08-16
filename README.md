@@ -137,13 +137,19 @@ menghapus:
 
 ### Teknologi dan Perkakas
 
-Ini **dua bagian terpisah**, dan pemisahan itu disengaja. `Teknologi` berisi apa
-yang dipakai membangun situs — bahasa, framework, basis data. `Perkakas` berisi
-aplikasi yang dibuka lalu dipakai. Menaruh bahasa pemrograman di bawah judul
-"Perkakas" kira-kira sama dengan menyebut bahasa Indonesia sebagai alat tulis.
+Ini **dua bagian terpisah**, dan batasnya satu pertanyaan: apakah ia aplikasi?
+`Teknologi` berisi yang bukan — bahasa, yang ditulis dan dibaca. `Perkakas`
+berisi aplikasi yang dibuka lalu dipakai. Menaruh bahasa pemrograman di bawah
+judul "Perkakas" kira-kira sama dengan menyebut bahasa Indonesia sebagai alat
+tulis.
+
+Batas itu juga yang menjawab kenapa SQL dan PostgreSQL berdiri di bagian yang
+berbeda padahal keduanya soal basis data: SQL bahasa untuk bertanya, PostgreSQL
+program yang menjawab.
 
 ```
 Teknologi   Bahasa Pemrograman   Python                                   (1)
+            Bahasa Kueri         SQL                                      (1)
 
 Perkakas    Data                 Excel, PostgreSQL, VS Code,
                                  Anaconda, Power BI, Tableau              (6)
@@ -164,7 +170,7 @@ terbanyak.
 **Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang.**
 Tiap card naik 0,03 detik berurutan, dan label tiap kelompok memakai delay card
 pertamanya. Kedua bagian itu **rantai terpisah** yang sama-sama mulai dari nol —
-`Teknologi` 0, `Perkakas` 0 → 0,33. Jangan disambung: satu rantai yang menembus
+`Teknologi` 0 → 0,03, `Perkakas` 0 → 0,33. Jangan disambung: satu rantai yang menembus
 keduanya membuat card terakhir jatuh terlalu jauh dan pembaca sudah melewatinya
 sebelum ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional
 (0 / 0,04 / 0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute
@@ -196,6 +202,22 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
 - **Palet lama masih banyak beredar.** Jangan ambil dari kumpulan icon pihak
   ketiga: file VS Code yang dulu dipakai di sini memakai `#2196f3`, biru
   Material generik yang bukan warna merek mereka.
+- **`width` dan `height` di tag `<svg>` harus dibuang kalau nilainya di bawah
+  36.** Kotak logonya 32px (36px di atas 900px) dan img-nya memakai
+  `max-h-full max-w-full`, yang cuma mengecilkan dan tidak pernah membesarkan.
+  SVG berukuran bawaan 18x18 karena itu tergambar 18px apa adanya, separuh
+  tetangganya, tanpa satu pun pesan galat — persis yang terjadi pada `sql.svg`
+  waktu ia ditambahkan. Yang bawaannya lebih besar dari 36 aman karena ikut
+  terpangkas (Power BI 48, Google Classroom 108); sisanya cukup dibuang kedua
+  atributnya, `viewBox` yang menentukan bentuknya.
+
+Sesudah logonya terpasang, **bandingkan tingginya dengan tetangga di baris atau
+kolom yang sama.** Banyak berkas logo membawa ruang kosong bawaan di tepinya,
+dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Lima sudah
+dikoreksi dengan `scale()`: Google Classroom 1,25, Power BI 1,2, Claude 1,14,
+PostgreSQL 1,09, SQL 1,06. Angkanya selalu **rasio kotak dibagi rasio tinta**,
+bukan tebakan — dengan begitu satu angka benar di kedua ukuran kotak sekaligus.
+Hitungan tiap logo ada di komentar card-nya masing-masing.
 
 ### Kartu pratinjau (OG image)
 
