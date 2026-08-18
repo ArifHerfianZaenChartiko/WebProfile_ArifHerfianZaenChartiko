@@ -1,0 +1,324 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   GAYA TAMBAHAN — ditulis tangan, di luar hasil kompilasi Tailwind di atas.
+   Letaknya sengaja paling bawah supaya menang atas utilitas Tailwind dan
+   aman ditambah tanpa menyentuh baris hasil kompilasi.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* GRID PERKAKAS — enam kelompok berlabel, jumlah card per kelompok dikunci.
+
+   Susunannya 1-1 di bagian Teknologi dan 7-2-2-2 di Perkakas, dan itu tidak
+   berubah di lebar viewport mana pun, karena tiap kelompok adalah
+   container-nya sendiri: kelompok berisi tujuh card selamanya berisi tujuh.
+   Tidak ada satu pun titik henti (breakpoint) yang menentukan pengelompokannya.
+
+   SATU KELOMPOK SEKARANG MEMBUTUHKAN DUA BARIS DI SEMUA LEBAR, dan itu batas
+   yang sudah dua kali digeser. Sampai 14 Agustus 2026 kelompok terbesar berisi
+   empat card dan semuanya muat satu baris di setiap lebar, sehingga "satu
+   kelompok = satu baris" berlaku tanpa kecuali. Baris Data yang berisi enam
+   melewatinya di layar sempit (3+3); sejak berisi tujuh pada 18 Agustus 2026
+   ia dua baris di mana pun (4+3), sebab satu baris berisi tujuh menuntut card
+   yang terlalu sempit untuk nama terpanjang di grid ini.
+
+   Yang dipertahankan bukan jumlah barisnya melainkan pecahnya yang RATA dan
+   SAMA di semua lebar — bukan 4+3 di satu lebar dan 6+1 di lebar lain.
+
+   SATU ANGKA SAJA YANG MENGATURNYA SEKARANG: lebar card 25%, berlaku di semua
+   lebar viewport. Sampai 18 Agustus 2026 angkanya ada TIGA — 25% di bawah
+   1180px, 8,5rem di atasnya, dan batas 34rem pada .tool-items--four — dan dua
+   yang terakhir dibuang hari itu, bukan sekadar dirapikan.
+
+   Sebabnya keduanya memang sudah kehilangan alasan hidupnya. 8,5rem dihitung
+   supaya ENAM card muat satu baris di desktop (844/6 = 140,6px), dan syarat
+   itu gugur begitu baris Data berisi tujuh dan pecah 4+3. Yang tersisa cuma
+   akibatnya: card 136px di ruang 844px, sehingga baris terpenuh pun berhenti
+   di 544px dan menyisakan 300px kosong — dan kelompok berisi dua berhenti di
+   272px, menyisakan 572px. Itu yang membuat versi desktopnya terbaca timpang.
+   `--four` sendiri cuma ada untuk memaksa pecah 4+3 pada lebar tetap itu;
+   pada 25% empat card per baris sudah terjadi dengan sendirinya.
+
+   Card 25% karena itu berlaku di mana pun sekarang, dan lebarnya jadi ikut
+   ruang yang ada: 211px pada 1440px, 180px pada 768px, 89,5px pada 390px.
+   Yang paling menuntut tetap "Google Workspace" (108,1px pada 12px Inter) di
+   kelompok Administrasi, dan ia lolos di kedua lebar atas — isi card 195px
+   dan 164px setelah padding 2x8px. Di 390px isi card 73,5px dan nama itu
+   memang pecah dua baris, sama seperti sebelum perubahan ini.
+
+   Bahasa awamnya: bagian ini deretan logo perkakas, dikelompokkan dalam baris
+   berlabel. Kelompok "Data" yang berisi tujuh logo terlalu panjang untuk muat
+   satu baris, jadi ia tampil dua baris — empat di atas, tiga di bawah — dan
+   pembagian itu sama persis di ponsel, tablet, maupun komputer.
+
+   RATA KIRI, dan itu keputusan yang sempat dibalik dua kali dalam sehari pada
+   18 Agustus 2026: dari rata kiri ke dipusatkan, lalu kembali ke rata kiri atas
+   permintaan. Riwayat itu ditulis di sini supaya tidak dibalik lagi tanpa
+   sengaja.
+
+   Alasan rata kiri yang berlaku sejak awal: baris yang panjangnya berbeda-beda
+   kalau dipusatkan tidak punya tepi lurus untuk dipegang mata, jadi terbaca
+   sebagai zigzag alih-alih sebagai lima kelompok. Rata kiri memberi tepi itu,
+   dan nama kelompoknya yang menjelaskan kenapa satu baris cuma berisi dua —
+   itu memang kelompoknya, bukan sisa yang tidak muat.
+
+   Yang membuat rata kiri sekarang lebih kuat daripada sebelumnya: card 25% di
+   atas. Karena semua card berlebar sama DAN barisnya rata kiri, card pertama
+   tiap kelompok berdiri di titik x yang sama, dan kolom kedua, ketiga, keempat
+   ikut lurus menembus kelima kelompok. Dulu itu dijaga lebar tetap 8,5rem yang
+   cuma berlaku di desktop; sekarang berlaku di semua lebar.
+
+   Polanya sengaja sama dengan bagian Bahasa di bawahnya: label, garis
+   rambut, lalu isinya. */
+.tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 1rem;
+  row-gap: 1.25rem;
+  padding: 1.75rem 0;
+}
+
+/* TANPA `justify-content`, jadi rata kiri — nilai bawaan `flex-start`.
+
+   Baris ini sempat memakai `justify-content: center` pada 18 Agustus 2026 dan
+   dicabut di hari yang sama atas permintaan. Yang perlu diketahui kalau suatu
+   saat ada yang berpikir memusatkannya lagi: pemusatan bekerja PER BARIS, bukan
+   per kelompok, jadi yang berpindah cuma baris yang tidak penuh — dan itulah
+   masalahnya. Terukur pada 1440px, letak card pertama tiap kelompok jadi:
+
+     rata kiri      semua kelompok  x=426   (satu kolom, lurus)
+     dipusatkan     4 card          x=426
+                    3 card          x=531
+                    2 card          x=637
+                    1 card          x=742
+
+   Kelompok yang cuma berisi satu atau dua card karena itu terlepas jauh dari
+   labelnya — Python dan SQL berhenti di tengah baris, 316px dari garis
+   rambutnya — sementara baris Data tetap mulai dari kiri. Yang terbaca bukan
+   satu grid melainkan beberapa baris yang tidak sepakat mulai dari mana.
+
+   Rata kiri membuat keempat kolomnya lurus menembus kelima kelompok, dan
+   panjang baris yang berbeda-beda dijelaskan oleh nama kelompoknya. */
+.tool-items {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 1.5rem;
+  width: 100%;
+}
+
+/* Empat card per baris, di SEMUA lebar viewport — tidak ada lagi angka
+   pendamping khusus desktop sejak 18 Agustus 2026. Card mengambil seperempat
+   ruang yang tersedia untuknya, dan ruang itulah yang berubah: selebar
+   viewport dikurangi margin di bawah 1180px (tempat label naik ke atas
+   deretan), dan sisa baris setelah label di atasnya.
+
+   SEPEREMPAT LAGI, BUKAN SEPERTIGA, sejak baris Data berisi TUJUH card pada
+   18 Agustus 2026. Angka ini memang selalu diturunkan dari jumlah card
+   terbanyak, dan sudah dua kali berganti karenanya:
+
+     empat card  -> seperempat   (4 muat satu baris)
+     enam card   -> sepertiga    (3+3, dua baris sama panjang)
+     tujuh card  -> seperempat   (4+3, sepecah-rata yang mungkin untuk tujuh)
+
+   Peringatan yang ditulis di sini pada 15 Agustus 2026 tepat sasaran dan
+   sekarang terpakai: "Tujuh card akan pecah 3+3+1 dan menyisakan masalah
+   yang sama." Memang begitu — pada sepertiga, Tableau berdiri sendiri di
+   baris ketiga. Seperempat memecahnya 4+3.
+
+   ONGKOSNYA NYATA DAN SUDAH DIUKUR, jadi jangan dikira gratis: pada 390px
+   card turun dari 117px ke 89,5px, dan ruang tulisannya (dikurangi padding
+   8px di tiap sisi) dari 101px ke 73,5px. Dua nama terpanjang tetap muat
+   dua baris — "Google Classroom" pecah jadi "Google" (39,5px) dan
+   "Classroom" (~62px), "Google Workspace" jadi "Google" dan "Workspace"
+   (~64px) — jadi yang hilang kelonggarannya, bukan keterbacaannya.
+
+   (Komentar lama mengatakan seperempat dulu membuat kedua nama itu jadi
+   "tiga baris yang sesak". Terukur ulang pada keadaan sekarang, keduanya
+   dua baris. Angka lama itu berasal dari keadaan sebelum lebar card dan
+   padding-nya seperti sekarang; jangan dipakai lagi sebagai alasan.)
+
+   SATU NAMA IKUT PECAH DUA BARIS KARENA INI: "Claude Code" selebar 73,5px
+   sementara ruang tulisan di 390px cuma 71,8px. Jadi di ponsel nama itu jadi
+   "Claude" dan "Code" di dua baris — bergabung dengan "Google Classroom" dan
+   "Google Workspace" yang memang sudah dua baris di lebar itu sejak dulu, jadi
+   ia tidak jadi anomali sendirian.
+
+   SELISIHNYA DULU 0,03px, DAN ITU SUDAH TIDAK BERLAKU LAGI. Waktu gutter
+   halaman masih dipatok 16px, ruang tulisan di 390px persis 73,5px dan nama
+   itu melewatinya cuma 0,03px — seujung rambut, dan komentar lama di sini
+   memperingatkan supaya angka itu tidak dipercaya sebagai sesuatu yang stabil.
+   Gutter yang mengalir (lihat --spacing-gutter di blok @theme) menambah
+   3,5px di tiap sisi pada 390px, jadi ruang tulisannya turun ke 71,8px dan
+   selisihnya jadi 1,7px. Peringatannya sendiri tetap berlaku untuk nama lain
+   yang mungkin berdiri di ambang serupa; yang berubah cuma nama ini tidak lagi
+   berada di sana. Kalau suatu saat ada yang mau memaksanya muat, yang disentuh
+   padding card (px-2), bukan pembagi ini — dan ingat padding itu ikut dihitung
+   di dua tempat lain di berkas ini.
+
+   Kalau nanti ada kelompok berisi lebih dari delapan, angka ini harus
+   dihitung ulang lagi — dan ingat batasnya dari arah sebaliknya: makin kecil
+   pembaginya, makin sempit ruang untuk nama terpanjang.
+
+   Bahasa awamnya: di ponsel, tablet, maupun komputer, tiap baris logo memuat
+   empat buah. Baris "Data" yang berisi tujuh karena itu tampil empat di atas
+   dan tiga di bawah — bukan tiga, tiga, lalu satu yang menggantung
+   sendirian. */
+.tool-items > * {
+  width: 25%;
+}
+
+/* Threshold-nya 1180px, dan angka itu BUKAN jumlah card melainkan LEBAR
+   CONTAINER-nya sendiri: blok Keahlian dipatok max-w-[1180px]. Di situlah
+   isinya berhenti tumbuh, jadi di situ pula label baru punya cukup ruang
+   untuk duduk di samping tanpa menggencet card.
+
+   Dulu 1024px, dengan alasan yang masih benar tapi tidak lagi cukup: pada
+   768px area card cuma tersisa 512px kalau label duduk di samping, tidak
+   cukup untuk empat card, jadi barisnya membungkus diam-diam. Baris Data
+   yang berisi enam menggeser batas itu ke atas. Terukur pada 1100px, label
+   di samping menyisakan 764px untuk card sementara enam card menuntut 816px
+   -- barisnya pecah 5+1 dengan Tableau berdiri sendiri, persis cacat yang
+   sedang diperbaiki. Menurunkan lebar card sampai muat di 1024px menuntut
+   7,17rem, dan di bawah 8rem nama terpanjang pecah dua baris.
+
+   Jadi yang digeser titik hentinya, bukan lebar card-nya lagi. Ia diikat ke
+   angka yang TIDAK ikut berubah saat card ditambah atau dikurangi -- kalau
+   suatu saat container-nya dilebarkan, angka ini ikut ke sana, bukan ke
+   jumlah card yang kebetulan berlaku hari itu.
+
+   Bahasa awamnya: nama kelompok ("DATA", "PENGAJARAN") duduk di samping kiri
+   deretan logo hanya di layar lebar. Di layar yang lebih sempit ia naik ke
+   atas deretan itu, supaya logonya tidak terjepit. Batas pergantiannya
+   sekarang sedikit lebih lebar daripada sebelumnya. */
+@media (min-width: 1180px) {
+  /* Lebar tetap, bukan mengikuti panjang tulisan: inilah yang membuat garis
+     rambut kelima kelompok lurus sejajar.
+
+     DINAIKKAN 10,5rem -> 12rem pada 14 Agustus 2026, dan ini kali pertama
+     angka itu benar-benar kurang -- bukan sekadar dilonggarkan. Label
+     terpanjang sekarang "BAHASA PEMROGRAMAN", 18 huruf, menggeser
+     "PENGEMBANGAN" yang dibuang bersama barisnya.
+
+     Hitungannya: JetBrains Mono ber-advance 0,6em, jadi pada 12px tiap huruf
+     7,2px; letter-spacing 0,18em menambah 2,16px SETELAH setiap huruf,
+     termasuk yang terakhir. 18 x 9,36 = 168,5px -- melewati 10,5rem (168px)
+     sebanyak setengah piksel, dan setengah piksel itu cukup untuk memecah
+     labelnya jadi dua baris. 12rem (192px) menyisakan 23,5px, sekitar dua
+     setengah huruf.
+
+     Kelonggaran itu bukan hiasan: pas-pasan berbahaya di sini, karena begitu
+     satu label pecah dua baris, kelurusan garis rambut seluruh kelompok ikut
+     hilang, dan huruf tidak selalu dirender sama persis di setiap browser dan
+     sistem operasi. Angka ini baru perlu dinaikkan lagi kalau ada label yang
+     lebih panjang dari "BAHASA PEMROGRAMAN" ditambahkan; kalau label itu
+     dipendekkan, ia boleh ikut turun. */
+  .tool-label {
+    width: 12rem;
+  }
+
+  /* LEBAR CARD TIDAK DIPATOK LAGI DI SINI, dan bekas aturannya sengaja
+     diceritakan alih-alih dihapus diam-diam.
+
+     Sampai 18 Agustus 2026 blok ini berisi dua aturan: `.tool-items > *`
+     dipatok 8,5rem, dan `.tool-items--four` dibatasi 34rem untuk memaksa
+     baris berisi tujuh pecah 4+3. Keduanya dibuang, dan lebar card di
+     seluruh situs sekarang ditentukan satu angka saja — 25% di aturan
+     `.tool-items > *` di atas media query ini.
+
+     8,5rem dulu dihitung supaya ENAM card muat satu baris: isi baris ini
+     tidak pernah lebih dari 844px (1100px isi container, dikurangi
+     .tool-label 12rem, garis rambut 2rem, dan dua celah 1rem), jadi enam
+     card menuntut <= 140,6px dan 8,5rem (136px) memenuhinya dengan sisa
+     28px. Syarat itu GUGUR begitu baris Data berisi tujuh: tujuh card
+     menuntut <= 120,6px sementara "Google Workspace" (108,1px pada 12px
+     Inter, plus padding card 2x8px) menuntut >= 124,1px, dan selisih 3,5px
+     itu menutup pintunya. Sejak baris itu pecah 4+3, tidak ada lagi yang
+     dijaga 136px — yang tersisa cuma akibatnya, dan akibatnya buruk:
+     empat card cuma mengisi 544px dari 844px, dan kelompok berisi dua
+     berhenti di 272px. Ruang kosong 300-572px di kanan tiap baris itu yang
+     membuat versi desktopnya terbaca timpang.
+
+     25% membereskannya tanpa angka baru: empat card mengisi 844px penuh,
+     card jadi 211px, dan ruang tulisannya 195px — hampir dua kali lipat
+     yang dituntut nama terpanjang. Batas bawah yang dulu dijaga 8,5rem
+     karena itu tidak lagi terancam dari arah mana pun di lebar ini; yang
+     masih memegangnya cuma lebar ponsel, dan itu memang sudah dijelaskan
+     di komentar aturan 25%.
+
+     `.tool-items--four` ikut dibuang karena 25% memaksa empat per baris
+     dengan sendirinya — class itu juga dilepas dari markup baris Data di
+     src/components/Skills.jsx. Kalau suatu saat ada kelompok yang perlu
+     pecah di jumlah LAIN (misalnya 3+3), yang dipakai bukan max-width
+     seperti dulu melainkan lebar card khusus kelompok itu, sebab lebar
+     card dan jumlah per baris sekarang satu angka yang sama.
+
+     Bahasa awamnya: di layar komputer, deretan logo dulu cuma mengisi
+     sekitar separuh lebar barisnya dan menyisakan ruang kosong besar di
+     kanan. Sekarang keempat logo membagi rata seluruh lebar yang ada, jadi
+     barisnya penuh dan seimbang. */
+  .tool-items {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
+
+/* KOTAK IKON — tingginya sudah dipatok utilitas (h-8, nav:h-9); INI yang
+   memagari LEBARNYA, dan tanpanya logo lebar melar mengikuti lebar card.
+
+   Kotak ini `w-full`, jadi selebar card-nya. Untuk logo yang bujur sangkar
+   itu tidak berakibat apa-apa — mereka dibatasi tinggi, jadi tetap 32/36px
+   dan mengambang di tengah kotak selebar apa pun. Yang melar logo yang jauh
+   lebih lebar daripada tinggi, dan wordmark Google Workspace (perbandingan
+   7,76:1) memakan seluruh ruang yang diberikan.
+
+   TERUKUR SEBELUM DIPAGARI, dan angkanya menjelaskan kenapa aturan ini ada:
+
+     390px    73,5 x 9,5 px     card 89,5px
+     768px   164,0 x 21,1 px    card 180px
+     1024px  220,0 x 28,4 px    card 236px
+     1180px  120,0 x 15,5 px    card 136px
+
+   (Lebar card di baris terakhir itu angka LAMA — 8,5rem yang berlaku waktu
+   pengukuran ini diambil. Sejak 18 Agustus 2026 card desktop 211px. Yang
+   diukur di sini perilaku wordmark-nya, dan itu tidak berubah: tanpa pagar
+   ia selalu memakan seluruh lebar card, berapa pun lebarnya.)
+
+   Perhatikan 1024 lawan 1180: lebarnya JATUH dari 220px ke 120px hanya
+   karena melewati satu titik henti. Di 1024px wordmark itu enam kali lebih
+   lebar daripada logo MS Office di sebelahnya, dan yang terbaca bukan dua
+   perkakas sederajat melainkan satu blok tulisan di samping satu ikon kecil.
+
+   7,5rem (120px) DULU diturunkan dari lebar isi card di desktop — waktu card
+   dipatok 8,5rem, 120px persis sisanya setelah padding 2x0,5rem. Patokan itu
+   hilang pada 18 Agustus 2026 bersama lebar tetapnya: card desktop sekarang
+   25%, jadi 211px pada container terlebar dan isinya 195px. Angkanya
+   DIPERTAHANKAN apa adanya, dan sekarang ia berdiri sebagai batas mutlak,
+   bukan turunan: tidak ada logo yang pernah digambar lebih lebar dari 120px,
+   berapa pun lebar card yang kebetulan berlaku. Itu justru membuatnya lebih
+   kokoh daripada dulu — ia tidak lagi ikut berubah diam-diam saat lebar card
+   diutak-atik.
+
+   Akibatnya di rentang 640px ke atas wordmark itu berhenti di 120px dan sama
+   di mana pun, sementara di bawah itu ia tetap menyusut bersama card-nya,
+   sebab di sana ruangnya memang tidak ada.
+
+   TIDAK ADA LOGO LAIN YANG TERSENTUH. Terukur pada kotak 36px, yang terlebar
+   setelah Workspace: Wayground 52,4px, Claude Code 45,4px, Google Classroom
+   41,3px — semuanya jauh di bawah 120px. (Claude Code sempat 57,6px dan jadi
+   yang terlebar; ia diturunkan ke 1,26 pada 18 Agustus 2026, alasannya di
+   komentar card-nya di src/components/Skills.jsx.) Batas ini cuma mengikat
+   satu berkas, dan sengaja ditulis sebagai aturan umum supaya wordmark
+   berikutnya tidak mengulang cacat yang sama tanpa ketahuan.
+
+   YANG TIDAK DIPERBAIKI ATURAN INI: di ponsel wordmark itu tetap 73,5x9,5px,
+   dan itu memang tidak bisa dibereskan dari CSS. Perbandingan 7,76:1 di
+   dalam petak setinggi 32px menuntut lebar 248px, sementara card-nya cuma
+   89,5px. Jalan keluar sungguhannya mengganti berkasnya dengan logomark
+   persegi Google Workspace, bukan wordmark penuhnya — dan itu keputusan
+   aset, jadi jangan dikerjakan diam-diam.
+
+   Bahasa awamnya: tulisan "Google Workspace" yang jadi logonya dulu ikut
+   membesar di layar tablet sampai jauh lebih besar daripada logo di
+   sebelahnya. Sekarang ukurannya berhenti di ukuran layar komputer, jadi
+   ia tidak lagi menonjol sendirian. */
+.tool-icon {
+  max-width: 7.5rem;
+}

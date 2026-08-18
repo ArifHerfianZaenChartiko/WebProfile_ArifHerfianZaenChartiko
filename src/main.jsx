@@ -4,31 +4,36 @@ import App from "./App.jsx";
 import "./index.css";
 
 /*
- * Font Awesome DIBUNDEL, bukan dipanggil dari CDN.
+ * FONT AWESOME DILEPAS SELURUHNYA pada 18 Agustus 2026.
  *
- * Sampai 9 Agustus 2026 index.html memuat all.min.css 6.5.0 dari cdnjs.
- * Tiga masalahnya sekaligus: ia <link> di <head> jadi MEMBLOKIR render
- * sampai permintaan pihak ketiga itu selesai; ia tanpa integrity hash; dan
- * ia titik gagal tunggal — kalau cdnjs tidak terjangkau, kedua belas ikon di
- * halaman ini lenyap tanpa jejak.
+ * ══ TEKNIS
  *
- * Diimpor dari sini, Vite yang mengurusnya: CSS-nya masuk ke file gaya
- * yang sudah di-download, file fontnya keluar ke dist dengan nama ber-hash
- * dan dilayani dari domain sendiri. Jumlah bytenya tidak berubah banyak —
- * yang hilang perjalanan ke host asing dan ketergantungan padanya.
+ * Di sini dulu berdiri tiga impor CSS-nya (fontawesome, solid, brands).
+ * Riwayatnya: sampai 9 Agustus 2026 ia dimuat dari cdnjs lewat <link> di
+ * <head> — memblokir render, tanpa integrity hash, dan titik gagal tunggal —
+ * lalu dipindahkan ke sini supaya Vite membundelnya dan melayaninya dari
+ * domain sendiri. Impornya juga sengaja tiga berkas, bukan `all.min.css`,
+ * supaya `regular` dan shim v4 tidak ikut terseret.
  *
- * TIGA FILE, BUKAN all.min.css. Halaman ini cuma memakai dua keluarga —
- * 13 ikon solid dan 2 brands. `all` menyeret juga `regular` dan shim
- * kompatibilitas v4 beserta file fontnya, yang tidak dirujuk satu class
- * pun di sini. Kalau nanti ada ikon `fa-regular` ditambahkan, tambahkan
- * barisnya di sini — kalau tidak, ikonnya akan muncul sebagai kotak kosong.
+ * Yang tidak bisa diperbaiki dari sisi pemakai: BOBOT BERKAS FONTNYA. Vite
+ * menyalin fa-solid-900 dan fa-brands-400 utuh (woff2 dan ttf) ke dist —
+ * 913 KB di disk, 277 KB yang benar-benar diunduh peramban — sementara yang
+ * dirujuk halaman ini cuma 14 glif. Berkas font memuat ribuan glif dan tidak
+ * bisa dipangkas dari sini.
  *
- * Diimpor SETELAH index.css supaya kalau suatu saat ada nama class yang
- * bertabrakan, milik situs ini yang menang.
+ * Penggantinya src/components/Icon.jsx: keempat belas path SVG yang sama,
+ * dikutip dari berkas SVG di paket itu, seluruhnya 9,6 KB dan ikut masuk ke
+ * bundel JS yang memang sudah diunduh. Tidak ada permintaan jaringan baru,
+ * tampilannya tidak berubah, dan paketnya sudah dilepas dari package.json.
+ * Alasan lengkap dan catatan lisensinya ada di berkas itu.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Ikon-ikon kecil di situs ini dulu ikut mengunduh dua berkas huruf khusus
+ * berisi ribuan gambar, padahal yang dipakai cuma 14. Sekarang keempat belas
+ * gambar itu ditulis langsung di dalam kode, jadi 277 KB unduhan hilang tanpa
+ * satu pun tampilan berubah.
  */
-import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
-import "@fortawesome/fontawesome-free/css/solid.min.css";
-import "@fortawesome/fontawesome-free/css/brands.min.css";
 
 /*
  * KEDUA FONT JUGA DIBUNDEL, sejak 15 Agustus 2026 — alasan yang sama persis

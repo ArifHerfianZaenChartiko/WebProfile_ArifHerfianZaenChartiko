@@ -25,17 +25,57 @@ langsung dari filesystem.
 ## Struktur proyek
 
 ```
-index.html            kerangka: meta tag, favicon, satu <div id="root">
-src/main.jsx          entry point React, dan tempat font + ikon dibundel
-src/App.jsx           susunan bagian halaman
-src/index.css         theme Tailwind + seluruh CSS tulisan tangan
-src/components/       satu file per bagian halaman
-src/lib/animations.js    seluruh motion situs, dalam satu file
-public/assets/        foto, sertifikat, logo tool
-tools/og-template.html  sumber gambar OG preview (tidak ikut di-deploy)
+index.html                kerangka: meta tag, favicon, satu <div id="root">
+src/main.jsx              entry point React, tempat font dibundel
+src/App.jsx               susunan bagian halaman
+src/index.css             HANYA daftar @import — tidak ada aturan di sini
+src/components/           satu berkas per bagian halaman
+  Icon.jsx                14 ikon SVG sebaris (pengganti Font Awesome)
+src/styles/               CSS, dipecah per bidang
+  theme.css               @theme, custom variant, alias token
+  base.css                body, skala tipografi, aturan lintas bagian
+  tools-grid.css          grid Teknologi & Perkakas
+  hero.css                Beranda: container query + judul fluid
+  skills.css              card peran, kemampuan profesional, logo cincin
+  intro.css               panel pembuka
+  certificates.css        galeri akordeon
+  experience.css          stack card pengalaman
+src/lib/animations/       motion, dipecah per bidang
+  index.js                pintu masuk + urutan penyalaan + teardown
+  lifecycle.js            keempat pendaftar teardown (ini `ctx`)
+  tokens.js               angka dan lengkung motion
+  dom.js                  pembantu pencari elemen, deteksi perangkat
+  scroller.js             Lenis + satu-satunya pintu untuk melompat
+  builders.js             penyuntik struktur, jalan paling awal
+  reveals.js              motion masuk yang digerakkan scroll
+  role-cards.js           sorot berpindah di bagian Keahlian
+  card-swap.js            stack card pengalaman
+  gallery.js              galeri akordeon sertifikat
+  ambient.js              garis latar + band berjalan
+  behaviors.js            typewriter, bar status, tombol, formulir
+  intro.js                monogram pembuka
+public/assets/            foto, sertifikat, logo tool
+tools/og-template.html    sumber gambar OG preview (tidak ikut di-deploy)
 ```
 
 Yang perlu Anda sunting hampir selalu ada di `src/components/`.
+
+**Dipecah pada 19 Agustus 2026, dan pemecahannya mekanis.** Sebelumnya CSS-nya
+satu berkas 1.711 baris dan motion-nya satu berkas 2.336 baris. Tidak ada satu
+aturan CSS atau satu baris logika pun yang ditulis ulang — badan tiap fungsi
+dipotong apa adanya. Buktinya: CSS hasil build sebelum dan sesudah dipecah
+identik bita per bita setelah spasinya dinormalkan.
+
+Dua hal yang perlu diketahui sebelum memindahkan sesuatu antar berkas:
+
+- **Urutan `@import` di `src/index.css` adalah urutan kaskade.** Aturan tulisan
+  tangan di situs ini menang atas utilitas Tailwind karena ia berdiri di luar
+  `@layer` mana pun dan diimpor sesudahnya. Mengacak urutannya mematahkan itu.
+- **`ctx` dioper, bukan diimpor.** Keempat pendaftar teardown memegang keadaan —
+  daftar apa saja yang sudah dipasang — dan keadaan itu harus mati bersama satu
+  kali pemasangan. Kalau ia diimpor sebagai singleton, mount kedua React
+  StrictMode akan menumpuk ke daftar yang sama. Token dan pembantu DOM tidak
+  punya keadaan, jadi keduanya memang diimpor.
 
 ## Kenapa React, dan apa yang ikut berubah
 
@@ -162,12 +202,33 @@ Perkakas    Data                 Excel, PostgreSQL, DBeaver, VS Code,
 tujuh card selamanya berisi tujuh. Yang ikut lebar viewport hanya berapa baris yang
 dipakai untuk menampungnya, dan sejak kelompok `Data` berisi tujuh ia **dua baris
 di semua lebar**: empat di atas, tiga di bawah. Pecahnya sengaja dibuat **rata dan
-sama di semua lebar** — bukan 4+3 di satu lebar dan 6+1 di lebar lain. Tiga angka
-yang mengaturnya ada di `src/index.css`, dan ketiganya dihitung dari jumlah card
-terbanyak: `25%` di bawah 1180px, `8,5rem` di atasnya, dan batas `34rem` pada
-`.tool-items--four`.
+sama di semua lebar** — bukan 4+3 di satu lebar dan 6+1 di lebar lain.
 
-Satu baris berisi tujuh **tidak bisa** dipaksakan di desktop, dan itu sudah
+**Satu angka yang mengaturnya: lebar card `25%`**, di `src/index.css`, berlaku di
+semua lebar viewport. Empat per baris karena itu terjadi dengan sendirinya, dan
+card ikut ruang yang tersedia — 211px pada desktop, 180px pada 768px, 89,5px pada
+390px. Sampai 18 Agustus 2026 angkanya ada tiga (`25%` di bawah 1180px, `8,5rem`
+di atasnya, dan batas `34rem` pada `.tool-items--four`); dua yang terakhir dibuang
+karena syarat yang dulu melahirkannya — enam card muat satu baris — sudah gugur
+sejak baris `Data` pecah 4+3. Yang tersisa dari keduanya cuma akibatnya: empat
+card berhenti di 544px dari 844px yang ada, dan kelompok berisi dua di 272px,
+sehingga tiap baris di desktop menyisakan 300-572px kosong di kanan.
+
+**Isinya rata kiri**, dan itu keputusan yang sempat dibalik dua kali dalam sehari
+pada 18 Agustus 2026 — dipusatkan, lalu dikembalikan atas permintaan. Riwayatnya
+dicatat di komentar `.tool-items` supaya tidak dibalik lagi tanpa sengaja.
+
+Hasilnya terukur: di 320, 375, 390, 430, 768, 1024, 1440, dan 1920px, card
+pertama **kelima kelompok berdiri di titik x yang sama persis**, dan keempat
+kolomnya lurus menembus semuanya. Yang membuat itu berlaku di semua lebar adalah
+card 25%; dulu kelurusan ini dijaga lebar tetap 8,5rem yang cuma hidup di desktop.
+
+Kalau suatu saat ada yang berpikir memusatkannya lagi: pemusatan bekerja per
+baris, bukan per kelompok, jadi kelompok yang berisi satu atau dua card terlepas
+jauh dari labelnya — Python dan SQL berhenti di tengah baris, 316px dari garis
+rambutnya — sementara baris `Data` tetap mulai dari kiri.
+
+Satu baris berisi tujuh **tetap tidak bisa** dipaksakan di desktop, dan itu sudah
 diukur: isi baris tidak pernah lebih dari 844px sehingga tujuh card menuntut
 lebar ≤ 120,6px, sementara nama terpanjang di grid ini — "Google Workspace",
 108,1px pada 12px Inter — menuntut card ≥ 124,1px. Selisih 3,5px itu yang
@@ -244,26 +305,47 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
 Sesudah logonya terpasang, **bandingkan tingginya dengan tetangga di baris atau
 kolom yang sama.** Banyak berkas logo membawa ruang kosong bawaan di tepinya,
 dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Enam sudah
-dikoreksi dengan `scale()`: Claude Code 1,6, Google Classroom 1,25, Power BI
-1,2, Claude 1,14, PostgreSQL 1,09, SQL 1,06. Angkanya selalu **rasio kotak
-dibagi rasio tinta**, bukan tebakan — dengan begitu satu angka benar di kedua
-ukuran kotak sekaligus. Hitungan tiap logo ada di komentar card-nya
-masing-masing.
+dikoreksi dengan `scale()`: Google Classroom 1,25, Power BI 1,2, Claude 1,14,
+PostgreSQL 1,09, SQL 1,06, dan Claude Code 1,26. Kelima yang pertama memakai
+**rasio kotak dibagi rasio tinta**, bukan tebakan — dengan begitu satu angka
+benar di kedua ukuran kotak sekaligus. Hitungan tiap logo ada di komentar
+card-nya masing-masing.
 
-Claude Code yang 1,6 adalah koreksi terbesar dan paling lama luput: tintanya
-cuma mengisi 62,5% tinggi `viewBox`-nya, jadi ia tergambar 22,5px sementara dua
-belas logo lain mendarat di 35,5–36,1px — selisih 13,5px, tepat di samping
-Claude. Sesudah dikoreksi, **rentang tinggi tinta seluruh grid tinggal 0,5px**
-(35,5–36,0px di desktop, 31,6–32,0px di bawah 900px), dan pusat tiap logo
-maupun namanya meleset paling jauh 0,01px dari sumbu card-nya. Kedua angka itu
-terukur di sembilan lebar viewport, 320px sampai 1920px.
+**Claude Code satu-satunya yang tidak disamakan tingginya**, dan itu perubahan
+18 Agustus 2026. Ia sempat 1,6 — angka yang benar menurut aturan di atas, sebab
+tintanya cuma mengisi 62,5% tinggi `viewBox`-nya. Tapi tintanya **bujur panjang
+1,6:1** sementara hampir semua logo lain bujur sangkar, dan menyamakan tinggi
+dua bentuk yang berbeda perbandingan tidak menyamakan besarnya di mata: pada 1,6
+ia tergambar 57,6 × 36px, terlebar di seluruh grid setelah wordmark Workspace,
+dan luasnya 1,6 kali Claude tepat di sebelahnya.
+
+Yang disamakan sekarang **rata-rata geometriknya** (akar dari lebar dikali
+tinggi), ukuran yang tidak berpihak pada satu sumbu. Claude 35,8; Claude Code
+pada 1,6 sebesar 45,5. Supaya keduanya bertemu di 36, skalanya cukup diakarkan:
+√1,6 = 1,2649 → **1,26**, dan tintanya jadi 45,4 × 28,4px dengan rata-rata
+geometrik 35,9. Jadi ia memang lebih pendek daripada logo lain, dan itu harga
+yang dibayar: bentuk 1,6:1 tidak bisa sekaligus setinggi dan seramping bentuk
+bujur sangkar.
+
+**Wayground kasus yang sama dan belum dikerjakan** — tintanya 52,4 × 36px,
+rata-rata geometrik 43,4. Ia dibiarkan karena selisihnya dengan tetangganya jauh
+lebih kecil (Google Classroom 38,3), tapi kalau aturan ini mau ditegakkan
+menyeluruh, ia yang berikutnya: skalanya 0,83.
+
+Di luar kedua logo melebar itu, **rentang tinggi tinta seluruh grid 0,5px**
+(35,5–36,0px di desktop, 31,6–32,0px di bawah 900px), dan pusat tiap logo maupun
+namanya meleset paling jauh 0,01px dari sumbu card-nya. Kedua angka itu terukur
+di sembilan lebar viewport, 320px sampai 1920px.
 
 **Lebar logo dipagari `.tool-icon` di 7,5rem**, dan itu perlu karena kotak
 ikonnya `w-full` — selebar card-nya. Logo bujur sangkar tidak terpengaruh
 (mereka dibatasi tinggi), tapi wordmark Google Workspace yang 7,76:1 dulu
 memakan seluruh ruang yang diberikan: 220px pada 1024px, lalu jatuh ke 120px
-begitu melewati 1180px. Sekarang ia berhenti di 120px — persis lebar isi card
-di desktop — sehingga sama di 640px ke atas. Di bawah itu ia tetap menyusut
+begitu melewati 1180px. Sekarang ia berhenti di 120px dan sama di 640px ke atas.
+(Angka itu dulu diturunkan dari lebar isi card di desktop, waktu card masih
+dipatok 8,5rem; sejak card jadi 25% ia berdiri sebagai batas mutlak, dan itu
+justru membuatnya tidak ikut bergeser saat lebar card diutak-atik.) Di bawah
+640px ia tetap menyusut
 bersama card-nya (73,5x9,5px pada 390px), dan **itu tidak bisa dibereskan dari
 CSS**: perbandingan 7,76:1 dalam petak setinggi 32px menuntut lebar 248px,
 sementara card ponsel cuma 89,5px. Jalan keluar sungguhannya mengganti
@@ -318,7 +400,19 @@ keduanya dihasilkan dari token yang sama.
 
 **Semua spacing kelipatan 4px, dan hampir semua font size juga.** Satu satuan
 Tailwind 0,25rem = 4px: `mb-4` jadi 16px, `gap-6` jadi 24px. Jangan pakai class
-pecahan seperti `py-1.5`. Margin tepi halaman `px-4` (16px).
+pecahan seperti `py-1.5`.
+
+**Margin tepi halaman satu-satunya yang dikecualikan dari aturan 4px itu.** Ia
+`px-gutter`, dan nilainya `clamp(1rem, 5vw, 2.5rem)` — token `--spacing-gutter`
+di blok `@theme`. Jadi 16px pada 320px, 19,5px pada 390px, 32px pada 640px, dan
+berhenti di 40px dari 800px ke atas. Sampai 18 Agustus 2026 ia rantai
+`px-4 sm:px-6 nav:px-10` di sembilan tempat: 16px yang sama rata untuk semua
+ponsel, lalu melompat 16px sekaligus di 900px. Yang dijaga sekarang
+proporsinya terhadap lebar screen (5%), bukan kelipatannya — dan kedua hal itu
+tidak bisa dipenuhi bersamaan. Alasan lengkapnya di komentar token itu.
+
+Kalau nilainya diubah, kesembilan tempat ikut sendiri, termasuk bar status —
+yang memang harus lurus dengan tepi isi halaman, dan sebelum ini tidak.
 
 Font size memakai sepuluh langkah: 12, 14, 16, 18, 20, 24, 28, 40, 52, 68.
 Delapan di antaranya kelipatan 4; **14 dan 18 sengaja dikecualikan**, karena
@@ -327,8 +421,48 @@ hierarki hilang sekaligus.
 
 **`wide:` dan `roomy:` bukan sekadar lebar.** Keduanya juga menanyakan
 orientation, dan `roomy:` menanyakan height, supaya tablet potret tidak dipaksa
-layout dua kolom. Definisinya `@custom-variant` di `src/index.css`, bersama
-`short:` untuk ponsel yang diputar.
+layout dua kolom. Definisinya `@custom-variant` di `src/index.css`. `short:`
+sudah dibuang pada 18 Agustus 2026 — lihat bagian Beranda di bawah.
+
+### Beranda: fotonya yang menyerap, bukan jaraknya
+
+Beranda pernah jadi bagian paling sering berantakan saat ganti device, dan
+sebabnya struktural: tingginya dipatok `100svh` tapi ukuran isinya dihitung
+tanpa melihat tinggi itu, sehingga yang menyerap selisih adalah **jarak** antar
+blok — padahal jarak tidak bisa negatif. Terukur di 375x667: jarak judul ke foto
+**−3px**, dan garis pemisah baris ketiga memotong bingkai fotonya.
+
+Yang dibalik pada 18 Agustus 2026: **foto** jadi elemen lenturnya
+(`flex-1 min-h-0`), jaraknya jadi `clamp()` yang mengalir, dan tingginya
+`h-svh` — bukan `min-h-svh`, sebab `min-height` boleh tumbuh dan itulah yang
+dulu membuat tidak ada satu pun yang terpaksa menyusut. Angka `min()` yang dulu
+menentukan ukuran foto kini cuma langit-langitnya.
+
+Hasilnya foto menempati **36% tinggi layar di semua ukuran tegak** — 320x568,
+375x667, 390x844, 430x932, dan 768x1024 semuanya 35,9–36,1% — dan tidak ada satu
+lebar pun yang meluber, termasuk 844x390 (ponsel diputar).
+
+Tiga hal lain yang ikut:
+
+- **Beranda jadi container** (`container-type: inline-size`), dan semua `clamp()`
+  di dalamnya memakai `cqi`, bukan `vw`.
+- **Judulnya fluid**: `clamp(2.25rem, min(9.2cqi, 13svh), 6.75rem)`. Skala lama
+  mematoknya 40px yang **sama persis untuk semua ponsel** (375, 390, dan 430
+  tidak berbeda sedikit pun) sementara fotonya ikut mengecil — satu sumbu, dua
+  aturan. `13svh` di dalamnya penjaga ponsel mendatar; tanpa itu 844x390 dapat
+  judul 77,6px dan meluber 47px.
+- **Rasio dipasang di bingkai** (`aspect-[7/10]`), bukan di elemen dalam: lebar
+  shrink-to-fit dihitung dari max-content anaknya, dan anak ber-rasio yang
+  tingginya baru pasti setelah flex selesai melapor lebar asli berkas fotonya —
+  terukur bingkai jadi 338px di layar 375px.
+- **Padding bingkai TETAP 12px, jangan persen.** Persentase padding dihitung
+  dari lebar container, bukan lebar elemennya sendiri; `p-[7%]` yang sempat
+  dipakai menghasilkan jarak foto ke garis 23,6px di ponsel, **48,4px di
+  tablet**, dan 18,9px di desktop — tablet paling parah justru karena barisnya
+  paling lebar, dan fotonya terlihat tenggelam di bingkai yang longgar. Dengan
+  12px tetap, jaraknya 13px di semua device.
+- **Foto tidak boleh jadi spotlight.** Terukur sekarang: 31–33,5% tinggi layar
+  di semua ukuran tegak, 35% di ponsel diputar, 40% di desktop.
 
 **Motion dipasang lewat `useLayoutEffect` dan WAJIB men-teardown dirinya.** React
 StrictMode melakukan mount-unmount-mount tiap effect di mode development, dan

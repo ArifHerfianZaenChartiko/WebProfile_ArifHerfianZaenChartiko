@@ -5,94 +5,144 @@ export default function Hero() {
            BERANDA — intro, bukan salah satu bab, jadi tidak diberi nomor urut.
 
            Susunannya dipilih dari BENTUK screen, bukan lebarnya: `wide:` hanya
-           berlaku di screen mendatar (@custom-variant di src/index.css), jadi tablet
+           berlaku di screen mendatar (@custom-variant di src/styles/theme.css), jadi tablet
            potret selebar apa pun tetap bertumpuk.
 
-           UKURAN FOTO DIPATOK KE svh, BUKAN KE SISA TINGGI BARIS.
+           ══ TINGGINYA `h-svh`, DAN FOTONYA YANG MENYERAP SISANYA
 
-           Sampai 8 Agustus 2026 frame-nya memakai `h-[min(100%,32svh,60vw)]`.
-           `100%` di situ merujuk tinggi baris `minmax(0,1fr)` — sisa ruang setelah
-           judul dan tombol — sehingga ukurannya jadi akibat, bukan keputusan: di
-           screen short sisanya sedikit dan fotonya ikut menciut sampai 101x139 px
-           pada 360x640. Sekarang `min(34svh,58vw)`, jadi ia proporsional terhadap
-           screen dan tidak lagi bergantung pada tinggi sisa. Terukur 33-34% tinggi
-           viewport di semua ukuran tegak.
+           Ini yang dibalik pada 18 Agustus 2026. Riwayat lengkapnya ada di
+           komentar blok foto di bawah; ringkasnya: tinggi bagian ini dipatok
+           tapi ukuran isinya dihitung tanpa melihat patokan itu, sehingga yang
+           menyerap selisih adalah JARAK antar blok — dan jarak tidak bisa
+           negatif. Terukur di 375x667: judul dan foto bertabrakan (-3px).
 
-           Di jalur `wide:`, patokannya turun dari `min(26rem,48svh)` ke
-           `min(17rem,30svh)`. Yang lama menghasilkan foto setinggi 57-70% screen —
-           secara visual ia jadi tokoh utama, padahal perannya pendamping judul.
-           Yang baru 37-44%. Karena rasio file-nya 853:1280, tinggi = lebar x 1,5;
-           patokan berbasis svh membuat proporsinya tetap sama lintas ukuran, bukan
-           membesar mengikuti lebar viewport.
+           `h-svh`, BUKAN `min-h-svh`. `min-height` boleh tumbuh, jadi ketika isi
+           lebih tinggi daripada layar tidak ada satu pun yang terpaksa menyusut
+           dan seluruh bagian ikut memanjang. Tinggi yang dipatok memaksa
+           flexbox membagi ruang, dan yang mengalah foto — `flex-1 min-h-0` di
+           bawah.
+
+           Terukur sesudahnya: foto menempati 31-33,5% tinggi layar di SEMUA
+           ukuran tegak (320x568 sampai 768x1024), 35% di ponsel mendatar, dan
+           40% di desktop. Tidak ada satu ukuran pun yang meluber.
+
+           Jarak tegaknya `clamp()` yang mengalir, bukan rantai breakpoint. Itu
+           yang membuat varian `short:` bisa dibuang seluruhnya — kelima
+           pemakaiannya dulu semua di berkas ini dan semuanya soal jarak tegak.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="home" data-component="chapter"
-        className="relative flex min-h-svh flex-col justify-center overflow-hidden pt-[8svh] pb-20 min-[640px]:pt-[9svh] min-[640px]:pb-24 roomy:pt-16 roomy:pb-28 short:pt-6 short:pb-6">
+        className="relative flex h-svh flex-col justify-center overflow-hidden pt-[clamp(1.25rem,7svh,5.5rem)] pb-[clamp(2.75rem,8svh,6.5rem)]">
 
         <canvas data-component="ambient-lines" data-density="52" aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full"></canvas>
 
         <div data-component="container"
-          className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] relative z-2 flex w-full flex-1 flex-col text-center wide:block wide:flex-none wide:text-left">
+          className="mx-auto w-full px-gutter max-w-[1500px] relative z-2 flex flex-1 flex-col text-center wide:block wide:flex-none wide:text-left">
 
-          <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] gap-4 min-[640px]:gap-6 wide:grid-cols-[1.35fr_0.65fr] wide:grid-rows-none wide:items-center wide:justify-center roomy:gap-16">
+          {/* Tumpukan lentur, bukan grid berbaris tetap. Sisa tinggi mengalir ke
+               foto (flex-1 di bawah), bukan ke jaraknya — itu yang membuat
+               tabrakan mustahil di layar pendek. */}
+          <div className="flex min-h-0 flex-1 flex-col gap-[clamp(0.75rem,3.5cqi,2rem)] wide:grid wide:grid-cols-[1.35fr_0.65fr] wide:items-center wide:justify-center wide:gap-[clamp(1.5rem,4cqi,4rem)]">
 
             {/* BARIS 1 — sapaan dan nama */}
             <div>
               <div data-component="scrub-reveal" data-delay="0.07"
-                className="mb-4 flex items-center justify-center gap-3 min-[640px]:mb-8 roomy:mb-10 short:mb-2 wide:justify-start">
+                className="mb-[clamp(0.5rem,2.5cqi,2rem)] flex items-center justify-center gap-3 wide:justify-start">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent"></span>
                 <p className="-caption-small text-text-muted">Halo, perkenalkan saya</p>
               </div>
 
-              <h1 className="-display mb-4 min-[640px]:mb-8 roomy:mb-10 short:mb-0" data-line-mask data-delay="0.14" data-stagger="0.09">
+              <h1 className="-display" data-line-mask data-delay="0.14" data-stagger="0.09">
                 <span data-anim="line-mask" className="last:text-text-muted"><span>Arif Herfian</span></span>
                 <span data-anim="line-mask" className="last:text-text-muted"><span>Zaen Chartiko</span></span>
               </h1>
             </div>
 
-            {/* BARIS 2 — foto, menyerap sisa tinggi.
-                 Diangkat keluar dari aliran (`absolute inset-0`) supaya ia tidak ikut
-                 menentukan tinggi baris yang justru jadi patokannya sendiri. */}
-            <div className="relative mx-auto min-h-0 w-full wide:col-start-2 wide:row-start-1 wide:row-span-2 wide:max-w-[min(17rem,30svh)]">
-              <div className="absolute inset-0 flex items-center justify-center wide:static wide:block">
-                <div className="corner-marks relative h-[min(34svh,58vw)] max-w-full border border-line p-3 wide:h-auto wide:w-full">
-                  <div data-component="image-reveal" data-delay="0.21"
-                    className="aspect-[853/1280] h-full w-auto max-w-full wide:h-auto wide:w-full">
-                    <span className="bg" aria-hidden="true"></span>
-                    {/* `object-fit` ditulis SEBARIS, bukan sebagai class:
-                         `[data-component=image-reveal] .media` di src/index.css
-                         sudah menyetel `cover`, dan ia CSS tak-berlapis -- di luar
-                         @layer mana pun -- jadi ia mengalahkan class utilitas apa
-                         pun, yang oleh Tailwind ditaruh di dalam layer. Selector-nya
-                         juga lebih spesifik. Yang sebaris menang atas keduanya.
+            {/* BARIS 2 — FOTO, DAN INILAH PENYERAP SISA TINGGINYA.
+                 Ini pembalikan yang dikerjakan 18 Agustus 2026. Dulu fotonya
+                 dipatok `min(34svh,58vw)` dan diangkat keluar aliran, jadi yang
+                 menyerap selisih adalah JARAK antar blok — padahal jarak tidak
+                 bisa negatif. Terukur di 375x667: jarak judul ke foto -3px, dan
+                 garis pemisah baris ketiga memotong bingkai fotonya.
 
-                         (Rujukan lamanya `style.css`; file itu sudah tidak ada sejak
-                         pindah ke Tailwind sungguhan. Aturannya sendiri tidak
-                         berubah, cuma pindah ke src/index.css.)
+                 Sekarang ia `flex-1 min-h-0`: sisa tinggi mengalir ke sini, dan
+                 kalau tidak ada sisa, fotonya yang menyusut. Angka `min()` yang
+                 dulu menentukan ukuran kini cuma LANGIT-LANGIT (max-h), supaya
+                 di layar jangkung ia tidak membesar tanpa henti. 87cqi
+                 menggantikan 58vw: 87% lebar container x rasio 853/1280 = 58%,
+                 jadi batas lebarnya sama, tapi diukur dari kotaknya sendiri. */}
+            <div className="flex min-h-0 flex-1 items-center justify-center wide:col-start-2 wide:row-start-1 wide:row-span-2 wide:block wide:flex-none wide:max-w-[min(17rem,30svh)]">
+              {/* RASIO DIPASANG DI BINGKAI, PADDING-NYA TETAP 12px.
 
-                         `contain` berarti foto DIPASKAN utuh ke dalam frame. Karena
-                         rasio frame-nya sekarang persis rasio file-nya (853/1280)
-                         di SEMUA lebar, `contain` dan `cover` menghasilkan hal yang
-                         sama — tidak ada band kosong dan tidak ada yang terpotong.
-                         `contain` yang dipilih karena ia yang aman kalau suatu saat
-                         fotonya diganti dengan rasio lain: yang muncul foto utuh
-                         dengan sedikit band, bukan wajah yang terpotong diam-diam.
+                   Rasio tidak bisa dipasang di elemen dalam lalu bingkainya
+                   dibuat memeluk (`w-fit`): lebar shrink-to-fit dihitung dari
+                   lebar max-content anaknya, dan anak ber-rasio yang tingginya
+                   baru pasti setelah flex selesai melapor lebar asli berkas
+                   fotonya. Terukur: bingkai jadi 338px di layar 375px.
 
-                         Sampai 7 Agustus 2026 baris ini memakai `wide:aspect-[4/5]`
-                         khusus desktop. Itu yang membuat frame-nya lebih gemuk dari
-                         fotonya dan menyisakan 34,6px band gelap di kiri dan kanan
-                         SAJA — atas-bawah tetap menempel. Jadi di desktop frame-nya
-                         terlihat renggang sebelah, di ponsel dan tablet menempel
-                         rapat. Jangan dipatok ulang ke rasio yang berbeda dari
-                         file-nya. */}
-                    <img src="assets/photo/foto.jpeg" alt="Foto Arif Herfian Zaen Chartiko" className="media" style={{ objectFit: "contain" }} />
-                  </div>
+                   PADDING PERSEN JUGA SUDAH DICOBA DAN GAGAL, dan sebabnya perlu
+                   dicatat supaya tidak diulang: persentase padding dihitung dari
+                   lebar CONTAINER, bukan lebar elemennya sendiri. Terukur pada
+                   `p-[7%]`: jarak foto ke garis jadi 23,6px di ponsel, 48,4px di
+                   tablet, dan 18,9px di desktop — tablet paling parah justru
+                   karena barisnya paling lebar. Yang terlihat: fotonya seperti
+                   tenggelam di tengah bingkai yang kelewat longgar.
+
+                   12px tetap, jadi jaraknya sama di semua device — terukur 13px
+                   di sembilan ukuran viewport.
+
+                   ONGKOSNYA SATU PITA TIPIS, dan angkanya jangan ditaksir. Rasio
+                   bingkai mengukur kotak LUAR sementara yang harus 853/1280 kotak
+                   DALAM, dan padding 12px + garis 1px itu porsi yang lebih besar
+                   di bingkai kecil daripada di bingkai besar. Rasio idealnya
+                   karena itu bukan satu angka: 0,718 pada bingkai setinggi 168px
+                   sampai 0,689 pada 388px. 7/10 duduk di tengah rentang itu, dan
+                   pita yang tersisa 0,5-2,3px — terukur di enam ukuran viewport.
+                   Di bawah dua setengah piksel, jadi dibiarkan.
+
+                   Kalau suatu saat pita itu harus nol, jalannya BUKAN padding
+                   persen (lihat di atas) melainkan mengganti `contain` jadi
+                   `cover` di img di bawah — ia memangkas selisihnya alih-alih
+                   memberinya pita. Itu tukar yang beda, bukan perbaikan gratis:
+                   `contain` dipilih supaya foto pengganti dengan rasio lain tidak
+                   terpotong diam-diam. */}
+              <div className="corner-marks relative aspect-[7/10] h-full max-h-[min(36svh,87cqi)] max-w-full border border-line p-3 wide:h-auto wide:w-full wide:max-h-none">
+                <div data-component="image-reveal" data-delay="0.21" className="h-full w-full">
+                  <span className="bg" aria-hidden="true"></span>
+                  {/* `object-fit` ditulis SEBARIS, bukan sebagai class:
+                       `[data-component=image-reveal] .media` di src/styles/base.css
+                       sudah menyetel `cover`, dan ia CSS tak-berlapis -- di luar
+                       @layer mana pun -- jadi ia mengalahkan class utilitas apa
+                       pun, yang oleh Tailwind ditaruh di dalam layer. Selector-nya
+                       juga lebih spesifik. Yang sebaris menang atas keduanya.
+
+                       (Rujukan lamanya `style.css`; file itu sudah tidak ada sejak
+                       pindah ke Tailwind sungguhan. Aturannya sendiri tidak
+                       berubah, cuma pindah ke src/styles/base.css.)
+
+                       `contain` berarti foto DIPASKAN utuh ke dalam frame, dan
+                       sejak rasio pindah ke bingkai (7/10, lihat komentar di
+                       atas) ia menyisakan pita 0,5-2,3px di satu sumbu — bukan
+                       nol seperti waktu rasionya masih dipasang di sini.
+                       `contain` tetap yang dipilih karena ia yang aman kalau
+                       suatu saat fotonya diganti dengan rasio lain: yang muncul
+                       foto utuh dengan sedikit pita, bukan wajah yang terpotong
+                       diam-diam.
+
+                       Sampai 7 Agustus 2026 baris ini memakai `wide:aspect-[4/5]`
+                       khusus desktop. Itu yang membuat frame-nya lebih gemuk dari
+                       fotonya dan menyisakan 34,6px band gelap di kiri dan kanan
+                       SAJA — atas-bawah tetap menempel. Jadi di desktop frame-nya
+                       terlihat renggang sebelah, di ponsel dan tablet menempel
+                       rapat. Jangan dipatok ulang ke rasio yang berbeda dari
+                       file-nya. */}
+                  <img src="assets/photo/foto.jpeg" alt="Foto Arif Herfian Zaen Chartiko" className="media" style={{ objectFit: "contain" }} />
                 </div>
               </div>
             </div>
 
             {/* BARIS 3 — peran, lokasi, tombol */}
-            <div className="flex flex-col gap-4 border-t border-line pt-5 min-[640px]:gap-6 wide:row-start-2 wide:border-t-0 wide:pt-0">
+            <div className="flex flex-col gap-[clamp(0.75rem,3cqi,1.5rem)] border-t border-line pt-[clamp(0.75rem,3cqi,1.5rem)] wide:row-start-2 wide:border-t-0 wide:pt-0">
               <div className="flex flex-col gap-2 min-[640px]:gap-3">
                 {/* `{" "}` WAJIB, bukan spasi biasa. JSX membuang whitespace yang
                     mengandung baris baru di antara teks dan elemen, jadi
@@ -116,7 +166,7 @@ export default function Hero() {
                 <p className="-caption-small text-text-muted">Kab. Blitar, Jawa Timur</p>
               </div>
 
-              <div className="mt-3 flex flex-col gap-3 min-[640px]:mt-6 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:justify-center min-[640px]:gap-4 roomy:mt-10 short:mt-2 wide:justify-start">
+              <div className="mt-[clamp(0.25rem,2cqi,1.5rem)] flex flex-col gap-3 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:justify-center min-[640px]:gap-4 wide:justify-start">
                 <a href="#kontak" data-component="button"
                   className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power bg-text text-background border-text w-full min-[640px]:w-auto">
                   <span className="relative block overflow-hidden">

@@ -1,0 +1,169 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   TEMA — satu sumber kebenaran untuk warna, font, dan lengkung motion.
+
+   Bedanya besar dengan versi sebelumnya. Dulu file ini HASIL KOMPILASI yang
+   dibekukan: ia cuma berisi class yang kebetulan sudah dipakai, dan class baru
+   seperti `p-3` atau `mt-10` tidak berefek apa-apa — diam-diam, tanpa tanda.
+   Sekarang Tailwind berjalan sungguhan waktu build, jadi class apa pun hidup.
+
+   Token di bawah ini yang membuat class seperti `bg-accent`, `text-text-muted`,
+   dan `ease-brand` ada. Menambah warna baru cukup menambah satu baris di sini.
+   ═══════════════════════════════════════════════════════════════════════ */
+@theme {
+  --color-background: #040508;
+  --color-surface: #101218;
+  --color-text: #d8d8d8;
+  --color-text-muted: #808080;
+  --color-divider: #2a2a2a;
+  --color-line: #434343;
+  --color-accent: #ff6a3d;
+  --color-on-accent: #040508;
+
+  /* Rona terang untuk bagian Pendidikan dan Sertifikat, yang latarnya dibalik */
+  --color-panel: #f2f2f2;
+  --color-panel-text: #0c0c0c;
+  --color-panel-muted: #6b6b6b;
+  --color-panel-line: #cfcfcf;
+  --color-panel-surface: #ffffff;
+
+  /* GUTTER TEPI HALAMAN — jarak antara isi dan tepi screen, dan SATU-SATUNYA
+     ukuran di situs ini yang sengaja tidak dipatok ke kelipatan 4px.
+
+     Dipasang 18 Agustus 2026, menggantikan rantai `px-4 sm:px-6 nav:px-10`
+     yang berdiri di sembilan tempat. Yang lama melompat, bukan mengalir:
+
+       < 640px    16px
+       640-899px  24px
+       >= 900px   40px
+
+     Dua lompatannya sama-sama bermasalah dari arah yang berbeda. Yang di 900px
+     melebar 16px sekaligus — seperenam lebar isi di layar sempit — sehingga
+     seluruh halaman terasa bergeser saat jendela ditarik melewatinya. Yang di
+     bawah 640px justru diam di 16px untuk SEMUA ponsel: 16px pada 320px itu 5%
+     lebar screen, sementara pada 430px tinggal 3,7%. Jadi makin besar
+     ponselnya, makin rapat isinya terhadap tepi — kebalikan dari yang
+     seharusnya, dan itu yang membuat 390px terasa paling mepet.
+
+     clamp() menyelesaikan keduanya sekaligus. 5vw jadi porosnya — gutter
+     selalu 5% lebar screen, jadi ponsel besar dapat napas lebih banyak
+     daripada ponsel kecil, bukan sama rata. Langit-langitnya 2,5rem, persis
+     40px yang berlaku di desktop selama ini, jadi tampilan desktop tidak
+     bergeser sedikit pun.
+
+       320px  16,0    430px  21,5    768px  38,4
+       360px  18,0    480px  24,0    800px  40,0
+       390px  19,5    640px  32,0    >=800  40,0
+
+     LANTAINYA 1rem, DAN ITU DIPILIH SUPAYA 320px TIDAK BERGESER SAMA SEKALI.
+     Pada 320px, 5vw kebetulan jatuh persis di 16px — sama dengan nilai lama —
+     sehingga lantai ini tidak pernah mengikat kecuali di screen yang lebih
+     sempit dari itu, dan 320px adalah lebar tersempit yang diuji di repo ini.
+     Jadi perubahan ini hanya menambah, tidak pernah mengurangi: 320px tetap,
+     dan semua yang lebih lebar dapat lebih.
+
+     Ambang tersempit di grid Perkakas ada di 320px, dan sudah diukur ULANG
+     supaya tidak ada yang dituduhkan pada perubahan ini: card 72px menyisakan
+     56,0px untuk tulisan, sementara "MS Office" selebar 56,3px. Ia meleset
+     0,3px dan pecah dua baris — dan itu SUDAH TERJADI sebelum gutter ini
+     dipasang, sebab lebar cardnya memang tidak berubah di 320px. Kalau suatu
+     saat nama itu mau dipaksa muat, yang disentuh padding card (px-2), bukan
+     gutter ini.
+
+     KENAPA BOLEH KELUAR DARI GRID 4px. Aturan itu ada supaya jarak ANTAR
+     elemen tetap sebangun dan bisa dibandingkan mata. Gutter tidak
+     dibandingkan dengan apa pun — ia batas terluar, dan satu-satunya
+     tetangganya tepi screen. Yang dijaga di sini proporsinya terhadap lebar
+     screen, bukan kelipatannya, dan kedua hal itu tidak bisa dipenuhi
+     bersamaan.
+
+     Dipakai lewat class `px-gutter`, yang lahir dari nama token ini
+     (`--spacing-gutter`). Kalau nilainya diubah, kesembilan tempat itu ikut
+     sendiri — termasuk bar status, yang memang harus lurus dengan tepi isi
+     halaman.
+
+     Bahasa awamnya: jarak isi halaman ke tepi layar sekarang ikut lebar
+     layarnya, bukan tiga angka tetap yang melompat. Di ponsel ia sedikit lebih
+     lega daripada sebelumnya, di tablet ikut tumbuh perlahan, dan di komputer
+     berhenti di angka yang sama seperti sekarang. */
+  --spacing-gutter: clamp(1rem, 5vw, 2.5rem);
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-power: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --animate-blink: kedip 1.1s step-end infinite;
+
+  @keyframes kedip {
+    50% { opacity: 0 }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   VARIAN KHUSUS — `wide:` dan `roomy:` BUKAN sekadar lebar viewport.
+
+   Keduanya juga menanyakan ORIENTASI, dan `roomy:` menanyakan tinggi. Itu
+   disengaja: layout dua kolom di halaman sampul hanya masuk akal kalau
+   screen-nya benar-benar mendatar. Tablet 800px tegak akan kejang kalau dipaksa
+   dua kolom, padahal lebarnya cukup.
+
+   Kalau ditulis sebagai breakpoint biasa (--breakpoint-wide: 640px), syarat
+   orientasinya hilang dan bug itu kembali. Jadi ditulis sebagai custom variant.
+   ═══════════════════════════════════════════════════════════════════════ */
+@custom-variant nav (@media (width >= 900px));
+@custom-variant wide (@media (width >= 640px) and (orientation: landscape));
+@custom-variant roomy (@media (width >= 900px) and (orientation: landscape) and (height >= 600px));
+
+/* `short:` DIBUANG pada 18 Agustus 2026, dan itu justru ukuran keberhasilan
+   perombakan Beranda — bukan penghapusan sembarangan.
+
+   Varian itu ada semata untuk menambal ponsel yang diputar (844x390): layar
+   seperti itu lolos syarat `wide:` sehingga dapat layout dua kolom, tapi gagal
+   syarat `roomy:` sehingga jarak tegaknya jatuh ke nilai yang dipatok LEBAR
+   saja, dan Beranda meluber 105px. Kelima pemakaiannya semua di Hero.jsx, dan
+   semuanya soal jarak tegak.
+
+   Sekarang jarak tegak Beranda tidak lagi dipatok per breakpoint: ia clamp()
+   yang mengalir, tingginya h-svh, dan fotonya yang menyerap sisa. Terukur pada
+   844x390 sesudahnya: 390px, pas, tanpa satu pun aturan khusus. Tambalannya
+   hilang karena lubangnya sudah tidak ada.
+
+   `roomy:` ikut susut jadi satu pemakaian (di Skills.jsx); ia dibiarkan sebab
+   yang di sana memang soal lain. */
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ALIAS TOKEN — nama short untuk dipakai CSS tulisan tangan di bawah.
+
+   Aturan khusus di bawah memakai var(--accent), bukan var(--color-accent).
+   Alias ini yang menyambungkannya, jadi nilainya tetap SATU tempat: @theme.
+   Jangan menulis ulang nilai warnanya di sini — nanti ada dua sumber
+   kebenaran yang bisa berbeda diam-diam.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --background: var(--color-background);
+  --surface: var(--color-surface);
+  --text: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --divider: var(--color-divider);
+  --line: var(--color-line);
+  --accent: var(--color-accent);
+  --on-accent: var(--color-on-accent);
+  --panel: var(--color-panel);
+  --panel-text: var(--color-panel-text);
+  --panel-muted: var(--color-panel-muted);
+  --panel-line: var(--color-panel-line);
+  --panel-surface: var(--color-panel-surface);
+
+  --font-display: var(--font-sans);
+
+  --shadow-card-color: #00000080;
+  --ease: var(--ease-brand);
+  --duration-quick: 0.3s;
+  --duration-slow: 0.5s;
+
+  /* Butiran halus yang ditumpuk di beberapa bagian. Ditulis sebagai SVG
+     sebaris, bukan file gambar: ia cuma 300-an bita dan tidak menambah
+     satu pun permintaan jaringan. */
+  --noise-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23f)'/%3E%3C/svg%3E");
+}

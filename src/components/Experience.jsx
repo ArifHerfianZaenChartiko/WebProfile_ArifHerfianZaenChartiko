@@ -2,7 +2,7 @@ export default function Experience() {
   return (
     <>
       {/* Band berjalan sebagai jeda antar bagian. Salinannya digandakan oleh
-           src/lib/animations.js — cukup tulis satu, sisanya diurus di sana. */}
+           src/lib/animations/builders.js — cukup tulis satu, sisanya diurus di sana. */}
       <div data-anim="marquee" data-speed="30" className="border-y border-line py-5">
         <div className="marquee-track">
           <div className="flex shrink-0" data-marquee-copy>
@@ -39,7 +39,7 @@ export default function Experience() {
            seperti CV.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="pengalaman" data-component="chapter" className="relative">
-        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] py-16 sm:py-20 nav:py-28">
+        <div data-component="container" className="mx-auto w-full px-gutter max-w-[1500px] py-16 sm:py-20 nav:py-28">
 
           <div data-component="scrub-reveal" className="mb-6 flex items-center gap-4 sm:mb-7">
             <span className="-mono tabular-nums text-text-muted">02</span>

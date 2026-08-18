@@ -52,7 +52,7 @@ export default function Intro() {
 
            Semua <path> hanya bergaris tanpa isi supaya bisa digambar bertahap
            lewat stroke-dashoffset; panjangnya diukur getTotalLength() di
-           src/lib/animations.js, tidak ditulis tangan di sini.
+           src/lib/animations/intro.js, tidak ditulis tangan di sini.
 
            Bahasa awamnya: inilah tanda "AH" yang tergambar sendiri di layar
            hitam sebelum situsnya muncul. Segi enam yang dulu mengelilinginya

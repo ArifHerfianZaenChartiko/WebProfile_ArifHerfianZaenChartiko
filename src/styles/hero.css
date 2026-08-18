@@ -1,0 +1,36 @@
+
+/* BERANDA SEBAGAI CONTAINER — dipasang 18 Agustus 2026.
+   Semua clamp() di Hero.jsx memakai satuan `cqi` (lebar container ini), bukan
+   `vw`. Bedanya baru terasa kalau suatu saat Beranda ditaruh di kolom yang
+   lebih sempit daripada layar: dengan vw ia mengukur jendela dan salah, dengan
+   cqi ia mengukur kotaknya sendiri dan tetap benar.
+
+   `inline-size`, BUKAN `size`. `size` juga menyediakan `cqb` (tinggi), tapi ia
+   menuntut tinggi container tidak bergantung isinya — dan Beranda ber-`min-height`
+   yang justru boleh tumbuh mengikuti isi. Tinggi di sini diurus flexbox, bukan
+   satuan. */
+#home {
+  container-type: inline-size;
+}
+
+/* JUDUL BERANDA FLUID, menggantikan tiga media query bertingkat.
+   Yang lama (.-display di skala tipografi atas) mematoknya `clamp(2.5rem,
+   8.2vw, 3.5rem)` di bawah 900px — dan 8,2vw baru melewati 40px pada lebar
+   488px, sehingga SEMUA ponsel dapat 40px yang sama persis: 375px, 390px, dan
+   430px tidak berbeda sedikit pun, padahal fotonya ikut mengecil bersama layar.
+   Satu sumbu, dua aturan yang berbeda — itu salah satu sumber ketidakrapiannya.
+
+   9,2cqi mengalir mulus dari 36px (lantai, di 320px) sampai 108px, dan 108px
+   itu persis nilai desktop yang berlaku selama ini, jadi tampilan desktop tidak
+   bergeser. Hanya Beranda yang disentuh; .-display di Penutup dan Pendidikan
+   tetap memakai skala lama.
+
+   `min(..., 13svh)` ITU PENJAGA PONSEL MENDATAR, dan ia sempat terlupa. Skala
+   lama diam-diam punya penjaga serupa (`min(11vw, 9svh)` di rentang 640-899px);
+   tanpa itu, layar 844x390 mendapat judul 77,6px dari lebarnya sendiri dan
+   Beranda meluber 47px ke bawah. Dengan penjaga ini ia jadi 50,7px dan muat.
+   Lebar saja tidak pernah cukup untuk menentukan ukuran judul di layar yang
+   pendek. */
+#home .-display {
+  font-size: clamp(2.25rem, min(9.2cqi, 13svh), 6.75rem);
+}

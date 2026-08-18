@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { setupAnimations } from "./lib/animations.js";
+import { setupAnimations } from "./lib/animations/index.js";
 
 import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
@@ -25,7 +25,7 @@ export default function App() {
    *
    * Nilai kembaliannya wajib dikembalikan lagi dari sini — itu yang
    * mem-teardown semua listener, ticker, dan scroll trigger. Lihat komentar
-   * di src/lib/animations.js untuk kenapa itu tidak boleh dilewat.
+   * di src/lib/animations/lifecycle.js untuk kenapa itu tidak boleh dilewat.
    */
   useLayoutEffect(() => setupAnimations(), []);
 

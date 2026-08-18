@@ -1,0 +1,412 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   KEAHLIAN — apa yang dibuang dari sini, dan kenapa jangan dihidupkan lagi.
+
+   Bagian ini dulu panggung selebar screen yang di-pin, berisi tiga hal:
+
+     1. Monolit 3D (.slab) — kotak miring berputar dengan butiran, grid, dan
+        kilau, ditumpuk dari empat elemen.
+     2. Kabut abu (.stage-fog) — tiga radial-gradient putih samar yang
+        melayang pelan, ditambah latar .stage sendiri yang punya
+        radial-gradient #0b0d12 di tengahnya.
+     3. Kata raksasa (.stage-word) yang pecah jadi 40 huruf dan terlempar ke
+        segala arah waktu di-scroll.
+
+   Ketiganya dibuang pada 8 Agustus 2026, beserta pin dan scrub yang jadi
+   mesinnya — karena ketiganya memang satu-satunya alasan mesin itu ada.
+   Yang tersisa tiga card peran, dalam container biasa yang ikut aliran halaman,
+   memakai scrub-reveal yang sama seperti bagian lain.
+
+   RIWAYAT PENGUKURANNYA DISIMPAN, karena ia yang menjelaskan kenapa jangan
+   mencoba "mengoptimalkan" panggung itu kembali alih-alih membuangnya:
+
+     per huruf, blur menyala        20,6 fps    p95 83ms
+     per kata,  blur menyala        21,6 fps    p95 83ms
+     per huruf, blur mati           28,5 fps    p95 67ms
+
+     apa adanya                     24,1 fps    111 dari 145 frame tersendat
+     40 huruf dimatikan, pin jalan  27,0 fps     97 dari 158   <- +3 fps saja
+     panggung dimatikan seluruhnya  41,5 fps     21 dari 191   <- +17 fps
+
+   Dua kesimpulan yang mahal didapat:
+
+   - Jumlah elemen tidak penting. Memotong 40 huruf jadi 4 baris kata cuma
+     memberi 1 fps, di dalam derau pengukuran.
+   - Yang memakan frame adalah blur (dihitung PER PIKSEL SCREEN, bukan per
+     elemen) dan `pin: true` yang digabung `scrub` — Lenis men-trigger
+     ScrollTrigger.update tiap frame, dan trigger ter-pin paling mahal
+     dihitung ulang. `pinType: "transform"` sudah diuji dan TIDAK menolong
+     (22,9 fps, di bawah angka dasar). Jangan dicoba lagi.
+
+   Diukur di Poco M3 Pro 5G, bukan di laptop.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Card peran. `backdrop-filter: blur(14px)` dari baris hasil kompilasi
+   dimatikan di sini: ia memaksa browser memburamkan ulang apa pun di
+   belakang card setiap frame. Sekarang di belakangnya memang tidak ada apa-
+   apa lagi yang perlu tembus pandang, jadi latar hampir pekat justru lebih
+   tepat — sekaligus gratis. */
+.stage-card {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--surface) 96%, transparent),
+    color-mix(in srgb, var(--surface) 90%, transparent)
+  );
+  /* Hanya border yang ditransisikan CSS. Naik, skala, dan redupnya diurus
+     GSAP di initRoleCards(); membiarkan CSS ikut memegang transform atau
+     opacity berarti dua mesin menganimasikan properti yang sama dan yang
+     menang bergantung urutan frame. */
+  transition: border-color 0.45s var(--ease-brand);
+}
+
+/* Marker card yang sedang disorot. Bedanya sengaja kecil: yang memimpin
+   bacaan adalah naik-dan-terangnya card, dan tepi yang ikut menajam cuma
+   menegaskan batas card-nya supaya highlight itu punya bentuk. Terlalu terang
+   di sini membuat tiga card terbaca seperti tiga tombol. */
+.stage-card--highlight {
+  border-color: color-mix(in srgb, var(--text) 34%, transparent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CAHAYA SOROT DI CARD PERAN — DIBUANG pada 18 Agustus 2026 atas permintaan.
+
+   Dulu di sini berdiri `.stage-card::after`: satu lapis radial-gradient
+   `--text` pada 12% seukuran 14rem, titik pusatnya dibaca dari --mx/--my dan
+   dinyalakan lewat `.stage-card--highlight::after { opacity: 1 }`. Pola
+   spotlight MagicBento (reactbits.dev) yang ditelanjangi jadi monokrom — versi
+   aslinya ungu neon plus partikel.
+
+   Ia punya dua perilaku dalam satu lapis: di fine pointer JavaScript menimpa
+   --mx/--my tiap frame sehingga cahayanya mengikuti kursor, sementara di touch
+   screen tidak ada yang menimpanya sehingga ia diam di tengah-atas card yang
+   sedang dipilih scroll (nilai bawaan 50%/30%).
+
+   YANG MENGGANTIKANNYA: tidak ada, dan itu memang bisa. Penanda card yang
+   sedang disorot tidak pernah bergantung pada cahaya ini — ia naik 6px,
+   berskala 1,012, dan tetangganya meredup ke 0,78 lewat GSAP di
+   initRoleCards(), plus tepinya menajam lewat `.stage-card--highlight` di atas.
+   Ketiganya masih hidup, jadi baik hover di desktop maupun scroll di
+   ponsel/tablet tetap menunjukkan card mana yang aktif.
+
+   Mesin --mx/--my di src/lib/animations/role-cards.js ikut dibuang, bukan ditinggalkan
+   menganggur: tidak ada lagi yang membaca kedua variabel itu, jadi pointermove
+   dan penjaga rAF-nya cuma akan jadi kerja per-frame tanpa hasil.
+
+   Satu aturan lain ikut hilang bersamanya: `.stage-card > * { position:
+   relative; z-index: 1 }`. Ia ada semata supaya judul dan keterangan berdiri di
+   atas gradien ini — pseudo-element digambar belakangan, jadi dalam urutan
+   lukis ia menang meski samar. Tanpa gradiennya, tidak ada lagi yang perlu
+   dilangkahi.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LOGO CINCIN — riak yang melebar saat card peran disentuh kursor.
+
+   Card peran adalah SATU-SATUNYA card di halaman ini yang dulu tidak
+   menanggapi kursor sama sekali. Card kemampuan meredup latarnya dan
+   isinya naik 2px, ikon perkakas berubah warna, card pengalaman bisa
+   diputar — card peran, yang justru paling besar dan berdiri paling atas,
+   diam. Ini yang mengisinya.
+
+   SELURUHNYA CSS, dan itu bukan penghematan baris. Riak ini berjalan saat
+   kursor melintas, jadi ia bisa terpicu berkali-kali dalam sedetik; transisi
+   CSS ditangani compositor tanpa satu baris JavaScript pun ikut jalan tiap
+   frame. Polanya sama dengan .letter-hover di atas, yang juga hanya menumpang
+   transition-delay bertingkat.
+
+   `--i` DATANG DARI buildGlyphs(), bukan dari :nth-child. Jumlah cincin tiap
+   card berbeda (5, 6, 4), jadi nomor urut yang ditulis di sumbernya lebih
+   jujur daripada yang disimpulkan dari posisi. Cincin luar berangkat paling
+   akhir, dan itu yang membuatnya terbaca menyebar keluar alih-alih membesar
+   serentak.
+
+   transform-box: view-box, BUKAN fill-box. Keduanya menaruh titik putar di
+   tengah cincin — kebetulan, karena semua cincin sepusat. Bedanya view-box
+   mengambil 50% dari viewBox 64x64, jadi titiknya (32,32) untuk SEMUA cincin
+   tanpa bergantung kotak isi masing-masing; fill-box menghitung ulang per
+   elemen dan ikut menyertakan stroke width pada sebagian browser.
+
+   1,08 bukan angka besar dan memang tidak boleh besar: pada logo 48px,
+   cincin terluar bergeser sekitar 2px. Lebih dari itu, cincin terluar keluar
+   dari viewBox dan terpotong rata — radius terbesarnya 25,8 dari batas 32.
+
+   Dibungkus (hover: hover): di touch screen :hover menempel setelah diketuk,
+   dan card ini bukan link, jadi tidak ada yang akan melepasnya kembali.
+   ═══════════════════════════════════════════════════════════════════════ */
+.stage-ring {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stage-ring {
+    transition:
+      transform 0.55s var(--ease-brand),
+      opacity 0.55s var(--ease-brand);
+    transition-delay: calc(var(--i) * 45ms);
+  }
+
+  /* opacity di sini menimpa attribute presentasi `opacity` yang ditulis
+     buildGlyphs() (0,25 sampai 0,95 tergantung cincinnya). Attribute presentasi
+     berada di urutan paling bawah cascade, jadi nilai istirahatnya tetap yang
+     dari attribute — dan transisinya tetap punya dua ujung yang sah. */
+  .stage-card:hover .stage-ring {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: transisinya dimatikan DAN keadaan hover-nya dinetralkan.
+   Mematikan transisi saja tidak cukup — yang tersisa justru versi terburuknya,
+   cincin yang melompat ke ukuran barunya tanpa peralihan sama sekali. */
+@media (prefers-reduced-motion: reduce) {
+  .stage-ring,
+  .stage-card:hover .stage-ring {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   GRID 4 — tiga utilitas jarak yang tidak ada di hasil kompilasi.
+
+   Seluruh jarak di situs ini kelipatan 4px. Itu datang gratis dari Tailwind,
+   yang satu satuannya 0,25rem = 4px: mb-4 jadi 16px, gap-6 jadi 24px, p-7
+   jadi 28px. Yang meleset cuma class pecahan — py-1.5 (6px) di label kotak
+   dan py-3.5 (14px) di tombol.
+
+   Penggantinya py-2 dan py-4 TIDAK ADA di baris hasil kompilasi di atas,
+   karena Tailwind hanya mengompilasi class yang benar-benar dipakai dan
+   keduanya belum pernah dipakai. Menukar class-nya begitu saja akan
+   menghapus paddingnya. Jadi keduanya ditulis di sini.
+
+   p-3 masalahnya kebalikannya, dan lebih licik: class itu SUDAH TERPASANG di
+   frame foto halaman sampul sejak versi HTML pertama (waktu itu p-2.5),
+   tapi tidak pernah ikut terkompilasi juga. Jadi paddingnya 0px dan garis
+   frame-nya menempel rapat ke foto di semua perangkat — terlihat seperti
+   pilihan desain, padahal class-nya cuma mati. Class yang salah ketik gampang
+   ketahuan karena tidak ada apa-apa yang muncul; class yang mati begini tidak,
+   karena yang lain di elemen sama tetap bekerja. Kalau ada jarak yang
+   "kelihatannya sudah diatur tapi kok tidak ada", curigai ini dulu: cari
+   class-nya di baris hasil kompilasi, bukan di HTML.
+
+   Kalau suatu saat Tailwind dijalankan ulang, tiga aturan ini boleh dibuang.
+   ═══════════════════════════════════════════════════════════════════════ */
+.py-2 { padding-block: 0.5rem }
+
+/* 8px  — label kotak */
+.py-4 { padding-block: 1rem }
+
+/* 16px — tombol utama */
+.p-3  { padding: 0.75rem }
+
+/* 12px — frame foto sampul */
+
+/* ══════════════════════════════════════════════════════════════════════════
+   KEMAMPUAN PROFESIONAL — ikon, judul, dan keterangan yang lurus sejajar.
+
+   Tiap card berisi tiga hal bertumpuk: ikon, judul, keterangan. Supaya
+   barisnya terbaca sebagai satu baris utuh, ketiganya harus lurus sejajar
+   dengan card di sebelahnya. Masalahnya panjang judulnya berbeda-beda —
+   "Adaptabilitas" satu baris, "Analisis & Pemecahan Masalah" bisa tiga di
+   screen sempit — jadi kesejajarannya tidak datang dengan sendirinya.
+
+   CARA LAMA DAN KENAPA IA GAGAL
+
+   Dulu card-nya flex-column dengan justify-between: ikon didorong ke atas,
+   blok teks ke bawah. Karena card satu baris tingginya sama rata, blok teks
+   yang lebih tinggi mulai lebih ATAS — judul 3 baris jadi tidak sejajar
+   dengan judul 2 baris di sebelahnya. Ada tinggi cadangan min-h-12 (48px)
+   untuk menahannya, tapi 48px cuma muat dua baris; judul yang tiga baris
+   (67px) melewatinya dan perataannya lepas.
+
+   Diukur sebelum diperbaiki: di >=768px semua judul kebetulan jatuh 2 baris
+   sehingga terlihat sejajar, tapi di 360, 390, dan 414px jarak ikon ke judul
+   jadi 60px di satu card dan 16px di card sebelahnya. Jadi kesejajarannya
+   selama ini KEBETULAN, bukan diatur — dan yang kebetulan akan lepas lagi
+   begitu ada judul yang lebih panjang ditambahkan.
+
+   CARA SEKARANG
+
+   subgrid: tiap card meminjam tiga baris milik grid induknya, jadi tinggi
+   baris ikon, baris judul, dan baris keterangan ditentukan BERSAMA oleh
+   seluruh card dalam satu baris. Yang paling tinggi menentukan, sisanya
+   ikut. Tidak ada angka cadangan yang perlu ditebak, dan berapa pun panjang
+   judul yang ditambahkan nanti perataannya tetap.
+
+   Konsekuensinya card berjudul short menyisakan ruang kosong di bawah
+   keterangannya. Itu memang pertukarannya, dan ia pilihan yang benar:
+   ruang kosong yang rata terbaca sebagai kolom, tulisan yang naik-turun
+   tidak terbaca sebagai apa pun.
+
+   TIGA HAL YANG TIDAK BOLEH DIUBAH SEMBARANGAN
+
+   1. Ikon, judul, dan keterangan harus jadi anak LANGSUNG .skill-card. Begitu
+      dibungkus div, ketiganya masuk ke satu baris subgrid dan perataannya
+      hilang total. Efek naik saat disentuh kursor — yang dulu jadi alasan
+      pembungkus itu ada — sekarang dipasang langsung ke judul dan keterangan.
+
+   2. Jangan pasang min-height ke .skill-card. Tinggi paksa di elemen yang
+      merentang tiga baris akan dibagikan ke ketiga barisnya, dan jarak ikon
+      ke judul mengembang lagi persis seperti cara lama. Tinggi card sekarang
+      ditentukan isinya, dan itu memang yang diinginkan.
+
+   3. Jaraknya ditulis sebagai margin di anaknya, bukan row-gap di induknya.
+      row-gap milik grid induk, dan mengubahnya akan merenggangkan seluruh
+      halaman, bukan cuma card ini.
+
+   KOLOM — DAN KENAPA ANGKANYA ENAM
+
+   Card-nya lima, jumlah ganjil, jadi grid berkolom tetap selalu menyisakan
+   sel kosong di baris terakhir. Sel kosong itu bukan sekadar jelek: ia
+   dikelilingi garis card di kiri dan atasnya tapi tidak punya garis sendiri,
+   sehingga sudut kanan-bawah grid-nya menganga dan terbaca seperti isi yang
+   gagal dimuat. Dulu masalah ini dihindari dengan flex-wrap — card baris
+   terakhir memanjang sendiri mengisi sisa lebar.
+
+   Sekarang grid-nya ENAM kolom, dan card-nya merentang: tiga card pertama
+   dua kolom (3 x 2 = 6, baris penuh), dua card terakhir tiga kolom
+   (2 x 3 = 6, baris penuh juga). Enam adalah kelipatan persekutuan terkecil
+   dari 3 dan 2, jadi kedua baris habis rata tanpa sisa. Hasilnya sama persis
+   dengan flex-wrap dulu — baris atas tiga card, baris bawah dua card
+   selebar setengah — tapi kali ini di atas grid sungguhan, yang dibutuhkan
+   subgrid untuk bekerja.
+
+   ANGKA ENAM ITU TERIKAT KE JUMLAH CARD. Kalau nanti card-nya jadi enam,
+   ubah jadi grid biasa tiga kolom (2 baris x 3) dan buang perentangannya;
+   kalau jadi empat, dua kolom. Kalau ditambah tanpa dihitung ulang, card
+   keenam akan merentang tiga kolom sendirian dan menyisakan lubang lagi.
+
+   Di >=1024px kelimanya muat berdampingan, jadi grid-nya jadi lima kolom dan
+   perentangannya dimatikan. Angka 1024 bukan selera: sebelum diperbaiki,
+   di lebar itu card kelima terlempar ke baris sendirian dan memanjang jadi
+   975px — satu card selebar screen penuh di bawah empat card sempit.
+   ═══════════════════════════════════════════════════════════════════════ */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.skill-card              { grid-column: span 2 }
+
+/* tiga card pertama */
+.skill-card:nth-child(n + 4) { grid-column: span 3 }
+
+/* dua card terakhir */
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DI BAWAH 640px KOLOMNYA TURUN JADI DUA, dan aturan ini lahir dari
+   keterangan yang ditulis ulang 15 Agustus 2026.
+
+   Susunan 3+2 di atas berlaku di semua lebar sampai 1024px, dan itu memang
+   cukup selama keterangannya pendek -- kelimanya dulu 37-54 huruf. Setelah
+   ditulis ulang jadi 99-148 huruf, kolom selebar sepertiga layar ponsel
+   tidak lagi memadai: pada 390px tiap card cuma 110px, sisa ~94px untuk teks
+   setelah padding, dan "Melek terhadap perubahan..." pecah jadi 13 baris.
+   Yang terbaca bukan card melainkan lajur huruf.
+
+   Dua kolom memberi ~147px untuk teks pada lebar yang sama, jadi keterangan
+   terpanjang turun ke sekitar enam baris.
+
+   CARD TERAKHIR MERENTANG DUA KOLOM. Card-nya lima, jumlah ganjil, jadi dua
+   kolom menyisakan satu sel kosong di baris terakhir -- sel yang dikelilingi
+   garis card di kiri dan atasnya tapi tidak punya garis sendiri, sehingga
+   sudut kanan-bawah grid menganga dan terbaca seperti isi yang gagal dimuat.
+   Ini persoalan yang sama persis dengan yang dijawab angka enam di atas,
+   cuma di jumlah kolom yang berbeda.
+
+   ANGKA 640 TERIKAT KE JUMLAH KOLOM, BUKAN KE PANJANG TULISAN. Kalau nanti
+   keterangannya dipendekkan lagi, aturan ini boleh dibuang seluruhnya dan
+   susunan 3+2 kembali berlaku sampai 1024px.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (width < 640px) {
+  .skill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .skill-card,
+  .skill-card:nth-child(n + 4) { grid-column: auto }
+  .skill-card:last-child       { grid-column: span 2 }
+}
+
+@media (width >= 1024px) {
+  .skill-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) }
+  .skill-card,
+  .skill-card:nth-child(n + 4) { grid-column: auto }
+}
+
+.skill-card {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+}
+
+.skill-card > i    { margin-bottom: 1rem }
+
+/* 16px — ikon ke judul */
+.skill-card > span { display: block }
+
+.skill-card > p    { margin-top: 0.5rem }
+
+/* 8px  — judul ke keterangan */
+
+.skill-card > span,
+.skill-card > p {
+  transition: transform .5s var(--ease-brand);
+}
+
+.skill-card:hover > span,
+.skill-card:hover > p { transform: translateY(-2px) }
+
+/* Browser tanpa subgrid — Chrome di bawah 117, Safari di bawah 16, dan
+   sebagian WebView Android bawaan aplikasi. Di sana card-nya kembali jadi
+   kotak biasa dan judulnya diberi tinggi cadangan 72px, cukup untuk tiga
+   baris pada 14px/1,6. Ikon dan judul tetap sejajar karena jaraknya tetap;
+   yang bisa meleset cuma keterangan, dan cuma kalau ada judul yang lebih
+   dari tiga baris. */
+@supports not (grid-template-rows: subgrid) {
+  .skill-card { display: block; grid-row: auto }
+  .skill-card > span { min-height: 4.5rem }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CARD PERAN UTAMA — melebar dua kolom.
+
+   Bagian Keahlian berisi tiga card, satu untuk tiap peran yang diketikkan
+   di halaman sampul. Card pertama melebar sepenuh baris supaya hierarkinya
+   TERLIHAT, bukan dijelaskan: pembaca langsung tahu mana peran yang dilamar
+   lebih dulu tanpa perlu membaca label "utama" atau "penunjang".
+
+   Ia juga yang membuat tiga card tetap mengisi grid dua kolom dengan rapi.
+   Tanpa ini, card ketiga berdiri sendirian menyisakan satu sel kosong yang
+   terbaca sebagai ada yang lupa dipasang.
+
+   Di ponsel (<=639px) grid-nya sudah satu kolom, jadi aturan ini tidak
+   mengubah apa pun di sana — semua card memang sudah selebar screen.
+   ═══════════════════════════════════════════════════════════════════════ */
+/* Penempatan grid ada di SLOT, bukan di card-nya. Card-nya sudah dipakai
+   highlight untuk skala dan naik, dan elemen grid yang di-transform tetap
+   menempati selnya yang lama — jadi memisahkannya membuat "di mana ia duduk"
+   dan "bagaimana ia bergerak" tidak pernah saling mengganggu.
+
+   .stage-card--lead sengaja dipertahankan sebagai class meski penempatannya
+   pindah: ia masih dipakai untuk hal lain (lebar teks, ukuran judul). */
+/*
+ * width: 100% WAJIB, dan tanpanya card utama menciut.
+ *
+ * .stage-orbit memakai `place-items: stretch center` — bagian `center` itu
+ * `justify-items`, yang membuat tiap item grid menciut mengikuti isinya lalu
+ * dipusatkan di selnya. Dulu itu tidak terlihat karena CARD yang jadi item
+ * grid, dan .stage-card punya width:100% yang memaksanya penuh. Begitu slot
+ * disisipkan sebagai item grid, slot itulah yang kena penciutan — dan
+ * width:100% di card-nya jadi 100% dari slot yang sudah menciut.
+ *
+ * Terukur sebelum baris ini ada: card utama 740px di dalam sel selebar
+ * 1100px, terpusat, sementara dua card di bawahnya tetap penuh. Yang
+ * terlihat bukan hierarki melainkan layout yang salah.
+ */
+.stage-slot {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
+
+.stage-slot--lead { grid-column: 1 / -1 }

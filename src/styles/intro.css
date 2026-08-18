@@ -1,0 +1,95 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   PEMBUKA — panel yang menutup screen sampai monogramnya selesai terbentuk.
+
+   Panel ini SUDAH terlihat sejak gambar pertama, tanpa menunggu JavaScript:
+   background dan posisinya ditulis di sini, bukan disetel GSAP. Itu yang
+   membedakannya dari preloader lama yang dibuang pada 2 Agustus 2026 --
+   yang itu menahan halaman sampai skripnya jalan, ini cuma menutupinya.
+
+   Kalau JavaScript gagal dimuat, panel ini tidak akan menggantung selamanya:
+   ia dirender oleh React, jadi tanpa JS ia tidak pernah ada sama sekali.
+
+   z-index 80 di atas bar status (40) dan tombol naik (50), supaya tidak ada
+   yang menyembul di atas panel saat ia sedang menutup.
+   ═══════════════════════════════════════════════════════════════════════ */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  /* Nilai awal harus ADA supaya GSAP punya titik berangkat saat menyeka
+     panelnya ke atas; tanpa ini nilai awalnya "none" dan transisinya loncat. */
+  clip-path: inset(0% 0% 0% 0%);
+}
+
+/* Kunci scroll selama intro. Dipasang dan dilepas oleh initIntro(), dan
+   ikut dilepas oleh teardown -- kalau tidak, StrictMode meninggalkan
+   halaman yang tidak bisa di-scroll di mode pengembangan. */
+html.intro-active,
+html.intro-active body {
+  overflow: hidden;
+}
+
+.intro-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-mark {
+  width: min(52vw, 168px);
+  height: auto;
+  /* Stroke tebal menonjol keluar viewBox di puncak; tanpa ini ujungnya
+     terpotong rata. */
+  overflow: visible;
+}
+
+.intro-mark path {
+  fill: none;
+  /* butt, bukan square: ujung persegi menambah setengah stroke width di
+     kedua ujung tiap garis, dan pada stroke setebal 12 itu membuat tiangnya
+     menjulur 6 satuan melewati palang. miter yang membentuk sudut lancip di
+     puncak -- sudutnya 84,6 derajat, jauh di dalam batas miter bawaan, jadi
+     ia tidak pernah dipangkas jadi bevel. */
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
+/* SATU warna untuk seluruh logo.
+
+   --text (#d8d8d8), bukan #fff. Itu warna yang dipakai seluruh teks di situs
+   ini; putih murni akan lebih terang daripada apa pun yang menyusul di
+   halaman, dan logo-nya jadi menyala sendiri alih-alih senada.
+
+   Dulu ada dua ketebalan yang harus dibedakan di sini -- heksagon pembingkai
+   1,5 lawan tandanya 12 -- dan rasio delapan kali lipat itulah yang membuat
+   tandanya tetap dibaca lebih dulu tanpa perlu dibedakan warnanya. Sejak
+   heksagonnya dibuang 15 Agustus 2026, tinggal satu ketebalan dan tidak ada
+   lagi yang perlu dibedakan. */
+.intro-mark path {
+  stroke: var(--text);
+}
+
+/* Aturan `.intro-mark [data-intro-frame] path` DIBUANG di sini, bersama
+   path-nya di Intro.jsx dan tween-nya di animations.js. Isinya stroke-width
+   1,5 plus `vector-effect: non-scaling-stroke` -- yang terakhir itu yang
+   menjaga rambut heksagonnya tetap setipis satu piksel berapa pun logo-nya
+   diperbesar, pola yang sama dengan .corner-marks di frame foto. Aturan ini
+   sengaja tidak ditinggalkan menganggur: selector yang tidak menunjuk apa pun
+   adalah cara paling mudah membuat pembaca berikutnya mengira elemennya masih
+   ada. Yang masih memakai non-scaling-stroke tinggal .corner-marks. */
+
+/* Tebal 12 dari 176 satuan lebar. Ini yang membuat tandanya bertubuh alih-alih
+   terbaca sebagai garis rambut seperti versi pertama. */
+.intro-mark [data-intro-stroke] path,
+.intro-mark [data-intro-lock] path {
+  stroke-width: 12;
+}
+
+/* Bahasa awamnya: panel hitam yang menutup layar saat situs dibuka menggambar
+   tanda "AH" garis demi garis. Sekarang yang tergambar hanya hurufnya; segi
+   enam yang dulu mengelilinginya sudah tidak ada, dan ukuran serta posisi
+   hurufnya sendiri tidak bergeser sedikit pun. */

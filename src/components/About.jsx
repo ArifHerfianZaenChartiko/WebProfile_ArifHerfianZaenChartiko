@@ -8,7 +8,7 @@ export default function About() {
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="tentang" data-component="chapter" className="relative">
         <div data-component="container"
-          className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1180px] grid grid-cols-1 gap-x-8 gap-y-10 py-16 sm:py-20 nav:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] nav:gap-x-16 nav:gap-y-12 nav:py-28">
+          className="mx-auto w-full px-gutter max-w-[1180px] grid grid-cols-1 gap-x-8 gap-y-10 py-16 sm:py-20 nav:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] nav:gap-x-16 nav:gap-y-12 nav:py-28">
 
           <div>
             <header className="nav:sticky nav:top-28">

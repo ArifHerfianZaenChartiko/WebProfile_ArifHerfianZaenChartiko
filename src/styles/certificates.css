@@ -1,0 +1,218 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   GALERI AKORDEON — bagian Sertifikat.
+
+   Menggantikan .arrival-* (panggung yang di-pin setinggi satu screen dengan
+   grid card yang hanyut masuk). Aturan lamanya ikut dibuang, bukan
+   ditinggalkan menganggur.
+
+   PEMBAGIAN RUANG SEPENUHNYA flex-grow, tanpa satu pun lebar piksel. Nilai
+   grow-nya disetel GSAP di initAccordionGallery(), jadi di sini panelnya cuma
+   diberi basis yang sama (flex: 1 1 0) dan container-nya diberi tinggi tetap --
+   yang membesar mengambil porsi, yang lain menyusut, tanpa ada angka yang
+   harus dihitung ulang saat lebar viewport berubah.
+
+   perspective ditaruh di CONTAINER, bukan di tiap panel. Kalau tiap panel punya
+   perspektifnya sendiri, titik hilangnya ikut berpindah bersama panelnya dan
+   deretan yang miring tidak lagi terbaca sebagai satu ruang.
+
+   ── MENDATAR DI SEMUA LEBAR, DAN APA ONGKOSNYA ──────────────────────────
+
+   Sampai 8 Agustus 2026 gallery ini TEGAK di bawah 900px, dengan alasan yang
+   ditulis di sini: enam bar mendatar setinggi ~55px masih bisa disentuh,
+   enam bar tegak selebar 55px tidak. Alasan itu dilepas atas permintaan,
+   dan penggantinya bukan "ternyata dulu salah" — melainkan bahwa MENGETUK
+   BAR BUKAN LAGI CARA UTAMA MENELUSURI. Sejak scroll ikut memilih panel di
+   perangkat tanpa hover, bar sempit cuma jalan pintas; yang harus cukup
+   besar untuk jari hanyalah panel yang sedang TERBUKA, dan ia 155-190px.
+
+   TINGGINYA JUSTRU DIPENDEKKAN, DAN ITU BUKAN SEKADAR "supaya muat".
+   Sertifikatnya semua landscape ~1,42:1 (900x630-an), sementara panel aktif
+   yang mendatar di ponsel berbentuk PORTRAIT. Dengan object-fit: cover,
+   bagian lebar yang selamat = lebarPanel / (tinggiPanel * 1,42) — jadi
+   tinggi yang MAKIN BESAR justru memangkas MAKIN BANYAK sisi kiri-kanan
+   sertifikatnya. Pada 390px: tinggi 560px hanya menyisakan 21% lebar
+   sertifikat, tinggi 219px menyisakan 55%. Karena itu tinggi ponsel turun
+   dari min(76svh, 560px) jadi clamp(200px, 26svh, 260px).
+
+   Sisa 45% yang tetap terpangkas itu ongkos yang tidak bisa dihapus: bentuk
+   landscape di dalam lubang portrait memang tidak pernah muat utuh. Yang
+   dibuka saat diketuk tetap PDF penuh, jadi yang hilang cuma preview-nya.
+   ═══════════════════════════════════════════════════════════════════════ */
+.gallery {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  height: clamp(200px, 26svh, 260px);
+  perspective: 1400px;
+}
+
+/* Tablet punya lebar untuk bernapas: pada 768px bar-nya 65px dan panel
+   aktifnya 354px, jadi tingginya boleh naik tanpa memangkas terlalu banyak. */
+@media (width >= 640px) {
+  .gallery {
+    gap: 8px;
+    height: clamp(260px, 34svh, 340px);
+  }
+}
+
+@media (width >= 900px) {
+  .gallery {
+    gap: 10px;
+    height: clamp(320px, 52svh, 460px);
+  }
+}
+
+.gallery-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--panel-surface);
+  /* flex-grow ikut disebut karena itu yang dianimasikan; tanpa ini browser
+     tidak menyiapkan layer-nya dan tiap frame men-trigger layout ulang. */
+  will-change: flex-grow, transform;
+}
+
+.gallery-panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.gallery-media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.gallery-media img {
+  width: 100%;
+  height: 100%;
+  /* object-position atas: sertifikat menaruh judul dan nama di bagian atas
+     lembar, jadi itu yang harus selamat saat panelnya menyempit jadi bar. */
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.gallery-veil {
+  position: absolute;
+  inset: 0;
+  background: #0c0c0c;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Padding dan gap-nya DIHITUNG DARI LEBAR BAR TERSEMPIT, bukan dipilih
+   karena enak dilihat. Pada 360px bar yang tertutup selebar 28,6px; dengan
+   padding 6px dan ikon 13px, ikon itu berakhir di 19px — masih di dalam 22px
+   sisa ruangnya. Menaikkan salah satu dari ketiganya membuat ikon tersentuh
+   `overflow: hidden` panelnya dan terpotong separuh, dan itulah satu-satunya
+   marker yang dipunyai panel tertutup. Teks judul di sebelahnya boleh
+   melimpah: ia ber-opacity 0 selama panelnya tidak aktif. */
+.gallery-label {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem;
+  color: #fff;
+  /* Tirai landai sendiri, terlepas dari peredup di atas: tanpa ini teksnya
+     jatuh di atas bagian pindaian yang kebetulan putih dan hilang. */
+  background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0));
+  pointer-events: none;
+}
+
+@media (width >= 640px) {
+  .gallery-label {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (width >= 900px) {
+  .gallery-label {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+}
+
+.gallery-icon {
+  flex: none;
+  font-size: 13px;
+}
+
+@media (width >= 900px) {
+  .gallery-icon {
+    font-size: 16px;
+  }
+}
+
+.gallery-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 13px, bukan 16px, dan itu ditentukan judul TERPANJANG. Panel aktif di
+   ponsel 390px selebar 170px; dikurangi padding, ikon, dan gap, sisa untuk
+   teks 138px. "Panitia LKTIN PESC" pada 16px selebar ~146px — terpotong
+   elipsis. Pada 13px ia ~119px dan muat utuh. Kalau nanti ada judul yang
+   lebih panjang, yang dipendekkan judulnya, bukan angka ini: di bawah 13px
+   sumbernya (11px x 0,85) jatuh ke ukuran yang tidak lagi terbaca. */
+.gallery-title {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gallery-source {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.75;
+}
+
+@media (width >= 900px) {
+  .gallery-title {
+    font-size: 16px;
+  }
+  .gallery-source {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+}
+
+/* Petunjuk interaksi gallery: dua kalimat, yang dipakai dipilih CSS.
+
+   Pembedanya HARUS media query, bukan cabang JavaScript. `@media (hover:
+   hover)` sudah dievaluasi sebelum cat pertama, jadi tidak ada satu frame pun
+   yang menampilkan kalimat perangkat yang salah — sementara cabang JS baru
+   berjalan setelah hidrasi dan akan terlihat berganti. Yang tersembunyi
+   `display: none`, bukan opacity, supaya screen reader juga hanya menemukan
+   satu kalimat.
+
+   Bawaannya versi sentuh, dan versi pointer yang harus meminta izin. Sebab
+   `(hover: hover)` bisa salah menjawab "ya" pada beberapa browser ponsel,
+   sedangkan kebalikannya tidak pernah terjadi. */
+.hint-pointer {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hint-pointer {
+    display: inline;
+  }
+  .hint-touch {
+    display: none;
+  }
+}

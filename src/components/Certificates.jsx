@@ -1,3 +1,5 @@
+import Icon from "./Icon.jsx";
+
 /*
  * Daftar sertifikat ditulis sebagai data, bukan enam blok markup kembar.
  * Keenam panelnya hanya berbeda pada lima nilai ini, dan menyalin markup
@@ -13,42 +15,42 @@ const CERTIFICATES = [
     file: "python-essentials-1-cisco",
     title: "Python Essentials 1",
     source: "Cisco",
-    icon: "fa-brands fa-python",
+    icon: "python",
     detail: "Cisco Networking Academy & Python Institute",
   },
   {
     file: "ukbing-arif-herfian",
     title: "UKBIng",
     source: "Bahasa Inggris",
-    icon: "fa-solid fa-language",
+    icon: "language",
     detail: "Pre-Advanced — Skor 444",
   },
   {
     file: "sertifikat-keorganisasian-wse",
     title: "PJ Service Center",
     source: "WSE",
-    icon: "fa-solid fa-screwdriver-wrench",
+    icon: "screwdriver-wrench",
     detail: "Koordinasi Perawatan Hardware & Software",
   },
   {
     file: "sertifikat-keorganisasian-wats",
     title: "Pemateri IoT",
     source: "WSE",
-    icon: "fa-solid fa-microchip",
+    icon: "microchip",
     detail: "Instruktur Internet of Things",
   },
   {
     file: "sertifikat-keorganisasian-lktin",
     title: "Panitia LKTIN PESC",
     source: "WSE",
-    icon: "fa-solid fa-pen-nib",
+    icon: "pen-nib",
     detail: "Lomba Karya Tulis Ilmiah Nasional",
   },
   {
     file: "sertifikat-keorganisasian-ltdc",
     title: "Panitia LTDC",
     source: "WSE",
-    icon: "fa-solid fa-robot",
+    icon: "robot",
     detail: "Line Tracer Design and Contest Nasional",
   },
 ];
@@ -74,7 +76,7 @@ export default function Certificates() {
            sama, tanpa 1,7 MB JavaScript. File PDF aslinya tetap yang dibuka.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="sertifikat" data-band="panel" data-component="chapter">
-        <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6 nav:px-10 py-16 sm:py-20 nav:py-28">
+        <div className="mx-auto w-full max-w-[1180px] px-gutter py-16 sm:py-20 nav:py-28">
           <div className="mb-5 flex items-center gap-4">
             <span className="-mono tabular-nums text-text-muted">05</span>
             <span className="h-px w-12 bg-line"></span>
@@ -140,7 +142,7 @@ export default function Certificates() {
                   <span className="gallery-veil" data-panel-veil aria-hidden="true"></span>
 
                   <span className="gallery-label">
-                    <i className={s.icon + " gallery-icon"} aria-hidden="true"></i>
+                    <Icon name={s.icon} className="gallery-icon" />
                     <span className="gallery-text" data-panel-text>
                       <span className="gallery-title">{s.title}</span>
                       <span className="gallery-source">{s.source}</span>

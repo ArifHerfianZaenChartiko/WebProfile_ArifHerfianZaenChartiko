@@ -1,0 +1,27 @@
+# Akhir baris dinormalkan ke LF di dalam repo, apa pun sistem operasi yang
+# menyuntingnya.
+#
+# TEKNIS: tanpa berkas ini, Git di Windows mengandalkan core.autocrlf per mesin,
+# dan setiap `git diff` melaporkan peringatan "LF will be replaced by CRLF"
+# untuk berkas yang sebenarnya tidak berubah isinya. Lebih buruk lagi, dua orang
+# dengan setelan berbeda bisa menghasilkan diff seluruh berkas hanya karena
+# akhir barisnya. `text=auto eol=lf` mengunci normalisasi di tingkat repo,
+# sehingga setelan per mesin tidak lagi berpengaruh.
+#
+# Berkas biner dinyatakan tegas supaya Git tidak pernah mencoba menormalkan
+# isinya — satu byte 0x0D di dalam JPEG atau woff2 yang ikut ditukar akan
+# merusak berkasnya.
+#
+# BAHASA AWAMNYA: Windows dan Mac/Linux menandai akhir baris dengan cara yang
+# berbeda. Berkas ini menyamakannya, supaya riwayat perubahan tidak dipenuhi
+# "perubahan" yang sebenarnya tidak mengubah apa pun.
+
+* text=auto eol=lf
+
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.pdf  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary

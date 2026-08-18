@@ -1,3 +1,5 @@
+import Icon from "./Icon.jsx";
+
 export default function Skills() {
   return (
     <>
@@ -17,7 +19,7 @@ export default function Skills() {
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="keahlian" data-component="chapter" className="relative">
 
-        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1180px] flex flex-col gap-14 py-16 sm:gap-16 sm:py-20 nav:gap-20 nav:py-28">
+        <div data-component="container" className="mx-auto w-full px-gutter max-w-[1180px] flex flex-col gap-14 py-16 sm:gap-16 sm:py-20 nav:gap-20 nav:py-28">
           <div>
 
           <h3 data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">03 — Keahlian</h3>
@@ -175,7 +177,7 @@ export default function Skills() {
                lurus sejajar dengan card di sebelahnya meski panjang judulnya
                berbeda-beda, dan itu diurus `grid-template-rows: subgrid` di
                .skill-card — bukan oleh tinggi cadangan yang ditebak. Alasan
-               lengkapnya ada di bagian "KEMAMPUAN PROFESIONAL" di src/index.css.
+               lengkapnya ada di bagian "KEMAMPUAN PROFESIONAL" di src/styles/skills.css.
 
                Yang penting diketahui di sini: JANGAN membungkus ikon, judul, dan
                keterangan ke dalam div. Ketiganya harus jadi anak LANGSUNG .skill-card
@@ -195,7 +197,7 @@ export default function Skills() {
                semua lebar, jadi kesejajarannya tidak pernah benar-benar
                dibuktikan — persis keadaan "kebetulan sejajar" yang dulu bikin
                cara lama gagal, dan yang alasan lengkapnya ditulis di blok
-               KEMAMPUAN PROFESIONAL di src/index.css. Sekarang selisihnya nyata:
+               KEMAMPUAN PROFESIONAL di src/styles/skills.css. Sekarang selisihnya nyata:
                Adaptabilitas 148 huruf lawan Komunikasi Teknis 99, cukup untuk
                berbeda satu sampai dua baris di lebar yang sama. Kalau nanti ada
                keterangan yang ditambahkan dan barisnya tampak tidak lurus lagi,
@@ -214,27 +216,27 @@ export default function Skills() {
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Kemampuan Profesional</h3>
             <div className="skill-grid border-t border-l border-line">
               <div data-component="scrub-reveal" data-delay="0" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <i className="fa-solid fa-comments text-text-muted"></i>
+                <Icon name="comments" className="text-text-muted" />
                 <span className="-body-small font-medium">Komunikasi Teknis</span>
                 <p className="-body-smaller text-text-muted">Menjelaskan hal teknis dengan bahasa sederhana beserta analogi supaya lebih mudah dipahami orang awam.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.04" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <i className="fa-solid fa-magnifying-glass-chart text-text-muted"></i>
+                <Icon name="magnifying-glass-chart" className="text-text-muted" />
                 <span className="-body-small font-medium">Analisis &amp; Pemecahan Masalah</span>
                 <p className="-body-smaller text-text-muted">Menelusuri akar masalah dengan menimbang berbagai kemungkinan sehingga bisa memutuskan penyelesaian terbaik dan cara menempuhnya.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.08" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <i className="fa-solid fa-arrows-rotate text-text-muted"></i>
+                <Icon name="arrows-rotate" className="text-text-muted" />
                 <span className="-body-small font-medium">Adaptabilitas</span>
                 <p className="-body-smaller text-text-muted">Melek terhadap perubahan dan perkembangan lingkungan serta teknologi sehingga bisa meningkatkan produktivitas dan efisiensi dalam penyelesaian tugas.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.12" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <i className="fa-solid fa-list-check text-text-muted"></i>
+                <Icon name="list-check" className="text-text-muted" />
                 <span className="-body-small font-medium">Ketelitian</span>
                 <p className="-body-smaller text-text-muted">Memeriksa data dan dokumen sampai ke rinciannya sehingga kekeliruan tertangkap sebelum sampai ke tangan berikutnya.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.16" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <i className="fa-solid fa-people-group text-text-muted"></i>
+                <Icon name="people-group" className="text-text-muted" />
                 <span className="-body-small font-medium">Koordinasi Tim</span>
                 <p className="-body-smaller text-text-muted">Menyelaraskan pembagian tugas dan alur komunikasi antaranggota sehingga pekerjaan tuntas sesuai target tanpa ada yang tumpang tindih.</p>
               </div>
@@ -320,7 +322,7 @@ export default function Skills() {
 
               {/* "BAHASA PEMROGRAMAN" (18 huruf) kini label TERPANJANG di
                    seluruh grid ini, menggeser "PENGEMBANGAN" yang ikut dibuang.
-                   Lebar .tool-label di src/index.css dinaikkan dari 10,5rem ke
+                   Lebar .tool-label di src/styles/tools-grid.css dinaikkan dari 10,5rem ke
                    12rem karenanya — pada 10,5rem label ini pecah dua baris dan
                    kelurusan garis rambut seluruh kelompok ikut hilang.
                    Hitungannya ada di komentar aturan itu. */}
@@ -348,7 +350,7 @@ export default function Skills() {
               </div>
 
               {/* BAHASA KUERI — 12 huruf, jadi ia TIDAK menggeser lebar
-                   .tool-label. Yang mengikat angka 12rem di src/index.css tetap
+                   .tool-label. Yang mengikat angka 12rem di src/styles/tools-grid.css tetap
                    "BAHASA PEMROGRAMAN" (18 huruf, 168,5px); label ini berhenti
                    di 112,3px dan menyisakan lebih dari cukup. Tidak ada yang
                    perlu dihitung ulang di sana.
@@ -468,7 +470,7 @@ export default function Skills() {
 
                    TUJUH CARD sejak 18 Agustus 2026, dan ini baris terpanjang di
                    seluruh grid — jumlah itu yang mengikat kedua angka pembagi
-                   di `.tool-items` pada src/index.css.
+                   di `.tool-items` pada src/styles/tools-grid.css.
 
                    SATU BARIS DI DESKTOP SUDAH TIDAK MUNGKIN LAGI, dan itu
                    terukur, bukan diperkirakan. Isi baris ini tidak pernah lebih
@@ -487,26 +489,32 @@ export default function Skills() {
                    menyisakan satu card menggantung sendiri — persis cacat
                    "Tableau berdiri sendiri" yang dulu diperbaiki.
 
-                   `tool-items--four` yang memaksa pecahnya di desktop; di bawah
-                   1180px angka 25% sudah memecahnya 4+3 dengan sendirinya.
-                   Keduanya dijelaskan di src/index.css.
+                   `tool-items--four` DILEPAS pada 18 Agustus 2026, dan barisnya
+                   tetap pecah 4+3. Class itu dulu memaksa pecahnya di desktop
+                   dengan membatasi lebar blok; sejak lebar card jadi 25% di
+                   semua lebar viewport, empat per baris terjadi dengan
+                   sendirinya — persis seperti yang selama ini sudah berlaku di
+                   bawah 1180px. Aturan CSS-nya ikut dibuang, bukan ditinggalkan
+                   menganggur; ceritanya ada di src/styles/tools-grid.css.
 
-                   RUANG KOSONG DI KANAN BARIS PERTAMA ITU DISENGAJA dan bukan
-                   hal baru: baris Pengajaran, Administrasi, dan AI yang cuma
-                   berisi dua card sudah menyisakan ruang jauh lebih lebar. Di
-                   grid ini card selalu rata kiri, dan label kelompoknya yang
-                   menjelaskan kenapa sebuah baris berhenti di situ.
+                   BARISNYA SEKARANG MENGISI PENUH, dan itu yang berubah paling
+                   kelihatan di desktop. Dulu empat card cuma memakai 544px dari
+                   844px yang tersedia dan menyisakan 300px kosong di kanan;
+                   kelompok berisi dua bahkan menyisakan 572px. Card 25%
+                   membuat keempatnya membagi rata seluruh lebar itu, dan
+                   kelompok yang lebih pendek dipusatkan.
 
                    Bahasa awamnya: baris "Data" sekarang berisi tujuh logo, dan
                    di semua ukuran layar ia tampil dua baris — empat di atas,
-                   tiga di bawah. Sengaja tidak dipaksa muat satu baris di
-                   layar komputer, sebab logonya harus dipersempit sampai nama
+                   tiga di bawah, dan yang tiga itu dipusatkan di bawah yang
+                   empat. Sengaja tidak dipaksa muat satu baris di layar
+                   komputer, sebab logonya harus dipersempit sampai nama
                    "Google Workspace" di baris lain ikut pecah dua baris. */}
               <div className="tool-row border-b border-line">
                 <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Data</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
-                <div className="tool-items tool-items--four">
+                <div className="tool-items">
 
                   {/* viewBox "0 0 486 500" dan tintanya mengisinya PERSIS
                        (terukur getBBox: 0,0 486,01x500) — jadi tidak
@@ -846,45 +854,57 @@ export default function Skills() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Claude</span>
                   </div>
 
-                  {/* DINAIKKAN 1,6, dan ini koreksi paling besar di seluruh grid —
-                       juga yang paling lama luput. viewBox-nya "0 0 24 24" tapi
-                       tintanya cuma 24 x 15 (terukur getBBox), jadi tinggi
-                       tintanya 62,5% tinggi kotak. Dengan object-contain itu
-                       22,5px di kotak 36px, sementara kedua belas logo lain di
-                       grid ini mendarat di 35,5-36,1px.
+                  {/* 1,26 — DAN INI SATU-SATUNYA LOGO DI GRID YANG TIDAK
+                       DISAMAKAN TINGGINYA. Turun dari 1,6 pada 18 Agustus 2026
+                       atas permintaan, sebab pada angka itu ia terbaca jelas
+                       lebih besar daripada tetangganya meski tingginya sudah
+                       sama persis.
 
-                       Selisih 13,5px itu yang terbesar yang pernah ditemukan di
-                       sini — jauh melewati PostgreSQL (2,9px) dan SQL (1,6px)
-                       yang dulu dianggap perlu dikoreksi — dan letaknya paling
-                       merugikan: persis di samping Claude, satu-satunya
-                       tetangganya di baris ini. Dua logo bersebelahan dengan
-                       beda tinggi 38% terbaca sebagai salah pasang.
+                       Duduk perkaranya ada di bentuk logonya. viewBox-nya
+                       "0 0 24 24" tapi tintanya cuma 24 x 15 (terukur getBBox),
+                       jadi tintanya BUJUR PANJANG 1,6:1 sementara hampir semua
+                       logo lain di grid ini bujur sangkar. Menyamakan tinggi dua
+                       bentuk yang berbeda perbandingan TIDAK menyamakan besarnya
+                       di mata: pada 1,6 tintanya 57,6 x 36px, terlebar di
+                       seluruh grid setelah wordmark Workspace, dan luasnya 1,6
+                       kali Claude yang 35,7 x 35,9px tepat di sebelahnya.
 
-                       24/15 = 1,6, dan yang dikoreksi RASIO, jadi satu angka ini
-                       benar di kedua ukuran kotak sekaligus: 36,0px di kotak
-                       36px dan 32,0px di kotak 32px.
+                       YANG DISAMAKAN SEKARANG RATA-RATA GEOMETRIKNYA, akar dari
+                       lebar dikali tinggi — ukuran yang dipakai justru karena ia
+                       tidak berpihak pada satu sumbu. Claude 35,8; Claude Code
+                       pada 1,6 sebesar 45,5. Supaya keduanya bertemu di 36,
+                       skalanya cukup diakarkan: v1,6 = 1,2649, dibulatkan 1,26.
+                       Tintanya jadi 45,4 x 28,4px, rata-rata geometrik 35,9 —
+                       meleset 0,1px dari Claude.
 
-                       LEBARNYA JADI 57,6px, dan itu memang paling lebar di grid
-                       ini setelah wordmark Workspace. Tidak apa-apa, dan
-                       presedennya Wayground (52,4px): di sini yang disamakan
-                       TINGGI tinta, lalu lebarnya mengikuti bentuk logonya
-                       masing-masing — Power BI justru jadi 27px karena tintanya
-                       memang tegak. Kotak elemennya 57,6x57,6px dan menjulur
-                       10,8px ke atas dan bawah, tapi bagian itu transparan,
-                       tidak ada `overflow: hidden` di jalur induknya, dan tinta
-                       yang sesungguhnya tetap berhenti di 36px. Pagar
-                       `.tool-icon` di src/index.css ada di 120px, jadi tidak
+                       JADI IA MEMANG LEBIH PENDEK DARIPADA LOGO LAIN (28,4
+                       lawan ~36px), dan itu bukan kelalaian melainkan harga yang
+                       dibayar: bentuk 1,6:1 tidak bisa sekaligus setinggi DAN
+                       seramping bentuk bujur sangkar. Yang dipilih besar yang
+                       terbaca sama, bukan angka yang sama.
+
+                       WAYGROUND KASUS YANG SAMA DAN BELUM DIKERJAKAN. Tintanya
+                       52,4 x 36px, rata-rata geometrik 43,4 — juga di atas
+                       norma grid. Ia dibiarkan karena tidak diminta dan
+                       selisihnya dengan tetangganya jauh lebih kecil (Google
+                       Classroom 38,3), tapi kalau aturan rata-rata geometrik ini
+                       mau ditegakkan menyeluruh, ia yang berikutnya: skalanya
+                       0,83.
+
+                       Kotak elemennya jadi 45,4x45,4px dan menjulur 8,5px ke
+                       atas dan bawah; bagian itu transparan, tidak ada
+                       `overflow: hidden` di jalur induknya, dan pagar
+                       `.tool-icon` di src/styles/tools-grid.css ada di 120px, jadi tidak
                        ikut terpangkas.
 
-                       Bahasa awamnya: logo Claude Code selama ini tampil jauh
-                       lebih kecil daripada logo Claude di sebelahnya — bukan
-                       karena salah pasang, tapi karena berkasnya punya ruang
-                       kosong bawaan di tepi atas dan bawah. Sekarang tingginya
-                       sudah sama dengan seluruh logo lain di bagian ini. */}
+                       Bahasa awamnya: logo Claude Code tampil kelewat besar di
+                       samping logo Claude, karena bentuknya melebar sementara
+                       yang lain kotak. Sekarang ukurannya disetel supaya
+                       terlihat sama besar, bukan supaya angkanya sama tinggi. */}
                   <div data-component="scrub-reveal" data-delay="0.36" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/claude-code.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.6)" }} className="max-h-full max-w-full object-contain" />
+                        <img src="assets/icons/claude-code.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.26)" }} className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Claude Code</span>

@@ -1,0 +1,227 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   STACK CARD PENGALAMAN.
+
+   Menggantikan .hinge-list (card berdampingan yang berputar pada engsel di
+   tepi atasnya). Aturan lamanya ikut dibuang, bukan ditinggalkan menganggur.
+
+   POSISI ABSOLUT BARU BERLAKU SETELAH .swap-ready, dan class itu ditambahkan
+   dari JavaScript. Urutannya disengaja: tanpa skrip, card-nya mengalir ke
+   bawah sebagai daftar biasa yang utuh terbaca. Kalau aturan absolut ini
+   ditulis tanpa syarat, kegagalan memuat skrip meninggalkan dua card yang
+   saling menimpa di tempat yang sama.
+
+   perspective ditaruh di CONTAINER. Kalau tiap card punya perspektifnya sendiri,
+   titik hilangnya ikut berpindah bersama card-nya dan stack yang miring
+   tidak lagi terbaca sebagai satu ruang.
+
+   Tinggi .swap-stack dan --swap-top DISETEL DARI JS, hasil pengukuran
+   card tertinggi. Tidak ada tinggi tetap di sini: rincian pekerjaan boleh
+   sepanjang apa pun tanpa satu baris pun terpotong.
+   ═══════════════════════════════════════════════════════════════════════ */
+.swap-stack {
+  position: relative;
+  perspective: 1600px;
+}
+
+.swap-card {
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  /* Kolom flex, supaya .swap-body bisa flex:1 dan MEREGANG setinggi card.
+     Tanpa ini height:100% di dalamnya tidak punya tinggi induk untuk dirujuk
+     (card-nya cuma punya min-height), grid di dalamnya berhenti setinggi
+     isinya, dan `mt-auto` pada baris tag tidak punya sisa ruang untuk
+     didorong -- tagnya menempel di bawah link alih-alih di dasar card. */
+  display: flex;
+  flex-direction: column;
+}
+
+.swap-ready .swap-card {
+  position: absolute;
+  inset-inline: 0;
+  top: var(--swap-top, 0px);
+  margin-bottom: 0;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+@media (width >= 640px) {
+  .swap-card { padding: 2rem }
+}
+
+@media (width >= 900px) {
+  .swap-card {
+    padding: 2.5rem;
+    /* "Satu card memenuhi screen": di desktop card-nya diberi lantai tinggi
+       supaya ia mengisi ruang, bukan mengambang kecil di tengah bagian. Ini
+       LANTAI, bukan tinggi tetap -- isi yang lebih panjang tetap mendorongnya
+       tumbuh, dan stack-nya ikut karena tingginya diukur dari isi. */
+    min-height: min(56svh, 480px);
+  }
+}
+
+.swap-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+/* Dua kolom di >=900px. Card selebar 56rem dengan rincian satu kolom penuh
+   menghasilkan baris sekitar 120 karakter; mata kehilangan tempat saat
+   berpindah baris. Kiri identitas pekerjaan, kanan rinciannya. */
+@media (width >= 900px) {
+  .swap-body {
+    display: grid;
+    grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: stretch;
+  }
+}
+
+.swap-left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RINCIAN PEKERJAAN — dua aturan yang keduanya ditaruh DI SINI, bukan sebagai
+   class di Experience.jsx, dan itu inti perubahan 15 Agustus 2026.
+
+   Sebelumnya garis kecil di tiap butir dipasang `mt-2` satu per satu di
+   markup: delapan span, delapan tempat yang bisa lupa diikutkan. Menambah
+   butir berarti menyalin <li> lengkap dengan class itu, dan yang lupa
+   menyalinnya mendapat garis yang menempel di tepi atas tanpa satu pun tanda
+   bahwa ada yang salah. Ditaruh di CSS, butir baru ikut dengan sendirinya --
+   itu yang diminta: "kalau misal suatu saat ditambahi baru selalu center".
+
+   1. GARISNYA DI TENGAH, BUKAN DI ATAS.
+
+   `align-items: center` pada <li>, dan `mt-2` di markup dibuang bersamanya.
+   Keduanya harus berpasangan: menambah center tanpa membuang mt-2 menggeser
+   garisnya 8px di bawah titik tengah, dan itu justru lebih salah daripada
+   sebelumnya karena tidak lagi sejajar dengan apa pun.
+
+   Kenapa `mt-2` dulu perlu: garisnya `h-px`, tinggi 1px yang ditulis
+   eksplisit. Nilai bawaan `align-items: stretch` tidak berlaku pada elemen
+   yang tingginya sudah dipatok, jadi ia jatuh di tepi atas baris dan
+   didorong turun 8px secara manual. Angka 8px itu kira-kira setengah tinggi
+   SATU baris teks (-body-small, 14px x 1,6 = 22,4px), jadi ia kebetulan
+   benar untuk butir sebaris -- dan meleset makin jauh tiap kali butirnya
+   bertambah panjang. Pada butir dua baris (44,8px) titik tengahnya 22,4px,
+   jadi garisnya berdiri 14px terlalu tinggi.
+
+   2. DAFTARNYA MENGISI PENUH KOLOMNYA.
+
+   `flex: 1` pada daftarnya membuat ia mengambil sisa tinggi kolom, dan
+   `flex: 1 0 auto` pada tiap butir membagi sisa itu rata ke semua butir.
+   Hasilnya rincian tersebar dari atas ke bawah alih-alih menumpuk di
+   seperempat atas card dan meninggalkan ruang kosong -- ruang yang paling
+   terlihat pada card yang butirnya lebih sedikit, sebab tinggi semua card
+   disamakan ke yang tertinggi (lihat measure() di animations.js).
+
+   `1 0 auto`, BUKAN `1`. Angka tengahnya flex-shrink, dan nol di situ yang
+   menjamin tidak ada butir yang bisa diperas lebih pendek daripada teksnya
+   sendiri. `flex: 1` berarti `1 1 0` -- basis nol dan boleh menyusut, jadi
+   di card yang sempit butir tiga baris akan dipaksa setinggi butir sebaris
+   dan barisnya terpotong. Itu melanggar janji utama bagian ini: rincian
+   pekerjaan boleh sepanjang apa pun tanpa satu baris pun hilang.
+
+   Konsekuensinya butir yang lebih panjang tetap lebih tinggi daripada yang
+   pendek -- yang dibagi rata cuma SISA ruangnya, bukan tinggi totalnya. Itu
+   memang yang benar: baris yang tingginya dipaksa sama persis akan membuat
+   butir sebaris tampak mengambang di tengah kotak kosong.
+
+   Bahasa awamnya: di bagian Pengalaman Kerja, tiap poin rincian punya garis
+   kecil di sebelah kirinya. Garis itu sekarang duduk pas di tengah tulisan,
+   bukan menempel di baris pertama -- dan tetap di tengah walau poinnya nanti
+   jadi dua atau tiga baris. Daftarnya juga dibuat memenuhi tinggi kartunya,
+   jadi tidak ada lagi ruang kosong menganga di bawah. */
+.swap-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.swap-details li {
+  align-items: center;
+  flex: 1 0 auto;
+}
+
+/* 0,75rem, bukan 2rem seperti sebelumnya. Titiknya sekarang setinggi 44px
+   (dulu 4px) demi area sentuh, dan bar tampaknya duduk di tengah tinggi itu
+   — jadi 20px dari kenaikan tinggi itu jatuh DI ATAS bar. Menahan margin di
+   2rem akan mendorong bar-nya turun 20px dari tempatnya semula. */
+.swap-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* Bar, bukan bulatan: bentuk yang sama dengan chapter marker di bar status,
+   jadi "yang ini sedang aktif" dinyatakan dengan kosakata yang sudah dipakai
+   di tempat lain di situs ini. */
+/*
+ * BAR-nya 4px, TAPI TOMBOLNYA 44px — dan pemisahan itu bukan kerapian.
+ *
+ * Sebelum 9 Agustus 2026 tombolnya SENDIRI setinggi 4px. Terukur di audit
+ * lintas perangkat: itu target sentuh 34x4 dan 56x4. Pedoman Apple dan
+ * Google sama-sama meminta minimal 44 dan 48px pada sisi TERPENDEK, dan 4px
+ * bukan sekadar di bawah threshold — ia praktis tidak bisa dikenai jempol.
+ *
+ * Yang membuatnya parah bukan titiknya sendiri, melainkan apa yang ada di
+ * baliknya: card belakang di stack Pengalaman sengaja `inert`, jadi
+ * titik inilah SATU-SATUNYA jalan sentuh dan keyboard ke sana. Pengunjung
+ * ponsel yang tidak bisa mengenainya tidak punya cara lain melihat
+ * pengalaman kedua dan ketiga selain menunggu putaran otomatis.
+ *
+ * Jadi tombolnya diberi tinggi 44px yang tembus pandang, dan bar yang
+ * terlihat pindah ke ::before. Tampilannya tidak berubah satu piksel pun;
+ * yang berubah cuma daerah yang menangkap sentuhan.
+ */
+.swap-dot {
+  position: relative;
+  width: 34px;
+  height: 44px;
+  background: none;
+  cursor: pointer;
+  transition: width 0.4s var(--ease);
+}
+
+.swap-dot::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  margin-top: -2px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background 0.4s var(--ease);
+}
+
+.swap-dot[aria-selected="true"] {
+  width: 56px;
+}
+
+.swap-dot[aria-selected="true"]::before {
+  background: var(--text);
+}
+
+/* Cincin fokus mengelilingi BAR-nya, bukan kotak sentuh 44px — kalau tidak,
+   yang tergambar persegi tinggi yang mengambang jauh dari apa pun yang
+   terlihat, dan pengguna keyboard kehilangan jejak posisinya. */
+.swap-dot:focus-visible {
+  outline: none;
+}
+
+.swap-dot:focus-visible::before {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}

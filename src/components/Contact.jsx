@@ -1,3 +1,5 @@
+import Icon from "./Icon.jsx";
+
 export default function Contact() {
   return (
     <>
@@ -28,7 +30,7 @@ export default function Contact() {
           (`py-28`, `nav:py-36`). */}
       <section id="kontak" data-component="chapter" className="relative">
         <div data-component="container"
-          className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1180px] grid grid-cols-1 gap-x-8 gap-y-10 py-16 sm:py-20 nav:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] nav:gap-x-16 nav:gap-y-12 nav:py-28">
+          className="mx-auto w-full px-gutter max-w-[1180px] grid grid-cols-1 gap-x-8 gap-y-10 py-16 sm:py-20 nav:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] nav:gap-x-16 nav:gap-y-12 nav:py-28">
 
           <div>
             <header className="nav:sticky nav:top-28">
@@ -109,15 +111,15 @@ export default function Contact() {
                       <button type="submit" data-component="button"
                         className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power bg-text text-background border-text w-full sm:w-auto">
                         <span className="relative block overflow-hidden">
-                          <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><i className="fa-brands fa-whatsapp"></i> Kirim via WhatsApp</span>
-                          <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><i className="fa-brands fa-whatsapp"></i> Kirim via WhatsApp</span>
+                          <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><Icon name="whatsapp" /> Kirim via WhatsApp</span>
+                          <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><Icon name="whatsapp" /> Kirim via WhatsApp</span>
                         </span>
                       </button>
                       <button type="button" id="send-email" data-component="button"
                         className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power border-line text-text hover:border-text/60 w-full sm:w-auto">
                         <span className="relative block overflow-hidden">
-                          <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><i className="fa-solid fa-envelope"></i> Kirim via Email</span>
-                          <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><i className="fa-solid fa-envelope"></i> Kirim via Email</span>
+                          <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><Icon name="envelope" /> Kirim via Email</span>
+                          <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full"><Icon name="envelope" /> Kirim via Email</span>
                         </span>
                       </button>
                     </div>

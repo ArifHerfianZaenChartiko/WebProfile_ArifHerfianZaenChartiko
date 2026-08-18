@@ -21,7 +21,7 @@ export default function Education() {
            berlawanan lalu bertemu di tengah. Dipakai SEKALI saja di seluruh halaman.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="pendidikan" data-band="panel" data-component="chapter">
-        <div data-component="container" className="mx-auto w-full px-4 sm:px-6 nav:px-10 max-w-[1500px] py-16 sm:py-20 nav:py-28">
+        <div data-component="container" className="mx-auto w-full px-gutter max-w-[1500px] py-16 sm:py-20 nav:py-28">
 
           <div className="mb-16 flex items-center gap-4">
             <span className="-mono tabular-nums text-text-muted">04</span>
@@ -73,7 +73,7 @@ export default function Education() {
                 <div className="flex items-baseline justify-between gap-4">
                   <span className="-caption-small text-text-muted">Sertifikat</span>
                   {/* Angkanya DIHITUNG dari jumlah panel di bagian Sertifikat oleh
-                       src/lib/animations.js, bukan ditulis di sini. Menambah sertifikat
+                       src/lib/animations/builders.js, bukan ditulis di sini. Menambah sertifikat
                        berarti angka ini ikut sendiri.
 
                        Selector-nya [data-panel], bukan [data-arrive]: bagian itu
