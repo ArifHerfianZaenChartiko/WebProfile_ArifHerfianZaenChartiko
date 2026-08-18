@@ -151,34 +151,45 @@ program yang menjawab.
 Teknologi   Bahasa Pemrograman   Python                                   (1)
             Bahasa Kueri         SQL                                      (1)
 
-Perkakas    Data                 Excel, PostgreSQL, VS Code,
-                                 Anaconda, Power BI, Tableau              (6)
+Perkakas    Data                 Excel, PostgreSQL, DBeaver, VS Code,
+                                 Anaconda, Power BI, Tableau              (7)
             Pengajaran           Google Classroom, Wayground              (2)
             Administrasi         MS Office, Google Workspace              (2)
             AI                   Claude, Claude Code                      (2)
 ```
 
 **Pengelompokannya ditentukan oleh Anda, bukan lebar viewport** — kelompok berisi
-enam card selamanya berisi enam. Yang ikut lebar viewport hanya berapa baris yang
-dipakai untuk menampungnya: sampai 1180px, kelompok `Data` turun jadi dua baris
-berisi tiga-tiga, dan dari 1180px ke atas keenamnya berjajar satu baris. Pecahnya
-sengaja dibuat **rata dan sama di semua lebar** — bukan 4+2 di satu lebar dan 5+1
-di lebar lain. Dua angka yang mengaturnya ada di `src/index.css`: `33,3333%` di
-bawah 1180px dan `8,5rem` di atasnya, keduanya dihitung dari jumlah card
-terbanyak.
+tujuh card selamanya berisi tujuh. Yang ikut lebar viewport hanya berapa baris yang
+dipakai untuk menampungnya, dan sejak kelompok `Data` berisi tujuh ia **dua baris
+di semua lebar**: empat di atas, tiga di bawah. Pecahnya sengaja dibuat **rata dan
+sama di semua lebar** — bukan 4+3 di satu lebar dan 6+1 di lebar lain. Tiga angka
+yang mengaturnya ada di `src/index.css`, dan ketiganya dihitung dari jumlah card
+terbanyak: `25%` di bawah 1180px, `8,5rem` di atasnya, dan batas `34rem` pada
+`.tool-items--four`.
+
+Satu baris berisi tujuh **tidak bisa** dipaksakan di desktop, dan itu sudah
+diukur: isi baris tidak pernah lebih dari 844px sehingga tujuh card menuntut
+lebar ≤ 120,6px, sementara nama terpanjang di grid ini — "Google Workspace",
+108,1px pada 12px Inter — menuntut card ≥ 124,1px. Selisih 3,5px itu yang
+menutup pintunya. Kalau tetap dipaksakan, yang pecah dua baris justru nama di
+kelompok `Administrasi`.
 
 **Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang.**
 Tiap card naik 0,03 detik berurutan, dan label tiap kelompok memakai delay card
 pertamanya. Kedua bagian itu **rantai terpisah** yang sama-sama mulai dari nol —
-`Teknologi` 0 → 0,03, `Perkakas` 0 → 0,33. Jangan disambung: satu rantai yang menembus
+`Teknologi` 0 → 0,03, `Perkakas` 0 → 0,36. Jangan disambung: satu rantai yang menembus
 keduanya membuat card terakhir jatuh terlalu jauh dan pembaca sudah melewatinya
 sebelum ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional
 (0 / 0,04 / 0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute
 yang sama.
 
-Ekor 0,33 detik itu sudah dekat batas. Kalau kelompoknya bertambah lagi,
-pertimbangkan memulai rantai baru per kelompok alih-alih terus menyambung —
-keempat kelompok itu toh punya labelnya sendiri-sendiri.
+**Ekor 0,36 detik itu sudah melewati batas yang dulu ditetapkan sendiri.** Waktu
+rantai ini sempat mencapai 0,36 pada 15 Agustus 2026, angka itu dianggap terlalu
+panjang dan ditarik kembali ke 0,33; masuknya DBeaver mendorongnya ke sana lagi.
+Rantainya sengaja dibiarkan menyambung supaya riaknya tetap terbaca mengalir dari
+kiri ke kanan menembus keempat kelompok, tapi kalau ada satu card lagi
+ditambahkan, **mulai rantai baru per kelompok** — keempatnya toh punya labelnya
+sendiri-sendiri, dan itu memang jalan keluar yang sudah dianjurkan sejak dulu.
 
 **Nama kelompok terpanjang mengikat satu angka di CSS.** `.tool-label` dipatok
 lebar tetap supaya garis rambut kelima kelompok lurus sejajar, dan lebarnya
@@ -192,6 +203,17 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
 - **Warna di halaman mereka belum tentu warna mereknya.** Logo Wayground
   tampil krem di situs mereka semata karena latar halamannya merah tua; warna
   mereknya merah muda. Kalau ragu, buka favicon-nya.
+- **Warna merek yang benar pun belum tentu terbaca di latar segelap ini.**
+  Warna resmi DBeaver `#382923` cuma berkontras 1,47:1 di atas `#040508` —
+  bukan "agak redup" melainkan praktis tak terlihat, dan yang tampak di grid
+  cuma petak kosong tanpa satu pun pesan galat. Jalan keluarnya **terangkan
+  pada rona aslinya, jangan diganti warnanya**: rona dan kejenuhannya
+  dipertahankan persis, hanya kecerahannya yang dinaikkan (DBeaver 17,84% →
+  60%, jadi `#B18F81`). Sasarannya bukan ambang aksesibilitas melainkan
+  **tetangga di barisnya sendiri** — Tableau 6,85:1, Anaconda 6,69:1, Excel
+  6,30:1 — supaya logo baru tidak jadi yang paling terang dan menarik mata
+  lebih dulu. Logo yang aslinya putih atau hitam polos beda urusan: itu
+  dipukul rata `#d8d8d8`.
 - **Sebagian merek tidak menerbitkan SVG sama sekali.** Logo VS Code di situs
   resminya berupa PNG base64 yang ditanam di dalam aturan `.navbar-brand` pada
   `/dist/style.css` — tidak ada file SVG yang bisa diunduh. SVG di repo ini
@@ -210,14 +232,42 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
   waktu ia ditambahkan. Yang bawaannya lebih besar dari 36 aman karena ikut
   terpangkas (Power BI 48, Google Classroom 108); sisanya cukup dibuang kedua
   atributnya, `viewBox` yang menentukan bentuknya.
+- **Pastikan `viewBox`-nya memang ada.** `google-classroom.svg` ternyata tidak
+  punya sama sekali — cuma `width`/`height` 108 — dan itu lolos bertahun-tahun
+  karena kebetulan: peramban memakai kedua angka itu sebagai ukuran bawaan lalu
+  menskalakan seluruh gambarnya. Yang membuatnya berbahaya adalah aturan di
+  atas: siapa pun yang membuang `width`/`height` sesuai anjuran itu akan
+  menghapus satu-satunya keterangan ukuran yang dimiliki berkas ini, dan
+  logonya melar memenuhi petaknya. `viewBox="0 0 108 108"` sudah ditambahkan;
+  tampilannya tidak berubah sedikit pun.
 
 Sesudah logonya terpasang, **bandingkan tingginya dengan tetangga di baris atau
 kolom yang sama.** Banyak berkas logo membawa ruang kosong bawaan di tepinya,
-dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Lima sudah
-dikoreksi dengan `scale()`: Google Classroom 1,25, Power BI 1,2, Claude 1,14,
-PostgreSQL 1,09, SQL 1,06. Angkanya selalu **rasio kotak dibagi rasio tinta**,
-bukan tebakan — dengan begitu satu angka benar di kedua ukuran kotak sekaligus.
-Hitungan tiap logo ada di komentar card-nya masing-masing.
+dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Enam sudah
+dikoreksi dengan `scale()`: Claude Code 1,6, Google Classroom 1,25, Power BI
+1,2, Claude 1,14, PostgreSQL 1,09, SQL 1,06. Angkanya selalu **rasio kotak
+dibagi rasio tinta**, bukan tebakan — dengan begitu satu angka benar di kedua
+ukuran kotak sekaligus. Hitungan tiap logo ada di komentar card-nya
+masing-masing.
+
+Claude Code yang 1,6 adalah koreksi terbesar dan paling lama luput: tintanya
+cuma mengisi 62,5% tinggi `viewBox`-nya, jadi ia tergambar 22,5px sementara dua
+belas logo lain mendarat di 35,5–36,1px — selisih 13,5px, tepat di samping
+Claude. Sesudah dikoreksi, **rentang tinggi tinta seluruh grid tinggal 0,5px**
+(35,5–36,0px di desktop, 31,6–32,0px di bawah 900px), dan pusat tiap logo
+maupun namanya meleset paling jauh 0,01px dari sumbu card-nya. Kedua angka itu
+terukur di sembilan lebar viewport, 320px sampai 1920px.
+
+**Lebar logo dipagari `.tool-icon` di 7,5rem**, dan itu perlu karena kotak
+ikonnya `w-full` — selebar card-nya. Logo bujur sangkar tidak terpengaruh
+(mereka dibatasi tinggi), tapi wordmark Google Workspace yang 7,76:1 dulu
+memakan seluruh ruang yang diberikan: 220px pada 1024px, lalu jatuh ke 120px
+begitu melewati 1180px. Sekarang ia berhenti di 120px — persis lebar isi card
+di desktop — sehingga sama di 640px ke atas. Di bawah itu ia tetap menyusut
+bersama card-nya (73,5x9,5px pada 390px), dan **itu tidak bisa dibereskan dari
+CSS**: perbandingan 7,76:1 dalam petak setinggi 32px menuntut lebar 248px,
+sementara card ponsel cuma 89,5px. Jalan keluar sungguhannya mengganti
+berkasnya dengan logomark persegi Google Workspace, bukan wordmark penuhnya.
 
 ### Kartu pratinjau (OG image)
 
