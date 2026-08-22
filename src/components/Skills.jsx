@@ -207,6 +207,92 @@ export default function Skills() {
                Ejaan tiga kata dibetulkan dari sumber tulisannya: produktifitas ->
                produktivitas, efisensi -> efisiensi, penyelsaian -> penyelesaian.
 
+               ══ "KETELITIAN" JADI "PERHATIAN PADA DETAIL" pada 22 Agustus 2026
+
+               Yang diganti bukan cuma namanya. "Ketelitian" kata sifat yang
+               dibendakan — sebuah WATAK — sementara blok ini seharusnya berisi
+               CARA KERJA yang terbawa ke mana pun (pembagiannya dijelaskan di
+               komentar daftar bernomor di src/components/About.jsx). Ia juga
+               tidak pernah muncul di teks lowongan mana pun, sedangkan syarat
+               yang dicari untuk ketiga peran pemiliknya berbunyi "detail
+               oriented" atau "perhatian terhadap detail".
+
+               JUDULNYA FRASA BENDA, DAN ITU BUKAN SELERA. Kelima judul di blok
+               ini kata benda semua — Komunikasi Teknis, Analisis & Pemecahan
+               Masalah, Adaptabilitas, Koordinasi Tim. "Berorientasi Detail",
+               terjemahan yang paling harfiah dan paling sering dipakai di
+               lowongan, adalah frasa KERJA; memakainya membuat satu judul
+               berdiri beda sendiri di antara empat lainnya. "Perhatian pada
+               Detail" membawa arti yang sama, sepola dengan tetangganya, dan
+               tetap cerminan langsung dari "attention to detail".
+
+               KETERANGANNYA BERPINDAH POROS: DARI MEMERIKSA KE MENJAGA. Yang
+               lama berbunyi "Memeriksa data dan dokumen sampai ke rinciannya
+               sehingga kekeliruan tertangkap sebelum sampai ke tangan
+               berikutnya" — itu kegiatan pemeriksaan di HILIR, terbaca sebagai
+               tugas administratif, dan cuma menjelaskan satu dari tiga peran.
+
+               Yang sekarang menyebut sesuatu yang jauh lebih menentukan, dan
+               ini alasan pemilihannya: KEKELIRUAN DI PEKERJAAN INI TIDAK
+               BERSUARA. Kode yang salah gagal jalan dan melempar galat;
+               dashboard yang angkanya salah tampil persis sama bagusnya dengan
+               yang benar. Tidak ada kompilator, tidak ada uji yang merah —
+               satu-satunya penahannya kebiasaan orangnya sendiri, dan yang
+               keluar di ujungnya bukan berkas rusak melainkan keputusan yang
+               salah. Itu yang membuat syarat ini selalu ada di lowongan analis
+               dan hampir tidak pernah dijelaskan. Di kalimatnya, gagasan itu
+               dibawa frasa "yang luput dari perhatian" — kekeliruannya bukan
+               yang mencolok, melainkan yang memang tidak terlihat.
+
+               ══ KELIMA KETERANGAN SATU KLAUSA, TANPA TANDA BACA DI DALAMNYA
+
+               Aturan ini baru ditulis di sini karena baru sekarang dilanggar,
+               tapi ia sudah berlaku sejak kelimanya ditulis ulang: tidak satu
+               pun memakai koma, titik koma, atau tanda pisah. Semuanya
+               [kegiatan] + "sehingga"/"supaya" + [hasil], mengalir sampai titik
+               di ujung.
+
+               Versi pertama card ini melanggarnya dengan koma sebelum "sebab"
+               dan tanda pisah sebelum anak kalimat terakhir. Di kotak selebar
+               ini keduanya terlihat: mata membandingkan lima blok teks yang
+               berdampingan, dan yang satu tampak lebih tersendat daripada empat
+               lainnya. Dibetulkan atas permintaan pada hari yang sama ia
+               dipasang.
+
+               Yang dikorbankan untuk memenuhinya: klausa "sebab" tidak bisa
+               dipertahankan sebagai kalimat tersendiri, jadi gagasannya
+               dimampatkan jadi frasa keterangan yang menempel pada
+               "kekeliruan". Artinya sama, jalannya lebih pendek.
+
+               Panjangnya 147 huruf, jadi ia TIDAK merebut rekor terpanjang dari
+               Adaptabilitas. Tinggi kotaknya karena itu tidak berubah di lebar
+               mana pun.
+
+               Kelimanya dihitung ulang saat ini, apa adanya dari berkas ini
+               (termasuk titik di ujung): Komunikasi Teknis 102, Analisis &
+               Pemecahan Masalah 129, Adaptabilitas 149, Perhatian pada Detail
+               147, Koordinasi Tim 133. Rentang "99-148" yang ditulis di
+               paragraf atas berasal dari hitungan 15 Agustus 2026 dan meleset
+               satu sampai tiga huruf dari cara hitung ini — kemungkinan besar
+               titik di ujungnya dulu tidak ikut dihitung. Angka lama itu
+               dibiarkan berdiri sebagai catatan sejarahnya; yang dipakai kalau
+               ada keterangan baru ditambahkan angka di paragraf ini.
+
+               IKONNYA TETAP `list-check`, dan itu keterbatasan yang disadari.
+               Daftar bercentang lebih menggambarkan "memeriksa" daripada
+               "menjaga sejak awal", tapi dari 14 ikon yang tersedia di
+               src/components/Icon.jsx ia yang paling dekat — sisanya sudah
+               terpakai atau jelas tidak cocok. Kalau suatu saat ada ikon baru
+               ditambahkan, ini card pertama yang layak diperiksa ulang.
+
+               TAG "Ketelitian" DI CARD PENGALAMAN SENGAJA TIDAK IKUT DIGANTI.
+               Yang di sana menandai tugas di SATU tempat kerja (Staf
+               Administrasi, Dinas Pendidikan Kota Malang) dan diambil apa adanya
+               dari CV; yang di sini kemampuan yang terbawa ke mana pun. Kedua
+               bagian itu memang menjawab pertanyaan yang berbeda, dan
+               menyeragamkan katanya justru mengaburkan pembagian yang sudah
+               ditegakkan di About.jsx.
+
                Bahasa awamnya: lima kotak kemampuan di bawah judul ini sekarang
                menjelaskan bukan cuma APA yang Anda bisa, tapi juga apa gunanya
                bagi tempat kerja. Karena kalimatnya lebih panjang, kotaknya ikut
@@ -232,8 +318,8 @@ export default function Skills() {
               </div>
               <div data-component="scrub-reveal" data-delay="0.12" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="list-check" className="text-text-muted" />
-                <span className="-body-small font-medium">Ketelitian</span>
-                <p className="-body-smaller text-text-muted">Memeriksa data dan dokumen sampai ke rinciannya sehingga kekeliruan tertangkap sebelum sampai ke tangan berikutnya.</p>
+                <span className="-body-small font-medium">Perhatian pada Detail</span>
+                <p className="-body-smaller text-text-muted">Menjaga rincian data dan berkas tetap benar sejak awal pengerjaan supaya kekeliruan yang luput dari perhatian tidak menjadi kesimpulan yang keliru.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.16" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="people-group" className="text-text-muted" />
