@@ -2,3 +2,6 @@ node_modules
 dist
 .DS_Store
 *.local
+
+# Catatan kerja internal, bukan bagian dari situs. Tidak pernah ikut ke remote.
+rules.md
