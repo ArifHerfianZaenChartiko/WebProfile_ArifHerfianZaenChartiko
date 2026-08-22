@@ -6,21 +6,29 @@
 
 /* GRID PERKAKAS — enam kelompok berlabel, jumlah card per kelompok dikunci.
 
-   Susunannya 1-1 di bagian Teknologi dan 7-2-2-2 di Perkakas, dan itu tidak
+   Susunannya 1-1 di bagian Teknologi dan 8-2-2-2 di Perkakas, dan itu tidak
    berubah di lebar viewport mana pun, karena tiap kelompok adalah
-   container-nya sendiri: kelompok berisi tujuh card selamanya berisi tujuh.
+   container-nya sendiri: kelompok berisi delapan card selamanya berisi delapan.
    Tidak ada satu pun titik henti (breakpoint) yang menentukan pengelompokannya.
 
    SATU KELOMPOK SEKARANG MEMBUTUHKAN DUA BARIS DI SEMUA LEBAR, dan itu batas
-   yang sudah dua kali digeser. Sampai 14 Agustus 2026 kelompok terbesar berisi
+   yang sudah tiga kali digeser. Sampai 14 Agustus 2026 kelompok terbesar berisi
    empat card dan semuanya muat satu baris di setiap lebar, sehingga "satu
    kelompok = satu baris" berlaku tanpa kecuali. Baris Data yang berisi enam
    melewatinya di layar sempit (3+3); sejak berisi tujuh pada 18 Agustus 2026
    ia dua baris di mana pun (4+3), sebab satu baris berisi tujuh menuntut card
    yang terlalu sempit untuk nama terpanjang di grid ini.
 
+   SEJAK BERISI DELAPAN pada 22 Agustus 2026 ia tetap dua baris, tapi pecahnya
+   jadi 4+4 — dan itu perbaikan, bukan sekadar bertambah. Tidak ada satu angka
+   pun di berkas ini yang perlu disentuh untuk itu: pembagi 25% di bawah sudah
+   menghasilkannya sendiri.
+
    Yang dipertahankan bukan jumlah barisnya melainkan pecahnya yang RATA dan
-   SAMA di semua lebar — bukan 4+3 di satu lebar dan 6+1 di lebar lain.
+   SAMA di semua lebar — bukan 4+4 di satu lebar dan 6+2 di lebar lain. Delapan
+   memenuhinya lebih baik daripada tujuh: 4+3 pembagian paling rata yang mungkin
+   untuk bilangan ganjil, tapi baris keduanya tetap berhenti satu card lebih
+   pendek daripada baris pertamanya.
 
    SATU ANGKA SAJA YANG MENGATURNYA SEKARANG: lebar card 25%, berlaku di semua
    lebar viewport. Sampai 18 Agustus 2026 angkanya ada TIGA — 25% di bawah
@@ -44,9 +52,9 @@
    memang pecah dua baris, sama seperti sebelum perubahan ini.
 
    Bahasa awamnya: bagian ini deretan logo perkakas, dikelompokkan dalam baris
-   berlabel. Kelompok "Data" yang berisi tujuh logo terlalu panjang untuk muat
-   satu baris, jadi ia tampil dua baris — empat di atas, tiga di bawah — dan
-   pembagian itu sama persis di ponsel, tablet, maupun komputer.
+   berlabel. Kelompok "Data" yang berisi delapan logo terlalu panjang untuk muat
+   satu baris, jadi ia tampil dua baris berisi empat — sama rata — dan pembagian
+   itu sama persis di ponsel, tablet, maupun komputer.
 
    RATA KIRI, dan itu keputusan yang sempat dibalik dua kali dalam sehari pada
    18 Agustus 2026: dari rata kiri ke dipusatkan, lalu kembali ke rata kiri atas
@@ -110,18 +118,24 @@
    viewport dikurangi margin di bawah 1180px (tempat label naik ke atas
    deretan), dan sisa baris setelah label di atasnya.
 
-   SEPEREMPAT LAGI, BUKAN SEPERTIGA, sejak baris Data berisi TUJUH card pada
-   18 Agustus 2026. Angka ini memang selalu diturunkan dari jumlah card
-   terbanyak, dan sudah dua kali berganti karenanya:
+   SEPEREMPAT, dan angka ini memang selalu diturunkan dari jumlah card
+   terbanyak. Riwayatnya:
 
-     empat card  -> seperempat   (4 muat satu baris)
-     enam card   -> sepertiga    (3+3, dua baris sama panjang)
-     tujuh card  -> seperempat   (4+3, sepecah-rata yang mungkin untuk tujuh)
+     empat card    -> seperempat   (4 muat satu baris)
+     enam card     -> sepertiga    (3+3, dua baris sama panjang)
+     tujuh card    -> seperempat   (4+3, sepecah-rata yang mungkin untuk tujuh)
+     delapan card  -> seperempat   (4+4, dua baris penuh)
 
    Peringatan yang ditulis di sini pada 15 Agustus 2026 tepat sasaran dan
-   sekarang terpakai: "Tujuh card akan pecah 3+3+1 dan menyisakan masalah
-   yang sama." Memang begitu — pada sepertiga, Tableau berdiri sendiri di
-   baris ketiga. Seperempat memecahnya 4+3.
+   sudah terpakai: "Tujuh card akan pecah 3+3+1 dan menyisakan masalah yang
+   sama." Memang begitu — pada sepertiga, Tableau berdiri sendiri di baris
+   ketiga. Seperempat memecahnya 4+3.
+
+   MASUKNYA CARD KEDELAPAN pada 22 Agustus 2026 (Data Studio) karena itu TIDAK
+   menyentuh angka ini sama sekali, dan itu satu-satunya penambahan card di
+   grid ini yang tidak pernah menuntut hitungan ulang. Delapan justru pembagian
+   paling rata yang pernah dipegang baris ini: dua baris berisi empat, tanpa
+   card yang menggantung sendiri dan tanpa ruang kosong di ujung kanan.
 
    ONGKOSNYA NYATA DAN SUDAH DIUKUR, jadi jangan dikira gratis: pada 390px
    card turun dari 117px ke 89,5px, dan ruang tulisannya (dikurangi padding
@@ -158,9 +172,8 @@
    pembaginya, makin sempit ruang untuk nama terpanjang.
 
    Bahasa awamnya: di ponsel, tablet, maupun komputer, tiap baris logo memuat
-   empat buah. Baris "Data" yang berisi tujuh karena itu tampil empat di atas
-   dan tiga di bawah — bukan tiga, tiga, lalu satu yang menggantung
-   sendirian. */
+   empat buah. Baris "Data" yang berisi delapan karena itu tampil empat di atas
+   dan empat di bawah — bukan tiga, tiga, lalu dua yang menggantung. */
 .tool-items > * {
   width: 25%;
 }

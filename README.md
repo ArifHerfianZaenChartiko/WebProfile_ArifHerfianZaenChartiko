@@ -192,17 +192,24 @@ Teknologi   Bahasa Pemrograman   Python                                   (1)
             Bahasa Kueri         SQL                                      (1)
 
 Perkakas    Data                 Excel, PostgreSQL, DBeaver, VS Code,
-                                 Anaconda, Power BI, Tableau              (7)
+                                 Anaconda, Data Studio, Power BI,
+                                 Tableau                                  (8)
             Pengajaran           Google Classroom, Wayground              (2)
             Administrasi         MS Office, Google Workspace              (2)
             AI                   Claude, Claude Code                      (2)
 ```
 
 **Pengelompokannya ditentukan oleh Anda, bukan lebar viewport** — kelompok berisi
-tujuh card selamanya berisi tujuh. Yang ikut lebar viewport hanya berapa baris yang
-dipakai untuk menampungnya, dan sejak kelompok `Data` berisi tujuh ia **dua baris
-di semua lebar**: empat di atas, tiga di bawah. Pecahnya sengaja dibuat **rata dan
-sama di semua lebar** — bukan 4+3 di satu lebar dan 6+1 di lebar lain.
+delapan card selamanya berisi delapan. Yang ikut lebar viewport hanya berapa baris
+yang dipakai untuk menampungnya, dan sejak kelompok `Data` berisi tujuh ia **dua
+baris di semua lebar**. Sejak berisi delapan (22 Agustus 2026, masuknya Data
+Studio) pecahnya jadi **4+4** — dua baris penuh, tanpa card yang menggantung
+sendiri di baris kedua. Pecahnya sengaja dibuat **rata dan sama di semua lebar** —
+bukan 4+4 di satu lebar dan 6+2 di lebar lain.
+
+Delapan card tidak menuntut satu pun angka CSS dihitung ulang: pembagi `25%`
+sudah menghasilkan 4+4 dengan sendirinya. Itu satu-satunya penambahan card di
+grid ini yang gratis dari sisi layout.
 
 **Satu angka yang mengaturnya: lebar card `25%`**, di `src/index.css`, berlaku di
 semua lebar viewport. Empat per baris karena itu terjadi dengan sendirinya, dan
@@ -218,39 +225,69 @@ sehingga tiap baris di desktop menyisakan 300-572px kosong di kanan.
 pada 18 Agustus 2026 — dipusatkan, lalu dikembalikan atas permintaan. Riwayatnya
 dicatat di komentar `.tool-items` supaya tidak dibalik lagi tanpa sengaja.
 
-Hasilnya terukur: di 320, 375, 390, 430, 768, 1024, 1440, dan 1920px, card
-pertama **kelima kelompok berdiri di titik x yang sama persis**, dan keempat
-kolomnya lurus menembus semuanya. Yang membuat itu berlaku di semua lebar adalah
-card 25%; dulu kelurusan ini dijaga lebar tetap 8,5rem yang cuma hidup di desktop.
+Hasilnya terukur: di 320, 360, 375, 390, 430, 768, 1024, 1180, 1440, dan 1920px,
+card pertama **kelima kelompok berdiri di titik x yang sama persis**, dan keempat
+kolomnya lurus menembus semuanya — termasuk baris kedua kelompok `Data`. Yang
+membuat itu berlaku di semua lebar adalah card 25%; dulu kelurusan ini dijaga
+lebar tetap 8,5rem yang cuma hidup di desktop. Tidak ada satu lebar pun yang
+meluber mendatar.
+
+**Nama yang pecah dua baris di layar sempit**, diukur pada build produksi:
+
+| lebar | nama yang pecah dua baris |
+|---|---|
+| 320px | Data Studio, Google Classroom, MS Office, Google Workspace, Claude Code |
+| 360px | Data Studio, Google Classroom, Google Workspace, Claude Code |
+| 375–390px | Google Classroom, Google Workspace, Claude Code |
+| ≥430px | Google Classroom, Google Workspace |
+
+Itu konsekuensi card 25%, bukan cacat: yang hilang kelonggarannya, bukan
+keterbacaannya. Kalau salah satu mau dipaksa muat, yang disentuh **padding card**
+(`px-2`), bukan pembagi 25% — dan padding itu ikut dihitung di dua tempat lain di
+`src/styles/tools-grid.css`.
 
 Kalau suatu saat ada yang berpikir memusatkannya lagi: pemusatan bekerja per
 baris, bukan per kelompok, jadi kelompok yang berisi satu atau dua card terlepas
 jauh dari labelnya — Python dan SQL berhenti di tengah baris, 316px dari garis
 rambutnya — sementara baris `Data` tetap mulai dari kiri.
 
-Satu baris berisi tujuh **tetap tidak bisa** dipaksakan di desktop, dan itu sudah
-diukur: isi baris tidak pernah lebih dari 844px sehingga tujuh card menuntut
-lebar ≤ 120,6px, sementara nama terpanjang di grid ini — "Google Workspace",
-108,1px pada 12px Inter — menuntut card ≥ 124,1px. Selisih 3,5px itu yang
-menutup pintunya. Kalau tetap dipaksakan, yang pecah dua baris justru nama di
+Satu baris berisi delapan **tetap tidak bisa** dipaksakan di desktop, dan itu
+sudah diukur: isi baris tidak pernah lebih dari 844px sehingga delapan card
+menuntut lebar ≤ 105,5px, sementara nama terpanjang di grid ini — "Google
+Workspace", 108,1px pada 12px Inter — menuntut card ≥ 124,1px. Selisihnya 18,6px
+(waktu card-nya masih tujuh: 3,5px), jadi pintunya tertutup lebih rapat, bukan
+terbuka sedikit. Kalau tetap dipaksakan, yang pecah dua baris justru nama di
 kelompok `Administrasi`.
 
-**Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang.**
-Tiap card naik 0,03 detik berurutan, dan label tiap kelompok memakai delay card
-pertamanya. Kedua bagian itu **rantai terpisah** yang sama-sama mulai dari nol —
-`Teknologi` 0 → 0,03, `Perkakas` 0 → 0,36. Jangan disambung: satu rantai yang menembus
-keduanya membuat card terakhir jatuh terlalu jauh dan pembaca sudah melewatinya
-sebelum ikonnya datang. Rantai `.skill-grid` di blok kemampuan profesional
-(0 / 0,04 / 0,08 / 0,12 / 0,16) terpisah lagi dan kebetulan memakai attribute
-yang sama.
+**Kalau menambah atau menghapus card, `data-delay`-nya harus dihitung ulang —
+tapi sekarang hanya di kelompoknya sendiri.** Tiap card naik 0,03 detik
+berurutan, dan label tiap kelompok memakai delay card pertamanya.
 
-**Ekor 0,36 detik itu sudah melewati batas yang dulu ditetapkan sendiri.** Waktu
-rantai ini sempat mencapai 0,36 pada 15 Agustus 2026, angka itu dianggap terlalu
-panjang dan ditarik kembali ke 0,33; masuknya DBeaver mendorongnya ke sana lagi.
-Rantainya sengaja dibiarkan menyambung supaya riaknya tetap terbaca mengalir dari
-kiri ke kanan menembus keempat kelompok, tapi kalau ada satu card lagi
-ditambahkan, **mulai rantai baru per kelompok** — keempatnya toh punya labelnya
-sendiri-sendiri, dan itu memang jalan keluar yang sudah dianjurkan sejak dulu.
+**Sejak 22 Agustus 2026 tiap kelompok punya rantainya sendiri, mulai dari nol:**
+
+```
+Teknologi   Bahasa Pemrograman   0
+            Bahasa Kueri         0,03
+Perkakas    Data                 0 → 0,21   (delapan card)
+            Pengajaran           0 → 0,03
+            Administrasi         0 → 0,03
+            AI                   0 → 0,03
+```
+
+Sebelumnya `Perkakas` satu rantai menyambung yang berakhir di 0,36, dan masuknya
+Data Studio akan mendorongnya ke 0,42. Angka 0,36 itu sendiri sudah pernah
+dianggap terlalu panjang dan ditarik ke 0,33 pada 15 Agustus 2026, lalu kembali
+ke 0,36 waktu DBeaver masuk — dan catatan waktu itu sudah menuliskan syaratnya:
+kalau ada satu card lagi ditambahkan, mulai rantai baru per kelompok. Card
+kesembilan itu Data Studio.
+
+Alasannya bukan angkanya semata. Card terakhir yang jatuh terlalu jauh membuat
+pembaca sudah melewatinya sebelum ikonnya datang, dan di rantai menyambung ongkos
+itu ditanggung kelompok yang paling tidak bersalah: `AI` cuma berisi dua card tapi
+menunggu paling lama, semata karena berdiri paling bawah.
+
+Rantai `.skill-grid` di blok kemampuan profesional (0 / 0,04 / 0,08 / 0,12 / 0,16)
+terpisah lagi dan kebetulan memakai attribute yang sama.
 
 **Nama kelompok terpanjang mengikat satu angka di CSS.** `.tool-label` dipatok
 lebar tetap supaya garis rambut kelima kelompok lurus sejajar, dan lebarnya
@@ -259,8 +296,17 @@ Label yang lebih panjang dari itu akan pecah dua baris dan kelurusannya hilang;
 hitungannya ada di komentar aturan `.tool-label` di `src/index.css`.
 
 Untuk logo-nya, **buka situs resmi tool-nya, bukan kumpulan icon pihak
-ketiga.** Tiga jebakan yang sudah pernah kena:
+ketiga.** Jebakan yang sudah pernah kena:
 
+- **URL yang menjawab 200 tidak membuktikan asetnya masih dipakai.** Google
+  melayani dua berkas berjudul sama persis, `ic_data_studio.svg`, di dua path
+  berbeda: `analytics-lego` (dua simpul terhubung — yang dipakai sekarang) dan
+  `analytics-suite/header/suite/v2` (tiga bar bertitik — lambang generasi
+  sebelumnya). Keduanya menjawab 200. Yang kedua sempat terpasang di situs ini
+  dan tidak ada satu pun tanda bahwa itu keliru — yang menemukannya pemiliknya
+  sendiri, karena ia membuka aplikasinya dan logonya berbeda. **Ambil URL-nya
+  dari HTML halaman yang sedang tayang**, jangan menebak nama berkas: nama
+  berkas bertahan melewati pergantian logo.
 - **Warna di halaman mereka belum tentu warna mereknya.** Logo Wayground
   tampil krem di situs mereka semata karena latar halamannya merah tua; warna
   mereknya merah muda. Kalau ragu, buka favicon-nya.
@@ -304,12 +350,21 @@ ketiga.** Tiga jebakan yang sudah pernah kena:
 
 Sesudah logonya terpasang, **bandingkan tingginya dengan tetangga di baris atau
 kolom yang sama.** Banyak berkas logo membawa ruang kosong bawaan di tepinya,
-dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Enam sudah
-dikoreksi dengan `scale()`: Google Classroom 1,25, Power BI 1,2, Claude 1,14,
-PostgreSQL 1,09, SQL 1,06, dan Claude Code 1,26. Kelima yang pertama memakai
-**rasio kotak dibagi rasio tinta**, bukan tebakan — dengan begitu satu angka
-benar di kedua ukuran kotak sekaligus. Hitungan tiap logo ada di komentar
-card-nya masing-masing.
+dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Tujuh sudah
+dikoreksi dengan `scale()`: Data Studio 1,27, Google Classroom 1,25, Power BI
+1,2, Claude 1,14, PostgreSQL 1,09, SQL 1,06, dan Claude Code 1,26. Keenam yang
+pertama memakai **rasio kotak dibagi rasio tinta**, bukan tebakan — dengan begitu
+satu angka benar di kedua ukuran kotak sekaligus. Hitungan tiap logo ada di
+komentar card-nya masing-masing.
+
+**Sebelum menskalakan, pastikan `getBBox()` mengukur tinta — bukan kotak kosong.**
+Berkas Data Studio dari Google datang dengan sebuah `<path fill="none">` selebar
+viewBox-nya, sisa perkakas gambar yang tidak menggambar apa pun. `getBBox()`
+menghitung elemen tak berisi juga, jadi ia melaporkan tinta 512x512 di dalam
+viewBox 512x512 — rapat sempurna — padahal tinta sebenarnya 404x404. Siapa pun
+yang mengukur berkas itu apa adanya akan menyimpulkan tidak perlu diskalakan, dan
+logonya tampil 21% lebih kecil daripada tetangganya tanpa satu pun pesan galat.
+Path itu sudah dibuang; kalau ada berkas baru yang membawanya, buang juga.
 
 **Claude Code satu-satunya yang tidak disamakan tingginya**, dan itu perubahan
 18 Agustus 2026. Ia sempat 1,6 — angka yang benar menurut aturan di atas, sebab

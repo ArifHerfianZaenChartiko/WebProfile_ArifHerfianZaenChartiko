@@ -436,80 +436,106 @@ export default function Skills() {
                Developer. Slot pertama memang selalu ikut peran yang dilamar,
                jadi ia yang paling sering berganti isi.
 
-               Isinya sekarang 6-2-2-2 dan jedanya berakhir di 0,33. Rantainya
-               berdiri sendiri, tidak menyambung dari bagian Teknologi — lihat
-               alasannya di komentar bagian itu. Menambah atau menghapus card
-               berarti SELURUH rantai di bawahnya dihitung ulang: tiap card naik
-               0,03 berurutan menembus kelompok, dan label tiap kelompok memakai
-               jeda card pertamanya.
+               Isinya sekarang 8-2-2-2, dan SEJAK 22 AGUSTUS 2026 TIAP KELOMPOK
+               PUNYA RANTAI JEDANYA SENDIRI — tidak lagi satu rantai panjang
+               yang menembus keempatnya. Yang berlaku sekarang:
 
-               EKORNYA 0,33 DETIK, DAN ITU SUDAH DEKAT BATAS. Tiga card yang
-               ditambahkan ke baris Data pada 15 Agustus 2026 mendorong ujung
-               rantai dari 0,27 ke 0,36; dibuangnya Stitch di hari yang sama
-               menariknya kembali ke 0,33. Peringatan di bagian Teknologi soal
-               rantai yang terlalu panjang — card terakhir jatuh terlalu jauh
-               dan pembaca sudah melewatinya sebelum ikonnya datang — berlaku
-               di sini juga. Kalau nanti ada card lagi yang ditambahkan,
-               pertimbangkan memulai rantai baru per kelompok alih-alih terus
-               menyambung, sebab keempat kelompok ini toh punya labelnya
-               sendiri-sendiri.
+                 Data          0 -> 0,21   (delapan card)
+                 Pengajaran    0 -> 0,03
+                 Administrasi  0 -> 0,03
+                 AI            0 -> 0,03
+
+               Label tiap kelompok tetap memakai jeda card pertamanya, jadi
+               keempat label sekarang berjeda 0.
+
+               INI PERSIS JALAN KELUAR YANG SUDAH DIANJURKAN DI SINI SEBELUMNYA,
+               dan masuknya Data Studio yang memicunya. Rantai menyambung sempat
+               berakhir di 0,36, ditarik ke 0,33 waktu Stitch dibuang, lalu
+               kembali ke 0,36 waktu DBeaver masuk — dan catatan di tempat ini
+               sudah menuliskan syaratnya: kalau ada satu card lagi ditambahkan,
+               mulai rantai baru per kelompok. Card kesembilan itu Data Studio,
+               dan rantai menyambung akan mendorong ujungnya ke 0,42.
+
+               ALASANNYA BUKAN ANGKANYA SEMATA. Card terakhir yang jatuh terlalu
+               jauh membuat pembaca sudah melewatinya sebelum ikonnya datang, dan
+               di rantai menyambung ongkos itu ditanggung kelompok yang paling
+               tidak bersalah: AI cuma berisi dua card, tapi ia menunggu paling
+               lama semata karena berdiri paling bawah. Keempat kelompok ini
+               punya labelnya sendiri-sendiri dan terbaca sebagai empat blok
+               terpisah, jadi tidak ada yang hilang saat rantainya dipotong —
+               ini pola yang sama yang sudah dipakai di antara bagian Teknologi
+               dan Perkakas.
+
+               MENAMBAH ATAU MENGHAPUS CARD SEKARANG CUMA MENYENTUH KELOMPOKNYA
+               SENDIRI, dan itu keuntungan yang ikut terbawa: dulu satu card baru
+               di baris Data memaksa seluruh rantai di bawahnya dihitung ulang.
 
                Bahasa awamnya: logo-logo di bagian ini tidak muncul serentak,
                melainkan menyusul satu per satu dari kiri ke kanan saat
-               di-scroll. Angka-angka di atas yang mengatur giliran itu, dan
-               logo terakhir sekarang datang 0,36 detik setelah yang pertama. */}
+               di-scroll. Sekarang tiap kelompok memulai giliran itu dari nol
+               lagi, jadi kelompok yang isinya sedikit tidak perlu ikut menunggu
+               antrean kelompok di atasnya. */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Perkakas</h3>
             <div className="border-t border-line">
 
               {/* Urutannya ditentukan pemiliknya, dan alurnya alat kerja dulu
                    baru penyajinya: Excel dan PostgreSQL tempat datanya tinggal,
-                   VS Code dan Anaconda tempat mengolahnya, Power BI dan Tableau
-                   yang menyajikannya. Pola yang sama dipakai baris lain di grid
-                   ini — yang menopang berdiri di depan.
+                   DBeaver yang membukanya, VS Code dan Anaconda tempat
+                   mengolahnya, lalu Data Studio, Power BI, dan Tableau yang
+                   menyajikannya. Pola yang sama dipakai baris lain di grid ini
+                   — yang menopang berdiri di depan.
 
-                   TUJUH CARD sejak 18 Agustus 2026, dan ini baris terpanjang di
-                   seluruh grid — jumlah itu yang mengikat kedua angka pembagi
-                   di `.tool-items` pada src/styles/tools-grid.css.
+                   DELAPAN CARD sejak 22 Agustus 2026, dan ini baris terpanjang
+                   di seluruh grid — jumlah itu yang mengikat angka pembagi di
+                   `.tool-items` pada src/styles/tools-grid.css.
 
-                   SATU BARIS DI DESKTOP SUDAH TIDAK MUNGKIN LAGI, dan itu
-                   terukur, bukan diperkirakan. Isi baris ini tidak pernah lebih
+                   DELAPAN JUSTRU LEBIH RAPI DARIPADA TUJUH, dan itu perlu
+                   ditulis supaya tidak dikira kebetulan yang beruntung. Yang
+                   dijaga di baris ini sejak dulu bukan jumlah barisnya melainkan
+                   pecahnya yang RATA dan SAMA di semua lebar. Pada card 25%,
+                   delapan pecah 4+4 — dua baris penuh, tidak ada card yang
+                   menggantung sendiri di baris kedua, dan tidak ada ruang kosong
+                   di ujung kanan. Tujuh dulu pecah 4+3, pembagian paling rata
+                   yang mungkin untuk bilangan ganjil, tapi baris keduanya tetap
+                   berhenti satu card lebih pendek daripada baris pertamanya.
+
+                   Jadi masuknya card ini TIDAK menyentuh satu angka pun di CSS.
+                   Pembagi 25% tetap, `.tool-label` 12rem tetap, `.tool-icon`
+                   7,5rem tetap.
+
+                   SATU BARIS DI DESKTOP MEMANG TIDAK MUNGKIN, dan itu terukur
+                   sejak baris ini berisi tujuh. Isi baris ini tidak pernah lebih
                    dari 844px (lihat hitungannya di komentar `.tool-items > *`),
-                   jadi tujuh card menuntut lebar <= 120,6px. Nama terpanjang di
-                   seluruh grid, "Google Workspace", selebar 108,1px pada 12px
-                   Inter dan card-nya ber-padding 8px di tiap sisi — jadi card
-                   di bawah 124,1px memecah nama itu jadi dua baris. Kedua
-                   syarat itu tidak bisa dipenuhi bersamaan; selisihnya 3,5px.
+                   jadi delapan card menuntut lebar <= 105,5px. Nama terpanjang
+                   di seluruh grid, "Google Workspace", selebar 108,1px pada 12px
+                   Inter dan card-nya ber-padding 8px di tiap sisi — jadi card di
+                   bawah 124,1px memecah nama itu jadi dua baris. Kedua syarat
+                   itu tidak bisa dipenuhi bersamaan, dan selisihnya sekarang
+                   18,6px — jauh lebih lebar daripada 3,5px waktu card-nya tujuh,
+                   jadi pintunya tertutup lebih rapat, bukan terbuka sedikit.
 
-                   Jadi yang dipilih PECAH 4+3, bukan card yang dipersempit.
-                   Alasannya sama dengan waktu baris ini berisi enam: yang
-                   dijaga bukan jumlah barisnya melainkan pecahnya yang RATA dan
-                   SAMA di semua lebar. 4+3 pembagian paling rata yang mungkin
-                   untuk tujuh; 6+1 di desktop dan 3+3+1 di ponsel keduanya
-                   menyisakan satu card menggantung sendiri — persis cacat
-                   "Tableau berdiri sendiri" yang dulu diperbaiki.
+                   `tool-items--four` DILEPAS pada 18 Agustus 2026. Class itu
+                   dulu memaksa pecah 4+3 di desktop dengan membatasi lebar blok;
+                   sejak lebar card jadi 25% di semua lebar viewport, empat per
+                   baris terjadi dengan sendirinya — persis seperti yang selama
+                   ini sudah berlaku di bawah 1180px. Aturan CSS-nya ikut
+                   dibuang, bukan ditinggalkan menganggur; ceritanya ada di
+                   src/styles/tools-grid.css.
 
-                   `tool-items--four` DILEPAS pada 18 Agustus 2026, dan barisnya
-                   tetap pecah 4+3. Class itu dulu memaksa pecahnya di desktop
-                   dengan membatasi lebar blok; sejak lebar card jadi 25% di
-                   semua lebar viewport, empat per baris terjadi dengan
-                   sendirinya — persis seperti yang selama ini sudah berlaku di
-                   bawah 1180px. Aturan CSS-nya ikut dibuang, bukan ditinggalkan
-                   menganggur; ceritanya ada di src/styles/tools-grid.css.
+                   BARISNYA MENGISI PENUH, dan sejak berisi delapan ia mengisi
+                   penuh di KEDUA barisnya. Dulu empat card cuma memakai 544px
+                   dari 844px yang tersedia dan menyisakan 300px kosong di kanan;
+                   card 25% membuat keempatnya membagi rata seluruh lebar itu.
+                   Isinya rata kiri, bukan dipusatkan — alasannya ditulis lengkap
+                   di komentar `.tool-items`, beserta riwayat pembalikannya.
 
-                   BARISNYA SEKARANG MENGISI PENUH, dan itu yang berubah paling
-                   kelihatan di desktop. Dulu empat card cuma memakai 544px dari
-                   844px yang tersedia dan menyisakan 300px kosong di kanan;
-                   kelompok berisi dua bahkan menyisakan 572px. Card 25%
-                   membuat keempatnya membagi rata seluruh lebar itu, dan
-                   kelompok yang lebih pendek dipusatkan.
-
-                   Bahasa awamnya: baris "Data" sekarang berisi tujuh logo, dan
-                   di semua ukuran layar ia tampil dua baris — empat di atas,
-                   tiga di bawah, dan yang tiga itu dipusatkan di bawah yang
-                   empat. Sengaja tidak dipaksa muat satu baris di layar
-                   komputer, sebab logonya harus dipersempit sampai nama
-                   "Google Workspace" di baris lain ikut pecah dua baris. */}
+                   Bahasa awamnya: baris "Data" sekarang berisi delapan logo, dan
+                   di ponsel, tablet, maupun komputer ia tampil dua baris berisi
+                   empat — sama rata, tanpa ada yang menggantung sendirian di
+                   baris bawah. Sengaja tidak dipaksa muat satu baris di layar
+                   komputer, sebab logonya harus dipersempit sampai nama "Google
+                   Workspace" di baris lain ikut pecah dua baris. */}
               <div className="tool-row border-b border-line">
                 <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Data</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
@@ -677,6 +703,125 @@ export default function Skills() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Anaconda</span>
                   </div>
 
+                  {/* DATA STUDIO — ditaruh SETELAH Anaconda atas permintaan, dan
+                       letak itu kebetulan jatuh persis di sambungan alur baris
+                       ini: Anaconda menutup kelompok pengolah, dan ia membuka
+                       kelompok penyaji bersama Power BI dan Tableau di
+                       sebelahnya. Ketiganya berdiri berurutan, bukan berselang.
+
+                       BERKASNYA ASET RESMI GOOGLE, dan yang dipakai DUA SIMPUL
+                       TERHUBUNG — bukan tiga bar bertitik. Dua-duanya berjudul
+                       "ic_data_studio.svg" dan dua-duanya masih dilayani server
+                       Google; yang membedakan cuma path-nya. Yang benar
+                       `analytics-lego`, yaitu yang dirujuk HTML
+                       lookerstudio.google.com dan yang tergambar di pojok kiri
+                       atas aplikasinya. Yang salah `analytics-suite/header/
+                       suite/v2`, lambang generasi sebelumnya, dan ia SEMPAT
+                       TERPASANG DI SINI.
+
+                       Pelajarannya, dan ini tambahan baru untuk daftar jebakan
+                       logo di README: URL yang menjawab 200 tidak membuktikan
+                       asetnya masih dipakai. Ambil dari HTML halaman yang sedang
+                       tayang, bukan dari tebakan nama berkas — nama berkas
+                       bertahan melewati pergantian logo.
+
+                       Warnanya #4285f4 dan #9aa0a6 apa adanya, tidak perlu
+                       ditelusuri ulang dari gambar seperti VS Code dan tidak
+                       perlu diterangkan seperti DBeaver. Catatan lengkap soal apa
+                       yang dibuang dari berkas aslinya ada di dalam berkas itu
+                       sendiri.
+
+                       KONTRASNYA SUDAH DI DALAM RENTANG TANPA DISENTUH, dan itu
+                       diperiksa sebelum diputuskan — aturan "terangkan pada rona
+                       aslinya" (lihat DBeaver di atas) berlaku kalau kontrasnya
+                       jatuh, dan di sini tidak. Di atas #040508: birunya 5,72:1,
+                       kelabunya 7,72:1. Terukur di baris yang sama: DBeaver
+                       6,91:1, Tableau 6,85:1, Anaconda 6,69:1, Excel 6,30:1,
+                       VS Code 4,52:1, PostgreSQL 3,39:1.
+
+                       KELABUNYA MEMANG YANG PALING TERANG DI BARIS INI, meleset
+                       0,81 dari DBeaver yang sebelumnya memegangnya, dan itu
+                       dibiarkan dengan sadar. Aturan "jangan jadi yang paling
+                       terang" ditulis untuk warna yang KITA ubah sendiri —
+                       di sana kita memilih angkanya, jadi memilih yang menonjol
+                       adalah kelalaian. Ini warna merek apa adanya, dan
+                       menurunkannya berarti memalsukan logo demi selisih yang di
+                       bawah satu tingkat kontras. Yang lebih menentukan lagi:
+                       tintanya garis tipis, bukan bidang penuh, jadi luas piksel
+                       terangnya jauh lebih kecil daripada Excel atau Tableau di
+                       sebelahnya.
+
+                       DINAIKKAN 1,27, dan sebabnya KOTAKNYA — persoalan yang
+                       sama dengan PostgreSQL, Power BI, dan SQL. viewBox-nya
+                       "0 0 512 512" tapi tintanya cuma 404x404 di dalamnya
+                       (x 54-458, y 54-458), jadi tinggi tintanya 78,9% tinggi
+                       kotak. Dengan object-contain itu 25,3px di kotak 32px dan
+                       28,4px di kotak 36px — sekitar 21% lebih pendek daripada
+                       tetangganya di kedua ukuran.
+
+                       512/404 = 1,2673, dibulatkan ke 1,27, dan hasilnya 32,1px
+                       dan 36,1px. Yang dikoreksi RASIO, jadi satu angka ini
+                       benar di kedua ukuran kotak sekaligus, sama seperti kelima
+                       logo lain yang diskalakan di grid ini.
+
+                       TINTANYA BUJUR SANGKAR PERSIS (404x404, rasio 1,0000) DAN
+                       SIMETRIS DI KEDUA SUMBU (sisa 54 satuan di keempat sisi).
+                       Dua sifat itu yang membuat kasus ini bersih: menskalakan
+                       dari titik tengah tetap menaruhnya di tengah, dan
+                       penyamaan tinggi sekaligus menyamakan rata-rata
+                       geometriknya — tidak ada perdebatan seperti pada Claude
+                       Code, yang tintanya 1,6:1. Ikon lama yang sempat terpasang
+                       di sini 1,09:1 dan rata-rata geometriknya meleset 4,7% ke
+                       atas; yang ini tepat.
+
+                       Kotak elemennya jadi 45,7px di desktop dan menjulur 4,9px
+                       ke tiap sisi; bagian itu transparan, tidak ada
+                       `overflow: hidden` di jalur induknya, dan pagar
+                       `.tool-icon` di src/styles/tools-grid.css ada di 120px,
+                       jadi tidak ikut terpangkas.
+
+                       TERUKUR SESUDAHNYA di sembilan lebar viewport (320, 360,
+                       375, 390, 430, 768, 1024, 1180, 1440, 1920), pada build
+                       produksi: tinggi tintanya 32,1px di bawah 900px dan 36,1px
+                       di atasnya, sementara ketujuh tetangganya di baris ini
+                       31,6-32,1px dan 35,5-36,1px. Ia duduk di ujung atas
+                       rentang itu, meleset paling jauh 0,6px. Baris ini pecah
+                       4+4 di kesembilan lebar, keempat kolomnya lurus di kedua
+                       barisnya, dan tidak ada satu lebar pun yang meluber
+                       mendatar.
+
+                       NAMANYA PECAH DUA BARIS DI BAWAH 375px, dan itu diukur,
+                       bukan ditaksir: dua baris pada 320 dan 360px, satu baris
+                       dari 375px ke atas. Di kedua lebar itu ia tidak sendirian
+                       — "Google Classroom", "Google Workspace", dan "Claude
+                       Code" sudah pecah di sana sejak sebelumnya (ditambah "MS
+                       Office" khusus di 320px), jadi tidak ada anomali satu card
+                       yang tampak lebih tinggi daripada tetangganya. Kalau suatu
+                       saat nama ini mau dipaksa muat, yang disentuh padding card
+                       (px-2), bukan pembagi 25% — dan padding itu ikut dihitung
+                       di dua tempat lain di src/styles/tools-grid.css.
+
+                       Bahasa awamnya: logo Data Studio dibesarkan seperempat
+                       supaya tingginya sama dengan logo di sebelahnya. Tanpa itu
+                       ia tampak lebih kecil — bukan karena salah pasang, tapi
+                       karena berkas logonya punya ruang kosong bawaan di
+                       tepinya. Warnanya tidak disentuh sama sekali.
+
+                       Dan satu catatan supaya tidak terulang: logo yang sempat
+                       terpasang di sini tiga bar bertitik, lambang Data Studio
+                       yang lama. Ia diunduh dari server resmi Google dengan nama
+                       berkas yang benar, jadi tidak ada tanda apa pun bahwa itu
+                       keliru — yang menemukannya pemiliknya sendiri, karena ia
+                       membuka aplikasinya dan logonya berbeda. */}
+                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/google-data-studio.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.27)" }} className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Data Studio</span>
+                  </div>
+
                   {/* POWER BI DINAIKKAN ke 1,2, dan sebabnya KOTAKNYA, bukan
                        warnanya. viewBox-nya "0 0 48 48" tapi tintanya cuma
                        menempati 30x40 di dalamnya (x 9-39, y 4-44) — kelonggaran
@@ -713,7 +858,7 @@ export default function Skills() {
                        jadi kalau nanti diganti dengan unduhan baru dari
                        Microsoft, satu-satunya yang perlu diperiksa ulang angka
                        di baris ini — bukan isi file yang sudah diedit tangan. */}
-                  <div data-component="scrub-reveal" data-delay="0.15" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/microsoft-power-bi.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.2)" }} className="max-h-full max-w-full object-contain" />
@@ -728,7 +873,7 @@ export default function Skills() {
                        di barisnya, tapi tidak ada satu pun bidang terisi penuh
                        seperti kotak kuning JavaScript dulu — jadi bobot tampaknya
                        tetap sepadan dengan tetangganya tanpa perlu diturunkan. */}
-                  <div data-component="scrub-reveal" data-delay="0.18" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/tableau.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -752,12 +897,12 @@ export default function Skills() {
                    kali sejak ia berdiri sendiri di baris Data 15 Agustus 2026.
                    Keduanya diluruskan. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.21" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
-                <span data-component="scrub-reveal" data-delay="0.21" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
+                <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.21" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/google-classroom.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.25)" }} className="max-h-full max-w-full object-contain" />
@@ -797,7 +942,7 @@ export default function Skills() {
                        ditambahkan: terangkan pada rona aslinya, jangan diganti
                        warnanya. Wordmark Quizizz dulu aslinya #5D2057 dan nyaris
                        tak terlihat di latar #040508. */}
-                  <div data-component="scrub-reveal" data-delay="0.24" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/wayground.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -810,12 +955,12 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.27" className="-caption-small tool-label text-text-muted">Administrasi</h4>
-                <span data-component="scrub-reveal" data-delay="0.27" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Administrasi</h4>
+                <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.27" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/ms-office.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -827,7 +972,7 @@ export default function Skills() {
                   {/* Google Workspace memakai wordmark penuhnya, perbandingan 7,76:1.
                        Ia memang tampil lebih short daripada logo persegi di
                        sebelahnya — itu sifat wordmark sepanjang ini, bukan salah ukuran. */}
-                  <div data-component="scrub-reveal" data-delay="0.3" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/google-workspace.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -840,12 +985,12 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.33" className="-caption-small tool-label text-text-muted">AI</h4>
-                <span data-component="scrub-reveal" data-delay="0.33" className="h-px w-8 self-center bg-line"></span>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">AI</h4>
+                <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
 
-                  <div data-component="scrub-reveal" data-delay="0.33" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/claude.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.14)" }} className="max-h-full max-w-full object-contain" />
@@ -901,7 +1046,7 @@ export default function Skills() {
                        samping logo Claude, karena bentuknya melebar sementara
                        yang lain kotak. Sekarang ukurannya disetel supaya
                        terlihat sama besar, bukan supaya angkanya sama tinggi. */}
-                  <div data-component="scrub-reveal" data-delay="0.36" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/claude-code.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.26)" }} className="max-h-full max-w-full object-contain" />
