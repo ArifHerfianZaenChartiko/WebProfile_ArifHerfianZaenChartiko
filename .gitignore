@@ -5,3 +5,9 @@ dist
 
 # Catatan kerja internal, bukan bagian dari situs. Tidak pernah ikut ke remote.
 rules.md
+
+# Dibuat `vercel link`. .vercel berisi id proyek dan organisasi milik akun ini,
+# .env.local berisi token OIDC yang diunduh bersamanya. Keduanya mengikat
+# salinan repo ke satu akun -- bukan bagian dari situsnya.
+.vercel
+.env*
