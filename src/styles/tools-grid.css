@@ -220,9 +220,24 @@
      Kelonggaran itu bukan hiasan: pas-pasan berbahaya di sini, karena begitu
      satu label pecah dua baris, kelurusan garis rambut seluruh kelompok ikut
      hilang, dan huruf tidak selalu dirender sama persis di setiap browser dan
-     sistem operasi. Angka ini baru perlu dinaikkan lagi kalau ada label yang
-     lebih panjang dari "BAHASA PEMROGRAMAN" ditambahkan; kalau label itu
-     dipendekkan, ia boleh ikut turun. */
+     sistem operasi.
+
+     PATOKAN ITU SUDAH TIDAK ADA LAGI sejak 23 Agustus 2026. Bagian Teknologi
+     dibubarkan jadi satu baris TANPA label, jadi "BAHASA PEMROGRAMAN" dan
+     "BAHASA KUERI" ikut hilang bersamanya. Label terpanjang yang tersisa
+     sekarang "ADMINISTRASI" (12 huruf, 112,3px pada hitungan yang sama), jadi
+     kelonggarannya melompat dari 23,5px ke 79,7px.
+
+     ANGKANYA SENGAJA TIDAK DITURUNKAN, dan itu bukan kelalaian. Menurunkannya
+     ke, misalnya, 8rem akan menggeser garis rambut KEEMPAT kelompok Perkakas
+     sekaligus ke kiri dan melebarkan area card — perubahan tampilan yang tidak
+     diminta, di bagian yang tidak sedang disentuh. Angka ini baru layak
+     ditinjau kalau memang ada permintaan merapatkan grid Perkakas.
+
+     Kalau nanti ada label baru ditambahkan, hitungannya tetap berlaku:
+     JetBrains Mono ber-advance 0,6em (7,2px pada 12px) plus letter-spacing
+     0,18em (2,16px) setelah SETIAP huruf, jadi 9,36px per huruf. 12rem
+     menampung 20 huruf. */
   .tool-label {
     width: 12rem;
   }

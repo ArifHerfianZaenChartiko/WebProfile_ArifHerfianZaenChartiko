@@ -188,8 +188,7 @@ berbeda padahal keduanya soal basis data: SQL bahasa untuk bertanya, PostgreSQL
 program yang menjawab.
 
 ```
-Teknologi   Bahasa Pemrograman   Python                                   (1)
-            Bahasa Kueri         SQL                                      (1)
+Teknologi   (tanpa label)        SQL, Python, pandas, matplotlib          (4)
 
 Perkakas    Data                 Excel, PostgreSQL, DBeaver, VS Code,
                                  Anaconda, Data Studio, Power BI,
@@ -266,8 +265,7 @@ berurutan, dan label tiap kelompok memakai delay card pertamanya.
 **Sejak 22 Agustus 2026 tiap kelompok punya rantainya sendiri, mulai dari nol:**
 
 ```
-Teknologi   Bahasa Pemrograman   0
-            Bahasa Kueri         0,03
+Teknologi   (tanpa label)        0 → 0,09   (empat card)
 Perkakas    Data                 0 → 0,21   (delapan card)
             Pengajaran           0 → 0,03
             Administrasi         0 → 0,03
@@ -290,10 +288,29 @@ Rantai `.skill-grid` di blok kemampuan profesional (0 / 0,04 / 0,08 / 0,12 / 0,1
 terpisah lagi dan kebetulan memakai attribute yang sama.
 
 **Nama kelompok terpanjang mengikat satu angka di CSS.** `.tool-label` dipatok
-lebar tetap supaya garis rambut kelima kelompok lurus sejajar, dan lebarnya
-sekarang 12rem — pas untuk "BAHASA PEMROGRAMAN" (168,5px) plus kelonggaran.
-Label yang lebih panjang dari itu akan pecah dua baris dan kelurusannya hilang;
-hitungannya ada di komentar aturan `.tool-label` di `src/index.css`.
+lebar tetap supaya garis rambut tiap kelompok lurus sejajar, dan lebarnya
+12rem — cukup untuk 20 huruf. Label yang lebih panjang akan pecah dua baris dan
+kelurusannya hilang; hitungannya ada di komentar aturan `.tool-label` di
+`src/styles/tools-grid.css`.
+
+Angka itu dulu dihitung pas-pasan untuk "BAHASA PEMROGRAMAN" (168,5px). Sejak
+bagian `Teknologi` jadi satu baris tanpa label pada 22 Agustus 2026, label
+terpanjang tinggal "ADMINISTRASI" (112,3px) dan kelonggarannya melompat dari
+23,5px ke 79,7px. **Angkanya sengaja dibiarkan 12rem** — menurunkannya
+menggeser garis rambut keempat kelompok `Perkakas` sekaligus, dan itu perubahan
+tampilan yang tidak diminta.
+
+**`Teknologi` satu-satunya baris tanpa `.tool-label`,** dan itu punya dua akibat
+yang disengaja: card-nya lebih lebar daripada card `Perkakas` (275px lawan
+211px, sebab `.tool-items` menempati seluruh lebar baris), dan card pertamanya
+tidak segaris dengan card pertama kelompok `Perkakas` yang masuk 256px ke dalam.
+Keduanya diterima karena bagian itu berdiri di bawah judulnya sendiri dan tidak
+punya garis rambut yang bisa terbaca zigzag.
+
+**Keduanya hanya berlaku di ≥1180px.** Di bawah itu label naik ke atas deretan
+dan `.tool-items` jadi `width: 100%` untuk semua baris, jadi lebar card dan titik
+x-nya sama persis di kedua bagian — terukur di 320, 360, 390, 430, 768, 844, dan
+1024px.
 
 Untuk logo-nya, **buka situs resmi tool-nya, bukan kumpulan icon pihak
 ketiga.** Jebakan yang sudah pernah kena:

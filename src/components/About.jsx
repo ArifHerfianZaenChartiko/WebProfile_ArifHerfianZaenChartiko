@@ -157,13 +157,98 @@ export default function About() {
                    pengalaman peran itu dan mana yang pinjaman dari sebelahnya.
                    Tiga keterangan yang bersih lebih mudah dinilai daripada
                    tiga keterangan yang saling menunjuk.
+
+                   ══════════════════════════════════════════════════════════
+                   TIDAK ADA NAMA PERKAKAS DI KETIGA KETERANGAN INI.
+
+                   Baris 01 melanggarnya sampai 23 Agustus 2026: ia menyebut
+                   Python, PostgreSQL, Power BI, dan Tableau apa adanya,
+                   sementara 02 dan 03 hanya menyebut langkah kerjanya. Yang
+                   terbaca bukan tiga peran setara melainkan satu peran yang
+                   dijelaskan dengan cara berbeda — dan register yang berbeda
+                   sendiri di dalam satu daftar selalu terbaca sebagai
+                   penekanan, persis yang dilarang aturan kedua di komentar
+                   kalimat pembuka di atas.
+
+                   ALASAN KEDUANYA LEBIH MENENTUKAN DARIPADA KERAPIAN:
+                   PERKAKASNYA MEMANG KONDISIONAL. Yang menentukan dipakainya
+                   Python atau bukan adalah pertanyaan yang sedang dijawab,
+                   bukan perannya. Mendaftarnya sebagai isi peran menjanjikan
+                   sesuatu yang tidak selalu benar; 02 dan 03 tidak pernah
+                   melakukan itu, dan justru itu yang membuat keduanya
+                   bertahan tanpa perlu direvisi tiap kali perkakasnya
+                   berganti.
+
+                   YANG DISEBUT SEKARANG BENDANYA, BUKAN PROGRAMNYA — data
+                   mentah, basis data, dashboard. Itu sepola dengan tetangganya
+                   yang juga menyebut benda (materi, berkas, arsip, disposisi).
+
+                   ══════════════════════════════════════════════════════════
+                   URUTAN LANGKAHNYA IKUT DIBETULKAN, dan itu perbaikan
+                   terpisah yang dikerjakan di hari yang sama.
+
+                   Versi lama punya dua cacat urutan yang tidak kelihatan
+                   selama nama perkakas masih menutupinya:
+
+                     TIDAK ADA TITIK AWALNYA. Ia mulai dari "menarik data",
+                     seolah datanya sudah menunggu untuk diolah. Pekerjaan
+                     analis tidak pernah mulai dari data — ia mulai dari
+                     PERTANYAAN, dan pertanyaan itu datang dari orang lain.
+                     Tanpa langkah itu, yang tergambar teknisi yang mengolah
+                     apa pun yang disodorkan, bukan orang yang tahu untuk apa
+                     ia mengolahnya.
+
+                     MERAPIKAN BERDIRI SEBELUM MENGUERI. Datanya belum
+                     diambil, jadi belum ada yang bisa dirapikan. Sekarang
+                     basis datanya lebih dulu, baru data mentahnya dibereskan.
+
+                   Satu langkah juga ditambahkan di tengah — menggali pola dan
+                   membangun model — sebab di versi lama data melompat langsung
+                   dari dirapikan ke ditampilkan. Yang hilang di lompatan itu
+                   justru analisisnya sendiri; tanpa ia, sisa kalimatnya
+                   menggambarkan pelaporan, bukan analisis.
+
+                   TUJUH LANGKAH, TIGA KATA SAMBUNG. Draf awalnya memakai lima
+                   (serta, dan, dan, dengan, lalu) dan terbaca tersendat. Dua
+                   dipangkas tanpa kehilangan langkah: pasangan sinonim
+                   "membersihkan dan merapikan" jadi satu kata, dan
+                   "mengeksplorasi dengan mencari pola" jadi "menggali pola".
+                   Kalau nanti ada langkah baru, pangkas dengan cara yang sama
+                   — cari pasangan kata yang artinya bertindihan, jangan
+                   membuang langkahnya.
+
+                   PANJANGNYA NAIK 216 -> 268 HURUF, dan ini keterangan
+                   TERPANJANG di daftar (02 195 huruf, 03 219). Itu diterima
+                   dengan sadar: yang dijaga aturan di atas REGISTER-nya, bukan
+                   panjangnya, dan ketiganya tetap sama-sama menyebut langkah
+                   kerja tanpa satu pun nama program. Kalau nanti selisihnya
+                   terasa mengangkat baris 01, yang dipangkas kalimatnya —
+                   jangan menambah panjang 02 dan 03 supaya seimbang, sebab
+                   keduanya sudah selesai pada panjangnya sendiri.
+                   ══════════════════════════════════════════════════════════
+
+                   NAMA PERKAKASNYA TIDAK HILANG DARI HALAMAN INI, dan itu
+                   syarat yang harus tetap dipenuhi selama aturan ini berdiri:
+                   keenamnya masih jadi card di grid Teknologi dan Perkakas,
+                   dan deskripsi meta di index.html masih menyebutnya. Aturan
+                   satu arah di sana tetap sah — yang disebut meta harus ada di
+                   halaman, dan grid itulah tempatnya. Jadi jangan membuang
+                   entri di grid itu dengan alasan perkakasnya toh sudah
+                   disebut di sini; sejak hari ini ia justru satu-satunya
+                   tempat yang menyebutnya.
+
+                   Perubahan yang sama dikerjakan di card "Analisis Data" pada
+                   src/components/Skills.jsx, dengan alasan yang sama persis.
+                   Kalau salah satunya dipulihkan, pulihkan keduanya — kalau
+                   tidak, ketimpangan registernya kembali cuma di satu tempat
+                   dan jadi lebih sulit dilihat daripada sebelumnya.
                    ══════════════════════════════════════════════════════════ */}
               <div className="border-t border-line">
                 <div data-component="scrub-reveal">
                   <div className="group relative grid grid-cols-1 gap-x-8 gap-y-3 border-b border-line py-8 nav:grid-cols-[3rem_minmax(0,13rem)_minmax(0,1fr)]">
                     <span className="-mono tabular-nums text-text-muted">01</span>
                     <h3 className="-title-3 transition-transform duration-500 ease-brand nav:group-hover:translate-x-1">Data Analyst</h3>
-                    <p className="-body-small max-w-xl text-text-muted">Menarik dan merapikan data dengan Python, menyusun serta mengueri basis data PostgreSQL, menyajikannya sebagai dashboard Power BI dan Tableau, menjelaskan arti temuannya, lalu memberi rekomendasi langkah yang bisa diambil.</p>
+                    <p className="-body-small max-w-xl text-text-muted">Menerima pertanyaan dari atasan atau pengguna, menyusun serta mengueri basis datanya, merapikan data mentahnya, menggali pola dan membangun modelnya, menyajikan hasilnya sebagai dashboard, menjelaskan arti temuannya, lalu memberi rekomendasi langkah yang bisa diambil.</p>
                     <span aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-text transition-transform duration-700 ease-brand group-hover:scale-x-100"></span>
                   </div>
                 </div>

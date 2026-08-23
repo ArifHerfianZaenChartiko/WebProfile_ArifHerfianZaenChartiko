@@ -108,28 +108,106 @@ export default function Skills() {
                    88. Itu di atas rentang 45-90 karakter yang biasa dianjurkan
                    untuk teks berjalan, dan alasan batas lama ada memang itu —
                    mata kehilangan tempat saat berpindah baris. Yang menahannya
-                   tetap terbaca di sini: teksnya cuma 208 karakter, jadi ia
-                   selesai dalam dua baris, dan dua baris tidak menuntut mata
-                   melakukan perpindahan berulang seperti paragraf panjang.
+                   tetap terbaca di sini: teksnya 268 karakter, jadi ia selesai
+                   dalam dua baris, dan dua baris tidak menuntut mata melakukan
+                   perpindahan berulang seperti paragraf panjang.
+
+                   ANGKA ITU SUDAH BERGERAK DUA KALI pada 23 Agustus 2026:
+                   208 -> 188 waktu nama perkakasnya dibuang, lalu 188 -> 268
+                   waktu urutan langkahnya dibetulkan jadi tujuh. Keduanya
+                   dijelaskan di blok komentar tepat di atas kalimatnya.
+
+                   268 MASIH DUA BARIS, tapi kelonggarannya tinggal tipis: pada
+                   1044px satu baris penuh memuat sekitar 150 karakter, jadi
+                   dua baris menampung sekitar 300. Sisa 32 karakter. Kalau
+                   nanti kalimat ini diperpanjang lagi, ia akan jatuh ke tiga
+                   baris — dan di situlah batas lebar teksnya perlu
+                   dipertimbangkan ulang, di angka yang lebih besar dari 42rem
+                   (misalnya 64rem) supaya tetap memenuhi card tanpa jatuh ke
+                   baris sepanjang 150 karakter.
 
                    Kalau nanti keterangannya diperpanjang jauh melewati ini,
                    pertimbangkan mengembalikan batas lebarnya — di angka yang
                    lebih besar dari 42rem, misalnya 64rem, supaya tetap memenuhi
                    card tanpa jatuh ke baris sepanjang 150 karakter. */}
-              {/* KALIMAT INI MENYEBUT TEKNOLOGINYA HARFIAH, bukan meringkasnya
-                   jadi "mengolah data" saja — alasannya sama dengan deskripsi
-                   meta di index.html: penyaring lamaran mencocokkan teks apa
-                   adanya.
+              {/* NAMA PERKAKASNYA DIBUANG pada 23 Agustus 2026, dan itu
+                   MEMBALIK aturan yang berdiri di tempat ini sebelumnya —
+                   jadi bacalah seluruh blok ini sebelum memulihkannya.
 
-                   Yang disebut di sini PERSIS isi grid Teknologi dan Perkakas
-                   di bawahnya, tidak lebih. Kalimat yang menjanjikan perkakas
-                   yang tidak muncul di grid mana pun akan dibantah oleh
-                   halamannya sendiri beberapa layar kemudian, dan kalimat yang
-                   dibantah halaman tempat ia berdiri adalah yang paling mahal
-                   ongkosnya. Pelajaran itu sudah pernah dibayar: sampai
-                   9 Agustus 2026 kalimat ini berbunyi "tanpa kerangka kerja"
-                   di halaman yang dibangun dengan React. */}
-              <p className="-body-small text-text-muted">Menarik dan merapikan data dengan Python, menyusun serta mengueri basis data PostgreSQL, membangun dashboard Power BI dan Tableau, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti.</p>
+                   Yang dulu tertulis di sini: kalimat ini WAJIB menyebut
+                   teknologinya harfiah (Python, PostgreSQL, Power BI,
+                   Tableau), dengan alasan yang sama seperti deskripsi meta di
+                   index.html — penyaring lamaran mencocokkan teks apa adanya.
+                   Alasan itu benar, dan tetap berlaku DI META. Yang keliru
+                   memperluasnya sampai ke card ini.
+
+                   DUA SEBAB, DAN YANG KEDUA LEBIH MENENTUKAN.
+
+                   Pertama, KETIGA CARD DI BLOK INI HARUS SATU REGISTER.
+                   "Pengajaran Teknis" dan "Administrasi Digital" di sebelahnya
+                   hanya menyebut langkah kerja; card ini satu-satunya yang
+                   mendaftar nama program. Di tiga kotak yang berdampingan,
+                   satu yang berbeda cara bicaranya terbaca sebagai penekanan
+                   — dan mengangkat satu dari tiga peran adalah hal yang paling
+                   dihindari halaman ini. Alasan lengkapnya di komentar kalimat
+                   pembuka src/components/About.jsx, aturan nomor dua.
+
+                   Kedua, PERKAKASNYA KONDISIONAL. Yang menentukan dipakainya
+                   Python, PostgreSQL, atau Tableau adalah pertanyaan yang
+                   sedang dijawab, bukan perannya. Mendaftarnya sebagai isi
+                   peran menjanjikan sesuatu yang tidak selalu benar, dan
+                   menuntut kalimat ini direvisi tiap kali perkakasnya
+                   berganti. Dua card tetangganya tidak pernah punya utang itu.
+
+                   YANG MENGGANTIKANNYA BENDANYA, BUKAN PROGRAMNYA — data
+                   mentah, basis data, dashboard.
+
+                   URUTAN DAN JUMLAH LANGKAHNYA IKUT BERUBAH di hari yang sama,
+                   dan itu perbaikan terpisah dari pembuangan nama perkakas di
+                   atas. Ringkasnya: versi lama mulai dari "menarik data"
+                   (padahal pekerjaan analis mulai dari PERTANYAAN, dan
+                   pertanyaan itu datang dari orang lain), menaruh "merapikan"
+                   sebelum datanya sempat diambil, dan melompat dari data yang
+                   sudah rapi langsung ke dashboard — melewatkan analisisnya
+                   sendiri. Sekarang tujuh langkah, urut: pertanyaan, basis
+                   data, pembersihan, pola dan model, dashboard, penjelasan,
+                   rekomendasi.
+
+                   Alasan lengkap tiap perubahan ditulis di komentar baris 01
+                   src/components/About.jsx supaya tidak ditulis dua kali; yang
+                   di sini sengaja cuma ringkasannya.
+
+                   TIGA KATA SAMBUNG UNTUK TUJUH LANGKAH. Draf awalnya lima dan
+                   terbaca tersendat. Dua dipangkas tanpa membuang langkah:
+                   pasangan sinonim "membersihkan dan merapikan" jadi satu
+                   kata, "mengeksplorasi dengan mencari pola" jadi "menggali
+                   pola". Kalau ada langkah baru nanti, pangkas dengan cara yang
+                   sama — cari kata yang artinya bertindihan, jangan membuang
+                   langkahnya.
+
+                   PENYARING LAMARAN TIDAK KEHILANGAN SATU KATA PUN, dan itu
+                   diperiksa sebelum diputuskan, bukan diandaikan: keenam nama
+                   itu masih berdiri di judul halaman, di deskripsi meta, dan —
+                   yang paling menentukan — sebagai card di grid Teknologi dan
+                   Perkakas beberapa layar di bawah. Aturan satu arah di
+                   index.html karena itu tetap terpenuhi: yang disebut meta
+                   harus ada di halaman, dan grid itulah tempatnya.
+                   Konsekuensinya grid itu sekarang SATU-SATUNYA tempat di
+                   badan halaman yang menyebut keenamnya, jadi jangan
+                   memangkasnya dengan alasan sudah disebut di tempat lain.
+
+                   YANG TETAP BERLAKU DARI ATURAN LAMA: kalimat ini tidak boleh
+                   menjanjikan sesuatu yang dibantah halamannya sendiri
+                   beberapa layar kemudian. Ongkos pelajaran itu sudah pernah
+                   dibayar — sampai 9 Agustus 2026 kalimat ini berbunyi "tanpa
+                   kerangka kerja" di halaman yang dibangun dengan React.
+                   Sekarang ia tidak menyebut perkakas sama sekali, jadi tidak
+                   ada lagi yang bisa dibantah.
+
+                   Perubahan kembarannya ada di baris 01 bagian Tentang
+                   (src/components/About.jsx). Kalau salah satunya dipulihkan,
+                   pulihkan keduanya. */}
+              <p className="-body-small text-text-muted">Menerima pertanyaan dari atasan atau pengguna, menyusun serta mengueri basis datanya, merapikan data mentahnya, menggali pola dan membangun modelnya, menyajikan hasilnya sebagai dashboard, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti.</p>
             </article>
             </div>
 
@@ -207,6 +285,132 @@ export default function Skills() {
                Ejaan tiga kata dibetulkan dari sumber tulisannya: produktifitas ->
                produktivitas, efisensi -> efisiensi, penyelsaian -> penyelesaian.
 
+               ══ URUTANNYA DIUBAH pada 23 Agustus 2026, atas permintaan
+
+               Dari komunikasi teknis / analisis / adaptabilitas / perhatian
+               pada detail / koordinasi tim, jadi:
+
+                 1  Analisis & Pemecahan Masalah
+                 2  Komunikasi Teknis
+                 3  Perhatian pada Detail
+                 4  Adaptabilitas
+                 5  Koordinasi Tim
+
+               YANG DIBERESKAN URUTAN LAMA: ia membuka dengan Komunikasi
+               Teknis, kemampuan yang paling lekat dengan peran KEDUA. Setiap
+               blok lain di halaman ini menaruh analisis data di depan —
+               typewriter di sampul, baris 01 di Tentang, dan card "Analisis
+               Data" yang merentang dua kolom tepat di atas blok ini. Satu blok
+               yang membuka dengan kemampuan peran lain membantah hierarki yang
+               sudah ditegakkan empat kali, dan yang dibaca lebih dulu selalu
+               terbaca sebagai yang paling diunggulkan.
+
+               TIGA YANG PERTAMA SEKARANG SATU KELUARGA, dan itu bukan
+               kebetulan: analisis, komunikasi, dan perhatian pada detail
+               ketiganya syarat yang benar-benar ditulis di lowongan analis
+               data. Dua yang terakhir — adaptabilitas dan koordinasi tim —
+               berlaku untuk pekerjaan apa pun, jadi tempatnya memang di
+               belakang. Pembacanya karena itu mendapat yang paling menentukan
+               lebih dulu, bukan yang paling umum.
+
+               LETAK ITU JUGA YANG DIBACA GRID-nya. Tiga card pertama duduk di
+               baris atas (merentang dua kolom), dua terakhir di baris bawah
+               (merentang tiga) — lihat .skill-grid di src/styles/skills.css.
+               Jadi "tiga yang pertama" bukan sekadar urutan baca melainkan
+               satu baris utuh yang terpisah secara visual dari dua di
+               bawahnya. Di >=1024px kelimanya sebaris dan pembagian itu larut,
+               tapi urutan bacanya tetap.
+
+               DUA HAL YANG POSISIONAL DAN TIDAK IKUT PINDAH BERSAMA CARD-nya
+               — ini yang paling mudah salah kalau urutannya diubah lagi:
+
+                 data-delay      tetap 0 / 0,04 / 0,08 / 0,12 / 0,16 menurut
+                                 urutan DOM. Ia menyatakan giliran masuk, bukan
+                                 milik card tertentu. Membawanya ikut pindah
+                                 membuat card kedua masuk lebih dulu daripada
+                                 card pertama.
+                 aturan CSS      .skill-card:nth-child(n+4) dan :last-child
+                                 menghitung POSISI. Yang berpindah ke slot 4
+                                 dan 5 otomatis jadi card lebar, tanpa satu
+                                 class pun disentuh.
+
+               Yang IKUT pindah bersama card-nya cuma ikon, judul, dan
+               keterangannya. Ikon Adaptabilitas tetap arrows-rotate meski
+               sekarang berdiri di slot keempat.
+
+               Bahasa awamnya: lima kotak kemampuan ini ditukar urutannya
+               supaya yang paling menentukan untuk peran analis data dibaca
+               lebih dulu. Isi tiap kotak tidak berubah sama sekali — yang
+               berpindah cuma tempatnya, dan giliran munculnya saat di-scroll
+               otomatis menyesuaikan urutan barunya.
+
+               ══ ADAPTABILITAS DAN KOORDINASI TIM DITULIS ULANG, 23 Agustus 2026
+
+               Keduanya diminta lebih lengkap: Adaptabilitas kini menyebut
+               tindakan menyesuaikan dirinya (bukan cuma kesadarannya) dan
+               menjanjikan produktivitas TERJAGA sebelum meningkat; Koordinasi
+               Tim kini menyebut dasar pembagian tugasnya dan mekanisme
+               komunikasinya, bukan cuma hasilnya.
+
+               TIGA HAL DIRAPIKAN DARI DRAF ASLINYA, dan ketiganya melanggar
+               aturan yang sudah berdiri di blok ini:
+
+                 KOMA DI DRAF KOORDINASI TIM DIBUANG. Ia berdiri sebelum
+                 "sehingga". Aturan "satu klausa tanpa tanda baca" beberapa
+                 paragraf di atas ditegakkan atas permintaan pada hari kartu
+                 Perhatian pada Detail dipasang; membiarkan koma di sini
+                 membatalkannya untuk seluruh blok, bukan cuma satu kartu.
+
+                 "JOBDESK" DAN "CHECKPOINT" DIGANTI jadi "peran" dan
+                 "pengecekan berkala". Halaman ini seluruhnya bahasa
+                 Indonesia, dan satu-satunya istilah asing yang dibiarkan
+                 berdiri adalah yang memang tidak punya padanan mapan
+                 (dashboard di card Analisis Data). Keduanya punya padanan.
+
+                 "MAMPU UNTUK MENYESUAIKAN" dibetulkan. "Mampu" tidak diikuti
+                 "untuk"; di sini frasanya dibuang seluruhnya karena
+                 "sehingga" sudah menyatakan kemampuannya.
+
+               KATA BERULANG YANG DIPANGKAS: "perubahan dan perkembangan"
+               (sepasang kata searti) jadi "perubahan"; "sehingga ... guna ..."
+               (dua penanda tujuan bertumpuk) jadi satu "sehingga"; dan
+               "sesuai divisi atau jobdesknya ... sesuai target" ("sesuai" dua
+               kali) jadi "menurut peran ... sesuai target".
+
+               JUMLAH KATA SAMBUNGNYA DIHITUNG, BUKAN DITAKSIR, dan hasilnya
+               jujur saja tidak seindah yang diharapkan (dihitung atas dan,
+               serta, atau, sehingga, supaya, lewat, dengan, untuk, guna,
+               bahkan, tanpa, lalu, menurut):
+
+                 Adaptabilitas    draf 7  ->  sekarang 5
+                 Koordinasi Tim   draf 5  ->  sekarang 5
+                 Analisis 3, Komunikasi 2, Perhatian 2
+
+               Jadi Adaptabilitas memang jauh lebih rapat, tapi Koordinasi Tim
+               TIDAK berkurang sama sekali — yang dibereskan di sana komanya,
+               istilah asingnya, dan "sesuai" yang dipakai dua kali, bukan
+               kepadatannya. Keduanya sekarang dua kartu terpadat di blok ini,
+               dua sampai tiga kata sambung di atas ketiga tetangganya.
+
+               ITU DITERIMA DENGAN SADAR, sebab keduanya memang diminta
+               memuat lebih banyak: Adaptabilitas menanggung kesadaran DAN
+               tindakan DAN dua macam hasil; Koordinasi Tim menanggung dasar
+               pembagian DAN mekanisme komunikasi DAN dua macam hasil. Isi
+               sebanyak itu tidak bisa dibawa dua kata sambung. Kalau suatu
+               saat keduanya terasa tersendat dibaca, yang dipangkas ISINYA —
+               pilih satu hasil, bukan dua — bukan kata sambungnya, sebab
+               memangkas sambungan tanpa memangkas isi cuma menghasilkan
+               kalimat yang menumpuk.
+
+               PANJANGNYA NAIK, DAN KEDUANYA SEKARANG YANG TERPANJANG:
+               Adaptabilitas 149 -> 171, Koordinasi Tim 133 -> 178. Keduanya
+               kebetulan duduk di slot 4 dan 5, yaitu dua kartu LEBAR di baris
+               bawah pada 640-1023px, jadi tambahan huruf itu jatuh di kartu
+               yang memang paling banyak ruangnya. Di >=1024px kelimanya
+               sebaris dan tinggi barisnya ditentukan yang tertinggi, jadi blok
+               ini ikut sedikit lebih tinggi — itu konsekuensi yang diterima,
+               bukan cacat.
+
                ══ "KETELITIAN" JADI "PERHATIAN PADA DETAIL" pada 22 Agustus 2026
 
                Yang diganti bukan cuma namanya. "Ketelitian" kata sifat yang
@@ -269,9 +473,10 @@ export default function Skills() {
                mana pun.
 
                Kelimanya dihitung ulang saat ini, apa adanya dari berkas ini
-               (termasuk titik di ujung): Komunikasi Teknis 102, Analisis &
-               Pemecahan Masalah 129, Adaptabilitas 149, Perhatian pada Detail
-               147, Koordinasi Tim 133. Rentang "99-148" yang ditulis di
+               (termasuk titik di ujung), didaftar menurut urutan tampilnya
+               sekarang: Analisis & Pemecahan Masalah 129, Komunikasi Teknis
+               102, Perhatian pada Detail 147, Adaptabilitas 171, Koordinasi
+               Tim 178. Rentang "99-148" yang ditulis di
                paragraf atas berasal dari hitungan 15 Agustus 2026 dan meleset
                satu sampai tiga huruf dari cara hitung ini — kemungkinan besar
                titik di ujungnya dulu tidak ikut dihitung. Angka lama itu
@@ -302,128 +507,206 @@ export default function Skills() {
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Kemampuan Profesional</h3>
             <div className="skill-grid border-t border-l border-line">
               <div data-component="scrub-reveal" data-delay="0" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <Icon name="comments" className="text-text-muted" />
-                <span className="-body-small font-medium">Komunikasi Teknis</span>
-                <p className="-body-smaller text-text-muted">Menjelaskan hal teknis dengan bahasa sederhana beserta analogi supaya lebih mudah dipahami orang awam.</p>
-              </div>
-              <div data-component="scrub-reveal" data-delay="0.04" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="magnifying-glass-chart" className="text-text-muted" />
                 <span className="-body-small font-medium">Analisis &amp; Pemecahan Masalah</span>
                 <p className="-body-smaller text-text-muted">Menelusuri akar masalah dengan menimbang berbagai kemungkinan sehingga bisa memutuskan penyelesaian terbaik dan cara menempuhnya.</p>
               </div>
-              <div data-component="scrub-reveal" data-delay="0.08" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
-                <Icon name="arrows-rotate" className="text-text-muted" />
-                <span className="-body-small font-medium">Adaptabilitas</span>
-                <p className="-body-smaller text-text-muted">Melek terhadap perubahan dan perkembangan lingkungan serta teknologi sehingga bisa meningkatkan produktivitas dan efisiensi dalam penyelesaian tugas.</p>
+              <div data-component="scrub-reveal" data-delay="0.04" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
+                <Icon name="comments" className="text-text-muted" />
+                <span className="-body-small font-medium">Komunikasi Teknis</span>
+                <p className="-body-smaller text-text-muted">Menjelaskan hal teknis dengan bahasa sederhana beserta analogi supaya lebih mudah dipahami orang awam.</p>
               </div>
-              <div data-component="scrub-reveal" data-delay="0.12" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
+              <div data-component="scrub-reveal" data-delay="0.08" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="list-check" className="text-text-muted" />
                 <span className="-body-small font-medium">Perhatian pada Detail</span>
                 <p className="-body-smaller text-text-muted">Menjaga rincian data dan berkas tetap benar sejak awal pengerjaan supaya kekeliruan yang luput dari perhatian tidak menjadi kesimpulan yang keliru.</p>
               </div>
+              <div data-component="scrub-reveal" data-delay="0.12" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
+                <Icon name="arrows-rotate" className="text-text-muted" />
+                <span className="-body-small font-medium">Adaptabilitas</span>
+                <p className="-body-smaller text-text-muted">Peka terhadap perubahan lingkungan dan teknologi serta menyesuaikan diri sejak dini sehingga produktivitas dan efisiensi penyelesaian tugas tetap terjaga bahkan meningkat.</p>
+              </div>
               <div data-component="scrub-reveal" data-delay="0.16" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="people-group" className="text-text-muted" />
                 <span className="-body-small font-medium">Koordinasi Tim</span>
-                <p className="-body-smaller text-text-muted">Menyelaraskan pembagian tugas dan alur komunikasi antaranggota sehingga pekerjaan tuntas sesuai target tanpa ada yang tumpang tindih.</p>
+                <p className="-body-smaller text-text-muted">Menyelaraskan pembagian tugas menurut peran tiap anggota dan menjaga alur komunikasi lewat pengecekan berkala sehingga hambatan cepat teratasi dan pekerjaan tuntas sesuai target.</p>
               </div>
             </div>
           </div>
 
           {/* ══════════════════════════════════════════════════════════════════
-               TEKNOLOGI — DIPISAH DARI PERKAKAS pada 9 Agustus 2026, dan
-               pemisahan itu tetap berlaku meski isinya sekarang tinggal satu.
+               TEKNOLOGI — SATU BARIS TANPA LABEL, sejak 23 Agustus 2026.
 
-               Dua jenis benda yang berbeda tidak boleh berbagi satu judul.
-               PostgreSQL, Power BI, dan Tableau di bawah adalah APLIKASI —
-               sesuatu yang dibuka lalu dipakai. Python bukan: ia bahasa
-               pemrograman. Menaruh bahasa pemrograman di bawah judul
-               "Perkakas" kira-kira sama dengan menyebut bahasa Indonesia
-               sebagai alat tulis.
+               ══ APA YANG DIBATALKAN, DAN KENAPA ITU TIDAK APA-APA
 
-               PEMBEDAANNYA DIPIKUL JUDUL BAGIAN, BUKAN NAMA KELOMPOK. Itu
-               sebabnya "Sisi Server" yang sempat berdiri di bawah Perkakas
-               dibubarkan lagi di hari yang sama: ia memindahkan isinya tanpa
-               membereskan judul yang menaunginya, jadi salah kategorinya cuma
-               bergeser satu tingkat, tidak hilang.
+               Sampai hari ini bagian ini punya DUA baris berlabel, "Bahasa
+               Pemrograman" (Python) dan "Bahasa Kueri" (SQL). Pemisahan itu
+               dipasang 16 Agustus 2026 dengan alasan yang masih benar sampai
+               sekarang: SQL bukan bahasa pemrograman melainkan bahasa kueri —
+               ia menyatakan data apa yang diminta, bukan langkah-langkah
+               mendapatkannya — dan label yang menyebut JENIS benda tidak boleh
+               menaungi benda berjenis lain.
 
-               Ditaruh SEBELUM Perkakas karena apa yang dibangun lebih menjawab
-               pertanyaan "bisa apa" daripada apa yang dipakai membangunnya.
+               Yang membuat pemisahan itu bisa dibubarkan bukan alasannya yang
+               gugur, melainkan LABELNYA YANG HILANG. Tidak ada lagi label
+               baris di sini, jadi tidak ada lagi yang bisa salah menaungi.
+               Judul bagian "Teknologi" cukup luas untuk memayungi bahasa
+               pemrograman, bahasa kueri, dan pustaka sekaligus — dan itu
+               memang batas yang selama ini dipikulnya (lihat blok Perkakas di
+               bawah: batasnya APLIKASI lawan BUKAN APLIKASI, dan keempat isi
+               di sini bukan aplikasi).
 
-               ISINYA MENYUSUT JADI SATU pada 14 Agustus 2026, lalu NAIK JADI
-               DUA pada 16 Agustus 2026 waktu SQL masuk. Sebelum penyusutan itu
-               ada dua baris berisi delapan entri — Frontend (HTML, CSS,
-               JavaScript, Tailwind CSS) dan Backend (PHP, Laravel, Blade,
-               MySQL) — dan keduanya dibuang atas permintaan beserta ketujuh
-               file ikonnya. Rincian kenapa Laravel dan Blade dulu ditaruh di
-               Backend ikut dibuang bersama barisnya; kalau susunan itu suatu
-               saat kembali, alasannya ada di git history commit 6e86f17.
+               PEMICU SEBENARNYA MASUKNYA PANDAS DAN MATPLOTLIB. Keduanya
+               PUSTAKA, bukan bahasa — jadi di susunan lama mereka menuntut
+               label KETIGA ("Pustaka"), dan bagian ini akan berisi tiga label
+               untuk empat card. Label yang jumlahnya hampir sebanyak isinya
+               berhenti mengelompokkan; ia cuma menambah baris. Membuang
+               seluruh label menyelesaikannya tanpa satu pun salah kategori.
 
-               LABEL BARISNYA "BAHASA PEMROGRAMAN", BUKAN "BACKEND". Python
-               memang jalan di server, tapi kelompok Data di bawahnya
-               menyiratkan arah analisis data, bukan backend web — dan label
-               yang menyebut JENIS bendanya tidak akan keliru lagi kalau nanti
-               bahasa kedua ditambahkan.
+               ══ URUTANNYA SQL, PYTHON, PANDAS, MATPLOTLIB — BUKAN ABJAD,
+                  MELAINKAN ALUR KERJA
 
-               DAN ITU YANG TERJADI, dua hari kemudian. SQL memang bahasa
-               kedua di bagian ini, tapi ia BUKAN bahasa pemrograman — ia
-               bahasa kueri, yang menyatakan data apa yang diminta dan bukan
-               langkah-langkah mendapatkannya. Karena labelnya menyebut jenis
-               benda, salahnya ketahuan seketika dan jalan keluarnya cuma satu:
-               baris kedua dengan label sendiri, "Bahasa Kueri". Kalau label
-               lama dulu ditulis "Backend", SQL akan masuk ke sana tanpa
-               terlihat janggal sedikit pun, dan salah kategorinya menetap.
+               Sama polanya dengan baris Data di Perkakas ("yang menopang
+               berdiri di depan"): SQL mengambil datanya, Python mengolahnya,
+               pandas merapikannya di dalam Python, matplotlib menggambarkannya.
+               Jadi urutannya mengikuti tujuh langkah yang ditulis di card
+               Analisis Data beberapa layar di atas.
 
-               KENAPA BUKAN DIGABUNG ke satu baris berlabel "Bahasa": kata itu
-               sudah dipakai blok terakhir bagian ini untuk bahasa manusia
-               (Indonesia dan Inggris). Dua "Bahasa" di satu halaman yang
-               menunjuk hal berbeda lebih merugikan daripada satu baris
-               tambahan.
+               PANDAS DAN MATPLOTLIB SENGAJA TIDAK DIPISAH DARI PYTHON meski
+               keduanya pustaka Python, bukan bahasa berdiri sendiri.
+               Memisahkannya menuntut label lagi, dan itu persis yang baru saja
+               dibubarkan.
 
-               KEDUANYA TETAP DI BAWAH "TEKNOLOGI", bukan dipindah ke Perkakas.
-               Batas antara kedua bagian itu APLIKASI lawan BUKAN APLIKASI, dan
-               SQL jelas bukan aplikasi — PostgreSQL yang aplikasinya, dan ia
-               memang sudah berdiri di baris Data milik Perkakas. Keduanya
-               bertetangga tapi bukan hal yang sama: yang satu bahasa untuk
-               bertanya, yang satu program yang menjawab.
+               ══ TIDAK ADA .tool-label DI BARIS INI, DAN AKIBATNYA TERUKUR
 
-               JEDANYA TINGGAL DUA ANGKA, dan rantainya berdiri sendiri:
-               bagian ini mulai di 0 dan berakhir di 0,03, Perkakas di bawah
-               mulai lagi dari 0. Jangan disambung — dua bagian yang punya
-               judulnya sendiri-sendiri dibaca sebagai dua blok terpisah.
+               Ini satu-satunya baris di seluruh grid yang tidak punya label,
+               dan itu mengubah dua hal yang perlu diketahui sebelum menyunting:
 
-               REACT BELUM DISEBUT, DAN ITU DITUNDA — BUKAN DITOLAK. Situs ini
-               memang dibangun dengan React, jadi buktinya ada di repo, tapi
-               pemiliknya memilih menunggu sampai ia benar-benar menguasainya
-               lebih dulu. Alasannya masuk akal dan layak dipertahankan: apa
-               pun yang tertulis di sini akan digali saat wawancara, dan
-               teknologi yang dicantumkan tapi tidak bisa dijelaskan lebih
-               merugikan daripada yang tidak dicantumkan sama sekali.
+                 LEBAR CARD. `.tool-items` di baris berlabel menempati sisa
+                 baris setelah label 12rem + garis rambut 2rem + dua celah
+                 1rem. Tanpa label ia menempati SELURUH lebar baris, jadi card
+                 25% di sini lebih lebar daripada card di Perkakas — 275px
+                 lawan 211px.
 
-               Jadi kalau suatu saat React ditambahkan, itu memang rencananya
-               — tapi tanyakan dulu, jangan diputuskan sendiri.
+                 KELURUSAN KOLOM. Card pertama di sini berdiri di tepi kiri
+                 baris, sementara card pertama keempat kelompok Perkakas
+                 berdiri 256px ke dalam (label 192 + celah 16 + garis rambut 32
+                 + celah 16). Keduanya karena itu TIDAK segaris.
+
+               KEDUANYA HANYA BERLAKU DI >=1180px, dan itu terukur — bukan
+               dugaan. Di bawah titik henti itu label naik ke atas deretan dan
+               `.tool-items` jadi `width: 100%` untuk SEMUA baris, jadi kedua
+               bagian punya lebar card DAN titik x yang sama persis. Terukur di
+               320, 360, 390, 430, 768, 844, dan 1024px: card Teknologi dan
+               card Data sama lebar sampai piksel terakhir, dan keduanya mulai
+               dari x yang sama. Jadi seluruh ponsel dan tablet tidak
+               terpengaruh sama sekali.
+
+               KEDUANYA DITERIMA DENGAN SADAR, dan alasannya: kelurusan yang
+               dijaga repo ini selalu kelurusan ANTAR KELOMPOK DI DALAM SATU
+               grid berlabel — supaya garis rambutnya sejajar dan tidak terbaca
+               sebagai zigzag. Bagian ini sekarang tidak punya garis rambut
+               sama sekali dan berdiri di bawah judulnya sendiri, jadi tidak
+               ada yang bisa zigzag. Card yang lebih lebar juga tidak mengubah
+               ukuran logonya: tingginya dipatok h-8/nav:h-9, jadi yang
+               bertambah cuma jarak antar card dan ruang untuk namanya.
+
+               Kalau suatu saat keduanya ingin disamakan dengan Perkakas,
+               jalannya BUKAN mengembalikan label melainkan memberi baris ini
+               spacer selebar label + garis rambut + celah. Jangan dikerjakan
+               tanpa diminta: yang dipilih hari ini kesederhanaan, bukan
+               kelurusan.
+
+               ══ JEDANYA MULAI DARI NOL, EMPAT ANGKA
+
+               0 / 0,03 / 0,06 / 0,09, satu rantai untuk empat card. Perkakas
+               di bawah mulai lagi dari 0 — jangan disambung, dua bagian yang
+               punya judulnya sendiri dibaca sebagai dua blok terpisah. Label
+               yang dulu memakai jeda card pertamanya ikut hilang bersama
+               labelnya.
+
+               ══ SATU ANGKA CSS YANG IKUT LONGGAR
+
+               `.tool-label` dipatok 12rem di src/styles/tools-grid.css, dan
+               angka itu dihitung untuk "BAHASA PEMROGRAMAN" (18 huruf,
+               168,5px) yang baru saja dibuang. Label terpanjang yang tersisa
+               sekarang "ADMINISTRASI" (12 huruf, 112,3px), jadi kelonggarannya
+               melompat dari 23,5px ke 79,7px. ANGKANYA SENGAJA TIDAK
+               DITURUNKAN: menurunkannya menggeser keempat garis rambut
+               Perkakas sekaligus, dan itu perubahan tampilan yang tidak
+               diminta. Yang diperbarui cuma catatannya di berkas tersebut.
+
+               ══ REACT BELUM DISEBUT, DAN ITU DITUNDA — BUKAN DITOLAK
+
+               Situs ini memang dibangun dengan React, jadi buktinya ada di
+               repo, tapi pemiliknya memilih menunggu sampai benar-benar
+               menguasainya lebih dulu. Alasannya masuk akal dan layak
+               dipertahankan: apa pun yang tertulis di sini akan digali saat
+               wawancara, dan teknologi yang dicantumkan tapi tidak bisa
+               dijelaskan lebih merugikan daripada yang tidak dicantumkan sama
+               sekali. Kalau suatu saat ditambahkan, tanyakan dulu.
+
+               ══ RIWAYAT YANG TIDAK BOLEH HILANG
+
+               Bagian ini pernah berisi delapan entri dalam dua baris —
+               Frontend (HTML, CSS, JavaScript, Tailwind CSS) dan Backend (PHP,
+               Laravel, Blade, MySQL) — dibuang atas permintaan 14 Agustus 2026
+               beserta ketujuh berkas ikonnya. Kalau susunan itu suatu saat
+               kembali, alasannya ada di git history commit 6e86f17.
+
+               Bahasa awamnya: bagian Teknologi tadinya punya dua sub-judul
+               ("Bahasa Pemrograman" dan "Bahasa Kueri") untuk dua logo saja.
+               Sekarang sub-judulnya dibuang dan keempat logonya berbaris
+               langsung di bawah judul "Teknologi", urut sesuai alur kerja:
+               SQL mengambil data, Python mengolah, pandas merapikan,
+               matplotlib menggambarkan.
                ═════════════════════════════════════════════════════════════ */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Teknologi</h3>
             <div className="border-t border-line">
 
-              {/* "BAHASA PEMROGRAMAN" (18 huruf) kini label TERPANJANG di
-                   seluruh grid ini, menggeser "PENGEMBANGAN" yang ikut dibuang.
-                   Lebar .tool-label di src/styles/tools-grid.css dinaikkan dari 10,5rem ke
-                   12rem karenanya — pada 10,5rem label ini pecah dua baris dan
-                   kelurusan garis rambut seluruh kelompok ikut hilang.
-                   Hitungannya ada di komentar aturan itu. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Bahasa Pemrograman</h4>
-                <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
-
                 <div className="tool-items">
+
+                  {/* SQL — IKON DATABASE AZURE (judul aslinya di dalam berkas
+                       "Icon-databases-130"), dan itu memang pilihan yang
+                       tersedia: SQL sebuah standar ISO, bukan produk, jadi
+                       tidak ada pemilik merek yang menerbitkan logo resminya.
+                       Yang beredar semua milik salah satu vendor atau buatan
+                       pihak ketiga. Tabung basis data bertuliskan SQL ini
+                       setidaknya menggambarkan bendanya, bukan meminjam merek
+                       yang keliru — tapi kalau suatu saat diganti, jangan ambil
+                       logo yang jelas-jelas milik satu produk (MySQL, MSSQL)
+                       untuk mewakili SQL sebagai bahasa.
+
+                       DINAIKKAN 1,06 karena KOTAKNYA. viewBox-nya "0 0 18 18"
+                       tapi tintanya berhenti di y 0,5 sampai 17,5, jadi tinggi
+                       tintanya 17 dari 18 satuan alias 94,4% tinggi kotak.
+                       18/17 = 1,0588, dibulatkan 1,06. Yang dikoreksi RASIO,
+                       jadi satu angka ini benar di kedua ukuran kotak (32px di
+                       bawah 900px, 36px di atasnya).
+
+                       IA SEKARANG PALING DEPAN, bukan sendirian di baris
+                       keduanya seperti dulu. Alasan lama untuk mengoreksi
+                       selisih 1,6px yang kecil itu — ia bertumpuk tepat di
+                       bawah Python sehingga mata membandingkannya langsung —
+                       sudah tidak berlaku, tapi koreksinya dipertahankan sebab
+                       sekarang ia bersebelahan LANGSUNG dengan Python, dan
+                       bersebelahan lebih ketat daripada bertumpuk. */}
+                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/sql.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.06)" }} className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">SQL</span>
+                  </div>
 
                   {/* Logo dua warna resminya — biru #366994/#387EB8 dan kuning
                        #FFC331/#FFE052 — dipakai apa adanya. viewBox-nya sudah
                        rapat ("16 16 32 32"), jadi tintanya mengisi penuh kotak
-                       32px dan tidak perlu diskalakan. Bandingkan dengan Power
-                       BI di baris Data, yang kotaknya justru kelonggaran. */}
-                  <div data-component="scrub-reveal" data-delay="0" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                       dan tidak perlu diskalakan. */}
+                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/python.svg" alt="" loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
@@ -432,67 +715,184 @@ export default function Skills() {
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Python</span>
                   </div>
 
-                </div>
-              </div>
+                  {/* PANDAS — LOGOMARK SAJA, TANPA WORDMARK, dan berkasnya
+                       varian latar gelap resmi mereka.
 
-              {/* BAHASA KUERI — 12 huruf, jadi ia TIDAK menggeser lebar
-                   .tool-label. Yang mengikat angka 12rem di src/styles/tools-grid.css tetap
-                   "BAHASA PEMROGRAMAN" (18 huruf, 168,5px); label ini berhenti
-                   di 112,3px dan menyisakan lebih dari cukup. Tidak ada yang
-                   perlu dihitung ulang di sana.
+                       ══ KENAPA MARK, BUKAN WORDMARK
 
-                   IKONNYA IKON DATABASE AZURE (judul aslinya di dalam berkas
-                   "Icon-databases-130"), dan itu memang pilihan yang tersedia:
-                   SQL sebuah standar ISO, bukan produk, jadi tidak ada pemilik
-                   merek yang menerbitkan logo resminya. Yang beredar semua
-                   milik salah satu vendor atau buatan pihak ketiga. Tabung
-                   basis data bertuliskan SQL ini setidaknya menggambarkan
-                   bendanya, bukan meminjam merek yang keliru — tapi kalau
-                   suatu saat diganti, jangan ambil logo yang jelas-jelas
-                   milik satu produk (MySQL, MSSQL) untuk mewakili SQL sebagai
-                   bahasa.
+                       Versi pertama memakai pandas_white.svg, yaitu berkas
+                       yang dirujuk HTML pojok kiri atas pandas.pydata.org.
+                       Dibatalkan atas permintaan pada hari yang sama, dengan
+                       alasan yang benar dan berlaku untuk SELURUH grid ini:
+                       wordmark memuat nama merek sebagai gambar, padahal
+                       namanya sudah ditulis sebagai teks tepat di bawah
+                       logonya. Yang terbaca "pandas pandas".
 
-                   DINAIKKAN 1,06, dan sebabnya KOTAKNYA — persoalan yang sama
-                   dengan PostgreSQL dan Power BI di baris Data, cuma paling
-                   kecil di antara ketiganya. viewBox-nya "0 0 18 18" tapi
-                   tintanya berhenti di y 0,5 sampai 17,5, jadi tinggi tintanya
-                   17 dari 18 satuan alias 94,4% tinggi kotak. Dengan
-                   object-contain itu 30,2px di kotak 32px, sementara Python di
-                   baris atas mendarat di 31,8px.
+                       Aturan itu sekarang punya satu pelanggar tersisa,
+                       Google Workspace di kelompok Administrasi, dan komentar
+                       di src/styles/tools-grid.css memang sudah menganjurkan
+                       menggantinya dengan logomark persegi. Anjuran itu jadi
+                       lebih kuat setelah hari ini, sebab sekarang ia
+                       satu-satunya.
 
-                   18/17 = 1,0588, dibulatkan ke 1,06, dan hasilnya 32,0px —
-                   yang dikoreksi RASIO, jadi satu angka ini benar di kedua
-                   ukuran kotak sekaligus. Kotak elemennya jadi 33,9px dan
-                   menjulur 0,95px ke tiap sisi; bagian itu transparan, tidak
-                   ada `overflow: hidden` di jalur induknya, dan jarak ke label
-                   di bawahnya 12px.
+                       Berkas yang dipakai static/img/pandas_mark_white.svg —
+                       tidak dirujuk halaman depan, jadi ia ditemukan dengan
+                       mencoba nama; keberadaannya diperiksa dari isi
+                       berkasnya (SVG sungguhan, bukan halaman 404), bukan dari
+                       kode HTTP semata. Itu pelajaran yang sama dengan Data
+                       Studio: URL yang menjawab 200 tidak membuktikan apa pun.
 
-                   SELISIH 1,6px ITU LEBIH KECIL daripada yang biasanya dianggap
-                   perlu dikoreksi di repo ini (PostgreSQL 2,9px), dan tetap
-                   dikerjakan karena letaknya: ia satu-satunya card di barisnya,
-                   persis di bawah Python yang juga sendirian. Keduanya
-                   bertumpuk di titik x yang sama, jadi matanya membandingkan
-                   langsung — beda yang tersamar di baris berisi enam logo
-                   justru terlihat di sini.
+                       KENAPA VARIAN PUTIH, BUKAN YANG BERWARNA MEREK. Wordmark
+                       biasanya (static/img/pandas.svg) memakai navy #130754,
+                       dan di atas #040508 kontrasnya 1,15:1 — LEBIH PARAH
+                       daripada DBeaver yang 1,47:1 dan dulu tampil sebagai
+                       petak kosong. Aturan "terangkan pada rona aslinya"
+                       memang ada untuk kasus itu, tapi di sini tidak perlu
+                       dipakai: pandas MENERBITKAN SENDIRI varian latar gelap,
+                       persis seperti PostgreSQL yang versi bergaris luar putih
+                       di baris Data. Memakai varian resmi selalu lebih baik
+                       daripada mengarang turunan sendiri.
 
-                   Bahasa awamnya: logo SQL ini dibesarkan sedikit supaya
-                   tingginya sama persis dengan logo Python tepat di atasnya.
-                   Tanpa itu ia tampak sedikit lebih kecil, bukan karena salah
-                   pasang tapi karena berkas logonya punya ruang kosong bawaan
-                   di tepi atas dan bawahnya. */}
-              <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0.03" className="-caption-small tool-label text-text-muted">Bahasa Kueri</h4>
-                <span data-component="scrub-reveal" data-delay="0.03" className="h-px w-8 self-center bg-line"></span>
+                       PUTIHNYA DIPUKUL RATA #d8d8d8, mengikuti aturan baku
+                       untuk logo yang aslinya putih atau hitam polos — aturan
+                       yang kehilangan pemakainya waktu Stitch dibuang
+                       15 Agustus 2026, dan inilah pemakai barunya. #ffffff
+                       berkontras 20,38:1, terang mutlak dan jauh di atas
+                       seluruh grid; #d8d8d8 turun ke 14,30:1, sama dengan
+                       warna teks situs ini.
 
-                <div className="tool-items">
+                       KUNING #ffca00 DAN MERAH MUDA #e70488 TIDAK DISENTUH.
+                       Kuningnya 13,30:1, memang terang — tapi itu warna merek
+                       apa adanya, dan aturan "jangan jadi yang paling terang"
+                       hanya berlaku untuk warna yang KITA pilih sendiri
+                       (alasan lengkapnya di card Data Studio). Sama seperti di
+                       sana, tintanya juga cuma empat batang tipis, bukan
+                       bidang penuh.
 
-                  <div data-component="scrub-reveal" data-delay="0.03" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                       BERKASNYA DIBERSIHKAN, DAN ISINYA SEPARUH SAMPAH EDITOR.
+                       Aslinya 2.581 bita berisi deklarasi XML, blok metadata
+                       RDF/Dublin Core, <sodipodi:namedview> lengkap dengan
+                       posisi jendela dan tingkat zoom Inkscape penulisnya,
+                       plus <defs><style> berisi .cls-1/2/3. Semua dibuang dan
+                       kelasnya ditulis ulang sebagai atribut fill; sisanya
+                       867 bita, turun 66%.
+
+                       Itu bukan penghematan yang sia-sia: berkas di public/
+                       DISALIN APA ADANYA ke dist, komentarnya tidak dibuang
+                       saat build (lihat catatan favicon di index.html).
+
+                       Satu jebakan yang perlu diketahui kalau berkasnya suatu
+                       saat diunduh ulang: `pagecolor="#ffffff"` dan
+                       `bordercolor="#666666"` di dalam <sodipodi:namedview>
+                       IKUT TERBACA kalau warna disarikan dengan mencari
+                       "#rrggbb" di seluruh berkas — padahal keduanya setelan
+                       kanvas editor, bukan tinta. Sempat terbaca begitu waktu
+                       varian ini pertama disurvei.
+
+                       ══ WARNANYA: PUTIH DIPUKUL RATA, AKSENNYA TIDAK
+
+                       Kelima batang utamanya #fff di berkas aslinya, jadi
+                       dipukul rata #d8d8d8 mengikuti aturan baku logo putih
+                       polos — aturan yang kehilangan pemakainya waktu Stitch
+                       dibuang 15 Agustus 2026, dan inilah pemakai barunya.
+                       20,38:1 turun ke 14,30:1, sama dengan warna teks situs
+                       ini.
+
+                       Dua batang aksennya, kuning #ffca00 (13,30:1) dan merah
+                       muda #e70488 (4,63:1), TIDAK disentuh — itu warna merek
+                       apa adanya, dan aturan "jangan jadi yang paling terang"
+                       hanya mengikat warna yang KITA pilih sendiri (alasan
+                       lengkapnya di card Data Studio).
+
+                       VERSI BERWARNA MEREK TIDAK BISA DIPAKAI, dan itu sudah
+                       diperiksa sebelum varian putih dipilih: pandas_mark.svg
+                       memakai navy #130754 untuk kelima batang utamanya, dan
+                       di atas #040508 kontrasnya 1,15:1 — LEBIH PARAH daripada
+                       DBeaver yang 1,47:1 dan dulu tampil sebagai petak
+                       kosong. Aturan "terangkan pada rona aslinya" memang ada
+                       untuk kasus itu, tapi tidak perlu dipakai di sini sebab
+                       pandas menerbitkan sendiri varian latar gelapnya.
+                       Memakai varian resmi selalu lebih baik daripada
+                       mengarang turunan sendiri.
+
+                       ══ DINAIKKAN 1,27 KARENA KOTAKNYA
+
+                       Terukur dari koordinat kedelapan rect-nya: viewBox
+                       210,21 x 280,43, tinta 138,58 x 220,42 — jadi tintanya
+                       mengisi 78,6% tinggi kotak. Dengan object-contain itu
+                       28,3px di kotak 36px, sementara ketiga tetangganya ~36px.
+                       280,43/220,42 = 1,272, dibulatkan 1,27. Yang dikoreksi
+                       RASIO, jadi satu angka ini benar di kedua ukuran kotak.
+
+                       DISAMAKAN TINGGINYA, BUKAN RATA-RATA GEOMETRIKNYA, dan
+                       itu memang perlakuan yang benar untuk bentuk TEGAK.
+                       Aturan rata-rata geometrik lahir untuk Claude Code yang
+                       tintanya melebar 1,6:1; logo tegak di grid ini semuanya
+                       disamakan tingginya — SQL (0,75), DBeaver (0,82), Excel
+                       (0,97). Tinta ini 0,629, jadi ia keluarga yang sama,
+                       cuma paling ramping. */}
+                  <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
-                        <img src="assets/icons/sql.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.06)" }} className="max-h-full max-w-full object-contain" />
+                        <img src="assets/icons/pandas.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.27)" }} className="max-h-full max-w-full object-contain" />
                       </span>
                     </span>
-                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">SQL</span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Pandas</span>
+                  </div>
+
+                  {/* MATPLOTLIB — logo resminya, cakram bergaris jari-jari
+                       dengan batang berwarna. viewBox "0 0 128 128", tanpa
+                       atribut width/height, jadi tidak ada yang perlu dibuang.
+
+                       DINAIKKAN 1,03 karena KOTAKNYA. Terukur getBBox: tinta
+                       124 x 124 di dalam viewBox 128 x 128, jadi 96,9% tinggi
+                       kotak — tergambar 34,9px di kotak 36px sementara Python
+                       di sebelahnya 35,8px. 128/124 = 1,032, dibulatkan 1,03,
+                       dan hasilnya 36,0px. Yang dikoreksi RASIO, jadi satu
+                       angka ini benar di kedua ukuran kotak sekaligus.
+
+                       Selisih 1,1px itu memang di bawah PostgreSQL (2,9px)
+                       dan setara SQL (1,6px) yang tetap dikoreksi karena
+                       letaknya bersebelahan langsung. Alasan yang sama berlaku
+                       di sini: ia bertetangga dengan Python dan pandas dalam
+                       satu baris berisi empat.
+
+                       ══ CAKRAM PUTIHNYA DIBIARKAN, DAN INI PERLU DIKETAHUI
+
+                       Berkasnya membawa cakram latar `fill="#fff"` selebar
+                       seluruh logo. Di atas #040508 kontrasnya 20,38:1 —
+                       TERTINGGI di seluruh grid, dan tidak seperti kelabu Data
+                       Studio (7,72:1) yang cuma garis tipis, ini BIDANG PENUH.
+                       Jadi luas piksel terangnya jauh lebih besar daripada
+                       logo mana pun di halaman ini.
+
+                       Aturan "jangan jadi yang paling terang" di card DBeaver
+                       hanya mengikat warna yang KITA pilih sendiri, dan ini
+                       warna berkas resminya apa adanya — jadi secara aturan ia
+                       boleh berdiri. Tapi ia dibiarkan karena BELUM DIMINTA
+                       diubah, bukan karena sudah dinilai baik.
+
+                       Kalau nanti ia terasa merebut perhatian, ada dua jalan
+                       dan keduanya keputusan aset:
+
+                         cakramnya dibuat tembus pandang, sehingga garis
+                         jari-jari (#858585/#818181) dan batang berwarnanya
+                         berdiri langsung di atas latar halaman; atau
+
+                         putihnya dipukul rata #d8d8d8 seperti pandas di
+                         sebelahnya, yang menurunkannya ke 14,30:1 dan
+                         menyamakannya dengan warna teks situs ini.
+
+                       Yang pertama lebih sesuai dengan latar segelap ini; yang
+                       kedua lebih setia pada bentuk aslinya. Jangan pilih
+                       sendiri — tanyakan. */}
+                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/matplotlib.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.03)" }} className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Matplotlib</span>
                   </div>
 
                 </div>
