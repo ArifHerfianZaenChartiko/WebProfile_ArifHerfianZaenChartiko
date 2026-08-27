@@ -74,6 +74,39 @@ export function initTypewriter(ctx) {
     if (typeof words[w] !== "string" || words[w] === "") return;
   }
 
+  /*
+   * REDUCED MOTION — ditambahkan 27 Agustus 2026, dan ini kelalaian yang lolos
+   * lama.
+   *
+   * ══ TEKNIS
+   *
+   * Setiap motion lain di situs ini menanyakan prefersReducedMotion(): keenam
+   * reveal, akordeon sertifikat, jaringan simpul di latar, bar status, bahkan
+   * kursor kedip di sebelah teks ini (lewat @media di base.css). Yang ini
+   * tidak, jadi pengunjung yang tegas meminta animasi dikurangi tetap mendapat
+   * SATU-SATUNYA elemen yang bergerak terus-menerus di seluruh halaman — dan
+   * kebetulan ia yang paling menarik mata, sebab ia teks yang berubah, bukan
+   * hiasan di latar.
+   *
+   * Yang ditampilkan kata PERTAMA, bukan yang terpanjang atau gabungan
+   * semuanya: ia peran utama, sama dengan yang tertulis di <title> dan
+   * deskripsi meta. Ketiga perannya toh tetap terbaca lengkap di bagian
+   * Tentang beberapa layar di bawah.
+   *
+   * Timernya tidak pernah dinyalakan, jadi tidak ada yang perlu dibongkar —
+   * karena itu return-nya di ATAS pendaftaran cleanup di bawah.
+   *
+   * ══ BAHASA AWAMNYA
+   *
+   * Kalau perangkat Anda disetel "kurangi animasi", tulisan peran di halaman
+   * sampul sekarang diam menampilkan "Data Analyst", tidak lagi mengetik dan
+   * menghapus dirinya tanpa henti.
+   */
+  if (prefersReducedMotion()) {
+    el.textContent = words[0];
+    return;
+  }
+
   var wordIndex = 0, indexHuruf = 0, sedangHapus = false;
   var id = 0;
   cleanups.push(function () { clearTimeout(id); });

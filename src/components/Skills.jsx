@@ -22,7 +22,23 @@ export default function Skills() {
         <div data-component="container" className="mx-auto w-full px-gutter max-w-[1180px] flex flex-col gap-14 py-16 sm:gap-16 sm:py-20 nav:gap-20 nav:py-28">
           <div>
 
-          <h3 data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">03 — Keahlian</h3>
+          {/* <p>, BUKAN <h3> — dibetulkan 27 Agustus 2026.
+
+               Baris nomor ini sempat ditulis sebagai <h3> dan itu keliru dua
+               kali sekaligus. Pertama, ia berdiri SEBELUM <h2>Keahlian</h2> di
+               bawahnya, jadi kerangka judul halaman berbunyi h1 → h3 → h2:
+               pembaca layar yang melompat antar judul mendengar sub-judul lebih
+               dulu daripada judul induknya. Kedua, isinya kata yang sama persis
+               dengan judul itu, jadi "Keahlian" terdengar dua kali berturut-turut
+               tanpa menambah satu keterangan pun.
+
+               Lima bagian lain menulis baris nomornya sebagai <span> biasa di
+               dalam <div> — bagian ini satu-satunya yang tidak. Sekarang ia
+               <p>: tetap terbaca berurutan, tapi tidak lagi mengaku judul.
+               Tampilannya tidak berubah sedikit pun, sebab seluruh tipografi
+               situs ini datang dari class `-caption-small`, bukan dari nama
+               tag-nya. */}
+          <p data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">03 — Keahlian</p>
 
           {/* Judul yang terlihat, dan bentuknya SAMA PERSIS dengan Tentang,
                Pengalaman, Sertifikat, dan Kontak: -h1 dengan mask baris.

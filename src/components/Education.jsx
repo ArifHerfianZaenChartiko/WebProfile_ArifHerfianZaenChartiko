@@ -29,12 +29,34 @@ export default function Education() {
             <span className="-caption-small text-text-muted">Pendidikan</span>
           </div>
 
-          <div className="mb-20" data-split-words>
-            <div className="overflow-hidden pb-[0.2em] mb-[-0.2em] -display leading-[0.95]">
-              <div className="top-word will-change-transform -display leading-[0.95]">Riwayat</div>
-              <div className="bottom-word will-change-transform -display leading-[0.95]">Pendidikan</div>
-            </div>
-          </div>
+          {/* <h2>, BUKAN <div> — dibetulkan 27 Agustus 2026.
+
+               Ini judul bagian yang paling besar di seluruh halaman, tapi sampai
+               hari itu ia satu-satunya yang bukan heading. Akibatnya bagian
+               Pendidikan tidak punya <h2> sama sekali: kerangka judul melompat
+               dari <h1> di Beranda langsung ke <h3>S1 Pendidikan Teknik
+               Informatika</h3>, dan pembaca layar yang menelusuri halaman lewat
+               daftar judul — cara paling umum menjelajah halaman panjang —
+               tidak pernah menemukan kata "Pendidikan" sebagai judul bagian.
+
+               KETIGA DIV DI DALAMNYA IKUT JADI SPAN BER-`block`, dan itu bukan
+               kerapian belaka: <h2> hanya boleh berisi phrasing content, jadi
+               <div> di dalamnya HTML yang tidak sah. Peramban memaafkannya,
+               validator tidak. `block` mengembalikan perilaku tata letaknya
+               persis seperti div — dan itu memang dibutuhkan, sebab mask
+               `overflow: hidden` dan kedua baris yang saling menutup semuanya
+               menuntut kotak blok.
+
+               initSplitWords() mencari `.top-word` dan `.bottom-word` lewat
+               class, bukan lewat nama tag, jadi animasinya tidak tahu ada yang
+               berubah. Ukuran hurufnya juga datang dari class `-display`, bukan
+               dari tag h2, jadi tampilannya tidak bergeser sedikit pun. */}
+          <h2 className="mb-20" data-split-words>
+            <span className="block overflow-hidden pb-[0.2em] mb-[-0.2em] -display leading-[0.95]">
+              <span className="top-word block will-change-transform -display leading-[0.95]">Riwayat</span>
+              <span className="bottom-word block will-change-transform -display leading-[0.95]">Pendidikan</span>
+            </span>
+          </h2>
 
           <div className="grid grid-cols-1 gap-x-16 gap-y-12 border-t border-line pt-14 nav:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
             <div>

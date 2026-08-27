@@ -19,7 +19,20 @@ export default function Interface() {
            ═══════════════════════════════════════════════════════════════════════ */}
       <div className="status-bar pointer-events-none fixed inset-x-0 bottom-5 z-40 px-gutter">
         <div className="flex items-end justify-between gap-6">
-          <button type="button" data-status-jump className="pointer-events-auto group flex items-baseline gap-2 text-left">
+          {/* `-my-1 py-1` MENAMBAH SASARAN SENTUH TANPA MENGGESER APA PUN.
+
+               Tombol ini isinya dua baris teks kecil, jadi kotak sentuhnya
+               terukur 117x19px — di bawah minimum 24x24 yang diminta WCAG 2.5.8
+               untuk sasaran pointer. Itu paling terasa di ponsel, sebab deretan
+               titik bab di sebelah kanan `hidden nav:flex` sehingga TOMBOL INI
+               satu-satunya kendali lompat yang tampak di sana.
+
+               Padding 4px atas-bawah menaikkannya ke 27px; margin -4px menarik
+               kotak layoutnya kembali ke ukuran semula, jadi teksnya berdiri di
+               titik yang persis sama dengan sebelumnya dan tidak ada satu
+               piksel pun yang bergeser. Yang tumbuh cuma daerah yang menerima
+               ketukan. */}
+          <button type="button" data-status-jump className="pointer-events-auto group -my-1 flex items-baseline gap-2 py-1 text-left">
             <span className="-caption-small text-text-muted transition-colors duration-500 ease-brand" data-status-count>01/06</span>
             <span className="relative block h-[1.15em] overflow-hidden">
               <span className="-caption block whitespace-nowrap will-change-transform" data-status-label>Tentang</span>

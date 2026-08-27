@@ -133,6 +133,56 @@
 </head>
 <body>
   <div id="root"></div>
+
+  <!-- ══ TEKNIS
+
+       Tanpa JavaScript, <div id="root"> di atas tidak pernah diisi dan yang
+       tampil bidang kosong tanpa satu huruf pun — bukan halaman rusak yang
+       terlihat rusak, melainkan halaman kosong yang terlihat seperti gagal
+       memuat. Itu berlaku untuk pengunjung yang mematikan JS, jaringan yang
+       memutus berkas bundel di tengah jalan, dan perayap yang tidak
+       menjalankan JavaScript.
+
+       DITULIS DI SINI, BUKAN DI REACT, dan itu satu-satunya tempat yang
+       mungkin: apa pun yang ditulis di dalam React baru ada setelah JS jalan,
+       yaitu tepat pada keadaan yang justru sedang dijaga di sini. Berkas ini
+       yang dikirim server apa adanya.
+
+       ISINYA CUKUP NAMA, PERAN, LOKASI, DAN DUA JALUR KONTAK — sengaja tidak
+       lebih. Ini bukan versi cadangan situsnya, melainkan kartu nama supaya
+       tidak ada satu pun kunjungan yang berakhir tanpa apa-apa. Kalau isi
+       situsnya berubah, yang WAJIB ikut diperbarui di sini hanya keempat hal
+       itu.
+
+       GAYANYA SEBARIS, dan alasannya bukan "supaya tidak perlu CSS". Di build
+       produksi Vite memasang <link rel="stylesheet"> sungguhan, jadi warna
+       latar dan huruf situs tetap datang meski JS mati. Tapi ada dua keadaan
+       yang tidak dijamin itu: `npm run dev`, yang menyuntikkan CSS lewat JS —
+       yaitu justru lewat yang sedang mati — dan permintaan berkas CSS yang
+       gagal sendiri. Gaya sebaris membuat blok ini tetap terbaca di keduanya.
+
+       Content-Security-Policy di vercel.json mengizinkan
+       `style-src 'self' 'unsafe-inline'`, jadi gaya sebaris lolos. TIDAK ada
+       script sebaris di sini, dan jangan pernah ditambahkan: `script-src`
+       tidak mengizinkannya, dan yang terjadi bukan pesan galat di halaman
+       melainkan script yang diam-diam tidak dijalankan.
+
+       ══ BAHASA AWAMNYA
+
+       Kalau peramban pengunjung tidak bisa menjalankan JavaScript, yang tampil
+       tidak lagi halaman kosong melainkan satu blok berisi nama, peran, kota,
+       surel, dan nomor WhatsApp Anda. -->
+  <noscript>
+    <div style="max-width:34rem;margin:0 auto;padding:14vh 1.5rem;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#d8d8d8;line-height:1.6">
+      <h1 style="font-size:1.75rem;font-weight:500;letter-spacing:-.02em;margin:0 0 .75rem">Arif Herfian Zaen Chartiko</h1>
+      <p style="margin:0 0 .25rem;color:#808080">Data Analyst &middot; Pendidik Informatika &middot; Staf Administrasi</p>
+      <p style="margin:0 0 2rem;color:#808080">Kab. Blitar, Jawa Timur</p>
+      <p style="margin:0 0 1.5rem;color:#808080">Halaman ini memerlukan JavaScript untuk tampil utuh. Sementara itu, kontak saya bisa langsung dipakai:</p>
+      <p style="margin:0 0 .5rem"><a href="mailto:arif.herfian@gmail.com" style="color:#d8d8d8">arif.herfian@gmail.com</a></p>
+      <p style="margin:0"><a href="https://wa.me/6285790226536" style="color:#d8d8d8">+62 857-9022-6536</a></p>
+    </div>
+  </noscript>
+
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
