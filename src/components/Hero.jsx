@@ -33,7 +33,22 @@ export default function Hero() {
       <section id="home" data-component="chapter"
         className="relative flex h-svh flex-col justify-center overflow-hidden pt-[clamp(1.25rem,7svh,5.5rem)] pb-[clamp(2.75rem,8svh,6.5rem)]">
 
-        <canvas data-component="ambient-lines" data-density="52" aria-hidden="true"
+        {/* JARINGAN SIMPUL DI LATAR — titik melayang yang saling tersambung dan
+             menanggapi kursor. Kodenya di src/lib/animations/ambient.js.
+
+             `data-density="52"` bukan jumlah simpul mutlak melainkan jumlahnya
+             PADA 1440x900; angka sebenarnya diskalakan terhadap luas canvas, jadi
+             390x844 dapat 18 dan tidak ikut sesak. Rinciannya di komentar
+             initAmbientNetwork().
+
+             `pointer-events-none` WAJIB: canvas ini menutup seluruh bagian
+             Beranda, termasuk kedua tombol di bawah. Tanpa itu tombolnya tidak
+             bisa diklik sama sekali dan tidak ada satu pun pesan galat yang
+             memberi tahu kenapa.
+
+             `relative z-2` di container bawah yang membuat isi Beranda berdiri
+             di atas canvas ini. */}
+        <canvas data-component="ambient-network" data-density="52" aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full"></canvas>
 
         <div data-component="container"

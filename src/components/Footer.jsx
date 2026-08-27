@@ -18,10 +18,29 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* PEMBUNGKUS `relative` INI ADA UNTUK MEMBATASI CANVAS DI BAWAH.
+             Tanpanya canvas akan mengacu ke <footer>, dan jaringannya ikut
+             tergambar di belakang band berjalan di atas — bidang yang sudah
+             punya garis pembatas sendiri di atas dan bawah, jadi titik-titik
+             yang melintas di sana terbaca sebagai kotoran, bukan latar. */}
         <div className="relative">
-          <canvas data-component="ambient-lines" data-density="30" aria-hidden="true"
+          {/* Jaringan simpul yang sama dengan Beranda, kodenya di
+               src/lib/animations/ambient.js. Kerapatannya lebih rendah (30 lawan
+               52 pada 1440x900) karena bidang ini lebih pendek dan isinya lebih
+               padat teks; kerapatan Beranda di sini membuat benangnya beradu
+               dengan tiga kolom keterangan.
+
+               `pointer-events-none` WAJIB — surel dan nomor WhatsApp di bawah
+               harus tetap bisa diseleksi. */}
+          <canvas data-component="ambient-network" data-density="30" aria-hidden="true"
             className="pointer-events-none absolute inset-0 h-full w-full"></canvas>
 
+          {/* `relative z-2` WAJIB, dan bukan cuma karena canvas di atas.
+               `[data-band=void]:after` di src/styles/base.css memasang lapisan
+               noise `position: absolute; inset: 0; z-index: 0` di atas footer
+               ini. Karena ia pseudo-element terakhir dalam urutan DOM, ia
+               tergambar di ATAS anak yang cuma `relative`. Tanpa z-2, seluruh
+               isi penutup ini tertutup lapisan noise itu. */}
           <div data-component="container" className="mx-auto w-full px-gutter max-w-[1500px] relative z-2 py-16 nav:py-24">
             <p data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Mari bekerja sama</p>
 

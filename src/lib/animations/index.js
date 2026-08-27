@@ -76,7 +76,7 @@ import {
 import { initGlyphRings, initRoleCards } from "./role-cards.js";
 import { initCardSwap } from "./card-swap.js";
 import { initAccordionGallery } from "./gallery.js";
-import { initAmbientLines, initMarquees } from "./ambient.js";
+import { initAmbientNetwork, initMarquees } from "./ambient.js";
 import {
   initAnchors,
   initBackToTop,
@@ -127,7 +127,7 @@ export function setupAnimations() {
     initMarquees(ctx);
     initCardSwap(ctx);
     initAccordionGallery(ctx);
-    initAmbientLines(ctx);
+    initAmbientNetwork(ctx);
 
     initTypewriter(ctx);
     initStatusBar(ctx);

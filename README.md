@@ -51,7 +51,7 @@ src/lib/animations/       motion, dipecah per bidang
   role-cards.js           sorot berpindah di bagian Keahlian
   card-swap.js            stack card pengalaman
   gallery.js              galeri akordeon sertifikat
-  ambient.js              garis latar + band berjalan
+  ambient.js              jaringan simpul di latar + band berjalan
   behaviors.js            typewriter, bar status, tombol, formulir
   intro.js                monogram pembuka
 public/assets/            foto, sertifikat, logo tool
