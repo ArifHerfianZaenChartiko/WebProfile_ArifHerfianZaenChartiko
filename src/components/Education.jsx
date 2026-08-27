@@ -58,30 +58,46 @@ export default function Education() {
               </div>
             </div>
 
-            <div className="corner-marks border border-line p-8">
+            {/* ══ BARIS "SERTIFIKAT 6" DIBUANG PADA 27 AGUSTUS 2026
+
+                 Di bawah IPK dulu ada satu baris lagi — label "Sertifikat" dan
+                 angkanya di kanan, dipisah garis `border-t`. Angka itu tidak
+                 ditulis tangan: ia DIHITUNG dari jumlah `[data-panel]` di bagian
+                 Sertifikat oleh buildOdometers() di
+                 src/lib/animations/builders.js, lewat attribute
+                 `data-odometer-count`. Barisnya dibuang atas permintaan, dan
+                 karena ia satu-satunya pemakai attribute itu, cabang
+                 penghitungnya ikut dibuang dari builders.js — kode yang tidak
+                 lagi menunjuk apa pun cuma menyesatkan pembaca berikutnya.
+                 Kalau suatu saat baris ini dikembalikan, keduanya harus
+                 dikembalikan bersama.
+
+                 `mb-8` PADA BLOK IPK IKUT DIBUANG. Ia jarak ke garis pemisah
+                 baris yang dibuang itu; kalau ditinggal, jarak isi ke tepi bawah
+                 kartu jadi 64px sementara ke tepi atas 32px, dan kartunya
+                 terlihat berat sebelah. Sekarang keempat sisinya sama-sama 32px
+                 dari `p-8`.
+
+                 `self-start` supaya kartunya SETINGGI ISINYA. Item grid
+                 meregang penuh setinggi barisnya secara bawaan, dan kolom kiri
+                 jauh lebih panjang — dulu itu tidak terasa karena kartunya
+                 berisi tiga blok, tapi dengan tinggal dua, yang tersisa kotak
+                 bergaris dengan ruang kosong menganga di bawahnya.
+
+                 Terukur: 252,4px kalau meregang lawan 214,5px setinggi isi di
+                 1440x900, dan 362,8 lawan 192,8 di 1024x768. Yang paling parah
+                 justru tablet mendatar, sebab di sanalah kolom kiri paling
+                 jangkung — lebarnya sudah dipepet dua kolom sementara layarnya
+                 belum lebar. Di bawah 900px pertanyaannya tidak muncul: grid-nya
+                 satu kolom, jadi tiap kartu setinggi isinya sendiri. */}
+            <div className="corner-marks self-start border border-line p-8">
               <p className="-caption-small mb-8 text-text-muted">Lulus 2025</p>
 
-              <div className="mb-8">
+              <div>
                 <p className="-caption-small mb-2 text-text-muted">IPK</p>
                 <div className="flex items-baseline gap-2">
                   <span className="odometer-value -display-stat block shrink-0" data-odometer="3.62"></span>
                   <span className="-caption-small whitespace-nowrap text-text-muted">/ 4.00</span>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-5 border-t border-line pt-7">
-                <div className="flex items-baseline justify-between gap-4">
-                  <span className="-caption-small text-text-muted">Sertifikat</span>
-                  {/* Angkanya DIHITUNG dari jumlah panel di bagian Sertifikat oleh
-                       src/lib/animations/builders.js, bukan ditulis di sini. Menambah sertifikat
-                       berarti angka ini ikut sendiri.
-
-                       Selector-nya [data-panel], bukan [data-arrive]: bagian itu
-                       dirombak jadi gallery akordeon pada 8 Agustus 2026 dan
-                       attribute lamanya ikut hilang. Kalau selector ini terlewat,
-                       yang muncul bukan error melainkan angka 0 yang terbaca
-                       seperti keterangan yang benar. */}
-                  <span className="odometer-value -h2 leading-none" data-odometer-count="#sertifikat [data-panel]"></span>
                 </div>
               </div>
             </div>

@@ -130,9 +130,11 @@ besar, ubah `aspect-[7/10]`-nya mendekati rasio berkas baru itu.
    `src/components/Certificates.jsx`: `file`, `title`, `source`, `icon`,
    `detail`.
 
-Tidak ada markup yang perlu disalin — keenam panelnya dihasilkan dari array itu.
-Angka jumlah sertifikat di bagian Pendidikan juga ikut sendiri, karena ia
-menghitung `[data-panel]`.
+Tidak ada markup yang perlu disalin — keenam panelnya dihasilkan dari array itu,
+dan tidak ada angka di bagian lain yang perlu ikut disesuaikan. (Sampai
+27 Agustus 2026 ada satu: baris "Sertifikat" di kartu Pendidikan, yang
+menghitung sendiri jumlah `[data-panel]`. Barisnya sudah dibuang atas
+permintaan, berikut cabang penghitungnya di `builders.js`.)
 
 Bagian ini **accordion gallery**: satu panel terbuka, sisanya menyempit jadi
 bar. Mendatar di semua lebar viewport. Menambah sertifikat membuat tiap bar

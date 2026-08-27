@@ -4,8 +4,10 @@ import Icon from "./Icon.jsx";
  * Daftar sertifikat ditulis sebagai data, bukan enam blok markup kembar.
  * Keenam panelnya hanya berbeda pada lima nilai ini, dan menyalin markup
  * berarti lima tempat yang bisa lupa diganti. Menambah sertifikat = menambah
- * satu baris di sini; angka di bagian Pendidikan ikut sendiri karena ia
- * menghitung [data-panel].
+ * satu baris di sini, dan tidak ada satu pun angka di bagian lain yang perlu
+ * ikut disesuaikan. (Sampai 27 Agustus 2026 ada satu: baris "Sertifikat" di
+ * bagian Pendidikan, yang menghitung sendiri jumlah [data-panel] di sini.
+ * Barisnya sudah dibuang.)
  *
  * `file` dipakai dua kali: .pdf yang dibuka, dan .jpg preview-nya. Itu
  * sebabnya nama dasar keduanya WAJIB sama di public/assets/certificate/.

@@ -64,15 +64,24 @@ function buildOdometer(el, nilai) {
   el.innerHTML = html;
 }
 
+/*
+ * TINGGAL SATU ODOMETER DI SELURUH SITUS: IPK di bagian Pendidikan.
+ *
+ * Di sini dulu ada cabang kedua untuk `[data-odometer-count]` — odometer yang
+ * MENGHITUNG alih-alih membaca angka yang ditulis tangan, dipakai baris
+ * "Sertifikat" untuk mengambil jumlahnya dari banyaknya `[data-panel]` di
+ * bagian Sertifikat. Barisnya dibuang dari Education.jsx pada 27 Agustus 2026
+ * dan ia satu-satunya pemakainya, jadi cabangnya ikut dibuang: selector yang
+ * tidak menunjuk apa pun membuat pembaca berikutnya mengira fiturnya masih
+ * terpasang di suatu tempat.
+ *
+ * Kalau baris itu dikembalikan, keduanya dikembalikan bersama — angkanya jangan
+ * ditulis tangan, sebab menambah sertifikat akan menyisakan angka yang meleset
+ * di bagian lain tanpa satu pun tanda.
+ */
 export function buildOdometers() {
   $$("[data-odometer]").forEach(function (el) {
     buildOdometer(el, el.getAttribute("data-odometer"));
-  });
-  /* Yang satu ini MENGHITUNG, bukan membaca angka yang ditulis tangan —
-     jumlah sertifikat diambil dari jumlah card-nya sendiri, jadi menambah
-     sertifikat tidak menyisakan angka yang meleset di bagian lain. */
-  $$("[data-odometer-count]").forEach(function (el) {
-    buildOdometer(el, String($$(el.getAttribute("data-odometer-count")).length));
   });
 }
 
