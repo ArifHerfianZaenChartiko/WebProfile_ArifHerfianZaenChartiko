@@ -34,3 +34,104 @@
 #home .-display {
   font-size: clamp(2.25rem, min(9.2cqi, 13svh), 6.75rem);
 }
+
+/* TANDA SUDUT BINGKAI FOTO — YANG DITEBALKAN SUDUTNYA, BUKAN GARISNYA.
+
+   ══ TEKNIS
+
+   Riwayat setengah hari pada 27 Agustus 2026, ditulis lengkap supaya tidak
+   diulang. Garis bingkainya sempat dinaikkan seluruhnya ke `--text-muted` agar
+   "jelas". Itu keliru dua kali:
+
+   1. IA MENGHAPUS PERBEDAAN YANG MEMANG DISENGAJA. Bingkai ini bukan kotak
+      polos — ia garis rambut tipis DENGAN tanda sudut, dan menyamakan tebal
+      serta warna keduanya membuatnya jadi persegi panjang biasa.
+
+   2. IA MEMBUAT SISI ATAS-BAWAH TAMPAK KABUR, dan itu bukan perasaan.
+      Keempat tepi bingkai jatuh di pecahan piksel, sebab tingginya `28svh`
+      (286,72px di layar 1024px) lalu diletakkan flexbox dari sisa ruang yang
+      juga pecahan. Terukur di 768x1024: tepi atas 364,813 dan tepi bawah
+      651,531 — keduanya dekat tengah piksel, jadi garis 1px digambar sebagai
+      dua baris setengah gelap. Selama garisnya redup, itu tidak terlihat;
+      begitu ia diterangkan, yang terbaca justru "kabur".
+
+      Perhatikan pecahannya SAMA di dpr 1 dan dpr 2, jadi ini bukan gejala
+      pratinjau: layar retina cuma membaginya jadi dua piksel perangkat, lebih
+      halus tapi tetap tidak pernah tajam. Menyetel angka `svh`-nya ke bilangan
+      bulat pun tidak menolong, sebab posisinya tetap datang dari sisa ruang.
+
+   Jalan keluarnya bukan menajamkan yang tipis melainkan MENEBALKAN yang perlu
+   terlihat. Garis rambut kembali ke `--line` seperti dua kotak ber-tanda-sudut
+   lainnya (Kontak, Pendidikan), sementara tanda sudutnya naik ke 2px dan
+   `--text`. Garis 2px di pecahan piksel tetap menyisakan satu baris penuh
+   pekat, jadi ia terbaca tegas; dan sudut yang tegas justru menyatakan
+   "bingkai" lebih kuat daripada empat sisi yang sama rata.
+
+   16px, bukan 9px bawaan. Angkanya turun dua kali atas permintaan — 28px, lalu
+   20px, lalu ini. Pada 28px lengannya seperempat sisi bingkai terkecil dan
+   terbaca seperti bingkai kedua di dalam bingkai; pada 16px ia sepersembilan
+   sisi di bingkai desktop dan sepertujuh di bingkai ponsel: tanda sudut yang
+   menyatakan sudutnya saja, bukan menyusuri sisinya.
+
+   JANGAN TURUN JAUH DI BAWAH INI. Lengan yang mendekati tebalnya sendiri
+   berhenti terbaca sebagai siku dan berubah jadi noda — itu yang terjadi pada
+   9px bawaan di tebal 2px. Perbandingan sekarang 8:1; 12px (6:1) masih mungkin,
+   di bawah itu sebaiknya tebalnya ikut diturunkan.
+
+   (Catatan sebelumnya di sini menuduh 16px "terlihat sebagai kotak putih". Itu
+   salah alamat: yang membuatnya kotak bukan panjangnya melainkan `border-width`
+   di bawah, dan sesudah itu diperbaiki, panjang sependek itu pun tetap siku.)
+
+   Keduanya tetap menempel rata di tepi luar bingkai — offset -1px bawaannya
+   tidak diubah, jadi tebalnya tumbuh KE DALAM.
+
+   ══ `border-width` TIDAK BOLEH DIPAKAI DI SINI, DAN INI JEBAKANNYA
+
+   Aturan ini sempat ditulis `border-width: 2px`, dan hasilnya bukan siku
+   melainkan DUA KOTAK PUTIH seukuran tanda sudutnya. Sebabnya preflight
+   Tailwind menyetel `*, ::before, ::after { border: 0 solid }` — jadi keempat
+   sisi tiap pseudo-element SUDAH bergaya `solid` sejak awal, dan yang menahan
+   mereka tidak tergambar cuma lebarnya yang nol. Aturan bawaan di base.css
+   memanfaatkan itu: ia menaikkan lebar dua sisi saja lewat `border-top` dan
+   `border-left`. Menyetel `border-width` menaikkan keempatnya sekaligus, dan
+   kotak itulah yang muncul — tanpa satu pun pesan galat, sebab tidak ada yang
+   salah menurut CSS.
+
+   Karena itu yang dinaikkan HARUS sisi per sisi, dan kedua pseudo-element
+   berbeda pasangan sisinya: :before menggambar sudut kiri-atas, :after
+   kanan-bawah.
+
+   TANDANYA TETAP DUA, di sudut kiri-atas dan kanan-bawah. Itu bukan setengah
+   pekerjaan melainkan pola yang sama dengan dua kotak lain di situs ini, dan
+   satu elemen memang cuma punya dua pseudo-element (:before dan :after) —
+   empat sudut menuntut elemen tambahan, dan itu perubahan yang lebih besar
+   daripada yang diminta. Kalau suatu saat empat sudut yang dikehendaki, di
+   sinilah tempatnya, dan yang dibutuhkan satu elemen kosong lagi di dalam
+   bingkai.
+
+   Yang disentuh hanya tanda sudut DI BERANDA. Kontak dan Pendidikan sengaja
+   tidak ikut: keduanya membingkai teks di atas latar diam, dan garis rambutnya
+   sudah cukup di sana.
+
+   ══ BAHASA AWAMNYA
+
+   Bingkai foto kembali bergaris tipis samar seperti semula, tapi kedua
+   siku-sikunya — kiri atas dan kanan bawah — sekarang tebal dan terang. Jadi
+   bingkainya jelas terlihat tanpa ada garis tipis yang tampak kabur di sisi
+   atas dan bawah. */
+#home .corner-marks:before,
+#home .corner-marks:after {
+  width: 16px;
+  height: 16px;
+  border-color: var(--text);
+}
+
+#home .corner-marks:before {
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+#home .corner-marks:after {
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}

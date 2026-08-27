@@ -83,10 +83,37 @@ export default function Hero() {
                  Sekarang ia `flex-1 min-h-0`: sisa tinggi mengalir ke sini, dan
                  kalau tidak ada sisa, fotonya yang menyusut. Angka `min()` yang
                  dulu menentukan ukuran kini cuma LANGIT-LANGIT (max-h), supaya
-                 di layar jangkung ia tidak membesar tanpa henti. 87cqi
-                 menggantikan 58vw: 87% lebar container x rasio 853/1280 = 58%,
-                 jadi batas lebarnya sama, tapi diukur dari kotaknya sendiri. */}
-            <div className="flex min-h-0 flex-1 items-center justify-center wide:col-start-2 wide:row-start-1 wide:row-span-2 wide:block wide:flex-none wide:max-w-[min(17rem,30svh)]">
+                 di layar jangkung ia tidak membesar tanpa henti. 68cqi berpasangan
+                 dengan 28svh di bawah: 68% lebar container x rasio 7/10 = 47,6%,
+                 batas lebar yang diukur dari kotaknya sendiri, bukan dari layar.
+
+                 ══ DIKECILKAN PADA 27 AGUSTUS 2026 — FOTO BUKAN SOROTAN
+
+                 Sebelum hari itu tingginya 36% layar di semua ukuran tegak dan
+                 42,9% di desktop maupun ponsel mendatar. Angka kedua itu tidak
+                 pernah ditulis siapa pun sebagai keputusan: ia akibat aritmetika
+                 yang tersembunyi. Yang dipatok `max-w`, dan tinggi bingkai =
+                 lebar / 0,7 — jadi `30svh` lebar diam-diam berarti 42,9svh
+                 TINGGI. Sekitar dua per lima layar untuk satu pas foto,
+                 sementara nama dan peran berbagi sisanya.
+
+                 Sekarang kedua sumbunya dinyatakan sebagai TINGGI supaya tidak
+                 ada lagi angka yang menyamar: 28svh di layar tegak, dan `22svh`
+                 lebar di layar mendatar yang berarti 31,4svh tinggi. Terukur
+                 sesudahnya: 28,0% di 320x568 sampai 768x1024, dan 31,4% di
+                 844x390, 1024x768, 1440x900, serta 1920x1080.
+
+                 12,5rem (200px) itu langit-langit mutlaknya di layar sangat
+                 lebar, turun dari 17rem. Tanpa itu, 1920x1080 memberi bingkai
+                 selebar 237px semata karena layarnya jangkung.
+
+                 7rem (112px) LANTAINYA, dan ia cuma mengikat pada layar yang
+                 tingginya di bawah ±509px — praktis hanya ponsel yang diputar.
+                 Tanpa lantai itu, 844x390 memberi bingkai selebar 85,8px:
+                 wajahnya jadi seukuran kuku dan bagian itu terbaca seperti ada
+                 gambar yang gagal dimuat, bukan seperti pas foto. Terukur pada
+                 1024x768 ke atas lantai ini tidak mengubah satu piksel pun. */}
+            <div className="flex min-h-0 flex-1 items-center justify-center wide:col-start-2 wide:row-start-1 wide:row-span-2 wide:block wide:flex-none wide:max-w-[min(12.5rem,max(22svh,7rem))]">
               {/* RASIO DIPASANG DI BINGKAI, PADDING-NYA TETAP 12px.
 
                    Rasio tidak bisa dipasang di elemen dalam lalu bingkainya
@@ -103,46 +130,50 @@ export default function Hero() {
                    karena barisnya paling lebar. Yang terlihat: fotonya seperti
                    tenggelam di tengah bingkai yang kelewat longgar.
 
-                   12px tetap, jadi jaraknya sama di semua device — terukur 13px
-                   di sembilan ukuran viewport.
+                   12px tetap, jadi jaraknya sama di semua device.
 
-                   ONGKOSNYA SATU PITA TIPIS, dan angkanya jangan ditaksir. Rasio
-                   bingkai mengukur kotak LUAR sementara yang harus 853/1280 kotak
-                   DALAM, dan padding 12px + garis 1px itu porsi yang lebih besar
-                   di bingkai kecil daripada di bingkai besar. Rasio idealnya
-                   karena itu bukan satu angka: 0,718 pada bingkai setinggi 168px
-                   sampai 0,689 pada 388px. 7/10 duduk di tengah rentang itu, dan
-                   pita yang tersisa 0,5-2,3px — terukur di enam ukuran viewport.
-                   Di bawah dua setengah piksel, jadi dibiarkan.
+                   ══ PITA-NYA SUDAH NOL SEJAK 27 AGUSTUS 2026
 
-                   Kalau suatu saat pita itu harus nol, jalannya BUKAN padding
-                   persen (lihat di atas) melainkan mengganti `contain` jadi
-                   `cover` di img di bawah — ia memangkas selisihnya alih-alih
-                   memberinya pita. Itu tukar yang beda, bukan perbaikan gratis:
-                   `contain` dipilih supaya foto pengganti dengan rasio lain tidak
-                   terpotong diam-diam. */}
-              <div className="corner-marks relative aspect-[7/10] h-full max-h-[min(36svh,87cqi)] max-w-full border border-line p-3 wide:h-auto wide:w-full wide:max-h-none">
+                   Sampai hari itu img di bawah memakai `contain`, dan ongkosnya
+                   sepita kosong di satu sumbu: jaraknya jadi 14,1px kiri-kanan
+                   lawan 12,0px atas-bawah di 1440x900, dan 12,0 lawan 13,4 di
+                   320x568 — terbalik arahnya, karena rasio bingkai mengukur kotak
+                   LUAR sementara yang harus 853/1280 kotak DALAM, dan padding
+                   12px + garis 1px itu porsi yang lebih besar di bingkai kecil.
+                   Rasio idealnya karena itu bukan satu angka melainkan rentang
+                   0,689-0,718, dan tidak ada satu nilai `aspect` pun yang bisa
+                   menutupnya di semua ukuran. (Catatan lama di sini menyebut
+                   pitanya 0,5-2,3px. Angka itu keliru: diukur ulang di sembilan
+                   viewport, ia 1,1-4,6px.)
+
+                   Yang menutupnya `cover` — persis jalan keluar yang sudah
+                   ditulis di catatan lama ini sebagai satu-satunya yang benar.
+                   Foto MENGISI kotak dalam, jadi jaraknya tepat 12px di keempat
+                   sisi di setiap ukuran layar, tanpa satu pun angka yang perlu
+                   dihitung ulang.
+
+                   ONGKOSNYA: selisih rasio itu sekarang dipangkas, bukan diberi
+                   pita — paling banyak 6,4px dari 1280px tinggi berkas (0,5%),
+                   terambil rata atas dan bawah. Kalau suatu saat foto diganti
+                   dengan rasio yang jauh berbeda, PERIKSA HASILNYA: `cover`
+                   memangkas diam-diam, dan yang hilang duluan bagian atas kepala.
+                   Rasio berkas sekarang 853/1280 = 0,666, bingkai 0,7. */}
+              <div className="corner-marks relative aspect-[7/10] h-full max-h-[min(28svh,68cqi)] max-w-full border border-line p-3 wide:h-auto wide:w-full wide:max-h-none">
                 <div data-component="image-reveal" data-delay="0.21" className="h-full w-full">
                   <span className="bg" aria-hidden="true"></span>
-                  {/* `object-fit` ditulis SEBARIS, bukan sebagai class:
-                       `[data-component=image-reveal] .media` di src/styles/base.css
-                       sudah menyetel `cover`, dan ia CSS tak-berlapis -- di luar
-                       @layer mana pun -- jadi ia mengalahkan class utilitas apa
-                       pun, yang oleh Tailwind ditaruh di dalam layer. Selector-nya
-                       juga lebih spesifik. Yang sebaris menang atas keduanya.
+                  {/* TIDAK ADA `object-fit` DI SINI, dan itu keputusan, bukan
+                       kelupaan. `[data-component=image-reveal] .media` di
+                       src/styles/base.css sudah menyetel `cover`, yang sejak
+                       27 Agustus 2026 memang yang diinginkan — alasannya di
+                       komentar bingkai tepat di atas.
 
-                       (Rujukan lamanya `style.css`; file itu sudah tidak ada sejak
-                       pindah ke Tailwind sungguhan. Aturannya sendiri tidak
-                       berubah, cuma pindah ke src/styles/base.css.)
-
-                       `contain` berarti foto DIPASKAN utuh ke dalam frame, dan
-                       sejak rasio pindah ke bingkai (7/10, lihat komentar di
-                       atas) ia menyisakan pita 0,5-2,3px di satu sumbu — bukan
-                       nol seperti waktu rasionya masih dipasang di sini.
-                       `contain` tetap yang dipilih karena ia yang aman kalau
-                       suatu saat fotonya diganti dengan rasio lain: yang muncul
-                       foto utuh dengan sedikit pita, bukan wajah yang terpotong
-                       diam-diam.
+                       Sampai hari itu di baris ini ada `style={{objectFit:
+                       "contain"}}` sebaris. Ia harus sebaris karena aturan di
+                       base.css itu CSS tak-berlapis — di luar @layer mana pun —
+                       sehingga ia mengalahkan class utilitas apa pun, yang oleh
+                       Tailwind ditaruh di dalam layer. Kalau suatu saat ada yang
+                       perlu mengembalikan `contain`, itu sebabnya `object-contain`
+                       sebagai class TIDAK akan bekerja: pakai style sebaris.
 
                        Sampai 7 Agustus 2026 baris ini memakai `wide:aspect-[4/5]`
                        khusus desktop. Itu yang membuat frame-nya lebih gemuk dari
@@ -151,7 +182,7 @@ export default function Hero() {
                        terlihat renggang sebelah, di ponsel dan tablet menempel
                        rapat. Jangan dipatok ulang ke rasio yang berbeda dari
                        file-nya. */}
-                  <img src="assets/photo/foto.jpeg" alt="Foto Arif Herfian Zaen Chartiko" className="media" style={{ objectFit: "contain" }} />
+                  <img src="assets/photo/foto.jpeg" alt="Foto Arif Herfian Zaen Chartiko" className="media" />
                 </div>
               </div>
             </div>

@@ -113,10 +113,13 @@ Cari kalimatnya di `src/components/`, ketik ulang. HMR menyegarkan sendiri.
 
 ### Foto
 
-Timpa `public/assets/photo/foto.jpeg`, lalu **sesuaikan aspect ratio frame-nya**
-di `src/components/Hero.jsx`: `aspect-[853/1280]` adalah rasio file yang
-sekarang. Kalau terlewat, akan muncul band kosong di satu sumbu dan jarak foto
-ke garis frame tidak lagi sama di keempat sisinya.
+Timpa `public/assets/photo/foto.jpeg`, lalu **buka Beranda dan periksa
+hasilnya.** Bingkainya `aspect-[7/10]` di `src/components/Hero.jsx` dan fotonya
+`cover`, jadi berkas dengan rasio lain tidak akan menyisakan band kosong — ia
+akan **dipotong tanpa memberi tanda**, dan yang hilang duluan bagian atas kepala.
+Berkas yang sekarang 853x1280 (rasio 0,666 lawan 0,7 bingkai) dan potongannya
+6,4px; makin jauh rasionya dari 0,7, makin banyak yang terbuang. Kalau selisihnya
+besar, ubah `aspect-[7/10]`-nya mendekati rasio berkas baru itu.
 
 ### Sertifikat
 
@@ -510,9 +513,15 @@ Yang dibalik pada 18 Agustus 2026: **foto** jadi elemen lenturnya
 dulu membuat tidak ada satu pun yang terpaksa menyusut. Angka `min()` yang dulu
 menentukan ukuran foto kini cuma langit-langitnya.
 
-Hasilnya foto menempati **36% tinggi layar di semua ukuran tegak** — 320x568,
-375x667, 390x844, 430x932, dan 768x1024 semuanya 35,9–36,1% — dan tidak ada satu
+Hasilnya foto menempati porsi yang sama di semua ukuran tegak dan tidak ada satu
 lebar pun yang meluber, termasuk 844x390 (ponsel diputar).
+
+**Porsinya dikecilkan pada 27 Agustus 2026** karena fotonya terbaca sebagai
+sorotan halaman. Sebelumnya 36% tinggi layar di semua ukuran tegak dan **42,9%**
+di layar mendatar; sekarang **28%** dan **31,4%**. Angka 42,9% itu tidak pernah
+ditulis siapa pun sebagai keputusan — ia akibat aritmetika yang menyamar: yang
+dipatok `max-w`, dan tinggi bingkai = lebar ÷ 0,7, jadi `30svh` lebar berarti
+42,9svh tinggi. Sekarang kedua sumbunya dinyatakan sebagai tinggi.
 
 Tiga hal lain yang ikut:
 
@@ -531,10 +540,37 @@ Tiga hal lain yang ikut:
   dari lebar container, bukan lebar elemennya sendiri; `p-[7%]` yang sempat
   dipakai menghasilkan jarak foto ke garis 23,6px di ponsel, **48,4px di
   tablet**, dan 18,9px di desktop — tablet paling parah justru karena barisnya
-  paling lebar, dan fotonya terlihat tenggelam di bingkai yang longgar. Dengan
-  12px tetap, jaraknya 13px di semua device.
-- **Foto tidak boleh jadi spotlight.** Terukur sekarang: 31–33,5% tinggi layar
-  di semua ukuran tegak, 35% di ponsel diputar, 40% di desktop.
+  paling lebar, dan fotonya terlihat tenggelam di bingkai yang longgar.
+- **Fotonya `cover`, jadi jaraknya persis 12px di keempat sisi.** Sampai
+  27 Agustus 2026 ia `contain`, dan itu menyisakan sepita kosong di satu sumbu:
+  14,1px kiri-kanan lawan 12,0px atas-bawah di 1440x900, dan terbalik arahnya di
+  320x568 (12,0 lawan 13,4). Sebabnya struktural — `aspect` mengukur kotak luar
+  sementara yang harus serasio foto kotak dalam, dan rasio idealnya sendiri
+  bergerak 0,689–0,718 mengikuti ukuran bingkai, jadi tidak ada satu nilai
+  `aspect` yang menutupnya. `cover` memangkas selisih itu alih-alih memberinya
+  pita: paling banyak 6,4px dari 1280px tinggi berkas. **Kalau fotonya diganti
+  dengan rasio yang jauh berbeda, periksa hasilnya** — `cover` memotong tanpa
+  memberi tanda, dan yang hilang duluan bagian atas kepala.
+- **Yang ditebalkan sudutnya, bukan garisnya.** Garis rambut bingkai tetap
+  `--line` seperti dua kotak ber-`.corner-marks` lainnya; yang naik ke 2px dan
+  `--text` hanya kedua tanda sudutnya (16px, kiri-atas dan kanan-bawah), lewat
+  aturan di `src/styles/hero.css`. Garis 1px itu sempat diterangkan seluruhnya
+  dan hasilnya **tampak kabur di sisi atas-bawah**: keempat tepi bingkai jatuh
+  di pecahan piksel — terukur 364,813 dan 651,531 pada 768x1024 — sehingga garis
+  setipis itu tergambar sebagai dua baris setengah gelap. Pecahannya sama di
+  dpr 1 maupun dpr 2, jadi layar retina pun tidak menyembuhkannya; yang
+  menyembuhkan cuma garis yang lebih tebal.
+- **Jangan pakai `border-width` pada tanda sudut.** Preflight Tailwind menyetel
+  `*, ::before, ::after { border: 0 solid }`, jadi keempat sisinya sudah bergaya
+  solid dan hanya lebarnya yang nol. `border-width: 2px` menaikkan keempatnya
+  sekaligus dan yang muncul **dua kotak putih**, bukan siku — tanpa pesan galat.
+  Naikkan sisi per sisi: `border-top-width`/`border-left-width` untuk `:before`,
+  `border-bottom-width`/`border-right-width` untuk `:after`.
+- **Foto tidak boleh jadi spotlight.** Terukur di sembilan viewport 320x568
+  sampai 1920x1080: 28% tinggi layar di semua ukuran tegak, 31,4% di desktop dan
+  tablet mendatar, 26,5% di 1920x1080 (langit-langit 200px yang mengikat), dan
+  41% di ponsel diputar — yang terakhir itu lantai 7rem, supaya di layar setinggi
+  390px wajahnya tidak menyusut jadi 86px.
 
 **Motion dipasang lewat `useLayoutEffect` dan WAJIB men-teardown dirinya.** React
 StrictMode melakukan mount-unmount-mount tiap effect di mode development, dan
