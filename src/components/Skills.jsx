@@ -530,7 +530,7 @@ export default function Skills() {
               <div data-component="scrub-reveal" data-delay="0.04" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="comments" className="text-text-muted" />
                 <span className="-body-small font-medium">Komunikasi Teknis</span>
-                <p className="-body-smaller text-text-muted">Menjelaskan hal teknis dengan bahasa sederhana beserta analogi supaya lebih mudah dipahami orang awam.</p>
+                <p className="-body-smaller text-text-muted">Menjelaskan konsep teknis yang rumit dengan bahasa sederhana beserta analogi yang tepat supaya mudah dipahami oleh anggota tim non-teknis maupun pihak eksternal.</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.08" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="list-check" className="text-text-muted" />
@@ -544,8 +544,8 @@ export default function Skills() {
               </div>
               <div data-component="scrub-reveal" data-delay="0.16" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="people-group" className="text-text-muted" />
-                <span className="-body-small font-medium">Koordinasi Tim</span>
-                <p className="-body-smaller text-text-muted">Menyelaraskan pembagian tugas menurut peran tiap anggota dan menjaga alur komunikasi lewat pengecekan berkala sehingga hambatan cepat teratasi dan pekerjaan tuntas sesuai target.</p>
+                <span className="-body-small font-medium">Kolaborasi Tim</span>
+                <p className="-body-smaller text-text-muted">Bekerja sama dengan anggota tim maupun divisi lain untuk menyelaraskan pemikiran guna meminimalkan miskomunikasi dan mempercepat penyelesaian target bersama.</p>
               </div>
             </div>
           </div>
