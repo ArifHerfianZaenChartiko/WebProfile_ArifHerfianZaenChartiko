@@ -23,9 +23,31 @@ import { useText } from "../i18n/lang.jsx";
  * pimpinan yang menyertai surat. BOSDA dan NPHD dibiarkan sebagai singkatan —
  * keduanya nama program, dan perekrut yang mengenalnya mencari singkatan itu.
  *
+ * ══ JUDUL KEDUA KARTU DISAMAKAN DENGAN STATUS ASLINYA, 1 Oktober 2026
+ *
+ * Dulu "Guru Informatika" dan "Staf Administrasi". Bagian Proyek (yang
+ * isinya diambil dari laporan akhir kedua kegiatan) menyebut keduanya apa
+ * adanya: program Asistensi Mengajar MBKM dan praktik industri (magang).
+ * Dua bagian yang berdampingan di satu halaman lalu menyebut status yang
+ * berbeda untuk pekerjaan yang sama, dan perekrut yang membaca keduanya
+ * akan menangkap selisihnya sebagai klaim yang dibesar-besarkan. Sekarang
+ * keduanya menyebut PROGRAM-nya lebih dulu, lalu perannya, dengan pola
+ * yang dipilih pemiliknya: "Asistensi Mengajar – Guru Informatika" dan
+ * "Magang Industri – Staf Administrasi" (Inggris: "Teaching Assistantship –
+ * Informatics Teacher", "Industrial Internship – Administrative Staff").
+ * Tanda pisahnya en dash, sama dengan rentang tanggal di kartu yang sama.
+ * Judul kartu Proyek memakai pola kalimat yang sama: "<program> sebagai
+ * <peran> di <tempat>".
+ *
+ * Yang SENGAJA TIDAK ikut diganti: peran di typewriter Beranda dan judul
+ * baris di Tentang ("Pendidik Informatika", "Staf Administrasi"). Itu nama
+ * BIDANG kemampuan, bukan jabatan di satu tempat kerja.
+ *
  * ══ BAHASA AWAMNYA
  *
- * Isi kartu Pengalaman dalam dua bahasa.
+ * Isi kartu Pengalaman dalam dua bahasa. Judul kedua kartu sekarang menyebut
+ * programnya (Asistensi Mengajar, Magang Industri) lalu perannya, sama
+ * dengan bagian Proyek.
  */
 const TEXT = {
   en: {
@@ -37,7 +59,7 @@ const TEXT = {
     jobs: [
       {
         period: "February – June 2024",
-        title: "Informatics Teacher",
+        title: "Teaching Assistantship – Informatics Teacher",
         place: "SMKN 3 Malang",
         href: "https://smkn3malang.sch.id/",
         tags: ["Basic Programming", "Basic Networking", "Network Services", "Student Management"],
@@ -50,7 +72,7 @@ const TEXT = {
       },
       {
         period: "June – August 2024",
-        title: "Administrative Staff",
+        title: "Industrial Internship – Administrative Staff",
         place: "Malang City Education Office",
         href: "https://dikbud.malangkota.go.id/",
         tags: ["Digital Administration", "Data Entry", "Public Service", "Attention to Detail"],
@@ -72,7 +94,7 @@ const TEXT = {
     jobs: [
       {
         period: "Februari – Juni 2024",
-        title: "Guru Informatika",
+        title: "Asistensi Mengajar – Guru Informatika",
         place: "SMKN 3 Malang",
         href: "https://smkn3malang.sch.id/",
         tags: ["Pemrograman Dasar", "Jaringan Dasar", "TLJ", "Manajemen Siswa"],
@@ -85,7 +107,7 @@ const TEXT = {
       },
       {
         period: "Juni – Agustus 2024",
-        title: "Staf Administrasi",
+        title: "Magang Industri – Staf Administrasi",
         place: "Dinas Pendidikan Kota Malang",
         href: "https://dikbud.malangkota.go.id/",
         tags: ["Administrasi Digital", "Pendataan", "Pelayanan", "Ketelitian"],
@@ -200,7 +222,34 @@ export default function Experience() {
                           <span className="-mono tabular-nums text-text-muted">{"0" + (i + 1) + " / 0" + t.jobs.length}</span>
                           <span className="-caption-small text-text-muted">{job.period}</span>
                         </div>
-                        <h3 className="-h2 mb-3">{job.title}</h3>
+                        {/* JUDUL DIPECAH DI " – ": program jadi label kecil,
+                             peran jadi judul besar.
+
+                             ══ TEKNIS — kolom kiri kartu cuma ~304px di
+                             desktop. Ditulis utuh di ukuran -h2, "Teaching
+                             Assistantship – Informatics Teacher" pecah empat
+                             baris di 1440px dan tanda pisahnya jatuh di ujung
+                             baris. Teks datanya TETAP utuh di TEXT; yang
+                             dipecah cuma tampilannya, dan " – " dipertahankan
+                             sebagai sr-only supaya pembaca layar tetap
+                             mendengar judul lengkapnya. Judul tanpa " – "
+                             tampil apa adanya.
+
+                             ══ BAHASA AWAMNYA — nama program (Asistensi
+                             Mengajar, Magang Industri) tampil kecil di atas,
+                             peran (Guru Informatika, Staf Administrasi) besar
+                             di bawahnya, jadi judulnya tidak terpotong-potong. */}
+                        {(function () {
+                          const parts = job.title.split(" – ");
+                          if (parts.length !== 2) return <h3 className="-h2 mb-3">{job.title}</h3>;
+                          return (
+                            <h3 className="-h2 mb-3">
+                              <span className="-caption-small mb-3 block text-text-muted">{parts[0]}</span>
+                              <span className="sr-only"> – </span>
+                              <span className="block">{parts[1]}</span>
+                            </h3>
+                          );
+                        })()}
                         <a href={job.href} target="_blank" rel="noopener noreferrer" className="link-mono text-text-muted hover:text-text">
                           <span data-letter-hover={job.place}></span><span className="arrow" aria-hidden="true">↗</span>
                         </a>

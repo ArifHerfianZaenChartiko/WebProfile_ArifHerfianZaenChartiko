@@ -167,7 +167,7 @@ const TEXT = {
       {
         year: "2024",
         kind: "Teaching",
-        title: "Teaching Assistantship at SMKN 3 Malang",
+        title: "Teaching Assistantship as an Informatics Teacher at SMKN 3 Malang",
         context: "A campus teaching-assistant program (MBKM) at a vocational high school: teaching computer and network engineering (TKJ) classes while supporting the school’s daily operations.",
         work: "Taught Basic Programming and Basic Networking in grade X and Network Services Technology in grade XI, wrote teaching modules and assessments, co-organized the SEMAR, Speak with Confidence, and Future in College programs, and helped with administration, attendance, and admissions (PPDB) screening.",
         result: "Hands-on practice in lesson planning, matching methods to each class, and classroom management. The program also produced a scientific article, a published essay, and a short film.",
@@ -181,7 +181,7 @@ const TEXT = {
       {
         year: "2024",
         kind: "Administration",
-        title: "Administrative Internship at Malang City Education Office",
+        title: "Industrial Internship as Administrative Staff at Malang City Education Office",
         context: "An industrial-practice internship in the Primary Education (PENDAS) division, which serves elementary and junior high schools across Malang.",
         work: "Logged incoming mail and routing slips in the ledger and in Excel, recorded schools’ curriculum documents for verification, handled outgoing letters and diploma corrections, served BOSDA and NPHD funding submissions, and sorted school uniforms for distribution.",
         result: "First-hand understanding of how a government office coordinates with schools and the public. My report recommended assigning more staff to uniform sorting so distribution runs more efficiently.",
@@ -233,7 +233,7 @@ const TEXT = {
       {
         year: "2024",
         kind: "Pengajaran",
-        title: "Asistensi Mengajar di SMKN 3 Malang",
+        title: "Asistensi Mengajar sebagai Guru Informatika di SMKN 3 Malang",
         context: "Program Asistensi Mengajar (MBKM) di sekolah menengah kejuruan: mengajar kelas Teknik Komputer dan Jaringan (TKJ) sambil mendukung operasional harian sekolah.",
         work: "Mengajar Pemrograman Dasar dan Jaringan Dasar di kelas X serta Teknologi Layanan Jaringan di kelas XI, menyusun modul ajar dan penilaian, ikut menyelenggarakan program SEMAR, Speak with Confidence, dan Future in College, serta membantu tata usaha, rekap kehadiran, dan seleksi berkas PPDB.",
         result: "Pengalaman langsung menyusun rencana ajar, memilih metode yang cocok untuk tiap kelas, dan mengelola kelas. Program ini juga menghasilkan artikel ilmiah, esai yang terbit, dan film pendek.",
@@ -247,7 +247,7 @@ const TEXT = {
       {
         year: "2024",
         kind: "Administrasi",
-        title: "Magang Staf Administrasi di Dinas Pendidikan Kota Malang",
+        title: "Magang Industri sebagai Staf Administrasi di Dinas Pendidikan Kota Malang",
         context: "Praktik industri di bidang Pendidikan Dasar (PENDAS), yang melayani SD dan SMP se-Kota Malang.",
         work: "Mencatat surat masuk dan disposisi di buku agenda dan Excel, mendata dokumen kurikulum sekolah untuk diverifikasi, menangani surat keluar dan koreksi ijazah, melayani pengajuan dana BOSDA dan NPHD, serta memilah seragam sekolah untuk dibagikan.",
         result: "Memahami langsung cara instansi pemerintah berkoordinasi dengan sekolah dan masyarakat. Laporan saya menyarankan penambahan tenaga di penyortiran seragam supaya pembagiannya lebih efektif dan efisien.",
@@ -284,13 +284,20 @@ export default function Projects() {
           {t.sub}
         </p>
 
-        {/* ZIG-ZAG DI >=900px: gambar kiri pada proyek ganjil, kanan pada
+        {/* ZIG-ZAG DI >=1024px (lg), BUKAN >=900px (nav) — dinaikkan 1 Oktober
+             2026. Di 900-1023px dua kolom membuat bingkai 16:9 cuma ~224px
+             tinggi (terukur di 900x1000), dan detail dashboard Olist tidak
+             terbaca. Di rentang itu kartunya sekarang bertumpuk seperti di
+             tablet, jadi gambarnya selebar isi halaman. Bahasa awamnya: di
+             laptop kecil gambar proyek tampil besar di atas teksnya.
+
+             ZIG-ZAG: gambar kiri pada proyek ganjil, kanan pada
              yang genap. Empat kartu yang semuanya gambar-kiri terbaca seperti
              daftar; yang bergantian memberi mata jalur turun yang berkelok,
-             dan tiap kartu terasa satu halaman tersendiri. Di bawah 900px
+             dan tiap kartu terasa satu halaman tersendiri. Di bawah 1024px
              semuanya bertumpuk: gambar dulu, lalu teksnya.
 
-             GAMBARNYA `sticky` di >=900px. Kolom teks jauh lebih tinggi
+             GAMBARNYA `sticky` di >=1024px. Kolom teks jauh lebih tinggi
              daripada bingkai 16:9, jadi tanpa itu separuh bawah kartu berdiri
              di sebelah ruang kosong; dengan sticky, gambarnya ikut turun
              sampai teksnya habis. */}
@@ -301,9 +308,9 @@ export default function Projects() {
             const primary = media.links[0];
             return (
               <li key={i} className="border-t border-line py-12 last:border-b sm:py-14 nav:py-20">
-                <article className="grid grid-cols-1 gap-10 nav:grid-cols-2 nav:gap-16">
+                <article className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
 
-                  <div className={"nav:sticky nav:top-24 nav:self-start" + (flip ? " nav:order-2" : "")}>
+                  <div className={"lg:sticky lg:top-24 lg:self-start" + (flip ? " lg:order-2" : "")}>
                     <a href={primary.href} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true"
                       className="group corner-marks block border border-line p-2 sm:p-3">
                       {media.images.length === 1 ? (

@@ -1530,7 +1530,7 @@ export default function Skills() {
                    MS Office (Administrasi), dan VS Code — yang dipakai mengajar
                    pemrograman dasar — ada di baris Data. Perkakas yang sama tidak
                    ditulis dua kali; yang memberi tahu perannya adalah card pengalaman
-                   "Guru Informatika" di bagian Pengalaman.
+                   "Asistensi Mengajar – Guru Informatika" di bagian Pengalaman.
 
                    Rujukan ke "baris Pengembangan" di sini sudah salah sejak
                    kelompok itu dibuang 14 Agustus 2026, dan Excel disebut dua

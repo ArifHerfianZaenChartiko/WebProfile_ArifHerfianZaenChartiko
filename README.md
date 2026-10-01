@@ -209,6 +209,18 @@ diukur, bukan dipatok. Jadi rincian pekerjaan boleh sepanjang apa pun tanpa ada
 yang terpotong. Kalau satu card jauh lebih panjang dari yang lain, yang pendek
 akan menyisakan ruang kosong di bawah, jadi seimbangkan jumlah butirnya.
 
+**Judul kartu ditulis `Program – Peran`**, dengan en dash berspasi:
+`Asistensi Mengajar – Guru Informatika`, `Magang Industri – Staf
+Administrasi`. Tampilannya dipecah di tanda itu — program jadi label kecil
+di atas, peran jadi judul besar di bawah — karena kolom kiri kartu cuma
+~304px di desktop dan judul utuh di ukuran besar pecah sampai empat baris.
+Pembaca layar tetap mendengar judul lengkapnya. Judul tanpa ` – ` tampil apa
+adanya sebagai satu judul besar. Istilahnya disamakan dengan judul kartu di
+bagian Proyek; kalau salah satu diubah, ubah keduanya.
+
+*Bahasa awamnya:* tulis judul pengalaman sebagai "nama program – peran", dan
+situsnya akan menampilkan nama program kecil di atas peran.
+
 ### Proyek
 
 Bagian 04, di antara Keahlian dan Pendidikan — Keahlian menyebut alatnya,
@@ -222,7 +234,8 @@ Proyek menunjukkan hasilnya. Isinya di `src/components/Projects.jsx`, dalam
 
 Menambah proyek = satu entri di `MEDIA` **dan** satu di tiap `projects`, di
 posisi yang sama. Nomor `01 / 0n`, arah zig-zag (gambar kiri pada proyek
-ganjil, kanan pada yang genap, di ≥900px), dan tombol tautannya ikut sendiri.
+ganjil, kanan pada yang genap, di ≥1024px; di bawahnya bertumpuk supaya
+gambarnya tetap besar), dan tombol tautannya ikut sendiri.
 `key` tautan memilih labelnya dari `linkLabels`: `dashboard`, `report`,
 `repo`, `live`. Tautan pertama juga yang dibuka saat gambarnya diklik.
 
@@ -245,9 +258,42 @@ digeser satu (Pendidikan 05, Sertifikat 06, Kontak 07), dan tombol kedua di
 Beranda sekarang "Lihat Proyek" — menggantikan "Lihat Profil", bukan
 ditambahkan, supaya foto Beranda di ponsel tidak ikut menyusut.
 
+**Angka kunci kartu Web Profil adalah skor Lighthouse** — Performa (desktop),
+Aksesibilitas, dan SEO, ketiganya 100 di situs yang tayang, diukur tiga kali
+per mode pada 1 Oktober 2026. Performa di ponsel 83–94, karena itu labelnya
+menulis "(desktop)". Skor ini bisa turun kalau situsnya ditambah konten berat,
+jadi **ukur ulang di situs yang tayang** sesudah perubahan besar, sebelum
+angkanya dipertahankan:
+
+```
+npx lighthouse https://webprofile-arifherfianzaenchartiko.vercel.app/ --preset=desktop
+npx lighthouse https://webprofile-arifherfianzaenchartiko.vercel.app/
+```
+
+Jangan ukur dari `npm run preview`: server lokal itu menjawab `robots.txt`
+dengan halaman HTML, dan SEO-nya terbaca 92 padahal situs yang tayang 100.
+
 *Bahasa awamnya:* tiap proyek ditulis sekali sebagai daftar di
 `Projects.jsx` — gambar dan tautannya satu kali, teksnya dua kali (Inggris
-dan Indonesia). Kartunya dibuat otomatis dari daftar itu.
+dan Indonesia). Kartunya dibuat otomatis dari daftar itu. Angka 100 di kartu
+situs ini adalah nilai dari alat uji Google; ukur ulang kalau situsnya banyak
+berubah.
+
+### Aksesibilitas — dua aturan yang pernah dilanggar
+
+- **`role="tabpanel"` tidak boleh di `<article>`.** Kartu Pengalaman memakai
+  `<div>` karena itu; Lighthouse menurunkan skornya (aria-allowed-role) kalau
+  dikembalikan ke `<article>`.
+- **Kalimat pembuka Tentang mulai menyala dari opacity 0,42, bukan lebih
+  rendah.** Di bawah itu kontrasnya jatuh di bawah 3:1 (pada 0,16 tinggal
+  1,36:1), dan kata yang belum menyala praktis tak terbaca. Angkanya ditulis
+  di dua tempat — `buildWordScrub()` di `builders.js` dan `initWordScrub()` di
+  `reveals.js` — dan keduanya wajib sama.
+
+Dengan keduanya, Aksesibilitas Lighthouse 100 di desktop dan ponsel.
+*Bahasa awamnya:* dua hal kecil ini yang membuat situs ramah untuk pengguna
+pembaca layar dan tetap terbaca sebelum animasinya jalan; jangan diubah
+tanpa mengukur ulang.
 
 ### Kemampuan profesional
 
@@ -726,7 +772,7 @@ jangan panggil `addEventListener`, `gsap.ticker.add`, `new ResizeObserver`, atau
 mengeluarkan node dari DOM — jadi `appendChild()` adalah side effect tersendiri.
 StrictMode menjalankan mount → unmount → mount pada host node yang sama,
 sehingga `appendChild` yang tidak terdaftar berjalan dua kali dan **menumpuk,
-bukan menimpa**: `.chapter-dot` pernah jadi 12 (seharusnya 6) dan anak
+bukan menimpa**: `.chapter-dot` pernah jadi 12 (seharusnya 6 — waktu itu enam bagian; sejak Proyek masuk tujuh) dan anak
 `.marquee-track` jadi 7 (seharusnya 4), tanpa satu pun error terlempar. Chapter
 bar tampil utuh tapi separuh titiknya diam saat diklik.
 
