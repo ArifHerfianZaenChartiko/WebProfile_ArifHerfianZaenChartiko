@@ -242,7 +242,7 @@ export function initCardSwap(ctx) {
 
          Dibaca DARI kartunya (cards[i].id), bukan dinomori ulang di sini:
          penomoran kedua adalah tempat kedua yang bisa meleset. Kalau
-         <article>-nya lupa diberi id, sambungannya dilewat — atribut yang
+         kartu [data-card]-nya lupa diberi id, sambungannya dilewat — atribut yang
          menunjuk id yang tidak ada lebih buruk daripada tidak ada atribut.
 
          Tidak perlu didaftarkan ke cleanups: menulis atribut itu mengganti

@@ -6,6 +6,7 @@ import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
 import Experience from "./components/Experience.jsx";
 import Skills from "./components/Skills.jsx";
+import Projects from "./components/Projects.jsx";
 import Education from "./components/Education.jsx";
 import Certificates from "./components/Certificates.jsx";
 import Contact from "./components/Contact.jsx";
@@ -100,7 +101,8 @@ function Page({ lang, intro, anchor }) {
   useLayoutEffect(() => setupAnimations({ lang, anchor }), []);
 
   /*
-   * <main> membungkus tujuh bagian isi, tapi TIDAK footer dan bar status.
+   * <main> membungkus delapan bagian isi (Beranda + tujuh bab sejak Proyek
+   * masuk 1 Oktober 2026), tapi TIDAK footer dan bar status.
    * Itu bukan selera: screen reader memakai <main> untuk melompat langsung ke
    * isi, melewati navigasi dan hiasan. Kalau footer ikut masuk, lompatannya
    * kehilangan gunanya.
@@ -118,6 +120,7 @@ function Page({ lang, intro, anchor }) {
         <About />
         <Experience />
         <Skills />
+        <Projects />
         <Education />
         <Certificates />
         <Contact />

@@ -143,11 +143,17 @@ export function initTypewriter(ctx) {
    per bahasa akan mematahkan tautan lama tanpa satu pun pesan galat.
 
    ══ BAHASA AWAMNYA — nama bagian di bar bawah ikut berganti bahasa, tapi
-   alamat tautan ke tiap bagian tetap sama, jadi link lama tidak rusak. */
-var CHAPTER_IDS = ["tentang", "pengalaman", "keahlian", "pendidikan", "sertifikat", "kontak"];
+   alamat tautan ke tiap bagian tetap sama, jadi link lama tidak rusak.
+
+   ══ "proyek" MASUK 1 OKTOBER 2026, di urutan keempat — persis letaknya di
+   App.jsx. Bar status menghitung dari panjang array ini (01/07), dan titiknya
+   dibuat dari array yang sama, jadi tidak ada angka lain yang perlu
+   disesuaikan. Bahasa awamnya: bar bawah sekarang punya tujuh titik, dan
+   titik keempat melompat ke bagian Proyek. */
+var CHAPTER_IDS = ["tentang", "pengalaman", "keahlian", "proyek", "pendidikan", "sertifikat", "kontak"];
 var CHAPTER_LABELS = {
-  en: ["About", "Experience", "Skills", "Education", "Certificates", "Contact"],
-  id: ["Tentang", "Pengalaman", "Keahlian", "Pendidikan", "Sertifikat", "Kontak"],
+  en: ["About", "Experience", "Skills", "Projects", "Education", "Certificates", "Contact"],
+  id: ["Tentang", "Pengalaman", "Keahlian", "Proyek", "Pendidikan", "Sertifikat", "Kontak"],
 };
 
 export function initStatusBar(ctx) {

@@ -162,9 +162,25 @@ export function initWordScrub(ctx) {
       return;
     }
 
+    /* ══ TITIK AWALNYA 0,42, BUKAN 0,16 — dinaikkan 1 Oktober 2026.
+
+       TEKNIS: pada 0,16 warna kata yang belum menyala jadi #262729 di atas
+       #040508, kontras 1,36:1. Lighthouse mengukurnya sebelum ada guliran
+       dan menandainya gagal (syarat teks besar 3:1), dan itu bukan sekadar
+       angka: pengunjung yang berhenti menggulir di tengah paragraf memang
+       nyaris tidak bisa membaca sisanya. 0,42 adalah nilai terendah dengan
+       sedikit ruang: #5D5E5F, kontras 3,14:1 (0,41 = 3,04:1, terlalu mepet).
+       Efek menyalanya tetap ada — dari abu tua ke putih — cuma tidak lagi
+       berangkat dari hampir hitam. Angka yang sama ditulis di
+       buildWordScrub() (builders.js) sebagai keadaan sebelum JS animasi
+       jalan; keduanya WAJIB sama, atau kata-katanya berkedip saat dimuat.
+
+       BAHASA AWAMNYA: kalimat pembuka di bagian Tentang tetap menyala kata
+       demi kata saat digulir, tapi sekarang kata yang belum menyala pun sudah
+       cukup terang untuk dibaca. */
     gsap.fromTo(
       spans,
-      { opacity: 0.16 },
+      { opacity: 0.42 },
       {
         opacity: 1, ease: EASE_SCRUB,
         /* Jaraknya short supaya selalu ada beberapa kata setengah menyala

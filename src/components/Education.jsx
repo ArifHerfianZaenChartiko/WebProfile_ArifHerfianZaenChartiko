@@ -59,7 +59,7 @@ export default function Education() {
 
 
       {/* ══════════════════════════════════════════════════════════════════════════
-           04 PENDIDIKAN — titik balik halaman, dari gelap ke terang. Karena itu ia
+           05 PENDIDIKAN (04 sampai Proyek masuk 1 Oktober 2026) — titik balik halaman, dari gelap ke terang. Karena itu ia
            mendapat transisi paling mencolok: dua baris judul datang dari arah
            berlawanan lalu bertemu di tengah. Dipakai SEKALI saja di seluruh halaman.
            ═══════════════════════════════════════════════════════════════════════ */}
@@ -67,7 +67,7 @@ export default function Education() {
         <div data-component="container" className="mx-auto w-full px-gutter max-w-[1500px] py-16 sm:py-20 nav:py-28">
 
           <div className="mb-16 flex items-center gap-4">
-            <span className="-mono tabular-nums text-text-muted">04</span>
+            <span className="-mono tabular-nums text-text-muted">05</span>
             <span className="h-px w-12 bg-line"></span>
             <span className="-caption-small text-text-muted">{t.label}</span>
           </div>

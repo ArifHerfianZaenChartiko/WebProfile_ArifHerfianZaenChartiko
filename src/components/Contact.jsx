@@ -56,7 +56,7 @@ export default function Contact() {
 
 
       {/* ══════════════════════════════════════════════════════════════════════════
-           06 KONTAK — kembali ke gelap. SELURUH BARIS DI SINI HANYA KETERANGAN,
+           07 KONTAK (06 sampai Proyek masuk 1 Oktober 2026) — kembali ke gelap. SELURUH BARIS DI SINI HANYA KETERANGAN,
            tidak ada yang bisa diklik: semua jalan menuju WhatsApp dan surel sengaja
            dikumpulkan ke satu pintu, yaitu form di bawahnya.
            ═══════════════════════════════════════════════════════════════════════ */}
@@ -81,7 +81,7 @@ export default function Contact() {
           <div>
             <header className="nav:sticky nav:top-28">
               <div data-component="scrub-reveal" className="flex items-center gap-4 mb-7">
-                <span className="-mono text-text-muted tabular-nums">06</span>
+                <span className="-mono text-text-muted tabular-nums">07</span>
                 <span className="h-px w-12 bg-line"></span>
                 <span className="-caption-small text-text-muted">{t.label}</span>
               </div>

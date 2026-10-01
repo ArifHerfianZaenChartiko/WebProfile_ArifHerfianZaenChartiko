@@ -33,7 +33,7 @@ const TEXT = {
     roles: ["a Data Analyst", "an Informatics Educator", "an Administrative Staff Member"],
     location: "Blitar Regency, East Java",
     contact: "Contact Me",
-    profile: "View Profile",
+    projects: "View Projects",
   },
   id: {
     greeting: "Halo, perkenalkan saya",
@@ -42,7 +42,7 @@ const TEXT = {
     roles: ["Data Analyst", "Pendidik Informatika", "Staf Administrasi"],
     location: "Kab. Blitar, Jawa Timur",
     contact: "Hubungi Saya",
-    profile: "Lihat Profil",
+    projects: "Lihat Proyek",
   },
 };
 
@@ -306,11 +306,26 @@ export default function Hero() {
                     <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.contact}</span>
                   </span>
                 </a>
-                <a href="#tentang" data-component="button"
+                {/* "Lihat Profil" (#tentang) JADI "Lihat Proyek" (#proyek) pada
+                    1 Oktober 2026.
+
+                    ══ TEKNIS — tombol lama melompat ke Tentang, bagian yang
+                    toh langsung tampil begitu halaman digulir sedikit, jadi ia
+                    tidak mengantar ke mana pun yang tidak akan ditemukan
+                    sendiri. Proyek berdiri tiga bagian lebih jauh, dan itulah
+                    yang paling dicari perekrut. DIGANTI, BUKAN DITAMBAH: di
+                    bawah 640px tombolnya bertumpuk, dan tombol ketiga memakan
+                    sekitar 64px dari tinggi `h-svh` yang diserap foto — foto
+                    yang sudah dipatok 28% tinggi layar (lihat README, bagian
+                    Beranda).
+
+                    ══ BAHASA AWAMNYA — tombol kedua di halaman pembuka
+                    sekarang langsung membawa pengunjung ke daftar proyek. */}
+                <a href="#proyek" data-component="button"
                   className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power border-line text-text hover:border-text/60 w-full min-[640px]:w-auto">
                   <span className="relative block overflow-hidden">
-                    <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.profile}</span>
-                    <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.profile}</span>
+                    <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.projects}</span>
+                    <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.projects}</span>
                   </span>
                 </a>
               </div>

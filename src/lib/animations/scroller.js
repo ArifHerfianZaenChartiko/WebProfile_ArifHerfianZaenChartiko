@@ -91,8 +91,8 @@ function targetTop(target) {
  * baru. Tinggi bagiannya boleh berubah; pembacanya tetap di tengah paragraf
  * yang sama.
  *
- * Patokannya [data-component="chapter"] — ketujuh <section> ber-id, termasuk
- * Beranda. Di luar itu (band gradien, marquee, footer) titiknya jatuh ke
+ * Patokannya [data-component="chapter"] — kedelapan <section> ber-id, termasuk
+ * Beranda (tujuh sampai Proyek masuk 1 Oktober 2026). Di luar itu (band gradien, marquee, footer) titiknya jatuh ke
  * bagian terdekat di atasnya; kalau tidak ada satu pun, ke angka mentah.
  *
  * ══ BAHASA AWAMNYA

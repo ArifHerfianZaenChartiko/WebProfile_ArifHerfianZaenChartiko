@@ -131,7 +131,9 @@ export function buildWordScrub() {
       .trim()
       .split(" ")
       .map(function (w) {
-        return '<span data-word class="inline-block opacity-[0.16]">' + w + "</span>";
+        /* 0,42 HARUS SAMA dengan titik awal initWordScrub() di reveals.js —
+           alasannya di komentar sana. */
+        return '<span data-word class="inline-block opacity-[0.42]">' + w + "</span>";
       })
       .join(" ");
   });

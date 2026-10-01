@@ -184,7 +184,16 @@ export default function Experience() {
                    mengumumkan kartu mana yang barusan terbuka. */}
               {t.jobs.map(function (job, i) {
                 return (
-                  <article key={i} data-card id={"swap-panel-" + (i + 1)} role="tabpanel" className="swap-card">
+                  /* <div>, BUKAN <article> — dibetulkan 1 Oktober 2026.
+                     ══ TEKNIS: aturan ARIA tidak mengizinkan role="tabpanel"
+                     dipasang di <article> (Lighthouse: aria-allowed-role),
+                     sebab article sudah membawa perannya sendiri. <div>
+                     tidak punya peran bawaan, jadi tabpanel sah di sana.
+                     Tampilannya tidak bergeser: semua gayanya dari class
+                     .swap-card dan [data-card], tidak satu pun dari nama tag.
+                     ══ BAHASA AWAMNYA: kartu Pengalaman sekarang terbaca
+                     benar oleh pembaca layar, tanpa perubahan tampilan. */
+                  <div key={i} data-card id={"swap-panel-" + (i + 1)} role="tabpanel" className="swap-card">
                     <div className="swap-body">
                       <div className="swap-left">
                         <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
@@ -208,7 +217,7 @@ export default function Experience() {
                         })}
                       </ul>
                     </div>
-                  </article>
+                  </div>
                 );
               })}
 
@@ -216,7 +225,7 @@ export default function Experience() {
 
             {/* Selector dot dibuat di animations.js dari JUMLAH card, bukan
                 ditulis tangan di sini: menambah pengalaman berarti menambah satu
-                <article>, dan titiknya ikut sendiri. Ia juga yang memberi jalan
+                entri di `jobs`, dan titiknya ikut sendiri. Ia juga yang memberi jalan
                 keyboard ke card yang tidak sedang di depan. */}
             <div className="swap-controls" data-swap-controls role="tablist" aria-label={t.tablist}></div>
           </div>

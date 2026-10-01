@@ -56,7 +56,7 @@ src/lib/animations/       motion, dipecah per bidang
   ambient.js              jaringan simpul di latar + band berjalan
   behaviors.js            typewriter, bar status, tombol, formulir
   intro.js                monogram pembuka
-public/assets/            foto, sertifikat, logo tool
+public/assets/            foto, sertifikat, logo tool, gambar proyek (projects/)
 tools/og-template.html    sumber gambar OG preview (tidak ikut di-deploy)
 ```
 
@@ -208,6 +208,46 @@ Stack-nya **menyamakan tinggi semua card ke yang tertinggi**, dan tinggi itu
 diukur, bukan dipatok. Jadi rincian pekerjaan boleh sepanjang apa pun tanpa ada
 yang terpotong. Kalau satu card jauh lebih panjang dari yang lain, yang pendek
 akan menyisakan ruang kosong di bawah, jadi seimbangkan jumlah butirnya.
+
+### Proyek
+
+Bagian 04, di antara Keahlian dan Pendidikan — Keahlian menyebut alatnya,
+Proyek menunjukkan hasilnya. Isinya di `src/components/Projects.jsx`, dalam
+**dua array yang urutannya harus sama**:
+
+| array | isi | per bahasa? |
+|---|---|---|
+| `MEDIA` | gambar (`src`, `w`, `h`, `pos`) dan tautan (`key`, `href`) | tidak — sama di keduanya |
+| `projects` di `TEXT.en` dan `TEXT.id` | tahun, jenis, judul, konteks, pengerjaan, hasil, tiga angka, label | ya |
+
+Menambah proyek = satu entri di `MEDIA` **dan** satu di tiap `projects`, di
+posisi yang sama. Nomor `01 / 0n`, arah zig-zag (gambar kiri pada proyek
+ganjil, kanan pada yang genap, di ≥900px), dan tombol tautannya ikut sendiri.
+`key` tautan memilih labelnya dari `linkLabels`: `dashboard`, `report`,
+`repo`, `live`. Tautan pertama juga yang dibuka saat gambarnya diklik.
+
+**Gambar** di `public/assets/projects/`, nama huruf kecil bertanda hubung
+seperti sertifikat. Satu gambar ditampilkan 16:9 penuh; tiga gambar jadi
+kolase (satu besar, dua kecil) di bingkai 16:9 yang sama. Kolase dipakai
+untuk foto kegiatan magang karena foto itu diambil dari PDF laporan dan
+aslinya cuma 365–687px — di petak kecil ia tidak terlihat pecah, di bingkai
+penuh ia akan pecah. `pos` menggeser potongan foto (`object-position`) supaya
+orangnya tidak terpotong. Gambar dashboard dan tangkapan situs dibuat
+1600×900, JPEG kualitas ~86.
+
+**Isinya diambil dari repo masing-masing**: angka Olist dari README dan
+`insight_report`, isi kedua magang dari laporan akhirnya. Kalau angkanya
+berubah, ubah sumbernya dulu.
+
+Menambah bagian juga menambah satu titik di bar status: `CHAPTER_IDS` dan
+`CHAPTER_LABELS` di `src/lib/animations/behaviors.js`. Nomor bagian sesudahnya
+digeser satu (Pendidikan 05, Sertifikat 06, Kontak 07), dan tombol kedua di
+Beranda sekarang "Lihat Proyek" — menggantikan "Lihat Profil", bukan
+ditambahkan, supaya foto Beranda di ponsel tidak ikut menyusut.
+
+*Bahasa awamnya:* tiap proyek ditulis sekali sebagai daftar di
+`Projects.jsx` — gambar dan tautannya satu kali, teksnya dua kali (Inggris
+dan Indonesia). Kartunya dibuat otomatis dari daftar itu.
 
 ### Kemampuan profesional
 

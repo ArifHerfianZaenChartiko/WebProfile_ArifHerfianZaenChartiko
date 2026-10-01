@@ -149,7 +149,7 @@ export default function Certificates() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
-           05 CERTIFICATES — gallery akordeon. Satu panel terbuka, sisanya menyempit
+           06 CERTIFICATES (05 sampai Proyek masuk 1 Oktober 2026) — gallery akordeon. Satu panel terbuka, sisanya menyempit
            jadi bar dan miring menjauh. Yang terbuka mengikuti kursor di
            fine pointer, POSISI SCROLL di perangkat sentuh, dan fokus keyboard
            di keduanya — sebab hover tidak punya padanan di touch screen, dan
@@ -168,7 +168,7 @@ export default function Certificates() {
       <section id="sertifikat" data-band="panel" data-component="chapter">
         <div className="mx-auto w-full max-w-[1180px] px-gutter py-16 sm:py-20 nav:py-28">
           <div className="mb-5 flex items-center gap-4">
-            <span className="-mono tabular-nums text-text-muted">05</span>
+            <span className="-mono tabular-nums text-text-muted">06</span>
             <span className="h-px w-12 bg-line"></span>
             <span className="-caption-small text-text-muted">{t.label}</span>
           </div>

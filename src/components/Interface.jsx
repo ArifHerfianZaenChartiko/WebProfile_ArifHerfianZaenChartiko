@@ -46,7 +46,7 @@ export default function Interface() {
                piksel pun yang bergeser. Yang tumbuh cuma daerah yang menerima
                ketukan. */}
           <button type="button" data-status-jump className="pointer-events-auto group -my-1 flex items-baseline gap-2 py-1 text-left">
-            <span className="-caption-small text-text-muted transition-colors duration-500 ease-brand" data-status-count>01/06</span>
+            <span className="-caption-small text-text-muted transition-colors duration-500 ease-brand" data-status-count>01/07</span>
             <span className="relative block h-[1.15em] overflow-hidden">
               <span className="-caption block whitespace-nowrap will-change-transform" data-status-label>{t.first}</span>
             </span>
