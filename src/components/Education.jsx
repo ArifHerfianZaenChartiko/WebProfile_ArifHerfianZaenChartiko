@@ -1,4 +1,47 @@
+import { useText } from "../i18n/lang.jsx";
+
+/*
+ * ══ TEKNIS
+ *
+ * JUDUL INGGRISNYA "Academic Background", BUKAN "Educational Background".
+ * Judul ini teks -display terbesar di halaman dan tiap barisnya satu kata
+ * yang tidak boleh pecah; "Educational" 11 huruf, lebih panjang daripada
+ * "Pendidikan" (10) yang selama ini jadi kata terlebar di sini, sedangkan
+ * "Background" sama panjangnya dengan "Pendidikan". Tidak ada yang perlu
+ * diukur ulang.
+ *
+ * Nama gelarnya mengikuti nama program studi Inggris yang dipakai UM sendiri,
+ * "Informatics Engineering Education". Nama universitasnya dibiarkan
+ * "Universitas Negeri Malang" — itu nama resminya, juga di dokumen berbahasa
+ * Inggris.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Isi bagian Pendidikan dalam dua bahasa.
+ */
+const TEXT = {
+  en: {
+    label: "Education",
+    title: ["Academic", "Background"],
+    degree: "Bachelor of Informatics Engineering Education",
+    about: "A study program that combines education with informatics technology, focused on preparing future educators in programming, networking, and information systems.",
+    tags: ["Technology Education", "Programming", "Computer Networks", "Information Systems"],
+    graduated: "Graduated 2025",
+    gpa: "GPA",
+  },
+  id: {
+    label: "Pendidikan",
+    title: ["Riwayat", "Pendidikan"],
+    degree: "S1 Pendidikan Teknik Informatika",
+    about: "Program studi yang memadukan ilmu pendidikan dengan teknologi informatika, berfokus pada kompetensi calon pendidik di bidang pemrograman, jaringan, dan sistem informasi.",
+    tags: ["Pendidikan Teknologi", "Pemrograman", "Jaringan Komputer", "Sistem Informasi"],
+    graduated: "Lulus 2025",
+    gpa: "IPK",
+  },
+};
+
 export default function Education() {
+  const t = useText(TEXT);
   return (
     <>
       {/* Jembatan gelap → terang. Batas keras antara hitam dan putih terbaca
@@ -26,7 +69,7 @@ export default function Education() {
           <div className="mb-16 flex items-center gap-4">
             <span className="-mono tabular-nums text-text-muted">04</span>
             <span className="h-px w-12 bg-line"></span>
-            <span className="-caption-small text-text-muted">Pendidikan</span>
+            <span className="-caption-small text-text-muted">{t.label}</span>
           </div>
 
           {/* <h2>, BUKAN <div> — dibetulkan 27 Agustus 2026.
@@ -53,14 +96,14 @@ export default function Education() {
                dari tag h2, jadi tampilannya tidak bergeser sedikit pun. */}
           <h2 className="mb-20" data-split-words>
             <span className="block overflow-hidden pb-[0.2em] mb-[-0.2em] -display leading-[0.95]">
-              <span className="top-word block will-change-transform -display leading-[0.95]">Riwayat</span>
-              <span className="bottom-word block will-change-transform -display leading-[0.95]">Pendidikan</span>
+              <span className="top-word block will-change-transform -display leading-[0.95]">{t.title[0]}</span>
+              <span className="bottom-word block will-change-transform -display leading-[0.95]">{t.title[1]}</span>
             </span>
           </h2>
 
           <div className="grid grid-cols-1 gap-x-16 gap-y-12 border-t border-line pt-14 nav:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
             <div>
-              <h3 data-component="scrub-reveal" className="-h2 mb-4">S1 Pendidikan Teknik Informatika</h3>
+              <h3 data-component="scrub-reveal" className="-h2 mb-4">{t.degree}</h3>
 
               <div data-component="scrub-reveal">
                 <a href="https://um.ac.id/" target="_blank" rel="noopener noreferrer" className="link-mono mb-9 text-text-muted hover:text-text">
@@ -69,14 +112,13 @@ export default function Education() {
               </div>
 
               <p data-component="scrub-reveal" className="-body mb-10 max-w-2xl text-text-muted">
-                Program studi yang memadukan ilmu pendidikan dengan teknologi informatika, berfokus pada kompetensi calon pendidik di bidang pemrograman, jaringan, dan sistem informasi.
+                {t.about}
               </p>
 
               <div data-component="scrub-reveal" className="flex flex-wrap gap-2">
-                <span className="-caption-small border border-line px-3 py-2 text-text-muted">Pendidikan Teknologi</span>
-                <span className="-caption-small border border-line px-3 py-2 text-text-muted">Pemrograman</span>
-                <span className="-caption-small border border-line px-3 py-2 text-text-muted">Jaringan Komputer</span>
-                <span className="-caption-small border border-line px-3 py-2 text-text-muted">Sistem Informasi</span>
+                {t.tags.map(function (tag) {
+                  return <span key={tag} className="-caption-small border border-line px-3 py-2 text-text-muted">{tag}</span>;
+                })}
               </div>
             </div>
 
@@ -113,10 +155,10 @@ export default function Education() {
                  belum lebar. Di bawah 900px pertanyaannya tidak muncul: grid-nya
                  satu kolom, jadi tiap kartu setinggi isinya sendiri. */}
             <div className="corner-marks self-start border border-line p-8">
-              <p className="-caption-small mb-8 text-text-muted">Lulus 2025</p>
+              <p className="-caption-small mb-8 text-text-muted">{t.graduated}</p>
 
               <div>
-                <p className="-caption-small mb-2 text-text-muted">IPK</p>
+                <p className="-caption-small mb-2 text-text-muted">{t.gpa}</p>
                 <div className="flex items-baseline gap-2">
                   <span className="odometer-value -display-stat block shrink-0" data-odometer="3.62"></span>
                   <span className="-caption-small whitespace-nowrap text-text-muted">/ 4.00</span>

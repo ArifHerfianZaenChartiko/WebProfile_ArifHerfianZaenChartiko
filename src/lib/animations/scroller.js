@@ -74,6 +74,57 @@ function targetTop(target) {
   return el.getBoundingClientRect().top + window.scrollY;
 }
 
+/*
+ * ══════════════════════════════════════════════════════════════════════════
+ * TITIK BACA SAAT BAHASA BERGANTI — dipasang 1 Oktober 2026.
+ *
+ * ══ TEKNIS
+ *
+ * Ganti bahasa memasang ulang seluruh halaman (alasannya di src/App.jsx), dan
+ * teks Inggris dan Indonesia TIDAK sama panjang. Memulihkan window.scrollY apa
+ * adanya karena itu mendaratkan pembaca di tempat yang salah — makin jauh ke
+ * bawah, makin besar melesetnya, sebab selisih tinggi tiap bagian menumpuk.
+ *
+ * Yang dicatat karena itu POSISI RELATIF: bagian mana yang sedang menutupi
+ * tepi atas layar, dan sudah berapa persen tingginya terlewati. Sesudah
+ * dipasang ulang, angka yang sama diterapkan ke bagian yang sama di halaman
+ * baru. Tinggi bagiannya boleh berubah; pembacanya tetap di tengah paragraf
+ * yang sama.
+ *
+ * Patokannya [data-component="chapter"] — ketujuh <section> ber-id, termasuk
+ * Beranda. Di luar itu (band gradien, marquee, footer) titiknya jatuh ke
+ * bagian terdekat di atasnya; kalau tidak ada satu pun, ke angka mentah.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Saat bahasa diganti, halaman tetap terbuka di bagian yang sedang Anda baca,
+ * tidak melompat ke atas atau ke tempat lain.
+ * ═══════════════════════════════════════════════════════════════════════ */
+export function captureScrollAnchor() {
+  var chapters = document.querySelectorAll('[data-component="chapter"]');
+  var found = null;
+  for (var i = 0; i < chapters.length; i++) {
+    if (chapters[i].getBoundingClientRect().top <= 1) found = chapters[i];
+  }
+  if (!found || !found.id) return { y: window.scrollY };
+  var rect = found.getBoundingClientRect();
+  return { id: found.id, ratio: rect.height ? -rect.top / rect.height : 0, y: window.scrollY };
+}
+
+export function restoreScrollAnchor(ctx, anchor) {
+  if (!anchor) return;
+  var y = anchor.y;
+  var el = anchor.id ? document.getElementById(anchor.id) : null;
+  if (el) {
+    var rect = el.getBoundingClientRect();
+    y = rect.top + window.scrollY + anchor.ratio * rect.height;
+  }
+  /* `immediate` — ini pemulihan, bukan perjalanan. Lompatan beranimasi dari
+     puncak akan memperlihatkan seluruh halaman lewat di depan mata. */
+  window.scrollTo(0, y);
+  if (ctx.lenis) ctx.lenis.scrollTo(y, { immediate: true, force: true });
+}
+
 export function initScroller(ctx) {
   const { addTicker } = ctx;
   let lenis = null;

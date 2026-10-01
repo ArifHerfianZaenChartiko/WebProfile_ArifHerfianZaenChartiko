@@ -121,7 +121,7 @@
    Hasilnya rincian tersebar dari atas ke bawah alih-alih menumpuk di
    seperempat atas card dan meninggalkan ruang kosong -- ruang yang paling
    terlihat pada card yang butirnya lebih sedikit, sebab tinggi semua card
-   disamakan ke yang tertinggi (lihat measure() di animations.js).
+   disamakan ke yang tertinggi (lihat measure() di src/lib/animations/card-swap.js).
 
    `1 0 auto`, BUKAN `1`. Angka tengahnya flex-shrink, dan nol di situ yang
    menjamin tidak ada butir yang bisa diperas lebih pendek daripada teksnya

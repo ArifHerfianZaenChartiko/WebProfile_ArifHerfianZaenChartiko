@@ -178,6 +178,55 @@
   width: 25%;
 }
 
+/* BARIS TEKNOLOGI: LIMA CARD — pembagi sendiri, dipasang 1 Oktober 2026.
+
+   ══ TEKNIS
+
+   Masuknya NumPy membuat baris ini berisi lima, dan pembagi 25% di atas
+   memecah lima jadi 4+1: Matplotlib menggantung sendirian di baris kedua —
+   persis yang selama ini dihindari grid ini ("tanpa card yang menggantung
+   sendiri"). Dua angka menggantikannya, KHUSUS baris ini:
+
+     >= 640px   20%      lima satu baris
+     <  640px   33,33%   3+2, pecah paling rata untuk lima
+
+   KENAPA TIDAK 20% DI SEMUA LEBAR. Nama terpanjang di baris ini
+   "Matplotlib", 56,0px pada 12px Inter, dan ia satu kata — tidak bisa
+   dipecah, jadi kalau tidak muat ia meluber keluar card-nya. Ruang tulisan
+   pada 20% (lebar baris x 0,2 dikurangi padding 2x8px), terukur:
+
+     320px  41,6    360px  48,8    375px  51,5    390px  54,2    <- kurang
+     430px  61,4    640px  99,2    768px 122,2   1180px 204,0    <- muat
+
+   Ambangnya jatuh di antara 390 dan 430. 640px dipilih karena ia titik
+   henti yang sudah dipakai situs ini (`min-[640px]:` di Beranda, `wide:`),
+   dan di bawahnya sepertiga memberi ruang 80,0px pada 320px — tidak ada
+   nama yang dekat ke batasnya.
+
+   YANG DILEPAS: di bawah 1180px card Teknologi dulu sama lebar dan segaris
+   dengan card Perkakas (keduanya 25%). Sekarang tidak. Itu diterima karena
+   alasan yang sama dengan yang sudah berlaku di >=1180px sejak 23 Agustus
+   2026: bagian ini berdiri di bawah judulnya sendiri tanpa garis rambut,
+   jadi tidak ada yang bisa terbaca zigzag.
+
+   Spesifisitasnya sama dengan `.tool-items > *` di atas, jadi yang menang
+   urutannya — aturan ini HARUS tetap di bawahnya.
+
+   ══ BAHASA AWAMNYA
+
+   Baris logo Teknologi sekarang berisi lima. Di layar tablet dan komputer
+   kelimanya berjajar satu baris; di ponsel tiga di atas dan dua di bawah,
+   sebab satu baris berisi lima terlalu sempit untuk tulisan "Matplotlib". */
+.tool-items--five > * {
+  width: 33.3333%;
+}
+
+@media (min-width: 640px) {
+  .tool-items--five > * {
+    width: 20%;
+  }
+}
+
 /* Threshold-nya 1180px, dan angka itu BUKAN jumlah card melainkan LEBAR
    CONTAINER-nya sendiri: blok Keahlian dipatok max-w-[1180px]. Di situlah
    isinya berhenti tumbuh, jadi di situ pula label baru punya cukup ruang

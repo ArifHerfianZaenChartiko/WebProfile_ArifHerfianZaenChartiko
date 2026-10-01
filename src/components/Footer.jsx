@@ -1,4 +1,29 @@
+import { useText } from "../i18n/lang.jsx";
+
+/* ══ TEKNIS — teks penutup dalam dua bahasa. Nama dan kontak tidak
+   diterjemahkan, jadi yang berganti hanya label dan band berjalannya.
+   ══ BAHASA AWAMNYA — isi bagian paling bawah halaman dalam dua bahasa. */
+const TEXT = {
+  en: {
+    marquee: ["Open to collaboration", "Data Analysis", "Informatics Education"],
+    cta: "Let’s work together",
+    email: "Email",
+    almaMater: "Alma Mater",
+    degree: "Bachelor of Informatics Engineering Education",
+    location: "Blitar Regency, East Java",
+  },
+  id: {
+    marquee: ["Terbuka untuk kolaborasi", "Analisis Data", "Pendidikan Informatika"],
+    cta: "Mari bekerja sama",
+    email: "Surel",
+    almaMater: "Almamater",
+    degree: "S1 Pendidikan Teknik Informatika",
+    location: "Kab. Blitar, Jawa Timur",
+  },
+};
+
 export default function Footer() {
+  const t = useText(TEXT);
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -11,9 +36,9 @@ export default function Footer() {
         <div data-anim="marquee" data-speed="38" className="relative z-2 border-y border-line py-6">
           <div className="marquee-track">
             <div className="flex shrink-0" data-marquee-copy>
-              <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Terbuka untuk kolaborasi<span aria-hidden="true" className="text-accent">✦</span></span>
-              <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Analisis Data<span aria-hidden="true" className="text-accent">✦</span></span>
-              <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pendidikan Informatika<span aria-hidden="true" className="text-accent">✦</span></span>
+              {t.marquee.map(function (item) {
+                return <span key={item} className="-caption flex items-center gap-8 pr-8 text-text-muted">{item}<span aria-hidden="true" className="text-accent">✦</span></span>;
+              })}
             </div>
           </div>
         </div>
@@ -42,7 +67,7 @@ export default function Footer() {
                tergambar di ATAS anak yang cuma `relative`. Tanpa z-2, seluruh
                isi penutup ini tertutup lapisan noise itu. */}
           <div data-component="container" className="mx-auto w-full px-gutter max-w-[1500px] relative z-2 py-16 nav:py-24">
-            <p data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Mari bekerja sama</p>
+            <p data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">{t.cta}</p>
 
             <p className="-display mb-16" data-line-mask>
               <span data-anim="line-mask" className="last:text-text-muted"><span>Arif Herfian</span></span>
@@ -51,7 +76,7 @@ export default function Footer() {
 
             <div className="grid grid-cols-1 gap-10 border-t border-line pt-10 nav:grid-cols-3">
               <div data-component="scrub-reveal">
-                <p className="-caption-small mb-4 text-text-muted">Surel</p>
+                <p className="-caption-small mb-4 text-text-muted">{t.email}</p>
                 <p className="-body-small">arif.herfian@gmail.com</p>
               </div>
               <div data-component="scrub-reveal">
@@ -59,8 +84,8 @@ export default function Footer() {
                 <p className="-body-small">+62 857-9022-6536</p>
               </div>
               <div data-component="scrub-reveal">
-                <p className="-caption-small mb-4 text-text-muted">Almamater</p>
-                <p className="-body-small text-text-muted">S1 Pendidikan Teknik Informatika<span className="block">Universitas Negeri Malang</span></p>
+                <p className="-caption-small mb-4 text-text-muted">{t.almaMater}</p>
+                <p className="-body-small text-text-muted">{t.degree}<span className="block">Universitas Negeri Malang</span></p>
               </div>
             </div>
 
@@ -69,7 +94,7 @@ export default function Footer() {
                  sudah lama tidak disentuh. */}
             <div data-component="scrub-reveal" className="mt-16 flex flex-wrap items-baseline justify-between gap-4 border-t border-line pt-8">
               <p className="-caption-small text-text-muted">© Arif Herfian Zaen Chartiko</p>
-              <p className="-caption-small text-text-muted">Kab. Blitar, Jawa Timur</p>
+              <p className="-caption-small text-text-muted">{t.location}</p>
             </div>
           </div>
         </div>

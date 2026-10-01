@@ -1,4 +1,107 @@
+import { useText } from "../i18n/lang.jsx";
+
+/*
+ * ══ TEKNIS
+ *
+ * Kedua pengalaman ditulis sebagai data, sama dengan CERTIFICATES di
+ * Certificates.jsx. Dua <article> kembar yang hanya berbeda isi, dikali dua
+ * bahasa, berarti empat blok yang harus dijaga tetap sebangun; sebagai data
+ * cuma satu blok markup.
+ *
+ * `id` panelnya TIDAK ikut diterjemahkan: initCardSwap() menyambungkan titik
+ * selector ke panel lewat id itu (aria-controls), dan id yang berganti per
+ * bahasa tidak menambah apa pun selain kemungkinan sambungannya putus.
+ *
+ * NAMA INSTANSI: SMKN 3 Malang dibiarkan apa adanya — itu nama resmi sekolah,
+ * dan tidak ada padanan Inggris yang dipakai sekolahnya sendiri. Dinas
+ * Pendidikan Kota Malang diterjemahkan jadi "Malang City Education Office",
+ * sebab pembaca Inggris tidak bisa menebak dari "Dinas" bahwa itu instansi
+ * pemerintah; tautannya tetap ke situs resminya.
+ *
+ * "Disposisi" diterjemahkan "routing slips", BUKAN "dispositions": dalam
+ * bahasa Inggris kata itu berarti putusan atau watak, bukan lembar instruksi
+ * pimpinan yang menyertai surat. BOSDA dan NPHD dibiarkan sebagai singkatan —
+ * keduanya nama program, dan perekrut yang mengenalnya mencari singkatan itu.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Isi kartu Pengalaman dalam dua bahasa.
+ */
+const TEXT = {
+  en: {
+    marquee: ["Data Analyst", "Informatics Educator", "Universitas Negeri Malang"],
+    label: "Experience",
+    title: ["Work", "Experience"],
+    sub: "The roles I have held so far",
+    tablist: "Choose a work experience",
+    jobs: [
+      {
+        period: "February – June 2024",
+        title: "Informatics Teacher",
+        place: "SMKN 3 Malang",
+        href: "https://smkn3malang.sch.id/",
+        tags: ["Basic Programming", "Basic Networking", "Network Services", "Student Management"],
+        points: [
+          "Taught basic programming, basic networking, and network services technology (TLJ)",
+          "Supervised and evaluated students to make sure they truly understood the material and completed their final projects on schedule and on target",
+          "Planned, organized, and coordinated the SEMAR (“Seminar Marketing”) work program",
+          "Digitized school archives and supported the school’s day-to-day operations",
+        ],
+      },
+      {
+        period: "June – August 2024",
+        title: "Administrative Staff",
+        place: "Malang City Education Office",
+        href: "https://dikbud.malangkota.go.id/",
+        tags: ["Digital Administration", "Data Entry", "Public Service", "Attention to Detail"],
+        points: [
+          "Recorded, managed, and handled the distribution of school uniforms and curriculum textbooks",
+          "Digitized and logged routing slips, incoming mail, and outgoing mail",
+          "Handled requests to correct errors on students’ diplomas",
+          "Recorded and processed BOSDA and NPHD funding applications",
+        ],
+      },
+    ],
+  },
+  id: {
+    marquee: ["Data Analyst", "Pendidik Informatika", "Universitas Negeri Malang"],
+    label: "Pengalaman",
+    title: ["Pengalaman", "Kerja"],
+    sub: "Riwayat pekerjaan yang pernah saya jalani",
+    tablist: "Pilih pengalaman kerja",
+    jobs: [
+      {
+        period: "Februari – Juni 2024",
+        title: "Guru Informatika",
+        place: "SMKN 3 Malang",
+        href: "https://smkn3malang.sch.id/",
+        tags: ["Pemrograman Dasar", "Jaringan Dasar", "TLJ", "Manajemen Siswa"],
+        points: [
+          "Mengajar mata pelajaran pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan (TLJ)",
+          "Mengawasi, mengevaluasi, serta memastikan pemahaman dan proyek akhir siswa terpenuhi sesuai timeline dan target",
+          "Merencanakan, mengadakan, dan mengoordinasi berjalannya program kerja SEMAR “Seminar Marketing”",
+          "Mendigitalisasi arsip sekolah dan mendukung kegiatan operasional sekolah",
+        ],
+      },
+      {
+        period: "Juni – Agustus 2024",
+        title: "Staf Administrasi",
+        place: "Dinas Pendidikan Kota Malang",
+        href: "https://dikbud.malangkota.go.id/",
+        tags: ["Administrasi Digital", "Pendataan", "Pelayanan", "Ketelitian"],
+        points: [
+          "Mendata, mengelola, dan melayani serah terima seragam sekolah serta buku kurikulum",
+          "Mendigitalisasi dan mendata disposisi, surat masuk, dan surat keluar",
+          "Melayani koreksi kesalahan penulisan ijazah siswa",
+          "Mendata dan melayani pengajuan dana BOSDA dan NPHD",
+        ],
+      },
+    ],
+  },
+};
+
 export default function Experience() {
+  const t = useText(TEXT);
   return (
     <>
       {/* Band berjalan sebagai jeda antar bagian. Salinannya digandakan oleh
@@ -6,9 +109,9 @@ export default function Experience() {
       <div data-anim="marquee" data-speed="30" className="border-y border-line py-5">
         <div className="marquee-track">
           <div className="flex shrink-0" data-marquee-copy>
-            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Data Analyst<span aria-hidden="true" className="text-accent">✦</span></span>
-            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Pendidik Informatika<span aria-hidden="true" className="text-accent">✦</span></span>
-            <span className="-caption flex items-center gap-8 pr-8 text-text-muted">Universitas Negeri Malang<span aria-hidden="true" className="text-accent">✦</span></span>
+            {t.marquee.map(function (item) {
+              return <span key={item} className="-caption flex items-center gap-8 pr-8 text-text-muted">{item}<span aria-hidden="true" className="text-accent">✦</span></span>;
+            })}
           </div>
         </div>
       </div>
@@ -44,16 +147,16 @@ export default function Experience() {
           <div data-component="scrub-reveal" className="mb-6 flex items-center gap-4 sm:mb-7">
             <span className="-mono tabular-nums text-text-muted">02</span>
             <span className="h-px w-12 bg-line"></span>
-            <span className="-caption-small text-text-muted">Pengalaman</span>
+            <span className="-caption-small text-text-muted">{t.label}</span>
           </div>
 
           <h2 className="-h1 mb-7" data-line-mask>
-            <span data-anim="line-mask" className="last:text-text-muted"><span>Pengalaman</span></span>
-            <span data-anim="line-mask" className="last:text-text-muted"><span>Kerja</span></span>
+            <span data-anim="line-mask" className="last:text-text-muted"><span>{t.title[0]}</span></span>
+            <span data-anim="line-mask" className="last:text-text-muted"><span>{t.title[1]}</span></span>
           </h2>
 
           <p data-component="scrub-reveal" className="-body-small mb-12 max-w-md text-text-muted sm:mb-16">
-            Riwayat pekerjaan yang pernah saya jalani
+            {t.sub}
           </p>
 
           <div className="swap mx-auto w-full max-w-[56rem]" data-component="swap">
@@ -70,67 +173,44 @@ export default function Experience() {
 
                    `aria-controls` dan `aria-labelledby` dipasang dari
                    initCardSwap() supaya id-nya cuma ditulis sekali (di sini).
-                   Kalau menambah pengalaman, salin juga id dan role-nya —
-                   tanpa id, sambungannya diam-diam tidak terpasang.
+                   Sejak 1 Oktober 2026 kartunya dibuat dari array `jobs` di
+                   TEXT, dan id serta role-nya ikut dibuat di map di bawah —
+                   menambah pengalaman cukup menambah satu entri di kedua
+                   bahasa. Jangan pindahkan id keluar dari map itu: tanpa id,
+                   sambungannya diam-diam tidak terpasang.
 
                    Bahasa awamnya: dua titik kecil di bawah kartu ini sekarang
                    benar-benar tersambung ke kartunya, jadi pembaca layar bisa
                    mengumumkan kartu mana yang barusan terbuka. */}
-              <article data-card id="swap-panel-1" role="tabpanel" className="swap-card">
-                <div className="swap-body">
-                  <div className="swap-left">
-                    <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
-                      <span className="-mono tabular-nums text-text-muted">01 / 02</span>
-                      <span className="-caption-small text-text-muted">Februari – Juni 2024</span>
-                    </div>
-                    <h3 className="-h2 mb-3">Guru Informatika</h3>
-                    <a href="https://smkn3malang.sch.id/" target="_blank" rel="noopener noreferrer" className="link-mono text-text-muted hover:text-text">
-                      <span data-letter-hover="SMKN 3 Malang"></span><span className="arrow" aria-hidden="true">↗</span>
-                    </a>
-                    <div className="mt-8 flex flex-wrap gap-2 nav:mt-auto nav:pt-10">
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Pemrograman Dasar</span>
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Jaringan Dasar</span>
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">TLJ</span>
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Manajemen Siswa</span>
-                    </div>
-                  </div>
+              {t.jobs.map(function (job, i) {
+                return (
+                  <article key={i} data-card id={"swap-panel-" + (i + 1)} role="tabpanel" className="swap-card">
+                    <div className="swap-body">
+                      <div className="swap-left">
+                        <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
+                          <span className="-mono tabular-nums text-text-muted">{"0" + (i + 1) + " / 0" + t.jobs.length}</span>
+                          <span className="-caption-small text-text-muted">{job.period}</span>
+                        </div>
+                        <h3 className="-h2 mb-3">{job.title}</h3>
+                        <a href={job.href} target="_blank" rel="noopener noreferrer" className="link-mono text-text-muted hover:text-text">
+                          <span data-letter-hover={job.place}></span><span className="arrow" aria-hidden="true">↗</span>
+                        </a>
+                        <div className="mt-8 flex flex-wrap gap-2 nav:mt-auto nav:pt-10">
+                          {job.tags.map(function (tag) {
+                            return <span key={tag} className="-caption-small border border-line px-3 py-2 text-text-muted">{tag}</span>;
+                          })}
+                        </div>
+                      </div>
 
-                  <ul className="swap-details">
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Mengajar mata pelajaran pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan (TLJ)</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Mengawasi, mengevaluasi, serta memastikan pemahaman dan proyek akhir siswa terpenuhi sesuai timeline dan target</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Merencanakan, mengadakan, dan mengoordinasi berjalannya program kerja SEMAR “Seminar Marketing”</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Mendigitalisasi arsip sekolah dan mendukung kegiatan operasional sekolah</li>
-                  </ul>
-                </div>
-              </article>
-
-              <article data-card id="swap-panel-2" role="tabpanel" className="swap-card">
-                <div className="swap-body">
-                  <div className="swap-left">
-                    <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-line pb-5">
-                      <span className="-mono tabular-nums text-text-muted">02 / 02</span>
-                      <span className="-caption-small text-text-muted">Juni – Agustus 2024</span>
+                      <ul className="swap-details">
+                        {job.points.map(function (point) {
+                          return <li key={point} className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>{point}</li>;
+                        })}
+                      </ul>
                     </div>
-                    <h3 className="-h2 mb-3">Staf Administrasi</h3>
-                    <a href="https://dikbud.malangkota.go.id/" target="_blank" rel="noopener noreferrer" className="link-mono text-text-muted hover:text-text">
-                      <span data-letter-hover="Dinas Pendidikan Kota Malang"></span><span className="arrow" aria-hidden="true">↗</span>
-                    </a>
-                    <div className="mt-8 flex flex-wrap gap-2 nav:mt-auto nav:pt-10">
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Administrasi Digital</span>
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Pendataan</span>
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Pelayanan</span>
-                      <span className="-caption-small border border-line px-3 py-2 text-text-muted">Ketelitian</span>
-                    </div>
-                  </div>
-
-                  <ul className="swap-details">
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Mendata, mengelola, dan melayani serah terima seragam sekolah serta buku kurikulum</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Mendigitalisasi dan mendata disposisi, surat masuk, dan surat keluar</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Melayani koreksi kesalahan penulisan ijazah siswa</li>
-                    <li className="-body-small flex gap-3 text-text-muted"><span aria-hidden="true" className="h-px w-3 shrink-0 bg-line"></span>Mendata dan melayani pengajuan dana BOSDA dan NPHD</li>
-                  </ul>
-                </div>
-              </article>
+                  </article>
+                );
+              })}
 
             </div>
 
@@ -138,7 +218,7 @@ export default function Experience() {
                 ditulis tangan di sini: menambah pengalaman berarti menambah satu
                 <article>, dan titiknya ikut sendiri. Ia juga yang memberi jalan
                 keyboard ke card yang tidak sedang di depan. */}
-            <div className="swap-controls" data-swap-controls role="tablist" aria-label="Pilih pengalaman kerja"></div>
+            <div className="swap-controls" data-swap-controls role="tablist" aria-label={t.tablist}></div>
           </div>
 
         </div>

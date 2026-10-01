@@ -1,6 +1,88 @@
 import Icon from "./Icon.jsx";
+import { useText } from "../i18n/lang.jsx";
+
+/*
+ * ══ TEKNIS
+ *
+ * Yang diterjemahkan hanya kalimat dan label; NAMA PERKAKAS di grid Teknologi
+ * dan Perkakas tidak, sebab itu nama merek dan sama di kedua bahasa. Itu juga
+ * yang membuat seluruh hitungan lebar card, skala logo, dan rantai
+ * `data-delay` di bawah tetap berlaku tanpa diukur ulang.
+ *
+ * SATU LABEL KELOMPOK IKUT MEMANJANG: "ADMINISTRATION" 14 huruf lawan
+ * "ADMINISTRASI" 12. `.tool-label` dipatok 12rem dan muat 20 huruf (hitungan
+ * di src/styles/tools-grid.css), jadi garis rambutnya tetap lurus.
+ *
+ * Aturan register card "Analisis Data" — tanpa nama program, sepola dengan
+ * baris 01 di bagian Tentang — berlaku juga di versi Inggrisnya.
+ *
+ * "Pasif" di bagian Bahasa diterjemahkan "Receptive", bukan "Passive". Di CV
+ * berbahasa Inggris "passive English" terbaca seperti tidak bisa berbahasa
+ * Inggris sama sekali; "receptive" istilah yang dipakai untuk kemampuan
+ * membaca dan mendengarkan, dan itulah yang dimaksud versi Indonesianya.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Isi bagian Keahlian dalam dua bahasa. Nama-nama aplikasi tidak
+ * diterjemahkan karena memang sama di semua bahasa.
+ */
+const TEXT = {
+  en: {
+    eyebrow: "03 — Skills",
+    title: "Skills",
+    roles: [
+      { title: "Data Analysis", body: "Taking questions from managers or users, designing and querying the database, cleaning the raw data, uncovering patterns and building models, presenting the results as dashboards, explaining what the findings mean, and then making recommendations that can be acted on." },
+      { title: "Technical Teaching", body: "Teaching basic programming, basic networking, and network services technology, including supervising and evaluating students’ final projects." },
+      { title: "Digital Administration", body: "Data entry, logging incoming and outgoing mail, managing routing slips, and digitizing archives." },
+    ],
+    motto: "Three roles. One way of working.",
+    proTitle: "Professional Skills",
+    pro: [
+      { title: "Analysis & Problem Solving", body: "Tracing problems to their root cause by weighing the possibilities, so I can decide on the best solution and how to get there." },
+      { title: "Technical Communication", body: "Explaining complex technical concepts in plain language with fitting analogies, so they are easy to grasp for non-technical teammates and external parties alike." },
+      { title: "Attention to Detail", body: "Keeping data and documents accurate from the very start of the work, so that an overlooked mistake never turns into a wrong conclusion." },
+      { title: "Adaptability", body: "Staying alert to changes in the environment and technology and adapting early, so that productivity and efficiency are maintained or even improved." },
+      { title: "Teamwork", body: "Working with teammates and other divisions to align ideas, minimize miscommunication, and reach shared targets faster." },
+    ],
+    tech: "Technologies",
+    tools: "Tools",
+    groups: { data: "Data", teaching: "Teaching", admin: "Administration", ai: "AI" },
+    languages: "Languages",
+    indonesian: "Indonesian",
+    indonesianLevel: "Native — fluent in speaking and writing",
+    english: "English",
+    englishLevel: "Receptive — reading and listening, UKBIng certified (score 444)",
+  },
+  id: {
+    eyebrow: "03 — Keahlian",
+    title: "Keahlian",
+    roles: [
+      { title: "Analisis Data", body: "Menerima pertanyaan dari atasan atau pengguna, menyusun serta mengueri basis datanya, merapikan data mentahnya, menggali pola dan membangun modelnya, menyajikan hasilnya sebagai dashboard, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti." },
+      { title: "Pengajaran Teknis", body: "Mengajar pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan, termasuk mengawasi dan mengevaluasi proyek akhir siswa." },
+      { title: "Administrasi Digital", body: "Pendataan, pencatatan surat masuk dan keluar, pengelolaan disposisi, serta digitalisasi arsip." },
+    ],
+    motto: "Tiga peran. Satu cara kerja.",
+    proTitle: "Kemampuan Profesional",
+    pro: [
+      { title: "Analisis & Pemecahan Masalah", body: "Menelusuri akar masalah dengan menimbang berbagai kemungkinan sehingga bisa memutuskan penyelesaian terbaik dan cara menempuhnya." },
+      { title: "Komunikasi Teknis", body: "Menjelaskan konsep teknis yang rumit dengan bahasa sederhana beserta analogi yang tepat supaya mudah dipahami oleh anggota tim non-teknis maupun pihak eksternal." },
+      { title: "Perhatian pada Detail", body: "Menjaga rincian data dan berkas tetap benar sejak awal pengerjaan supaya kekeliruan yang luput dari perhatian tidak menjadi kesimpulan yang keliru." },
+      { title: "Adaptabilitas", body: "Peka terhadap perubahan lingkungan dan teknologi serta menyesuaikan diri sejak dini sehingga produktivitas dan efisiensi penyelesaian tugas tetap terjaga bahkan meningkat." },
+      { title: "Kolaborasi Tim", body: "Bekerja sama dengan anggota tim maupun divisi lain untuk menyelaraskan pemikiran guna meminimalkan miskomunikasi dan mempercepat penyelesaian target bersama." },
+    ],
+    tech: "Teknologi",
+    tools: "Perkakas",
+    groups: { data: "Data", teaching: "Pengajaran", admin: "Administrasi", ai: "AI" },
+    languages: "Bahasa",
+    indonesian: "Bahasa Indonesia",
+    indonesianLevel: "Aktif — lisan dan tulisan, penutur asli",
+    english: "Bahasa Inggris",
+    englishLevel: "Pasif — membaca dan mendengarkan, tersertifikasi UKBING 444",
+  },
+};
 
 export default function Skills() {
+  const t = useText(TEXT);
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -38,7 +120,7 @@ export default function Skills() {
                Tampilannya tidak berubah sedikit pun, sebab seluruh tipografi
                situs ini datang dari class `-caption-small`, bukan dari nama
                tag-nya. */}
-          <p data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">03 — Keahlian</p>
+          <p data-component="scrub-reveal" className="-caption-small mb-5 text-text-muted">{t.eyebrow}</p>
 
           {/* Judul yang terlihat, dan bentuknya SAMA PERSIS dengan Tentang,
                Pengalaman, Sertifikat, dan Kontak: -h1 dengan mask baris.
@@ -55,7 +137,7 @@ export default function Skills() {
                Kalau nanti ingin ditonjolkan lagi, yang dinaikkan UKURANNYA
                (-display seperti Pendidikan), bukan jenis motion-nya. */}
           <h2 className="-h1 mb-10" data-line-mask>
-            <span data-anim="line-mask"><span>Keahlian</span></span>
+            <span data-anim="line-mask"><span>{t.title}</span></span>
           </h2>
 
           {/* Tiga card, dan jumlahnya bukan kebetulan: ia persis tiga peran yang
@@ -106,7 +188,7 @@ export default function Skills() {
             <div className="stage-slot stage-slot--lead" data-card-slot data-direction="fade">
             <article data-role-card className="stage-card stage-card--lead">
               <div className="mb-6 flex items-start justify-between gap-6">
-                <h3 className="-h2 max-w-[9em]">Analisis Data</h3>
+                <h3 className="-h2 max-w-[9em]">{t.roles[0].title}</h3>
                 <span data-glyph="1"></span>
               </div>
               {/* BATAS LEBAR TEKSNYA DIBUANG pada 15 Agustus 2026 atas permintaan:
@@ -223,27 +305,27 @@ export default function Skills() {
                    Perubahan kembarannya ada di baris 01 bagian Tentang
                    (src/components/About.jsx). Kalau salah satunya dipulihkan,
                    pulihkan keduanya. */}
-              <p className="-body-small text-text-muted">Menerima pertanyaan dari atasan atau pengguna, menyusun serta mengueri basis datanya, merapikan data mentahnya, menggali pola dan membangun modelnya, menyajikan hasilnya sebagai dashboard, menjelaskan arti temuannya, lalu memberi rekomendasi yang bisa ditindaklanjuti.</p>
+              <p className="-body-small text-text-muted">{t.roles[0].body}</p>
             </article>
             </div>
 
             <div className="stage-slot" data-card-slot data-direction="left">
             <article data-role-card className="stage-card">
               <div className="mb-6 flex items-start justify-between gap-6">
-                <h3 className="-h2 max-w-[9em]">Pengajaran Teknis</h3>
+                <h3 className="-h2 max-w-[9em]">{t.roles[1].title}</h3>
                 <span data-glyph="2"></span>
               </div>
-              <p className="-body-small text-text-muted">Mengajar pemrograman dasar, jaringan dasar, dan teknologi layanan jaringan, termasuk mengawasi dan mengevaluasi proyek akhir siswa.</p>
+              <p className="-body-small text-text-muted">{t.roles[1].body}</p>
             </article>
             </div>
 
             <div className="stage-slot" data-card-slot data-direction="right">
             <article data-role-card className="stage-card">
               <div className="mb-6 flex items-start justify-between gap-6">
-                <h3 className="-h2 max-w-[9em]">Administrasi Digital</h3>
+                <h3 className="-h2 max-w-[9em]">{t.roles[2].title}</h3>
                 <span data-glyph="3"></span>
               </div>
-              <p className="-body-small text-text-muted">Pendataan, pencatatan surat masuk dan keluar, pengelolaan disposisi, serta digitalisasi arsip.</p>
+              <p className="-body-small text-text-muted">{t.roles[2].body}</p>
             </article>
             </div>
           </div>
@@ -260,7 +342,7 @@ export default function Skills() {
                Class apa pun boleh dipakai; yang masih mengikat tinggal
                grid 4px. */}
           <p data-component="scrub-reveal" className="-caption-small mt-7 text-center">
-            <span aria-hidden="true" className="mr-2 text-accent">✦</span>Tiga peran. Satu cara kerja.
+            <span aria-hidden="true" className="mr-2 text-accent">✦</span>{t.motto}
           </p>
       </div>
 
@@ -520,32 +602,32 @@ export default function Skills() {
                lebih tinggi — tapi ikon, judul, dan keterangannya tetap lurus
                sejajar antar kotak. */}
           <div>
-            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Kemampuan Profesional</h3>
+            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">{t.proTitle}</h3>
             <div className="skill-grid border-t border-l border-line">
               <div data-component="scrub-reveal" data-delay="0" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="magnifying-glass-chart" className="text-text-muted" />
-                <span className="-body-small font-medium">Analisis &amp; Pemecahan Masalah</span>
-                <p className="-body-smaller text-text-muted">Menelusuri akar masalah dengan menimbang berbagai kemungkinan sehingga bisa memutuskan penyelesaian terbaik dan cara menempuhnya.</p>
+                <span className="-body-small font-medium">{t.pro[0].title}</span>
+                <p className="-body-smaller text-text-muted">{t.pro[0].body}</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.04" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="comments" className="text-text-muted" />
-                <span className="-body-small font-medium">Komunikasi Teknis</span>
-                <p className="-body-smaller text-text-muted">Menjelaskan konsep teknis yang rumit dengan bahasa sederhana beserta analogi yang tepat supaya mudah dipahami oleh anggota tim non-teknis maupun pihak eksternal.</p>
+                <span className="-body-small font-medium">{t.pro[1].title}</span>
+                <p className="-body-smaller text-text-muted">{t.pro[1].body}</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.08" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="list-check" className="text-text-muted" />
-                <span className="-body-small font-medium">Perhatian pada Detail</span>
-                <p className="-body-smaller text-text-muted">Menjaga rincian data dan berkas tetap benar sejak awal pengerjaan supaya kekeliruan yang luput dari perhatian tidak menjadi kesimpulan yang keliru.</p>
+                <span className="-body-small font-medium">{t.pro[2].title}</span>
+                <p className="-body-smaller text-text-muted">{t.pro[2].body}</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.12" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="arrows-rotate" className="text-text-muted" />
-                <span className="-body-small font-medium">Adaptabilitas</span>
-                <p className="-body-smaller text-text-muted">Peka terhadap perubahan lingkungan dan teknologi serta menyesuaikan diri sejak dini sehingga produktivitas dan efisiensi penyelesaian tugas tetap terjaga bahkan meningkat.</p>
+                <span className="-body-small font-medium">{t.pro[3].title}</span>
+                <p className="-body-smaller text-text-muted">{t.pro[3].body}</p>
               </div>
               <div data-component="scrub-reveal" data-delay="0.16" className="skill-card border-r border-b border-line p-4 transition-colors duration-500 ease-brand hover:bg-text/4 sm:p-5">
                 <Icon name="people-group" className="text-text-muted" />
-                <span className="-body-small font-medium">Kolaborasi Tim</span>
-                <p className="-body-smaller text-text-muted">Bekerja sama dengan anggota tim maupun divisi lain untuk menyelaraskan pemikiran guna meminimalkan miskomunikasi dan mempercepat penyelesaian target bersama.</p>
+                <span className="-body-small font-medium">{t.pro[4].title}</span>
+                <p className="-body-smaller text-text-muted">{t.pro[4].body}</p>
               </div>
             </div>
           </div>
@@ -579,12 +661,13 @@ export default function Skills() {
                berhenti mengelompokkan; ia cuma menambah baris. Membuang
                seluruh label menyelesaikannya tanpa satu pun salah kategori.
 
-               ══ URUTANNYA SQL, PYTHON, PANDAS, MATPLOTLIB — BUKAN ABJAD,
-                  MELAINKAN ALUR KERJA
+               ══ URUTANNYA SQL, PYTHON, NUMPY, PANDAS, MATPLOTLIB — BUKAN
+                  ABJAD, MELAINKAN ALUR KERJA
 
                Sama polanya dengan baris Data di Perkakas ("yang menopang
                berdiri di depan"): SQL mengambil datanya, Python mengolahnya,
-               pandas merapikannya di dalam Python, matplotlib menggambarkannya.
+               NumPy menghitungnya, pandas merapikannya di dalam Python,
+               matplotlib menggambarkannya. (NumPy masuk 1 Oktober 2026.)
                Jadi urutannya mengikuti tujuh langkah yang ditulis di card
                Analisis Data beberapa layar di atas.
 
@@ -592,6 +675,20 @@ export default function Skills() {
                keduanya pustaka Python, bukan bahasa berdiri sendiri.
                Memisahkannya menuntut label lagi, dan itu persis yang baru saja
                dibubarkan.
+
+               ══ LIMA CARD, BUKAN EMPAT — DAN BARIS INI PUNYA PEMBAGINYA
+                  SENDIRI SEJAK 1 OKTOBER 2026
+
+               `tool-items--five` di src/styles/tools-grid.css: 20% (lima
+               satu baris) di >=640px, sepertiga (3+2) di bawahnya. Pembagi
+               25% bawaan grid ini akan memecah lima jadi 4+1 dengan
+               Matplotlib menggantung sendirian. Hitungan lengkapnya di
+               komentar aturan itu.
+
+               Akibatnya catatan di bawah tentang lebar card (275px) dan
+               kesamaan lebar dengan Perkakas di bawah 1180px SUDAH TIDAK
+               BERLAKU apa adanya: card di sini sekarang 20% atau sepertiga,
+               bukan 25%. Catatannya dibiarkan sebagai riwayat.
 
                ══ TIDAK ADA .tool-label DI BARIS INI, DAN AKIBATNYA TERUKUR
 
@@ -633,9 +730,10 @@ export default function Skills() {
                tanpa diminta: yang dipilih hari ini kesederhanaan, bukan
                kelurusan.
 
-               ══ JEDANYA MULAI DARI NOL, EMPAT ANGKA
+               ══ JEDANYA MULAI DARI NOL, LIMA ANGKA
 
-               0 / 0,03 / 0,06 / 0,09, satu rantai untuk empat card. Perkakas
+               0 / 0,03 / 0,06 / 0,09 / 0,12, satu rantai untuk lima card
+               (empat sampai NumPy masuk 1 Oktober 2026). Perkakas
                di bawah mulai lagi dari 0 — jangan disambung, dua bagian yang
                punya judulnya sendiri dibaca sebagai dua blok terpisah. Label
                yang dulu memakai jeda card pertamanya ikut hilang bersama
@@ -675,14 +773,15 @@ export default function Skills() {
                Sekarang sub-judulnya dibuang dan keempat logonya berbaris
                langsung di bawah judul "Teknologi", urut sesuai alur kerja:
                SQL mengambil data, Python mengolah, pandas merapikan,
-               matplotlib menggambarkan.
+               matplotlib menggambarkan. Sejak 1 Oktober 2026 NumPy ikut di
+               antara Python dan pandas, jadi logonya lima.
                ═════════════════════════════════════════════════════════════ */}
           <div>
-            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Teknologi</h3>
+            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">{t.tech}</h3>
             <div className="border-t border-line">
 
               <div className="tool-row border-b border-line">
-                <div className="tool-items">
+                <div className="tool-items tool-items--five">
 
                   {/* SQL — IKON DATABASE AZURE (judul aslinya di dalam berkas
                        "Icon-databases-130"), dan itu memang pilihan yang
@@ -729,6 +828,45 @@ export default function Skills() {
                       </span>
                     </span>
                     <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">Python</span>
+                  </div>
+
+                  {/* NUMPY — masuk 1 Oktober 2026, tepat sesudah Python.
+
+                       ══ TEKNIS
+
+                       URUTANNYA ALUR KERJA, sama dengan keempat lainnya: NumPy
+                       lapisan hitung yang dipakai pandas di bawahnya, jadi ia
+                       berdiri di antara bahasanya dan pustaka yang dibangun di
+                       atasnya.
+
+                       BERKASNYA LOGO RESMI DARI numpy.org, BUKAN YANG PERTAMA
+                       KALI DITARUH DI SINI. Yang pertama dari kumpulan ikon
+                       pihak ketiga (Simple Icons): satu warna #013243, biru tua
+                       yang di atas latar #040508 cuma berkontras ~1,3:1 —
+                       kasus DBeaver yang dicatat di README, dan hasilnya sama:
+                       petak yang tampak kosong tanpa satu pun pesan galat.
+                       Logo resminya diambil dari <img class="hero-logo"> di
+                       HTML numpy.org yang sedang tayang (/images/logo.svg),
+                       dua biru #4DABCF dan #4D77CF, dipakai apa adanya.
+
+                       DINAIKKAN 1,21. viewBox-nya 500x500, tintanya 387,3 x
+                       413,9 — mengisi 82,78% tingginya, dan tinggi yang
+                       mengikat karena kotaknya bujur sangkar. 1 / 0,8278 =
+                       1,208, dibulatkan 1,21: rasio kotak dibagi rasio tinta,
+                       cara yang sama dengan pandas (1,27) dan SQL (1,06), jadi
+                       satu angka ini benar di kotak 32px maupun 36px.
+
+                       ══ BAHASA AWAMNYA
+
+                       Logo NumPy, diperbesar sedikit supaya tingginya sama
+                       dengan logo di sebelahnya. */}
+                  <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                    <span className="flex w-full justify-center text-text">
+                      <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
+                        <img src="assets/icons/numpy.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.21)" }} className="max-h-full max-w-full object-contain" />
+                      </span>
+                    </span>
+                    <span className="-body-smaller leading-tight text-text-muted transition-colors duration-500 ease-brand group-hover:text-text">NumPy</span>
                   </div>
 
                   {/* PANDAS — LOGOMARK SAJA, TANPA WORDMARK, dan berkasnya
@@ -847,7 +985,7 @@ export default function Skills() {
                        disamakan tingginya — SQL (0,75), DBeaver (0,82), Excel
                        (0,97). Tinta ini 0,629, jadi ia keluarga yang sama,
                        cuma paling ramping. */}
-                  <div data-component="scrub-reveal" data-delay="0.06" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/pandas.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.27)" }} className="max-h-full max-w-full object-contain" />
@@ -902,7 +1040,7 @@ export default function Skills() {
                        Yang pertama lebih sesuai dengan latar segelap ini; yang
                        kedua lebih setia pada bentuk aslinya. Jangan pilih
                        sendiri — tanyakan. */}
-                  <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
+                  <div data-component="scrub-reveal" data-delay="0.12" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
                         <img src="assets/icons/matplotlib.svg" alt="" loading="lazy" decoding="async" style={{ transform: "scale(1.03)" }} className="max-h-full max-w-full object-contain" />
@@ -978,7 +1116,7 @@ export default function Skills() {
                lagi, jadi kelompok yang isinya sedikit tidak perlu ikut menunggu
                antrean kelompok di atasnya. */}
           <div>
-            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Perkakas</h3>
+            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">{t.tools}</h3>
             <div className="border-t border-line">
 
               {/* Urutannya ditentukan pemiliknya, dan alurnya alat kerja dulu
@@ -1039,7 +1177,7 @@ export default function Skills() {
                    komputer, sebab logonya harus dipersempit sampai nama "Google
                    Workspace" di baris lain ikut pecah dua baris. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Data</h4>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">{t.groups.data}</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
@@ -1399,7 +1537,7 @@ export default function Skills() {
                    kali sejak ia berdiri sendiri di baris Data 15 Agustus 2026.
                    Keduanya diluruskan. */}
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Pengajaran</h4>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">{t.groups.teaching}</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
@@ -1457,7 +1595,7 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">Administrasi</h4>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">{t.groups.admin}</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
@@ -1487,7 +1625,7 @@ export default function Skills() {
               </div>
 
               <div className="tool-row border-b border-line">
-                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">AI</h4>
+                <h4 data-component="scrub-reveal" data-delay="0" className="-caption-small tool-label text-text-muted">{t.groups.ai}</h4>
                 <span data-component="scrub-reveal" data-delay="0" className="h-px w-8 self-center bg-line"></span>
 
                 <div className="tool-items">
@@ -1588,19 +1726,19 @@ export default function Skills() {
           </div>
 
           <div>
-            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">Bahasa</h3>
+            <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">{t.languages}</h3>
             <div className="border-t border-line">
               <div data-component="scrub-reveal" className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-line py-5 sm:gap-x-5 sm:py-6">
                 <span className="-mono text-text-muted">ID</span>
                 <span className="h-px w-8 self-center bg-line"></span>
-                <h4 className="-title-4">Bahasa Indonesia</h4>
-                <span className="-body-smaller w-full text-text-muted nav:ml-auto nav:w-auto">Aktif — lisan dan tulisan, penutur asli</span>
+                <h4 className="-title-4">{t.indonesian}</h4>
+                <span className="-body-smaller w-full text-text-muted nav:ml-auto nav:w-auto">{t.indonesianLevel}</span>
               </div>
               <div data-component="scrub-reveal" className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-line py-5 sm:gap-x-5 sm:py-6">
                 <span className="-mono text-text-muted">EN</span>
                 <span className="h-px w-8 self-center bg-line"></span>
-                <h4 className="-title-4">Bahasa Inggris</h4>
-                <span className="-body-smaller w-full text-text-muted nav:ml-auto nav:w-auto">Pasif — membaca dan mendengarkan, tersertifikasi UKBING 444</span>
+                <h4 className="-title-4">{t.english}</h4>
+                <span className="-body-smaller w-full text-text-muted nav:ml-auto nav:w-auto">{t.englishLevel}</span>
               </div>
             </div>
           </div>

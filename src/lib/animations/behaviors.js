@@ -137,17 +137,23 @@ export function initTypewriter(ctx) {
  * menghasilkan momen di mana keduanya terbaca sekaligus dan tak satu pun
  * terbaca jelas; motion vertikal tidak pernah punya masalah itu.
  */
-var CHAPTERS = [
-  { id: "tentang", label: "Tentang" },
-  { id: "pengalaman", label: "Pengalaman" },
-  { id: "keahlian", label: "Keahlian" },
-  { id: "pendidikan", label: "Pendidikan" },
-  { id: "sertifikat", label: "Sertifikat" },
-  { id: "kontak", label: "Kontak" },
-];
+/* ══ TEKNIS — LABELNYA DUA BAHASA sejak 1 Oktober 2026; id bagiannya TIDAK
+   ikut diterjemahkan. Ketujuh id itu juga alamat (#kontak di tombol Beranda,
+   dan tautan yang mungkin sudah telanjur dibagikan orang), jadi mengubahnya
+   per bahasa akan mematahkan tautan lama tanpa satu pun pesan galat.
+
+   ══ BAHASA AWAMNYA — nama bagian di bar bawah ikut berganti bahasa, tapi
+   alamat tautan ke tiap bagian tetap sama, jadi link lama tidak rusak. */
+var CHAPTER_IDS = ["tentang", "pengalaman", "keahlian", "pendidikan", "sertifikat", "kontak"];
+var CHAPTER_LABELS = {
+  en: ["About", "Experience", "Skills", "Education", "Certificates", "Contact"],
+  id: ["Tentang", "Pengalaman", "Keahlian", "Pendidikan", "Sertifikat", "Kontak"],
+};
 
 export function initStatusBar(ctx) {
   const { listen, addNode, scrollTo } = ctx;
+  var labels = CHAPTER_LABELS[ctx.lang] || CHAPTER_LABELS.en;
+  var CHAPTERS = CHAPTER_IDS.map(function (id, i) { return { id: id, label: labels[i] }; });
   var bar = $(".status-bar");
   if (!bar) return;
 
@@ -299,10 +305,32 @@ export function initAnchors(ctx) {
  * dan gagalnya DIAM: halaman wa.me tetap terbuka, cuma tidak menemukan
  * nomornya. Jadi nomor dinormalkan di sini.
  */
+/* ══ TEKNIS — PESANNYA MENGIKUTI BAHASA HALAMAN, termasuk yang terkirim ke
+   WhatsApp dan surel. Pengunjung yang membaca halaman Inggris kemungkinan
+   besar menulis pesannya dalam bahasa Inggris juga, dan kalimat pembuka
+   Indonesia yang ditempelkan di depan pesan Inggris terbaca seperti salah
+   kirim.
+
+   ══ BAHASA AWAMNYA — pesan yang sampai ke WhatsApp/email Anda dibuka dengan
+   sapaan dalam bahasa yang sama dengan yang dipakai pengirimnya. */
+var FORM_TEXT = {
+  en: {
+    missing: "Please fill in your name and message first.",
+    greeting: "Hi Arif! I'm ",
+    subject: function (name) { return "Message from " + name + " via your portfolio"; },
+  },
+  id: {
+    missing: "Mohon isi nama dan pesan terlebih dahulu!",
+    greeting: "Halo Arif! Saya ",
+    subject: function (name) { return "Pesan dari " + name + " — lewat portofolio"; },
+  },
+};
+
 export function initContactForm(ctx) {
   const { listen } = ctx;
   var form = $("#contact-form");
   if (!form) return;
+  var text = FORM_TEXT[ctx.lang] || FORM_TEXT.en;
 
   var PHONE = "6285790226536";
   var EMAIL_ADDR = "arif.herfian@gmail.com";
@@ -315,16 +343,16 @@ export function initContactForm(ctx) {
        memeriksa sendiri, cepat atau lambat salah satunya ketinggalan saat
        aturannya berubah — dan yang lolos adalah pesan kosong. */
     if (name === "" || message === "") {
-      alert("Mohon isi nama dan pesan terlebih dahulu!");
+      alert(text.missing);
       return null;
     }
     return { name: name, email: email, message: message };
   }
 
   function composeMessage(fields) {
-    var text = "Halo Arif! Saya " + fields.name;
-    if (fields.email) text += " (" + fields.email + ")";
-    return text + "\n\n" + fields.message;
+    var out = text.greeting + fields.name;
+    if (fields.email) out += " (" + fields.email + ")";
+    return out + "\n\n" + fields.message;
   }
 
   listen(form, "submit", function (e) {
@@ -356,7 +384,7 @@ export function initContactForm(ctx) {
     if (!fields) return;
     window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" +
       encodeURIComponent(EMAIL_ADDR) +
-      "&su=" + encodeURIComponent("Pesan dari " + fields.name + " — lewat portofolio") +
+      "&su=" + encodeURIComponent(text.subject(fields.name)) +
       "&body=" + encodeURIComponent(composeMessage(fields)),
       "_blank", "noopener,noreferrer");
   });

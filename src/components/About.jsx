@@ -1,4 +1,68 @@
+import { useText } from "../i18n/lang.jsx";
+
+/*
+ * ══ TEKNIS
+ *
+ * Aturan isi yang tertulis di komentar-komentar panjang di bawah berlaku untuk
+ * KEDUA bahasa: tidak ada nama perkakas di ketiga keterangan, tiap baris hanya
+ * bicara perannya sendiri, dan kalimat pembukanya tidak mengangkat satu peran
+ * jadi yang utama. Versi Inggris diterjemahkan dengan memegang ketiganya, jadi
+ * kalau satu bahasa disunting, periksa yang lain masih memenuhinya.
+ *
+ * Kalimat pembuka Inggris tetap SATU kalimat tanpa titik, sama dengan
+ * aslinya: ia teks display 40px yang dipecah per kata oleh buildWordScrub(),
+ * dan tiga benda di ekornya (numbers, lessons, paperwork) menggantikan angka,
+ * pelajaran, berkas dengan urutan yang sama.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Isi bagian Tentang dalam dua bahasa, dengan aturan penulisan yang sama.
+ */
+const TEXT = {
+  en: {
+    label: "About",
+    title: ["About", "Me"],
+    sub: "My background and how I work",
+    lead: "Turning the complex into something people can use, be it numbers, lessons, or paperwork",
+    roles: [
+      {
+        title: "Data Analyst",
+        body: "Taking questions from managers or users, designing and querying the database, cleaning the raw data, uncovering patterns and building models, presenting the results as dashboards, explaining what the findings mean, and then recommending actionable next steps.",
+      },
+      {
+        title: "Informatics Educator",
+        body: "Building lesson materials from scratch, delivering them in language beginners can follow, measuring how much has truly been understood, and then refining my teaching based on the assessment results.",
+      },
+      {
+        title: "Administrative Staff",
+        body: "Receiving documents and checking that they are complete, recording and digitizing them so they are easy to retrieve, seeing every incoming request through to completion, and keeping archives and documents in order so that nothing goes missing.",
+      },
+    ],
+  },
+  id: {
+    label: "Tentang",
+    title: ["Tentang", "Saya"],
+    sub: "Latar belakang dan cara saya bekerja",
+    lead: "Menerjemahkan yang rumit jadi sesuatu yang bisa dipakai, baik itu angka, pelajaran, maupun berkas",
+    roles: [
+      {
+        title: "Data Analyst",
+        body: "Menerima pertanyaan dari atasan atau pengguna, menyusun serta mengueri basis datanya, merapikan data mentahnya, menggali pola dan membangun modelnya, menyajikan hasilnya sebagai dashboard, menjelaskan arti temuannya, lalu memberi rekomendasi langkah yang bisa diambil.",
+      },
+      {
+        title: "Pendidik Informatika",
+        body: "Menyusun materi dari nol, menyampaikannya dengan bahasa yang bisa diikuti pemula, mengukur seberapa jauh yang benar-benar dipahami, lalu membenahi cara mengajarnya berdasarkan hasil penilaian.",
+      },
+      {
+        title: "Staf Administrasi",
+        body: "Menerima dan memeriksa kelengkapan berkas, mencatat lalu mendigitalkannya supaya mudah ditelusuri kembali, menuntaskan tiap permintaan yang masuk, serta menjaga arsip atau dokumen tetap rapi dan tidak tercecer.",
+      },
+    ],
+  },
+};
+
 export default function About() {
+  const t = useText(TEXT);
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -15,16 +79,16 @@ export default function About() {
               <div data-component="scrub-reveal" className="flex items-center gap-4 mb-7">
                 <span className="-mono text-text-muted tabular-nums">01</span>
                 <span className="h-px w-12 bg-line"></span>
-                <span className="-caption-small text-text-muted">Tentang</span>
+                <span className="-caption-small text-text-muted">{t.label}</span>
               </div>
 
               <h2 className="-h1" data-line-mask>
-                <span data-anim="line-mask" className="last:text-text-muted"><span>Tentang</span></span>
-                <span data-anim="line-mask" className="last:text-text-muted"><span>Saya</span></span>
+                <span data-anim="line-mask" className="last:text-text-muted"><span>{t.title[0]}</span></span>
+                <span data-anim="line-mask" className="last:text-text-muted"><span>{t.title[1]}</span></span>
               </h2>
 
               <p data-component="scrub-reveal" className="-body-small text-text-muted mt-7 max-w-[17rem]">
-                Latar belakang dan cara saya bekerja
+                {t.sub}
               </p>
             </header>
           </div>
@@ -106,7 +170,7 @@ export default function About() {
                    Browser lama yang belum mengenalnya jatuh ke pembungkusan
                    biasa, jadi tidak ada yang rusak.
                    ══════════════════════════════════════════════════════════ */}
-              <p className="-h2 max-w-[38rem] text-balance" data-word-scrub>Menerjemahkan yang rumit jadi sesuatu yang bisa dipakai, baik itu angka, pelajaran, maupun berkas</p>
+              <p className="-h2 max-w-[38rem] text-balance" data-word-scrub>{t.lead}</p>
 
               {/* Baris bergaris, bukan card. Tiga card bertumpuk di kolom sempit
                    terbaca sebagai tiga hal setara yang saling bersaing; baris
@@ -218,7 +282,7 @@ export default function About() {
                    membuang langkahnya.
 
                    PANJANGNYA NAIK 216 -> 268 HURUF, dan ini keterangan
-                   TERPANJANG di daftar (02 195 huruf, 03 219). Itu diterima
+                   TERPANJANG di daftar (02 192 huruf, 03 210). Itu diterima
                    dengan sadar: yang dijaga aturan di atas REGISTER-nya, bukan
                    panjangnya, dan ketiganya tetap sama-sama menyebut langkah
                    kerja tanpa satu pun nama program. Kalau nanti selisihnya
@@ -244,32 +308,18 @@ export default function About() {
                    dan jadi lebih sulit dilihat daripada sebelumnya.
                    ══════════════════════════════════════════════════════════ */}
               <div className="border-t border-line">
-                <div data-component="scrub-reveal">
-                  <div className="group relative grid grid-cols-1 gap-x-8 gap-y-3 border-b border-line py-8 nav:grid-cols-[3rem_minmax(0,13rem)_minmax(0,1fr)]">
-                    <span className="-mono tabular-nums text-text-muted">01</span>
-                    <h3 className="-title-3 transition-transform duration-500 ease-brand nav:group-hover:translate-x-1">Data Analyst</h3>
-                    <p className="-body-small max-w-xl text-text-muted">Menerima pertanyaan dari atasan atau pengguna, menyusun serta mengueri basis datanya, merapikan data mentahnya, menggali pola dan membangun modelnya, menyajikan hasilnya sebagai dashboard, menjelaskan arti temuannya, lalu memberi rekomendasi langkah yang bisa diambil.</p>
-                    <span aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-text transition-transform duration-700 ease-brand group-hover:scale-x-100"></span>
-                  </div>
-                </div>
-
-                <div data-component="scrub-reveal">
-                  <div className="group relative grid grid-cols-1 gap-x-8 gap-y-3 border-b border-line py-8 nav:grid-cols-[3rem_minmax(0,13rem)_minmax(0,1fr)]">
-                    <span className="-mono tabular-nums text-text-muted">02</span>
-                    <h3 className="-title-3 transition-transform duration-500 ease-brand nav:group-hover:translate-x-1">Pendidik Informatika</h3>
-                    <p className="-body-small max-w-xl text-text-muted">Menyusun materi dari nol, menyampaikannya dengan bahasa yang bisa diikuti pemula, mengukur seberapa jauh yang benar-benar dipahami, lalu membenahi cara mengajarnya berdasarkan hasil pengukuran itu.</p>
-                    <span aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-text transition-transform duration-700 ease-brand group-hover:scale-x-100"></span>
-                  </div>
-                </div>
-
-                <div data-component="scrub-reveal">
-                  <div className="group relative grid grid-cols-1 gap-x-8 gap-y-3 border-b border-line py-8 nav:grid-cols-[3rem_minmax(0,13rem)_minmax(0,1fr)]">
-                    <span className="-mono tabular-nums text-text-muted">03</span>
-                    <h3 className="-title-3 transition-transform duration-500 ease-brand nav:group-hover:translate-x-1">Staf Administrasi</h3>
-                    <p className="-body-small max-w-xl text-text-muted">Menerima dan memeriksa kelengkapan berkas, mencatat lalu mendigitalkannya supaya mudah ditelusuri kembali, menuntaskan tiap permintaan yang masuk, serta menjaga arsip tetap rapi dan tidak ada satu dokumen pun yang tercecer.</p>
-                    <span aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-text transition-transform duration-700 ease-brand group-hover:scale-x-100"></span>
-                  </div>
-                </div>
+                {t.roles.map(function (role, i) {
+                  return (
+                    <div key={i} data-component="scrub-reveal">
+                      <div className="group relative grid grid-cols-1 gap-x-8 gap-y-3 border-b border-line py-8 nav:grid-cols-[3rem_minmax(0,13rem)_minmax(0,1fr)]">
+                        <span className="-mono tabular-nums text-text-muted">{"0" + (i + 1)}</span>
+                        <h3 className="-title-3 transition-transform duration-500 ease-brand nav:group-hover:translate-x-1">{role.title}</h3>
+                        <p className="-body-small max-w-xl text-text-muted">{role.body}</p>
+                        <span aria-hidden="true" className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-text transition-transform duration-700 ease-brand group-hover:scale-x-100"></span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

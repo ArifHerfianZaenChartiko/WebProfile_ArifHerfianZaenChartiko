@@ -1,4 +1,53 @@
+import { useText } from "../i18n/lang.jsx";
+
+/*
+ * ══ TEKNIS
+ *
+ * PERAN DI TYPEWRITER INGGRIS MEMBAWA ARTIKELNYA SENDIRI ("a Data Analyst",
+ * "an Informatics Educator"), sedangkan kalimat depannya cuma "I'm". Artikel
+ * bahasa Inggris ditentukan bunyi awal kata BERIKUTNYA, dan kata itu berganti
+ * tiap beberapa detik: "I'm a" yang dipatok akan menghasilkan "I'm a
+ * Informatics Educator" — salah tata bahasa yang paling mudah ditangkap
+ * perekrut berbahasa Inggris.
+ *
+ * Yang ketiga "an Administrative Staff Member", bukan "an Administrative
+ * Staff". "Staff" kata benda kolektif — sekelompok pegawai, bukan satu orang —
+ * jadi "I'm an administrative staff" keliru, sekalipun lazim ditulis di CV.
+ * Sebagai JUDUL (kartu Tentang, Pengalaman, deskripsi meta) "Administrative
+ * Staff" tetap dipakai, sebab judul tidak membutuhkan artikel.
+ *
+ * Panjang terpanjangnya: "I'm an Administrative Staff Member", 34 huruf,
+ * selawan "Saya seorang Pendidik Informatika" yang 33. Batas pembungkusan di
+ * 320px yang dicatat di bawah karena itu tidak bergeser.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Teks Beranda dalam dua bahasa. Dalam bahasa Inggris kata "a"/"an" ikut
+ * diketik bersama perannya, supaya kalimatnya selalu benar.
+ */
+const TEXT = {
+  en: {
+    greeting: "Hello, I'm",
+    photoAlt: "Photo of Arif Herfian Zaen Chartiko",
+    rolePrefix: "I'm",
+    roles: ["a Data Analyst", "an Informatics Educator", "an Administrative Staff Member"],
+    location: "Blitar Regency, East Java",
+    contact: "Contact Me",
+    profile: "View Profile",
+  },
+  id: {
+    greeting: "Halo, perkenalkan saya",
+    photoAlt: "Foto Arif Herfian Zaen Chartiko",
+    rolePrefix: "Saya seorang",
+    roles: ["Data Analyst", "Pendidik Informatika", "Staf Administrasi"],
+    location: "Kab. Blitar, Jawa Timur",
+    contact: "Hubungi Saya",
+    profile: "Lihat Profil",
+  },
+};
+
 export default function Hero() {
+  const t = useText(TEXT);
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -29,9 +78,29 @@ export default function Hero() {
            Jarak tegaknya `clamp()` yang mengalir, bukan rantai breakpoint. Itu
            yang membuat varian `short:` bisa dibuang seluruhnya — kelima
            pemakaiannya dulu semua di berkas ini dan semuanya soal jarak tegak.
+
+           ══ LANTAI PADDING ATAS 4rem DI LAYAR TEGAK — 1 Oktober 2026
+
+           TEKNIS: tombol ganti bahasa (src/components/LanguageSwitch.jsx)
+           `fixed` di pojok kanan atas, 12px dari puncak dan setinggi 38px —
+           tepi bawahnya di 50px. Di layar tegak sapaan Beranda berdiri DI
+           TENGAH atas, dan lantai lama 1,25rem membuatnya mulai di 7svh: 40px
+           pada 320x568, jadi "HALO, PERKENALKAN SAYA" menabrak tombolnya.
+           4rem (64px) menyisakan 14px di bawah tombol. Selisihnya diserap
+           foto seperti sisa tinggi lainnya, sebab ia satu-satunya yang
+           `flex-1`; di 812px ke atas 7svh sudah melewati 4rem, jadi tidak ada
+           yang bergeser di sana.
+
+           HANYA `portrait:`. Di layar mendatar sapaan rata kiri dan tombolnya
+           di kanan, jadi keduanya tidak pernah bertemu — dan ponsel yang
+           diputar (844x390) justru yang paling tidak punya tinggi untuk
+           dibagi.
+
+           BAHASA AWAMNYA: di ponsel, tulisan sapaan di atas nama sekarang
+           turun sedikit supaya tidak tertutup tombol bahasa.
            ═══════════════════════════════════════════════════════════════════════ */}
       <section id="home" data-component="chapter"
-        className="relative flex h-svh flex-col justify-center overflow-hidden pt-[clamp(1.25rem,7svh,5.5rem)] pb-[clamp(2.75rem,8svh,6.5rem)]">
+        className="relative flex h-svh flex-col justify-center overflow-hidden pt-[clamp(1.25rem,7svh,5.5rem)] portrait:pt-[clamp(4rem,7svh,5.5rem)] pb-[clamp(2.75rem,8svh,6.5rem)]">
 
         {/* JARINGAN SIMPUL DI LATAR — titik melayang yang saling tersambung dan
              menanggapi kursor. Kodenya di src/lib/animations/ambient.js.
@@ -51,8 +120,25 @@ export default function Hero() {
         <canvas data-component="ambient-network" data-density="52" aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full"></canvas>
 
+        {/* `min-h-0` DI SINI, DAN TANPA ITU FOTO TIDAK BISA MENYERAP APA PUN.
+             Ditambahkan 1 Oktober 2026.
+
+             TEKNIS: kontainer ini item flex di dalam <section>, jadi bawaannya
+             `min-height: auto` — ia menolak lebih pendek daripada isinya. Dua
+             `min-h-0` di lapisan dalam karena itu tidak pernah berpengaruh:
+             begitu ruangnya habis, yang berhenti menyusut bukan foto,
+             melainkan kontainer ini, dan isinya meluber dari bawah Beranda.
+             Ia lolos selama ini karena setiap ukuran yang pernah diuji masih
+             menyisakan ruang; lantai padding 4rem di atas menghabiskan sisa
+             itu di 320x568 dan Beranda meluber 7px. Sesudah ini fotonya
+             menyusut 159 -> 146px dan luberannya 0 — perilaku yang sudah
+             dijanjikan komentar di atas sejak 18 Agustus 2026.
+
+             BAHASA AWAMNYA: di ponsel yang layarnya pendek, foto sekarang
+             benar-benar mengecil untuk memberi tempat, bukan mendorong isi
+             lain keluar dari layar. */}
         <div data-component="container"
-          className="mx-auto w-full px-gutter max-w-[1500px] relative z-2 flex flex-1 flex-col text-center wide:block wide:flex-none wide:text-left">
+          className="mx-auto w-full px-gutter max-w-[1500px] relative z-2 flex min-h-0 flex-1 flex-col text-center wide:block wide:flex-none wide:text-left">
 
           {/* Tumpukan lentur, bukan grid berbaris tetap. Sisa tinggi mengalir ke
                foto (flex-1 di bawah), bukan ke jaraknya — itu yang membuat
@@ -64,7 +150,7 @@ export default function Hero() {
               <div data-component="scrub-reveal" data-delay="0.07"
                 className="mb-[clamp(0.5rem,2.5cqi,2rem)] flex items-center justify-center gap-3 wide:justify-start">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent"></span>
-                <p className="-caption-small text-text-muted">Halo, perkenalkan saya</p>
+                <p className="-caption-small text-text-muted">{t.greeting}</p>
               </div>
 
               <h1 className="-display" data-line-mask data-delay="0.14" data-stagger="0.09">
@@ -182,7 +268,7 @@ export default function Hero() {
                        terlihat renggang sebelah, di ponsel dan tablet menempel
                        rapat. Jangan dipatok ulang ke rasio yang berbeda dari
                        file-nya. */}
-                  <img src="assets/photo/foto.jpeg" alt="Foto Arif Herfian Zaen Chartiko" className="media" />
+                  <img src="assets/photo/foto.jpeg" alt={t.photoAlt} className="media" />
                 </div>
               </div>
             </div>
@@ -206,25 +292,25 @@ export default function Hero() {
                     ditambahkan, periksa screen 320px: di sanalah barisnya
                     pertama kali membungkus. */}
                 <p className="-body text-text-muted">
-                  Saya seorang{" "}
-                  <span className="font-medium text-text" data-typewriter='["Data Analyst","Pendidik Informatika","Staf Administrasi"]'></span><span className="animate-blink text-accent">_</span>
+                  {t.rolePrefix}{" "}
+                  <span className="font-medium text-text" data-typewriter={JSON.stringify(t.roles)}></span><span className="animate-blink text-accent">_</span>
                 </p>
-                <p className="-caption-small text-text-muted">Kab. Blitar, Jawa Timur</p>
+                <p className="-caption-small text-text-muted">{t.location}</p>
               </div>
 
               <div className="mt-[clamp(0.25rem,2cqi,1.5rem)] flex flex-col gap-3 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:justify-center min-[640px]:gap-4 wide:justify-start">
                 <a href="#kontak" data-component="button"
                   className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power bg-text text-background border-text w-full min-[640px]:w-auto">
                   <span className="relative block overflow-hidden">
-                    <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">Hubungi Saya</span>
-                    <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">Hubungi Saya</span>
+                    <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.contact}</span>
+                    <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.contact}</span>
                   </span>
                 </a>
                 <a href="#tentang" data-component="button"
                   className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border px-8 py-4 transition-colors duration-300 ease-power border-line text-text hover:border-text/60 w-full min-[640px]:w-auto">
                   <span className="relative block overflow-hidden">
-                    <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">Lihat Profil</span>
-                    <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">Lihat Profil</span>
+                    <span className="-caption-small flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.profile}</span>
+                    <span aria-hidden="true" className="-caption-small absolute inset-x-0 top-full flex items-center justify-center gap-2 transition-transform duration-500 ease-brand group-hover:-translate-y-full">{t.profile}</span>
                   </span>
                 </a>
               </div>

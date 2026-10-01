@@ -30,7 +30,9 @@ src/main.jsx              entry point React, tempat font dibundel
 src/App.jsx               susunan bagian halaman
 src/index.css             HANYA daftar @import — tidak ada aturan di sini
 src/components/           satu berkas per bagian halaman
-  Icon.jsx                14 ikon SVG sebaris (pengganti Font Awesome)
+  Icon.jsx                16 ikon SVG sebaris (pengganti Font Awesome)
+  LanguageSwitch.jsx      tombol EN | ID di pojok kanan atas
+src/i18n/lang.jsx         bahasa aktif, simpanannya, dan useText()
 src/styles/               CSS, dipecah per bidang
   theme.css               @theme, custom variant, alias token
   base.css                body, skala tipografi, aturan lintas bagian
@@ -109,7 +111,29 @@ diinginkan, ubah nilai `nav:`-nya — jangan mengembalikan build beku.
 
 ### Teks
 
-Cari kalimatnya di `src/components/`, ketik ulang. HMR menyegarkan sendiri.
+Situsnya **dua bahasa — Inggris (bawaan) dan Indonesia**. Teks tiap bagian
+ada di objek `TEXT = { en: {...}, id: {...} }` di kepala berkas
+`src/components/` yang bersangkutan, bukan di dalam markup-nya. Ubah
+kalimatnya **di kedua bahasa**; kalau cuma satu yang diubah, versi lainnya
+tertinggal tanpa satu pun tanda. HMR menyegarkan sendiri.
+
+Tiga teks tidak ada di komponen karena ditulis oleh kode animasi, dan
+ketiganya di `src/lib/animations/`:
+
+| teks | berkas |
+|---|---|
+| label bar status (About, Experience, …) | `behaviors.js`, `CHAPTER_LABELS` |
+| pesan yang terkirim lewat WhatsApp/surel, dan peringatan form kosong | `behaviors.js`, `FORM_TEXT` |
+| label titik pemilih kartu Pengalaman | `card-swap.js` |
+
+Yang dibaca **sebelum** JavaScript jalan — `<title>`, deskripsi meta,
+`og:*`, blok `<noscript>` di `index.html`, dan `public/assets/og.png` —
+hanya ada dalam bahasa Inggris, sebab perayap dan pratinjau tautan tidak
+pernah menekan tombol bahasanya.
+
+*Bahasa awamnya:* tiap kalimat di situs ditulis dua kali, Inggris dan
+Indonesia, di bagian atas berkas bagiannya masing-masing. Yang tampil di
+Google dan di pratinjau WhatsApp selalu versi Inggris.
 
 ### Foto
 
@@ -126,11 +150,24 @@ besar, ubah `aspect-[7/10]`-nya mendekati rasio berkas baru itu.
 1. Taruh PDF **dan** gambar preview-nya (JPG, lebar sekitar 900px) di
    `public/assets/certificate/`, dengan **nama dasar yang sama** — nama itu
    dipakai dua kali, untuk `.pdf` yang dibuka dan `.jpg` yang di-render.
+   Namanya **huruf kecil, kata dipisah tanda hubung, tanpa spasi**
+   (`sql-basic-hackerrank`), bukan nama bawaan unduhan seperti
+   `SQL Basic_Nama Lengkap.pdf` — spasi di URL jadi `%20` dan rawan patah
+   saat link-nya disalin. *Bahasa awamnya:* ganti nama berkas hasil unduhan
+   jadi huruf kecil tanpa spasi sebelum ditaruh di folder itu.
+   **Jaga PDF-nya di kisaran 100–450 KB.** Dua berkas pernah datang jauh
+   lebih besar — SQL (Basic) 7,6 MB dan UKBIng 2,2 MB — karena gambar di
+   dalamnya disimpan tanpa kompresi. Caranya berbeda per berkas: PDF yang
+   isinya **cuma gambar** boleh dibangun ulang jadi PDF ber-JPEG; PDF yang
+   punya **teks asli** (bisa diseleksi) hanya boleh dikompres gambarnya,
+   teksnya jangan dirender jadi gambar. Rinciannya di komentar kedua entri itu
+   di `Certificates.jsx`. *Bahasa awamnya:* berkas sertifikat yang terlalu
+   besar lama dibuka di ponsel, jadi kecilkan dulu sebelum dipasang.
 2. Tambahkan satu entri ke array `CERTIFICATES` di paling atas
    `src/components/Certificates.jsx`: `file`, `title`, `source`, `icon`,
    `detail`.
 
-Tidak ada markup yang perlu disalin — keenam panelnya dihasilkan dari array itu,
+Tidak ada markup yang perlu disalin — ketujuh panelnya dihasilkan dari array itu,
 dan tidak ada angka di bagian lain yang perlu ikut disesuaikan. (Sampai
 27 Agustus 2026 ada satu: baris "Sertifikat" di kartu Pendidikan, yang
 menghitung sendiri jumlah `[data-panel]`. Barisnya sudah dibuang atas
@@ -150,19 +187,22 @@ saat menyunting bagian ini:
 
 Hover tidak punya padanan di touch screen, jadi di sana posisi scroll yang
 mengambil perannya. Konsekuensinya **jumlah sertifikat menentukan lebar tiap
-band**: enam panel dapat sekitar 63px scroll masing-masing di ponsel. Kalau
+band**: lintasannya 35% tinggi layar, jadi tujuh panel dapat sekitar 42px
+scroll masing-masing di ponsel 844px. Kalau
 jumlahnya digandakan, tiap band jadi separuhnya dan panel akan berkedip cepat
 saat di-scroll — itu batas praktis yang lain, di samping lebar bar.
 
 Kalimat petunjuk di atas gallery ada **dua**, dan yang tampil dipilih
-`@media (hover: hover)` di `index.css`, bukan JavaScript. Kalau cara
+`@media (hover: hover)` di `src/styles/certificates.css`, bukan JavaScript. Kalau cara
 berinteraksinya diubah, ubah keduanya. Kalimat yang menjanjikan sesuatu yang
 tidak terjadi lebih buruk daripada tidak ada kalimat.
 
 ### Pengalaman kerja
 
-Salin satu blok `<article data-card>` di `src/components/Experience.jsx`. Selector
-dot di bawah stack ikut sendiri — jumlahnya dihitung dari jumlah card.
+Tambahkan satu entri ke array `jobs` di `TEXT` paling atas
+`src/components/Experience.jsx` — **di `en` dan di `id`, dengan urutan yang
+sama**. Kartu, id panelnya, nomor `01 / 0n`, dan selector dot di bawah stack
+ikut sendiri.
 
 Stack-nya **menyamakan tinggi semua card ke yang tertinggi**, dan tinggi itu
 diukur, bukan dipatok. Jadi rincian pekerjaan boleh sepanjang apa pun tanpa ada
@@ -193,7 +233,7 @@ berbeda padahal keduanya soal basis data: SQL bahasa untuk bertanya, PostgreSQL
 program yang menjawab.
 
 ```
-Teknologi   (tanpa label)        SQL, Python, pandas, matplotlib          (4)
+Teknologi   (tanpa label)        SQL, Python, NumPy, pandas, matplotlib   (5)
 
 Perkakas    Data                 Excel, PostgreSQL, DBeaver, VS Code,
                                  Anaconda, Data Studio, Power BI,
@@ -215,7 +255,17 @@ Delapan card tidak menuntut satu pun angka CSS dihitung ulang: pembagi `25%`
 sudah menghasilkan 4+4 dengan sendirinya. Itu satu-satunya penambahan card di
 grid ini yang gratis dari sisi layout.
 
-**Satu angka yang mengaturnya: lebar card `25%`**, di `src/index.css`, berlaku di
+**Baris `Teknologi` pengecualiannya sejak 1 Oktober 2026** (masuknya NumPy):
+ia berisi lima, dan 25% akan memecahnya 4+1 dengan Matplotlib menggantung
+sendirian. Baris itu memakai `.tool-items--five` — **lima satu baris di
+≥640px, 3+2 di bawahnya**. Lima satu baris tidak muat di ponsel: "Matplotlib"
+(56px, satu kata, tidak bisa dipecah) melebihi ruang tulisan 20% di 320–390px.
+Hitungannya di komentar aturan itu di `src/styles/tools-grid.css`. Akibatnya
+card `Teknologi` tidak lagi segaris dengan card `Perkakas` di bawah 1180px.
+*Bahasa awamnya:* lima logo Teknologi berjajar satu baris di tablet dan
+komputer, dan tiga-dua di ponsel.
+
+**Satu angka yang mengaturnya: lebar card `25%`**, di `src/styles/tools-grid.css`, berlaku di
 semua lebar viewport. Empat per baris karena itu terjadi dengan sendirinya, dan
 card ikut ruang yang tersedia — 211px pada desktop, 180px pada 768px, 89,5px pada
 390px. Sampai 18 Agustus 2026 angkanya ada tiga (`25%` di bawah 1180px, `8,5rem`
@@ -270,7 +320,7 @@ berurutan, dan label tiap kelompok memakai delay card pertamanya.
 **Sejak 22 Agustus 2026 tiap kelompok punya rantainya sendiri, mulai dari nol:**
 
 ```
-Teknologi   (tanpa label)        0 → 0,09   (empat card)
+Teknologi   (tanpa label)        0 → 0,12   (lima card)
 Perkakas    Data                 0 → 0,21   (delapan card)
             Pengajaran           0 → 0,03
             Administrasi         0 → 0,03
@@ -329,6 +379,14 @@ ketiga.** Jebakan yang sudah pernah kena:
   sendiri, karena ia membuka aplikasinya dan logonya berbeda. **Ambil URL-nya
   dari HTML halaman yang sedang tayang**, jangan menebak nama berkas: nama
   berkas bertahan melewati pergantian logo.
+- **Ikon satu warna dari kumpulan pihak ketiga hampir selalu salah warna di
+  sini.** `numpy.svg` pertama kali masuk dari Simple Icons: satu warna
+  `#013243`, biru tua yang di atas `#040508` berkontras ~1,3:1 — tak
+  terlihat. Logo resmi numpy.org dua biru (`#4DABCF`/`#4D77CF`) dan terbaca
+  tanpa diapa-apakan. Simple Icons memang sengaja satu warna; jangan ambil
+  logo dari sana untuk grid ini. *Bahasa awamnya:* ambil logo dari situs
+  resmi pembuatnya; logo dari situs kumpulan ikon sering berwarna gelap dan
+  hilang di latar hitam situs ini.
 - **Warna di halaman mereka belum tentu warna mereknya.** Logo Wayground
   tampil krem di situs mereka semata karena latar halamannya merah tua; warna
   mereknya merah muda. Kalau ragu, buka favicon-nya.
@@ -372,10 +430,11 @@ ketiga.** Jebakan yang sudah pernah kena:
 
 Sesudah logonya terpasang, **bandingkan tingginya dengan tetangga di baris atau
 kolom yang sama.** Banyak berkas logo membawa ruang kosong bawaan di tepinya,
-dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Tujuh sudah
+dan akibatnya logo itu tampil lebih kecil tanpa terlihat salah. Delapan sudah
 dikoreksi dengan `scale()`: Data Studio 1,27, Google Classroom 1,25, Power BI
-1,2, Claude 1,14, PostgreSQL 1,09, SQL 1,06, dan Claude Code 1,26. Keenam yang
-pertama memakai **rasio kotak dibagi rasio tinta**, bukan tebakan — dengan begitu
+1,2, Claude 1,14, PostgreSQL 1,09, SQL 1,06, dan Claude Code 1,26 — ditambah
+NumPy 1,21 sejak 1 Oktober 2026 (tintanya 82,78% tinggi `viewBox`-nya).
+Keenam yang pertama, dan NumPy, memakai **rasio kotak dibagi rasio tinta**, bukan tebakan — dengan begitu
 satu angka benar di kedua ukuran kotak sekaligus. Hitungan tiap logo ada di
 komentar card-nya masing-masing.
 
@@ -469,9 +528,50 @@ memperbarui `og.png` tidak mengubah pratinjau di percakapan yang sudah ada.
 
 ### Warna
 
-Semua di blok `@theme` paling atas `src/index.css`. Ubah satu nilai dan seluruh
+Semua di blok `@theme` paling atas `src/styles/theme.css`. Ubah satu nilai dan seluruh
 situs ikut, termasuk class seperti `bg-accent` dan `text-text-muted`, karena
 keduanya dihasilkan dari token yang sama.
+
+### Bahasa (Inggris / Indonesia)
+
+Tombolnya di pojok kanan atas. Bawaannya **Inggris**; pilihan pengunjung
+disimpan di `localStorage` browsernya, jadi kunjungan berikutnya terbuka di
+bahasa yang sama.
+
+**Ganti bahasa memasang ulang seluruh halaman**, bukan menukar teks di
+tempat. Itu disengaja: kode animasi menulis ulang isi beberapa elemen
+(kalimat pembuka Tentang dipecah per kata, nama instansi per huruf, band
+berjalan digandakan), dan React tidak bisa memperbarui teks di dalam node
+yang strukturnya sudah diganti. Dua hal menjaga pemasangan ulang itu tidak
+terasa seperti reload:
+
+- **Intro tidak diputar lagi** — panel monogram hanya ada di kunjungan
+  pertama.
+- **Posisi baca dipulihkan ke paragraf yang sama**, bukan ke angka piksel
+  yang sama. Teks Inggris dan Indonesia tidak sama panjang, jadi yang
+  dicatat bagian yang sedang dibaca dan berapa persen sudah terlewati.
+  Terukur: meleset paling jauh 8px, di 375px maupun 1440px.
+
+Alasan lengkapnya di komentar `App()` di `src/App.jsx`.
+
+**Tombolnya menyingkir saat halaman digulir ke bawah** dan kembali saat
+digulir ke atas atau di 80px teratas halaman — tanpa itu ia menutupi pojok
+kanan atas konten selama dibaca. Ia tidak pernah sembunyi selama difokus
+keyboard, tetap tercapai lewat Tab (urutan Tab pertama di halaman), dan
+mengabaikan guliran 800ms sesudah ganti bahasa supaya lompatan pemulihan
+posisi tidak menyembunyikan tombol yang baru ditekan. Angka-angkanya di
+kepala `src/components/LanguageSwitch.jsx`. *Bahasa awamnya:* tombol bahasa
+tidak menghalangi bacaan; gulir sedikit ke atas untuk memunculkannya.
+
+**Peran Inggris di typewriter Beranda membawa artikelnya sendiri** ("a Data
+Analyst", "an Informatics Educator"). Jangan pindahkan "a" ke kalimat
+depannya: artikel Inggris ikut kata sesudahnya, dan kata itu berganti tiap
+beberapa detik.
+
+*Bahasa awamnya:* tombol EN | ID di pojok kanan atas mengganti bahasa
+seluruh halaman dalam sekejap, tanpa memutar ulang animasi pembuka dan tanpa
+memindahkan pembaca dari bagian yang sedang dibacanya. Pilihannya diingat
+untuk kunjungan berikutnya.
 
 ## Yang perlu diketahui sebelum mengutak-atik
 
@@ -498,7 +598,7 @@ hierarki hilang sekaligus.
 
 **`wide:` dan `roomy:` bukan sekadar lebar.** Keduanya juga menanyakan
 orientation, dan `roomy:` menanyakan height, supaya tablet potret tidak dipaksa
-layout dua kolom. Definisinya `@custom-variant` di `src/index.css`. `short:`
+layout dua kolom. Definisinya `@custom-variant` di `src/styles/theme.css`. `short:`
 sudah dibuang pada 18 Agustus 2026 — lihat bagian Beranda di bawah.
 
 ### Beranda: fotonya yang menyerap, bukan jaraknya
@@ -577,7 +677,7 @@ Tiga hal lain yang ikut:
 **Motion dipasang lewat `useLayoutEffect` dan WAJIB men-teardown dirinya.** React
 StrictMode melakukan mount-unmount-mount tiap effect di mode development, dan
 node DOM-nya tidak dibuat ulang. Tanpa teardown, tiap listener dan scroll
-trigger terpasang dua kali. Karena itu setiap side effect di `src/lib/animations.js`
+trigger terpasang dua kali. Karena itu setiap side effect di `src/lib/animations/`
 didaftarkan lewat `listen()`, `addTicker()`, `observe()`, dan `addNode()` —
 jangan panggil `addEventListener`, `gsap.ticker.add`, `new ResizeObserver`, atau
 `appendChild` secara langsung.
@@ -592,7 +692,7 @@ bar tampil utuh tapi separuh titiknya diam saat diklik.
 
 ### Lompatan antar bagian harus mendarat di 0
 
-Semua lompatan bermuara ke satu `scrollTo()` di `animations.js`, dan tepi atas
+Semua lompatan bermuara ke satu `scrollTo()` di `src/lib/animations/scroller.js`, dan tepi atas
 section tujuan harus berhenti **persis** di tepi atas viewport.
 
 **Jangan memasang `scroll-mt-*` pada `<section id>`.** Class itu menghasilkan

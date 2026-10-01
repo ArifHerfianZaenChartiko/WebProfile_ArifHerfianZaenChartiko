@@ -430,9 +430,16 @@ export function initAccordionGallery(ctx) {
      *
      * PERSEN TINGGI viewport, BUKAN PIKSEL — itu yang membuatnya benar di
      * semua perangkat tanpa satu pun titik henti: 35% dari 844 (ponsel)
-     * = 295px, 49px per panel; 35% dari 1024 (tablet) = 358px, 60px per
+     * = 295px, 42px per panel; 35% dari 1024 (tablet) = 358px, 51px per
      * panel. Jarak per panelnya ikut tumbuh bersama screen-nya, jadi rasanya
      * sama di keduanya.
+     *
+     * Angka per panel itu dihitung untuk TUJUH sertifikat, sejak SQL (Basic)
+     * masuk 1 Oktober 2026 — sebelumnya enam, 49px dan 60px. Lintasannya
+     * tetap; yang menyempit jatah tiap panel di dalamnya.
+     *
+     * Bahasa awamnya: dengan tujuh sertifikat, di ponsel tiap sertifikat
+     * terbuka bergantian setiap kira-kira 4 cm guliran jari.
      */
     start: "center 75%",
     end: "center 40%",

@@ -229,7 +229,10 @@ export function initCardSwap(ctx) {
       b.className = "swap-dot";
       b.setAttribute("data-swap-dot", "");
       b.setAttribute("role", "tab");
-      b.setAttribute("aria-label", "Pengalaman ke-" + (i + 1));
+      /* TEKNIS: dua bahasa sejak 1 Oktober 2026 — ctx.lang diisi
+         setupAnimations(). AWAMNYA: pembaca layar menyebut "Experience 1"
+         atau "Pengalaman ke-1" sesuai bahasa halaman. */
+      b.setAttribute("aria-label", (ctx.lang === "id" ? "Pengalaman ke-" : "Experience ") + (i + 1));
 
       /* SAMBUNGAN tab <-> tabpanel, dipasang 15 Agustus 2026. Sampai saat itu
          tombol ini mengaku `tab` tanpa pernah menunjuk panel mana pun, jadi

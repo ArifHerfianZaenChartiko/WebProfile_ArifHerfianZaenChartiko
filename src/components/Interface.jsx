@@ -1,6 +1,19 @@
 import Icon from "./Icon.jsx";
+import { useText } from "../i18n/lang.jsx";
+
+/* ══ TEKNIS — `first` cuma isi awal label bar status; sesudah animasi
+   menyala, initStatusBar() yang menulisinya dari CHAPTER_LABELS di
+   src/lib/animations/behaviors.js. Keduanya harus sama, supaya tidak ada
+   kedipan kata lain di frame pertama.
+   ══ BAHASA AWAMNYA — tulisan di bar bawah dan tombol kembali ke atas,
+   dalam dua bahasa. */
+const TEXT = {
+  en: { first: "About", top: "Back to top" },
+  id: { first: "Tentang", top: "Kembali ke atas" },
+};
 
 export default function Interface() {
+  const t = useText(TEXT);
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════════════
@@ -35,7 +48,7 @@ export default function Interface() {
           <button type="button" data-status-jump className="pointer-events-auto group -my-1 flex items-baseline gap-2 py-1 text-left">
             <span className="-caption-small text-text-muted transition-colors duration-500 ease-brand" data-status-count>01/06</span>
             <span className="relative block h-[1.15em] overflow-hidden">
-              <span className="-caption block whitespace-nowrap will-change-transform" data-status-label>Tentang</span>
+              <span className="-caption block whitespace-nowrap will-change-transform" data-status-label>{t.first}</span>
             </span>
           </button>
 
@@ -55,7 +68,7 @@ export default function Interface() {
 
           /92 hampir pekat, jadi ikon panahnya tetap terbaca di atas apa pun
           yang lewat — yang justru tidak dijamin oleh /70 berblur. */}
-      <button type="button" data-component="back-to-top" title="Kembali ke atas"
+      <button type="button" data-component="back-to-top" title={t.top} aria-label={t.top}
         className="fixed right-6 bottom-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-line bg-background/92 text-text-muted transition-colors duration-300 ease-power nav:bottom-24 hover:border-text/50 hover:text-text">
         <Icon name="arrow-up" className="text-sm" />
       </button>

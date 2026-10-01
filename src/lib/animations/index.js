@@ -57,7 +57,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { createLifecycle } from "./lifecycle.js";
-import { initScroller } from "./scroller.js";
+import { initScroller, restoreScrollAnchor } from "./scroller.js";
 import {
   buildGlyphs,
   buildLetterHover,
@@ -92,8 +92,31 @@ gsap.registerPlugin(ScrollTrigger);
    dua loop rAF terpisah membuat scroll dan animasi beda satu frame. */
 gsap.ticker.lagSmoothing(0);
 
-export function setupAnimations() {
+/*
+ * OPSI — ditambahkan 1 Oktober 2026 bersama tombol ganti bahasa.
+ *
+ * ══ TEKNIS
+ *
+ *   lang     "en" atau "id". Dititipkan ke ctx.lang untuk modul yang menulis
+ *            teks sendiri (label bar status, pesan form kontak, label titik
+ *            kartu pengalaman). Bawaannya "en", sama dengan src/i18n/lang.jsx.
+ *   anchor   titik baca dari captureScrollAnchor(), atau null. Diisi HANYA
+ *            saat pemasangan ini akibat ganti bahasa; pemulihannya di ujung
+ *            setupRest() — alasannya di sana.
+ *
+ * Intro yang tidak diputar ulang saat ganti bahasa TIDAK diurus di sini:
+ * src/App.jsx berhenti merender panelnya, dan initIntro() sudah sejak awal
+ * langsung memanggil lanjutannya kalau panelnya tidak ditemukan.
+ *
+ * ══ BAHASA AWAMNYA
+ *
+ * Animasi sekarang tahu bahasa apa yang sedang dipakai, dan tahu harus kembali
+ * ke bagian mana setelah bahasanya diganti.
+ */
+export function setupAnimations(opts) {
+  const options = opts || {};
   const ctx = createLifecycle();
+  ctx.lang = options.lang || "en";
 
   /*
    * URUTANNYA BUKAN SELERA. Struktur dibangun lebih dulu (huruf, logo,
@@ -136,6 +159,26 @@ export function setupAnimations() {
     initContactForm(ctx);
 
     /*
+     * TITIK BACA DIPULIHKAN DI SINI, PALING AKHIR — bukan sesudah Lenis
+     * menyala, tempat ia sempat dipasang.
+     *
+     * Terukur di tempat lama: ganti bahasa di tengah bagian Keahlian
+     * mendaratkan pembaca 430-570px terlalu jauh ke bawah. Sebabnya
+     * initCardSwap() di atas: tumpukan kartu Pengalaman diukur dan dipatok
+     * tingginya di sini, dan bagian itu berdiri DI ATAS Keahlian. Dipulihkan
+     * sebelum ia, titiknya dihitung dari layout yang belum jadi.
+     *
+     * Diulang sekali lagi di rAF sesudah ScrollTrigger.refresh() di bawah,
+     * sebab refresh bisa menggeser tinggi bagian yang di-pin atau diukur.
+     * Tanpa anchor (kunjungan pertama) keduanya tidak melakukan apa pun.
+     *
+     * Bahasa awamnya: halaman baru dikembalikan ke posisi baca sesudah
+     * semua bagiannya selesai diukur. Kalau dikembalikan terlalu cepat,
+     * pembaca mendarat setengah layar lebih ke bawah dari seharusnya.
+     */
+    restoreScrollAnchor(ctx, options.anchor);
+
+    /*
      * Hitung ulang semua posisi trigger setelah layout benar-benar final.
      *
      * Ini bukan kehati-hatian berlebih. Bagian-bagian di bawah bisa bergeser
@@ -144,7 +187,10 @@ export function setupAnimations() {
      *
      * Dijalankan di rAF supaya jatuh setelah frame pertama selesai digambar.
      */
-    requestAnimationFrame(function () { ScrollTrigger.refresh(); });
+    requestAnimationFrame(function () {
+      ScrollTrigger.refresh();
+      restoreScrollAnchor(ctx, options.anchor);
+    });
 
     /* SEKALI LAGI setelah font khusus benar-benar terpasang: layout sudah
        tergambar memakai font cadangan, dan begitu Inter menggantikannya, tinggi
