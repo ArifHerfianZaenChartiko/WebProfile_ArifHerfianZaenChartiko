@@ -26,7 +26,11 @@ import { useText } from "../i18n/lang.jsx";
  * dulu sumbernya.
  *
  * GAMBAR:
- *   Olist        halaman 3 olist_ops_dashboard.pdf, dirender 1600x900
+ *   Olist        05_dashboard/dashboard_overview.png (2075x1200) dari repo
+ *                proyeknya, diperkecil ke 1600x925 (JPEG ~85) — 2 Oktober
+ *                2026, setelah grafik "10 Penjual" diganti scatter. Rasionya
+ *                sedikit lebih tinggi dari 16:9, jadi object-fit: cover
+ *                memotong ~12px atas-bawah; yang terpotong margin putih.
  *   Web profil   tangkapan Beranda situs ini, 1440x810 @1,25
  *   Dua magang   foto kegiatan diambil APA ADANYA dari PDF laporannya —
  *                resolusi aslinya memang cuma 365-687px. Karena itu
@@ -86,7 +90,7 @@ const SITE = "https://webprofile-arifherfianzaenchartiko.vercel.app/";
    daripada fotonya. */
 const MEDIA = [
   {
-    images: [{ src: "assets/projects/olist-dashboard.jpg", w: 1600, h: 900 }],
+    images: [{ src: "assets/projects/olist-dashboard.jpg", w: 1600, h: 925 }],
     links: [
       { key: "dashboard", href: OLIST + "/blob/main/05_dashboard/olist_ops_dashboard.pdf" },
       { key: "report", href: OLIST + "/blob/main/06_report/insight_report.pdf" },
@@ -141,12 +145,12 @@ const TEXT = {
         kind: "Data Analysis",
         title: "Diagnosing Delivery Delays at Olist Marketplace",
         context: "Olist’s on-time delivery rate of 91.87% looked healthy. The question was how bad the late orders really were, where the delay came from, and what it cost.",
-        work: "Modeled seven raw CSV files in PostgreSQL, audited data quality, answered five business questions in SQL, cross-checked every figure in Python (pandas) and Excel, and built a Power BI dashboard.",
+        work: "Modeled seven raw CSV files in PostgreSQL, audited data quality, answered five business questions in SQL, cross-checked the key figures in Python (pandas) and Excel, and built a Power BI dashboard.",
         result: "The delay sits in courier transit, not with sellers, and bad reviews jump from 19% to 61% between day 3 and day 7 of lateness. Recommended target: never more than 3 days late, starting with courier networks in the North and Northeast.",
         stats: [
           { value: "96,184", label: "orders analyzed" },
-          { value: "87%", label: "of the delay is in courier transit" },
-          { value: "3,435", label: "avoidable unhappy customers" },
+          { value: "86%", label: "of the extra delay is in courier transit" },
+          { value: "3,435", label: "estimated unhappy customers caused by delays" },
         ],
         tags: ["PostgreSQL", "SQL", "Python", "pandas", "Excel", "Power BI"],
       },
@@ -207,12 +211,12 @@ const TEXT = {
         kind: "Analisis Data",
         title: "Diagnosis Keterlambatan Pengiriman Marketplace Olist",
         context: "Tingkat pengiriman tepat waktu Olist 91,87% tampak sehat. Pertanyaannya: seberapa parah sebenarnya pesanan yang telat, dari mana keterlambatannya berasal, dan berapa kerugiannya.",
-        work: "Memodelkan tujuh berkas CSV mentah di PostgreSQL, mengaudit kualitas datanya, menjawab lima pertanyaan bisnis dengan SQL, mencocokkan ulang setiap angka di Python (pandas) dan Excel, lalu menyusun dashboard Power BI.",
+        work: "Memodelkan tujuh berkas CSV mentah di PostgreSQL, mengaudit kualitas datanya, menjawab lima pertanyaan bisnis dengan SQL, mencocokkan ulang angka-angka utama di Python (pandas) dan Excel, lalu menyusun dashboard Power BI.",
         result: "Keterlambatan ada di transit kurir, bukan di penjual, dan ulasan buruk melonjak dari 19% ke 61% antara hari ke-3 dan ke-7 keterlambatan. Rekomendasinya: target jangan sampai telat lebih dari 3 hari, dimulai dari jaringan kurir wilayah Utara dan Timur Laut.",
         stats: [
           { value: "96.184", label: "pesanan dianalisis" },
-          { value: "87%", label: "keterlambatan terjadi di transit kurir" },
-          { value: "3.435", label: "pelanggan kecewa yang bisa dicegah" },
+          { value: "86%", label: "selisih waktu telat ada di transit kurir" },
+          { value: "3.435", label: "perkiraan pelanggan kecewa akibat keterlambatan" },
         ],
         tags: ["PostgreSQL", "SQL", "Python", "pandas", "Excel", "Power BI"],
       },

@@ -245,8 +245,10 @@ kolase (satu besar, dua kecil) di bingkai 16:9 yang sama. Kolase dipakai
 untuk foto kegiatan magang karena foto itu diambil dari PDF laporan dan
 aslinya cuma 365–687px — di petak kecil ia tidak terlihat pecah, di bingkai
 penuh ia akan pecah. `pos` menggeser potongan foto (`object-position`) supaya
-orangnya tidak terpotong. Gambar dashboard dan tangkapan situs dibuat
-1600×900, JPEG kualitas ~86.
+orangnya tidak terpotong. Tangkapan situs dibuat 1600×900, JPEG kualitas
+~86; gambar dashboard Olist 1600×925 (JPEG ~85, dari `dashboard_overview.png`
+proyeknya) — sedikit lebih tinggi dari 16:9, sisanya terpotong di margin
+putih.
 
 **Isinya diambil dari repo masing-masing**: angka Olist dari README dan
 `insight_report`, isi kedua magang dari laporan akhirnya. Kalau angkanya
