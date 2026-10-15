@@ -262,8 +262,16 @@ ditambahkan, supaya foto Beranda di ponsel tidak ikut menyusut.
 
 **Angka kunci kartu Web Profil adalah skor Lighthouse** — Performa (desktop),
 Aksesibilitas, dan SEO, ketiganya 100 di situs yang tayang, diukur tiga kali
-per mode pada 1 Oktober 2026. Performa di ponsel 83–94, karena itu labelnya
-menulis "(desktop)". Skor ini bisa turun kalau situsnya ditambah konten berat,
+per mode pada 1 Oktober 2026 dan diulang 15 Oktober 2026 dengan hasil yang sama.
+Performa di ponsel **75–94** dan tidak stabil — 83–94 pada 1 Oktober,
+75–87 pada 15 Oktober — karena itu labelnya menulis "(desktop)". Yang
+membuatnya naik-turun Total Blocking Time (370–940 ms pada 15 Oktober): mode
+ponsel Lighthouse memperlambat CPU secara simulasi, jadi hasilnya ikut beban
+komputer yang mengukur. Metrik lainnya stabil: FCP 1,7–2,1 detik, LCP
+1,9–2,4 detik, CLS 0,002.
+*Bahasa awamnya:* nilai ponsel berubah-ubah tergantung komputer yang mengujinya,
+karena itu yang dipajang hanya nilai desktop yang konsisten 100.
+Skor ini bisa turun kalau situsnya ditambah konten berat,
 jadi **ukur ulang di situs yang tayang** sesudah perubahan besar, sebelum
 angkanya dipertahankan:
 
@@ -321,7 +329,7 @@ berbeda padahal keduanya soal basis data: SQL bahasa untuk bertanya, PostgreSQL
 program yang menjawab.
 
 ```
-Teknologi   (tanpa label)        SQL, Python, NumPy, pandas, matplotlib   (5)
+Teknologi   (tanpa label)        SQL, Python, NumPy, Pandas, Matplotlib   (5)
 
 Perkakas    Data                 Excel, PostgreSQL, DBeaver, VS Code,
                                  Anaconda, Data Studio, Power BI,

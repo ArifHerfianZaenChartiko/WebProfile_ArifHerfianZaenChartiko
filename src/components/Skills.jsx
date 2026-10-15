@@ -392,7 +392,7 @@ export default function Skills() {
                  2  Komunikasi Teknis
                  3  Perhatian pada Detail
                  4  Adaptabilitas
-                 5  Koordinasi Tim
+                 5  Kolaborasi Tim   (Koordinasi Tim sampai 2 September 2026)
 
                YANG DIBERESKAN URUTAN LAMA: ia membuka dengan Komunikasi
                Teknis, kemampuan yang paling lekat dengan peran KEDUA. Setiap
@@ -406,7 +406,7 @@ export default function Skills() {
                TIGA YANG PERTAMA SEKARANG SATU KELUARGA, dan itu bukan
                kebetulan: analisis, komunikasi, dan perhatian pada detail
                ketiganya syarat yang benar-benar ditulis di lowongan analis
-               data. Dua yang terakhir — adaptabilitas dan koordinasi tim —
+               data. Dua yang terakhir — adaptabilitas dan kolaborasi tim —
                berlaku untuk pekerjaan apa pun, jadi tempatnya memang di
                belakang. Pembacanya karena itu mendapat yang paling menentukan
                lebih dulu, bukan yang paling umum.
@@ -509,6 +509,28 @@ export default function Skills() {
                ini ikut sedikit lebih tinggi — itu konsekuensi yang diterima,
                bukan cacat.
 
+               ══ "KOORDINASI TIM" JADI "KOLABORASI TIM" pada 2 September 2026
+
+               TEKNIS: commit 0e0bd56 mengganti judul DAN keterangan card
+               kelima (Inggris: "Teamwork"), sekaligus menulis ulang keterangan
+               Komunikasi Teknis. Komentar di blok ini tidak ikut diperbarui
+               waktu itu; dibetulkan 15 Oktober 2026. Yang menyebut "Koordinasi
+               Tim" di bagian 23 Agustus di atas adalah RIWAYAT teks lama dan
+               sengaja dibiarkan — angka 133 -> 178 dan "5 kata sambung" di
+               sana milik teks lama, bukan teks yang tayang.
+
+               Teks yang tayang sekarang (ID): Kolaborasi Tim 157 huruf,
+               4 kata sambung (dengan, untuk, guna, dan); Komunikasi Teknis
+               161 huruf, 2 kata sambung. Aturan "satu klausa tanpa tanda baca"
+               tetap terpenuhi oleh keduanya. Satu catatan isi yang belum
+               dikerjakan: Kolaborasi Tim memakai "untuk ... guna ...", dua
+               penanda tujuan bertumpuk — pola yang pada 23 Agustus dipangkas
+               dari draf Adaptabilitas.
+
+               BAHASA AWAMNYA: kotak kemampuan kelima sekarang bernama
+               "Kolaborasi Tim"; catatan di kode sudah disesuaikan dengan
+               nama dan isinya yang baru.
+
                ══ "KETELITIAN" JADI "PERHATIAN PADA DETAIL" pada 22 Agustus 2026
 
                Yang diganti bukan cuma namanya. "Ketelitian" kata sifat yang
@@ -521,7 +543,7 @@ export default function Skills() {
 
                JUDULNYA FRASA BENDA, DAN ITU BUKAN SELERA. Kelima judul di blok
                ini kata benda semua — Komunikasi Teknis, Analisis & Pemecahan
-               Masalah, Adaptabilitas, Koordinasi Tim. "Berorientasi Detail",
+               Masalah, Adaptabilitas, Kolaborasi Tim. "Berorientasi Detail",
                terjemahan yang paling harfiah dan paling sering dipakai di
                lowongan, adalah frasa KERJA; memakainya membuat satu judul
                berdiri beda sendiri di antara empat lainnya. "Perhatian pada
@@ -573,8 +595,10 @@ export default function Skills() {
                Kelimanya dihitung ulang saat ini, apa adanya dari berkas ini
                (termasuk titik di ujung), didaftar menurut urutan tampilnya
                sekarang: Analisis & Pemecahan Masalah 129, Komunikasi Teknis
-               102, Perhatian pada Detail 147, Adaptabilitas 171, Koordinasi
-               Tim 178. Rentang "99-148" yang ditulis di
+               161, Perhatian pada Detail 147, Adaptabilitas 171, Kolaborasi
+               Tim 157 (dihitung ulang 15 Oktober 2026, sesudah kedua teks
+               diganti 2 September; Adaptabilitas kini yang terpanjang).
+               Rentang "99-148" yang ditulis di
                paragraf atas berasal dari hitungan 15 Agustus 2026 dan meleset
                satu sampai tiga huruf dari cara hitung ini — kemungkinan besar
                titik di ujungnya dulu tidak ikut dihitung. Angka lama itu
@@ -666,8 +690,8 @@ export default function Skills() {
 
                Sama polanya dengan baris Data di Perkakas ("yang menopang
                berdiri di depan"): SQL mengambil datanya, Python mengolahnya,
-               NumPy menghitungnya, pandas merapikannya di dalam Python,
-               matplotlib menggambarkannya. (NumPy masuk 1 Oktober 2026.)
+               NumPy menghitungnya, Pandas merapikannya di dalam Python,
+               Matplotlib menggambarkannya. (NumPy masuk 1 Oktober 2026.)
                Jadi urutannya mengikuti tujuh langkah yang ditulis di card
                Analisis Data beberapa layar di atas.
 
@@ -772,9 +796,9 @@ export default function Skills() {
                ("Bahasa Pemrograman" dan "Bahasa Kueri") untuk dua logo saja.
                Sekarang sub-judulnya dibuang dan keempat logonya berbaris
                langsung di bawah judul "Teknologi", urut sesuai alur kerja:
-               SQL mengambil data, Python mengolah, pandas merapikan,
-               matplotlib menggambarkan. Sejak 1 Oktober 2026 NumPy ikut di
-               antara Python dan pandas, jadi logonya lima.
+               SQL mengambil data, Python mengolah, Pandas merapikan,
+               Matplotlib menggambarkan. Sejak 1 Oktober 2026 NumPy ikut di
+               antara Python dan Pandas, jadi logonya lima.
                ═════════════════════════════════════════════════════════════ */}
           <div>
             <h3 data-component="scrub-reveal" className="-caption-small mb-8 text-text-muted">{t.tech}</h3>
@@ -835,7 +859,7 @@ export default function Skills() {
                        ══ TEKNIS
 
                        URUTANNYA ALUR KERJA, sama dengan keempat lainnya: NumPy
-                       lapisan hitung yang dipakai pandas di bawahnya, jadi ia
+                       lapisan hitung yang dipakai Pandas di bawahnya, jadi ia
                        berdiri di antara bahasanya dan pustaka yang dibangun di
                        atasnya.
 
@@ -853,7 +877,7 @@ export default function Skills() {
                        413,9 — mengisi 82,78% tingginya, dan tinggi yang
                        mengikat karena kotaknya bujur sangkar. 1 / 0,8278 =
                        1,208, dibulatkan 1,21: rasio kotak dibagi rasio tinta,
-                       cara yang sama dengan pandas (1,27) dan SQL (1,06), jadi
+                       cara yang sama dengan Pandas (1,27) dan SQL (1,06), jadi
                        satu angka ini benar di kotak 32px maupun 36px.
 
                        ══ BAHASA AWAMNYA
@@ -902,7 +926,7 @@ export default function Skills() {
                        daripada DBeaver yang 1,47:1 dan dulu tampil sebagai
                        petak kosong. Aturan "terangkan pada rona aslinya"
                        memang ada untuk kasus itu, tapi di sini tidak perlu
-                       dipakai: pandas MENERBITKAN SENDIRI varian latar gelap,
+                       dipakai: Pandas MENERBITKAN SENDIRI varian latar gelap,
                        persis seperti PostgreSQL yang versi bergaris luar putih
                        di baris Data. Memakai varian resmi selalu lebih baik
                        daripada mengarang turunan sendiri.
@@ -965,7 +989,7 @@ export default function Skills() {
                        DBeaver yang 1,47:1 dan dulu tampil sebagai petak
                        kosong. Aturan "terangkan pada rona aslinya" memang ada
                        untuk kasus itu, tapi tidak perlu dipakai di sini sebab
-                       pandas menerbitkan sendiri varian latar gelapnya.
+                       Pandas menerbitkan sendiri varian latar gelapnya.
                        Memakai varian resmi selalu lebih baik daripada
                        mengarang turunan sendiri.
 
@@ -984,7 +1008,30 @@ export default function Skills() {
                        tintanya melebar 1,6:1; logo tegak di grid ini semuanya
                        disamakan tingginya — SQL (0,75), DBeaver (0,82), Excel
                        (0,97). Tinta ini 0,629, jadi ia keluarga yang sama,
-                       cuma paling ramping. */}
+                       cuma paling ramping.
+
+                       ══ DITULIS "Pandas", HURUF BESAR — 15 Oktober 2026
+
+                       TEKNIS: proyeknya sendiri menulis "pandas" huruf kecil,
+                       tapi pemilik situs memutuskan "Pandas" supaya sepola
+                       dengan nama lain di grid ini yang semuanya berhuruf
+                       besar di depan (Python, NumPy, Matplotlib). Keputusan
+                       itu berlaku di SEMUA teks yang menyebut pustakanya —
+                       label ini, tag dan kalimat proyek Olist di
+                       src/components/Projects.jsx, dan README. Yang tetap
+                       huruf kecil hanya nama berkas dan URL (pandas.svg,
+                       pandas.pydata.org), sebab itu jalur, bukan nama.
+                       Dulu label ini sudah "Pandas" sementara Projects.jsx
+                       dan README menulis "pandas"; sekarang seragam.
+
+                       MATPLOTLIB IKUT ATURAN YANG SAMA, di hari yang sama:
+                       proyeknya juga menulis huruf kecil, labelnya di grid
+                       sudah "Matplotlib", dan README, index.html, serta dua
+                       komentar di berkas ini yang masih "matplotlib" sudah
+                       diseragamkan. Nama berkasnya (matplotlib.svg) tetap.
+
+                       BAHASA AWAMNYA: nama "Pandas" dan "Matplotlib" ditulis
+                       sama di seluruh situs, dengan huruf besar di depan. */}
                   <div data-component="scrub-reveal" data-delay="0.09" className="group flex flex-col items-center justify-start gap-3 px-2 text-center nav:gap-4">
                     <span className="flex w-full justify-center text-text">
                       <span className="tool-icon flex h-8 w-full shrink-0 items-center justify-center nav:h-9">
@@ -1001,15 +1048,20 @@ export default function Skills() {
                        DINAIKKAN 1,03 karena KOTAKNYA. Terukur getBBox: tinta
                        124 x 124 di dalam viewBox 128 x 128, jadi 96,9% tinggi
                        kotak — tergambar 34,9px di kotak 36px sementara Python
-                       di sebelahnya 35,8px. 128/124 = 1,032, dibulatkan 1,03,
+                       di baris yang sama 35,8px. 128/124 = 1,032, dibulatkan 1,03,
                        dan hasilnya 36,0px. Yang dikoreksi RASIO, jadi satu
                        angka ini benar di kedua ukuran kotak sekaligus.
 
                        Selisih 1,1px itu memang di bawah PostgreSQL (2,9px)
                        dan setara SQL (1,6px) yang tetap dikoreksi karena
                        letaknya bersebelahan langsung. Alasan yang sama berlaku
-                       di sini: ia bertetangga dengan Python dan pandas dalam
-                       satu baris berisi empat.
+                       di sini: ia bersebelahan langsung dengan Pandas, dalam
+                       satu baris berisi lima bersama SQL, Python, dan NumPy.
+                       (Catatan ini dulu menulis "bertetangga dengan Python dan
+                       Pandas dalam satu baris berisi empat" — benar sebelum
+                       NumPy masuk 1 Oktober 2026, dibetulkan 15 Oktober 2026.
+                       Angka 1,03-nya tidak berubah: ia dihitung dari rasio
+                       kotak, bukan dari tetangganya.)
 
                        ══ CAKRAM PUTIHNYA DIBIARKAN, DAN INI PERLU DIKETAHUI
 
@@ -1033,7 +1085,7 @@ export default function Skills() {
                          jari-jari (#858585/#818181) dan batang berwarnanya
                          berdiri langsung di atas latar halaman; atau
 
-                         putihnya dipukul rata #d8d8d8 seperti pandas di
+                         putihnya dipukul rata #d8d8d8 seperti Pandas di
                          sebelahnya, yang menurunkannya ke 14,30:1 dan
                          menyamakannya dengan warna teks situs ini.
 

@@ -46,11 +46,13 @@ import { useText } from "../i18n/lang.jsx";
  *
  * ANGKA KUNCI KARTU WEB PROFIL = SKOR LIGHTHOUSE, diukur 1 Oktober 2026 pada
  * situs yang tayang (lighthouse@12, tiga kali per mode): desktop Performa
- * 100/100/100, SEO 100, Best Practices 100 di ketiga percobaan. Ponsel 92-94
- * untuk Performa, jadi label Performa SENGAJA menulis "(desktop)" — tanpa
- * itu angkanya menjanjikan lebih dari yang terukur. Aksesibilitas waktu itu
- * 96; dua penyebabnya dibetulkan di hari yang sama (tabpanel di <article>
- * pada Experience.jsx, kontras awal kalimat Tentang di reveals.js), dan
+ * 100/100/100, SEO 100, Best Practices 100 di ketiga percobaan. Performa
+ * ponsel 75-94 dan tidak stabil (83-94 pada 1 Oktober, 75-87 pada 15 Oktober
+ * 2026; penyebab dan rinciannya di README, bagian Proyek), jadi label
+ * Performa SENGAJA menulis "(desktop)" — tanpa itu angkanya menjanjikan lebih
+ * dari yang terukur. Desktop diukur ulang 15 Oktober 2026: tetap 100 di
+ * ketiga percobaan. Aksesibilitas waktu itu 96; dua penyebabnya dibetulkan
+ * di hari yang sama (tabpanel di <article> pada Experience.jsx, kontras awal kalimat Tentang di reveals.js), dan
  * ukuran ulang pada build sesudahnya 100 di desktop maupun ponsel — jadi
  * Aksesibilitas menggantikan Best Practices (juga 100) di angka ketiga,
  * sebab bagi perekrut ia yang lebih bermakna. Kalau angkanya mau diganti, UKUR ULANG dulu:
@@ -145,14 +147,14 @@ const TEXT = {
         kind: "Data Analysis",
         title: "Diagnosing Delivery Delays at Olist Marketplace",
         context: "Olist’s on-time delivery rate of 91.87% looked healthy. The question was how bad the late orders really were, where the delay came from, and what it cost.",
-        work: "Modeled seven raw CSV files in PostgreSQL, audited data quality, answered five business questions in SQL, cross-checked the key figures in Python (pandas) and Excel, and built a Power BI dashboard.",
+        work: "Modeled seven raw CSV files in PostgreSQL, audited data quality, answered five business questions in SQL, cross-checked the key figures in Python (Pandas) and Excel, and built a Power BI dashboard.",
         result: "The delay sits in courier transit, not with sellers, and bad reviews jump from 19% to 61% between day 3 and day 7 of lateness. Recommended target: never more than 3 days late, starting with courier networks in the North and Northeast.",
         stats: [
           { value: "96,184", label: "orders analyzed" },
           { value: "86%", label: "of the extra delay is in courier transit" },
           { value: "3,435", label: "estimated unhappy customers caused by delays" },
         ],
-        tags: ["PostgreSQL", "SQL", "Python", "pandas", "Excel", "Power BI"],
+        tags: ["PostgreSQL", "SQL", "Python", "Pandas", "Excel", "Power BI"],
       },
       {
         year: "2026",
@@ -211,14 +213,14 @@ const TEXT = {
         kind: "Analisis Data",
         title: "Diagnosis Keterlambatan Pengiriman Marketplace Olist",
         context: "Tingkat pengiriman tepat waktu Olist 91,87% tampak sehat. Pertanyaannya: seberapa parah sebenarnya pesanan yang telat, dari mana keterlambatannya berasal, dan berapa kerugiannya.",
-        work: "Memodelkan tujuh berkas CSV mentah di PostgreSQL, mengaudit kualitas datanya, menjawab lima pertanyaan bisnis dengan SQL, mencocokkan ulang angka-angka utama di Python (pandas) dan Excel, lalu menyusun dashboard Power BI.",
+        work: "Memodelkan tujuh berkas CSV mentah di PostgreSQL, mengaudit kualitas datanya, menjawab lima pertanyaan bisnis dengan SQL, mencocokkan ulang angka-angka utama di Python (Pandas) dan Excel, lalu menyusun dashboard Power BI.",
         result: "Keterlambatan ada di transit kurir, bukan di penjual, dan ulasan buruk melonjak dari 19% ke 61% antara hari ke-3 dan ke-7 keterlambatan. Rekomendasinya: target jangan sampai telat lebih dari 3 hari, dimulai dari jaringan kurir wilayah Utara dan Timur Laut.",
         stats: [
           { value: "96.184", label: "pesanan dianalisis" },
           { value: "86%", label: "selisih waktu telat ada di transit kurir" },
           { value: "3.435", label: "perkiraan pelanggan kecewa akibat keterlambatan" },
         ],
-        tags: ["PostgreSQL", "SQL", "Python", "pandas", "Excel", "Power BI"],
+        tags: ["PostgreSQL", "SQL", "Python", "Pandas", "Excel", "Power BI"],
       },
       {
         year: "2026",
