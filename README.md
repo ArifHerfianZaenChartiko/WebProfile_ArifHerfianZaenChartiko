@@ -801,6 +801,92 @@ punya, chapter bar-nya di bawah. Jarak di atas judul sudah dari padding section.
 **Komentar di dalam file menjelaskan KENAPA, bukan apa.** Sebagian besar angka
 di proyek ini hasil pengukuran, bukan selera.
 
+### `index.html`: kepala halaman dan blok tanpa JavaScript
+
+Rinciannya dipindahkan ke sini dari komentar `index.html` pada 15 Oktober
+2026. Alasannya: komentar HTML **tidak dibuang saat build** — berbeda dengan
+komentar di JS dan CSS — jadi sekitar 10 KB catatan ikut terkirim ke setiap
+pengunjung. Yang tersisa di `index.html` hanya ringkasan dua lapis dan
+peringatannya. *Bahasa awamnya:* catatan panjang di berkas halaman dipindah ke
+sini supaya tidak ikut diunduh pengunjung.
+
+**Judul dan deskripsi meta ditulis di `index.html`, bukan di React.** Berkas
+itu yang dikirim server apa adanya; perayap dan pratinjau tautan tidak
+menjalankan JavaScript, jadi judul yang dipasang React tidak pernah mereka
+lihat. Peran wajib disebut di deskripsi, sebab di halaman ia hanya muncul di
+animasi typewriter.
+
+**Nama teknologi di deskripsi ditulis harfiah**, bukan diringkas jadi "data
+analytics": penyaring lamaran dan pencarian mencocokkan teks apa adanya.
+Karena itu deskripsinya sedikit melebihi 160 karakter yang ditampilkan Google
+— sisanya tetap terindeks.
+
+**Aturannya satu arah:** tidak boleh ada teknologi yang disebut di deskripsi
+tanpa ada di grid Teknologi dan Perkakas. Sebaliknya boleh — daftar di
+deskripsi sengaja sebagian, hanya yang dicari untuk peran Data Analyst, dan
+urutannya mengikuti urutan tampil di grid. Riwayat masuknya:
+
+| kata | masuk | syarat yang terpenuhi |
+|---|---|---|
+| SQL | 16 Agustus 2026 | punya card sendiri di grid Teknologi |
+| Data Studio | 22 Agustus 2026 | card-nya dipasang di baris Data hari itu |
+| NumPy | 1 Oktober 2026 | card-nya dipasang di grid Teknologi hari itu |
+
+Pandas, Matplotlib, Excel, Anaconda, DBeaver, dan VS Code ada di grid tapi
+sengaja tidak disebut.
+
+**Namanya "Data Studio", bukan "Looker Studio".** Google mengganti namanya
+jadi Looker Studio pada 2022 lalu mengembalikannya — aplikasinya sendiri kini
+menulis "Data Studio". Periksa aplikasinya sebelum "memperbaikinya".
+
+**Semua yang dibaca sebelum React jalan berbahasa Inggris** sejak 1 Oktober
+2026 — `lang` di `<html>`, deskripsi, `og:locale`, dan blok `<noscript>` —
+sebab bahasa bawaan situsnya Inggris dan perayap tidak pernah menekan tombol
+bahasanya.
+
+**Kartu pratinjau (Open Graph)** dipasang 9 Agustus 2026; sebelumnya link
+yang dibagikan lewat WhatsApp atau LinkedIn tampil sebagai teks polos. URL
+`og:image` **harus mutlak**: perayap tidak punya basis untuk menyelesaikan
+alamat relatif, dan gagalnya diam — kartunya kosong tanpa pesan galat. Ukuran
+1200x630 diminta Open Graph, dan `og:image:alt` dibaca pembaca layar di X
+(Twitter); cara membuat gambarnya ada di bagian "Kartu pratinjau (OG image)"
+di atas.
+
+**Favicon berupa SVG**, monogram yang sama dengan panel intro. Kalau bentuknya
+diubah, ubah keduanya (heksagon pembingkainya dibuang di kedua tempat pada
+15 Agustus 2026). Ukurannya boleh berbeda: di panel intro tandanya dibiarkan
+longgar di layar hitam penuh, di favicon ia diskalakan mengisi petaknya sebab
+tepinya terlihat. Berkasnya 3,4 KB dan hampir seluruhnya komentar — komentar
+di `public/` juga disalin apa adanya ke `dist`. Itu diterima dengan sadar;
+kalau ukurannya suatu saat penting, yang dipangkas komentarnya, bukan
+ketelitian angkanya.
+
+**Tidak ada satu pun tag `link` ke host luar di kepala halaman.** Kedua font
+(Inter dan JetBrains Mono) dan ikon dibundel dari npm lewat `src/main.jsx`.
+Sampai 15 Agustus 2026 berdiri tiga tag ke `fonts.googleapis.com` dan
+`fonts.gstatic.com`; dibuang karena memblokir render, jadi titik gagal
+tunggal, dan mengirim IP setiap pengunjung ke Google. **Jangan
+mengembalikannya**, juga ke cdnjs: CSP di `vercel.json` berbunyi
+`default-src 'self'`, jadi font dari host luar diblokir diam-diam dan yang
+terlihat cuma huruf yang tiba-tiba berganti bentuk. Di komentar, kata "link"
+sengaja tidak ditulis sebagai tag: sempat begitu, dan `grep '<link'` pada
+hasil build salah melaporkan empat tag.
+
+**Blok `<noscript>` adalah kartu nama, bukan versi cadangan situs.** Tanpa
+JavaScript `<div id="root">` tidak pernah diisi dan halamannya kosong total —
+untuk pengunjung yang mematikan JS, bundel yang terputus di jalan, dan
+perayap. Isinya cukup nama, peran, lokasi, dan dua jalur kontak; kalau isi
+situs berubah, hanya keempat hal itu yang wajib ikut diperbarui. Gayanya
+sebaris karena `npm run dev` menyuntikkan CSS lewat JS, dan permintaan berkas
+CSS bisa gagal sendiri. CSP mengizinkan `style-src 'unsafe-inline'`, tapi
+**tidak ada script sebaris dan jangan pernah ditambahkan**: `script-src`
+menolaknya tanpa pesan galat.
+
+*Bahasa awamnya:* `index.html` memuat judul dan deskripsi yang dibaca Google
+dan pratinjau WhatsApp/LinkedIn, ikon tab, dan satu kartu nama untuk
+pengunjung yang browsernya tidak menjalankan JavaScript. Tidak ada yang
+diambil dari situs luar, supaya halaman cepat dan aman.
+
 ## Cara deploy
 
 Ada build step, jadi tidak bisa lagi sekadar menyeret folder.

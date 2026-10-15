@@ -3,84 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Judul dan deskripsi ini yang dibaca mesin pencari dan yang jadi preview
-       card saat link-nya dibagikan. Peran harus tersebut di sini: di
-       halaman, peran hanya muncul di dalam animasi typewriter — bagus untuk
-       pembaca, tapi tidak membantu siapa pun menemukannya lewat pencarian.
+  <!-- Komentar HTML TIDAK dibuang saat build dan ikut terkirim ke setiap
+       pengunjung, jadi di berkas ini cukup ringkasan dan peringatan.
+       Rincian dan riwayat tiap keputusan: README, bagian "index.html: kepala
+       halaman dan blok tanpa JavaScript". -->
 
-       Tetap ditulis di sini, BUKAN di React. File ini yang dikirim server
-       apa adanya; kalau judul dan deskripsi dipasang belakangan oleh React,
-       perayap yang tidak menjalankan JavaScript tidak akan melihatnya.
-
-       NAMA TEKNOLOGINYA DITULIS HARFIAH di deskripsi, bukan diringkas jadi
-       "data analytics" saja. Penyaring lamaran dan pencarian mencocokkan teks
-       apa adanya: yang dicari orang "Python", "Power BI", dan "Tableau",
-       bukan kata payungnya. Deskripsinya karena itu sedikit lebih panjang
-       dari 160 karakter yang ditampilkan Google — sisanya tetap terindeks,
-       cuma tidak tampil.
-
-       DAFTARNYA PERSIS ISI GRID TEKNOLOGI DAN PERKAKAS di bagian Keahlian,
-       tidak lebih. Deskripsi yang menjanjikan sesuatu yang tidak ada di
-       halamannya adalah cacat yang sama dengan kalimat petunjuk gallery yang
-       dulu keliru.
-
-       "SQL" MASUK pada 16 Agustus 2026, dan syaratnya memang baru terpenuhi
-       hari itu. Sampai sebelumnya kata itu sengaja TIDAK ditulis di sini
-       meski penyaring lamaran sering mencarinya dan PostgreSQL jelas
-       mengerjakannya, sebab halaman ini belum menampilkannya sebagai entri
-       sendiri. Sekarang ia punya barisnya sendiri di grid Teknologi
-       ("Bahasa Kueri"), jadi deskripsi ini tidak lagi menjanjikan sesuatu
-       yang tidak ada — ia menyebut apa yang benar-benar terpampang beberapa
-       layar di bawah.
-
-       Ditaruh SETELAH Python dan SEBELUM PostgreSQL, mengikuti urutan
-       tampilnya di halaman.
-
-       "DATA STUDIO" MASUK pada 22 Agustus 2026, hari card-nya dipasang di
-       grid Teknologi dan Perkakas — syarat yang sama dengan SQL di atas, dan
-       kali ini terpenuhi di hari yang sama. Ditaruh SETELAH PostgreSQL dan
-       SEBELUM Power BI, sekali lagi mengikuti urutan tampilnya di halaman
-       (di baris Data ia berdiri antara Anaconda dan Power BI; Anaconda
-       sendiri tidak disebut di sini, sama seperti Excel, DBeaver, dan
-       VS Code).
-
-       NAMANYA "DATA STUDIO", BUKAN "LOOKER STUDIO", dan itu bukan
-       ketinggalan zaman. Google mengganti namanya jadi Looker Studio pada
-       2022 lalu MENGEMBALIKANNYA ke Data Studio — aplikasinya sendiri
-       sekarang menuliskan "Data Studio" di pojok kiri atas dan memasang
-       pemberitahuan "Looker Studio kini menjadi Data Studio". Kalau suatu
-       saat ada yang mengira ini nama lama dan hendak memperbaikinya,
-       periksa dulu aplikasinya.
-
-       DAFTAR INI TETAP SEBAGIAN, BUKAN SELURUH GRID, dan itu disengaja.
-       Yang disebut hanya yang dicari penyaring lamaran untuk peran Data
-       Analyst. Aturannya satu arah: tidak boleh ada yang disebut di sini
-       tanpa ada di halaman — bukan sebaliknya.
-
-       ══ DITULIS DALAM BAHASA INGGRIS SEJAK 1 OKTOBER 2026
-
-       TEKNIS: bahasa bawaan situsnya Inggris (src/i18n/lang.jsx), jadi
-       semua yang dibaca SEBELUM React jalan ikut Inggris — `lang` di <html>,
-       deskripsi, og:locale, dan blok <noscript> di bawah. Perayap dan pratinjau
-       tautan tidak menjalankan JavaScript, jadi mereka tidak pernah melihat
-       tombol bahasanya; yang mereka indeks selalu versi ini. Daftar
-       teknologinya tidak berubah — nama merek sama di kedua bahasa — jadi
-       aturan satu arah di atas tetap terpenuhi.
-
-       BAHASA AWAMNYA: yang tampil di Google dan di pratinjau WhatsApp/LinkedIn
-       sekarang berbahasa Inggris, sama dengan bahasa bawaan situsnya.
-
-       ══ "NUMPY" MASUK 1 OKTOBER 2026
-
-       TEKNIS: syaratnya sama dengan SQL dan Data Studio di atas — card-nya
-       dipasang di grid Teknologi hari yang sama, jadi aturan satu arah tetap
-       terpenuhi. Ditaruh SETELAH Python, persis letaknya di grid; Pandas dan
-       Matplotlib tetap tidak disebut, sama seperti Excel dan DBeaver. Ia
-       masuk karena termasuk kata yang dicari penyaring lamaran Data Analyst
-       untuk pustaka Python.
-
-       BAHASA AWAMNYA: kata "NumPy" sekarang ikut terbaca mesin pencari dan
-       sistem penyaring lamaran kerja. -->
+  <!-- TEKNIS: judul dan deskripsi ditulis di sini, bukan di React, sebab
+       perayap tidak menjalankan JavaScript. Nama teknologi ditulis harfiah
+       untuk penyaring lamaran, dan aturannya SATU ARAH: tidak boleh ada yang
+       disebut di sini tanpa ada di grid Teknologi dan Perkakas. Berbahasa
+       Inggris, sama dengan bahasa bawaan situs.
+       BAHASA AWAMNYA: inilah teks yang tampil di Google dan di pratinjau
+       link WhatsApp/LinkedIn. -->
   <meta name="description" content="Arif Herfian Zaen Chartiko — Data Analyst (Python, NumPy, SQL, PostgreSQL, Data Studio, Power BI, Tableau), Informatics Educator, and Administrative Staff. Graduate of Universitas Negeri Malang.">
   <title>Arif Herfian Zaen Chartiko — Data Analyst</title>
 
@@ -91,113 +25,34 @@
   <meta property="og:description" content="Arif Herfian Zaen Chartiko — Data Analyst (Python, NumPy, SQL, PostgreSQL, Data Studio, Power BI, Tableau), Informatics Educator, and Administrative Staff. Graduate of Universitas Negeri Malang.">
   <meta property="og:url" content="https://webprofile-arifherfianzaenchartiko.vercel.app/">
 
-  <!-- Preview card saat link-nya dibagikan. Sampai 9 Agustus 2026 tag ini
-       tidak ada sama sekali, jadi link yang dikirim lewat WhatsApp atau
-       LinkedIn tampil sebagai baris teks polos tanpa gambar — kehilangan yang
-       nyata untuk portofolio yang penyebarannya justru lewat link.
-
-       URL-NYA HARUS MUTLAK, bukan relatif. Perayap yang mengambil card ini
-       tidak menjalankan halaman, jadi tidak ada basis untuk menyelesaikan
-       "assets/og.png"; yang relatif diam-diam gagal dan card-nya kembali
-       kosong tanpa satu pun pesan error.
-
-       1200x630 itu ukuran yang diminta Open Graph, dan alt-nya dibaca
-       screen reader di Twitter/X. File-nya dibuat dengan merender
-       tools/og-template.html pada ukuran itu, bukan digambar tangan — jadi
-       ia memakai warna dan tipografi yang sama persis dengan situsnya. -->
+  <!-- TEKNIS: URL og:image WAJIB mutlak — yang relatif gagal diam-diam dan
+       kartunya kosong. Gambarnya hasil render tools/og-template.html.
+       BAHASA AWAMNYA: gambar yang muncul saat link situs ini dibagikan. -->
   <meta property="og:image" content="https://webprofile-arifherfianzaenchartiko.vercel.app/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Arif Herfian Zaen Chartiko — Data Analyst, Informatics Educator, Administrative Staff">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- SVG, bukan .ico: satu file yang tajam di semua ukuran, dan ia monogram
-       yang sama dengan panel intro. Kalau BENTUKNYA diubah, ubah keduanya —
-       heksagon pembingkainya dibuang di kedua tempat pada 15 Agustus 2026.
-
-       UKURANNYA boleh berbeda, dan memang berbeda: di panel intro tandanya
-       dibiarkan seukuran semula di dalam viewBox yang longgar, di sini ia
-       diskalakan mengisi petaknya. Alasannya ada di komentar favicon.svg
-       sendiri, dan singkatnya: panel intro hitam sepenuh layar sehingga ruang
-       kosong tidak terlihat, sedangkan favicon punya tepi yang kelihatan.
-
-       Berkasnya 3,4 KB, bukan 700 byte seperti yang dulu tertulis di sini —
-       angka itu sudah keliru bahkan sebelum perubahan ini (file lamanya
-       1,3 KB). Hampir seluruhnya komentar, dan komentar di public/ TIDAK
-       dibuang saat build: isinya disalin apa adanya ke dist. Itu ongkos yang
-       diterima dengan sadar — satu permintaan yang di-cache peramban, ditukar
-       dengan geometri yang terdokumentasi di tempat ia dipakai. Kalau suatu
-       saat ukuran berkas ini jadi penting, yang dipangkas komentarnya, bukan
-       ketelitian angkanya. -->
+  <!-- TEKNIS: monogram yang sama dengan panel intro; kalau bentuknya diubah,
+       ubah keduanya.
+       BAHASA AWAMNYA: ikon kecil di tab browser. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- TIDAK ADA SATU PUN TAG LINK KE HOST LUAR DI SINI, dan itu disengaja.
-
-       Kata "link" di komentar ini sengaja tidak ditulis sebagai tag sungguhan.
-       Sempat begitu, dan akibatnya `grep '<link'` pada halaman hasil build
-       melaporkan empat tag yang sebenarnya cuma prosa — cukup untuk membuat
-       pemeriksaan "masih ada rujukan ke host luar?" terbaca gagal padahal
-       lolos.
-
-       Dua keluarga saja dipakai: Inter untuk seluruh teks DAN judul, JetBrains
-       Mono untuk label kecil berspasi lebar. Keduanya diimpor dari
-       src/main.jsx sebagai paket npm @fontsource, sama seperti Font Awesome,
-       supaya ikut dibundel Vite dan dilayani dari domain sendiri.
-
-       Sampai 15 Agustus 2026 di sinilah berdiri tiga tag link ke
-       fonts.googleapis.com dan fonts.gstatic.com. Ketiganya dibuang: yang
-       terakhir itu tag link di head sehingga MEMBLOKIR render sampai
-       permintaan ke host asing selesai, ia titik gagal tunggal, dan ia
-       mengirimkan alamat IP tiap pengunjung ke Google. Alasan lengkapnya ada
-       di src/main.jsx.
-
-       JANGAN KEMBALIKAN tag link ke fonts.googleapis.com maupun ke cdnjs.
-       Content-Security-Policy di vercel.json sekarang berbunyi
-       `default-src 'self'` tanpa satu pun host luar — mengembalikan salah
-       satunya berarti fontnya diblokir peramban tanpa pesan apa pun di
-       halaman, dan yang terlihat cuma huruf yang tiba-tiba berganti bentuk. -->
+  <!-- TEKNIS: JANGAN menambah tag link ke host luar (Google Fonts, cdnjs).
+       Font dan ikon dibundel lewat src/main.jsx, dan CSP di vercel.json
+       (default-src 'self') memblokir host luar tanpa pesan galat.
+       BAHASA AWAMNYA: semua huruf dan ikon diambil dari situs ini sendiri. -->
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- ══ TEKNIS
-
-       Tanpa JavaScript, <div id="root"> di atas tidak pernah diisi dan yang
-       tampil bidang kosong tanpa satu huruf pun — bukan halaman rusak yang
-       terlihat rusak, melainkan halaman kosong yang terlihat seperti gagal
-       memuat. Itu berlaku untuk pengunjung yang mematikan JS, jaringan yang
-       memutus berkas bundel di tengah jalan, dan perayap yang tidak
-       menjalankan JavaScript.
-
-       DITULIS DI SINI, BUKAN DI REACT, dan itu satu-satunya tempat yang
-       mungkin: apa pun yang ditulis di dalam React baru ada setelah JS jalan,
-       yaitu tepat pada keadaan yang justru sedang dijaga di sini. Berkas ini
-       yang dikirim server apa adanya.
-
-       ISINYA CUKUP NAMA, PERAN, LOKASI, DAN DUA JALUR KONTAK — sengaja tidak
-       lebih. Ini bukan versi cadangan situsnya, melainkan kartu nama supaya
-       tidak ada satu pun kunjungan yang berakhir tanpa apa-apa. Kalau isi
-       situsnya berubah, yang WAJIB ikut diperbarui di sini hanya keempat hal
-       itu.
-
-       GAYANYA SEBARIS, dan alasannya bukan "supaya tidak perlu CSS". Di build
-       produksi Vite memasang <link rel="stylesheet"> sungguhan, jadi warna
-       latar dan huruf situs tetap datang meski JS mati. Tapi ada dua keadaan
-       yang tidak dijamin itu: `npm run dev`, yang menyuntikkan CSS lewat JS —
-       yaitu justru lewat yang sedang mati — dan permintaan berkas CSS yang
-       gagal sendiri. Gaya sebaris membuat blok ini tetap terbaca di keduanya.
-
-       Content-Security-Policy di vercel.json mengizinkan
-       `style-src 'self' 'unsafe-inline'`, jadi gaya sebaris lolos. TIDAK ada
-       script sebaris di sini, dan jangan pernah ditambahkan: `script-src`
-       tidak mengizinkannya, dan yang terjadi bukan pesan galat di halaman
-       melainkan script yang diam-diam tidak dijalankan.
-
-       ══ BAHASA AWAMNYA
-
-       Kalau peramban pengunjung tidak bisa menjalankan JavaScript, yang tampil
-       tidak lagi halaman kosong melainkan satu blok berisi nama, peran, kota,
-       surel, dan nomor WhatsApp Anda. -->
+  <!-- TEKNIS: kartu nama untuk pengunjung tanpa JavaScript; tanpa ini
+       halamannya kosong total. Kalau isi situs berubah, cukup nama, peran,
+       lokasi, dan kontak di sini yang diperbarui. Gaya sebaris disengaja;
+       script sebaris JANGAN ditambahkan — CSP menolaknya diam-diam.
+       BAHASA AWAMNYA: kalau browser pengunjung tidak menjalankan JavaScript,
+       yang tampil nama, peran, kota, surel, dan nomor WhatsApp Anda. -->
   <noscript>
     <div style="max-width:34rem;margin:0 auto;padding:14vh 1.5rem;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#d8d8d8;line-height:1.6">
       <h1 style="font-size:1.75rem;font-weight:500;letter-spacing:-.02em;margin:0 0 .75rem">Arif Herfian Zaen Chartiko</h1>

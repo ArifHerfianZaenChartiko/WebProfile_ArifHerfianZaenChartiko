@@ -957,7 +957,7 @@ export default function Skills() {
 
                        Itu bukan penghematan yang sia-sia: berkas di public/
                        DISALIN APA ADANYA ke dist, komentarnya tidak dibuang
-                       saat build (lihat catatan favicon di index.html).
+                       saat build (lihat README, bagian index.html).
 
                        Satu jebakan yang perlu diketahui kalau berkasnya suatu
                        saat diunduh ulang: `pagecolor="#ffffff"` dan
