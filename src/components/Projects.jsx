@@ -15,18 +15,22 @@ import { useText } from "../i18n/lang.jsx";
  * di KEDUA bahasa, dengan urutan yang sama; nomor "01 / 04", arah zig-zag,
  * dan rantai jedanya ikut sendiri.
  *
- * URUTANNYA DIMINTA PEMILIKNYA: pembersihan data Customer 360, Olist, web
- * profil, Asistensi Mengajar, Dinas Pendidikan. Proyek data paling depan
+ * URUTANNYA DIMINTA PEMILIKNYA: penjualan dan stok ritel sepeda, pembersihan
+ * data Customer 360, Olist, web profil, Asistensi Mengajar, Dinas Pendidikan. Proyek data paling depan
  * karena itu peran yang dilamar —
  * hierarki yang sama dengan typewriter Beranda dan card Analisis Data.
  *
- * ISINYA DIAMBIL DARI REPO MASING-MASING, BUKAN DIKARANG. Angka Olist dari
- * README dan insight_report proyek itu; isi dua magang dari laporan akhirnya
+ * ISINYA DIAMBIL DARI REPO MASING-MASING, BUKAN DIKARANG. Angka ritel sepeda
+ * dari README dan report proyeknya, angka Olist dari README dan
+ * insight_report proyek itu; isi dua magang dari laporan akhirnya
  * (Bab III dan Bab IV/V). Saran "tambah tenaga di penyortiran seragam" kutipan
  * langsung dari Bab 4.2 laporan Dinas. Kalau ada angka yang mau diubah, ubah
  * dulu sumbernya.
  *
  * GAMBAR:
+ *   Ritel sepeda deliverables/dashboard/screenshot_overview.png (2075x1200)
+ *                dari repo proyeknya, diperkecil ke 1600x925 (JPEG ~85),
+ *                perlakuan yang sama dengan gambar Olist.
  *   Customer 360 thumbnail 1600x1200 (4:3) dari pemiliknya, PNG ke JPEG ~85;
  *                bingkainya 4:3, bukan 16:9 (lihat catatan di MEDIA).
  *   Olist        05_dashboard/dashboard_overview.png (2075x1200) dari repo
@@ -76,13 +80,14 @@ import { useText } from "../i18n/lang.jsx";
  *
  * ══ BAHASA AWAMNYA
  *
- * Bagian ini berisi lima proyek, urut dari yang paling relevan untuk
+ * Bagian ini berisi enam proyek, urut dari yang paling relevan untuk
  * lowongan data analyst. Tiap kartu menampilkan gambar, masalah yang
  * dijawab, apa yang dikerjakan, hasilnya, tiga angka ringkas, dan tautan ke
  * GitHub atau laporannya. Untuk menambah proyek, cukup tambah satu entri di
  * daftar di bawah — dalam bahasa Inggris dan Indonesia.
  */
 const GH = "https://github.com/ArifHerfianZaenChartiko/";
+const BIKE = GH + "Sales-Drivers-and-Overstock-Diagnosis-Multi-Store-Bike-Retailer";
 const C360 = GH + "customer360-data-cleaning";
 const OLIST = GH + "Diagnosis-Keterlambatan-Pengiriman-Marketplace-Olist";
 const WEB = GH + "WebProfile_ArifHerfianZaenChartiko";
@@ -95,6 +100,14 @@ const SITE = "https://webprofile-arifherfianzaenchartiko.vercel.app/";
    dipilih supaya orangnya tidak terpotong di petak yang lebih sempit
    daripada fotonya. */
 const MEDIA = [
+  {
+    images: [{ src: "assets/projects/bike-retail-sales-overstock.jpg", w: 1600, h: 925 }],
+    links: [
+      { key: "dashboard", href: BIKE + "/blob/main/deliverables/dashboard/sales_drivers_overstock_dashboard.pdf" },
+      { key: "report", href: BIKE + "/blob/main/deliverables/report_sales_drivers_overstock_diagnosis.pdf" },
+      { key: "repo", href: BIKE },
+    ],
+  },
   /* TEKNIS: thumbnail-nya 4:3 dan judul serta angkanya mepet tepi atas, jadi
      bingkai 16:9 (cover) akan memotongnya — `frame` mengganti rasio bingkai
      khusus kartu ini. `imageLink` menunjuk tautan yang dibuka gambar bila
@@ -160,6 +173,20 @@ const TEXT = {
     linkLabels: { dashboard: "Dashboard", report: "Report", repo: "GitHub", live: "Live site" },
     all: "All repositories on GitHub",
     projects: [
+      {
+        year: "2026",
+        kind: "Data Analysis",
+        title: "Diagnosing Sales Drivers and Overstock at a Bike Retailer",
+        context: "A bicycle retailer with three stores in California, New York, and Texas grew revenue by 41% in 2017. Management wanted to know where that growth came from, how each store performed, and whether the stock in each store matched what actually sold.",
+        work: "Loaded nine raw tables into PostgreSQL, ran 37 data quality and profiling queries, and answered seven business questions in SQL. Built an Excel management report with live formulas, used Python (Pandas, NumPy) for a price-volume-mix bridge, Pareto analysis, and a permutation test, and built a Power BI dashboard.",
+        result: "55% of the growth came from a shift to pricier Road and Electric bikes, not from more orders. One store made 71% of revenue with only a third of the stock, and stock was worth 3x the revenue of 27 months. Recommended moving about 5,300 units to that store, clearing 35 non-moving products, and reviewing the 20% discount level.",
+        stats: [
+          { value: "$6.66M", label: "net revenue in 27 months" },
+          { value: "55%", label: "of growth from product mix" },
+          { value: "3x", label: "stock value vs revenue" },
+        ],
+        tags: ["PostgreSQL", "SQL", "Excel", "Python", "Pandas", "NumPy", "Matplotlib", "Power BI"],
+      },
       {
         year: "2026",
         kind: "Data Cleaning",
@@ -243,6 +270,20 @@ const TEXT = {
     linkLabels: { dashboard: "Dashboard", report: "Laporan", repo: "GitHub", live: "Situs" },
     all: "Semua repositori di GitHub",
     projects: [
+      {
+        year: "2026",
+        kind: "Analisis Data",
+        title: "Mendiagnosis Pendorong Penjualan dan Kelebihan Stok di Ritel Sepeda",
+        context: "Sebuah ritel sepeda dengan tiga toko di California, New York, dan Texas mencatat kenaikan pendapatan 41% pada 2017. Manajemen ingin tahu dari mana pertumbuhan itu berasal, bagaimana kinerja tiap toko, dan apakah stok di tiap toko sesuai dengan yang benar-benar terjual.",
+        work: "Memuat sembilan tabel mentah ke PostgreSQL, menjalankan 37 kueri pengecekan kualitas dan profil data, lalu menjawab tujuh pertanyaan bisnis dengan SQL. Membuat laporan manajemen di Excel dengan rumus yang hidup, memakai Python (Pandas, NumPy) untuk jembatan harga-volume-bauran, analisis Pareto, dan uji permutasi, serta membangun dashboard Power BI.",
+        result: "55% pertumbuhan berasal dari pergeseran ke sepeda Road dan Electric yang lebih mahal, bukan dari bertambahnya pesanan. Satu toko menghasilkan 71% pendapatan dengan hanya sepertiga stok, dan nilai stok mencapai 3 kali pendapatan selama 27 bulan. Rekomendasinya: memindahkan sekitar 5.300 unit ke toko itu, menghabiskan 35 produk yang tidak laku, dan meninjau ulang diskon 20%.",
+        stats: [
+          { value: "$6,66 jt", label: "pendapatan bersih 27 bulan" },
+          { value: "55%", label: "pertumbuhan dari bauran produk" },
+          { value: "3x", label: "nilai stok vs pendapatan" },
+        ],
+        tags: ["PostgreSQL", "SQL", "Excel", "Python", "Pandas", "NumPy", "Matplotlib", "Power BI"],
+      },
       {
         year: "2026",
         kind: "Pembersihan Data",
