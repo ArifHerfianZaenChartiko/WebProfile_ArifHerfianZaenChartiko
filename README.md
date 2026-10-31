@@ -229,7 +229,7 @@ Proyek menunjukkan hasilnya. Isinya di `src/components/Projects.jsx`, dalam
 
 | array | isi | per bahasa? |
 |---|---|---|
-| `MEDIA` | gambar (`src`, `w`, `h`, `pos`) dan tautan (`key`, `href`) | tidak — sama di keduanya |
+| `MEDIA` | gambar (`src`, `w`, `h`, `pos`), tautan (`key`, `href`), opsional `frame` dan `imageLink` | tidak — sama di keduanya |
 | `projects` di `TEXT.en` dan `TEXT.id` | tahun, jenis, judul, konteks, pengerjaan, hasil, tiga angka, label | ya |
 
 Menambah proyek = satu entri di `MEDIA` **dan** satu di tiap `projects`, di
@@ -237,10 +237,15 @@ posisi yang sama. Nomor `01 / 0n`, arah zig-zag (gambar kiri pada proyek
 ganjil, kanan pada yang genap, di ≥1024px; di bawahnya bertumpuk supaya
 gambarnya tetap besar), dan tombol tautannya ikut sendiri.
 `key` tautan memilih labelnya dari `linkLabels`: `dashboard`, `report`,
-`repo`, `live`. Tautan pertama juga yang dibuka saat gambarnya diklik.
+`repo`, `live`. Tautan pertama juga yang dibuka saat gambarnya diklik,
+kecuali entri `MEDIA` memberi `imageLink` (key tautan lain) — kartu
+Customer 360 memakainya supaya gambarnya membuka GitHub, bukan Laporan.
 
 **Gambar** di `public/assets/projects/`, nama huruf kecil bertanda hubung
-seperti sertifikat. Satu gambar ditampilkan 16:9 penuh; tiga gambar jadi
+seperti sertifikat. Satu gambar ditampilkan 16:9 penuh, kecuali entri
+`MEDIA` memberi `frame` (kelas rasio Tailwind, ditulis utuh supaya ikut
+terbangun) — thumbnail Customer 360 1600×1200 memakai `aspect-[4/3]` karena
+judul dan angkanya akan terpotong di 16:9. Tiga gambar jadi
 kolase (satu besar, dua kecil) di bingkai 16:9 yang sama. Kolase dipakai
 untuk foto kegiatan magang karena foto itu diambil dari PDF laporan dan
 aslinya cuma 365–687px — di petak kecil ia tidak terlihat pecah, di bingkai

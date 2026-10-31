@@ -15,8 +15,9 @@ import { useText } from "../i18n/lang.jsx";
  * di KEDUA bahasa, dengan urutan yang sama; nomor "01 / 04", arah zig-zag,
  * dan rantai jedanya ikut sendiri.
  *
- * URUTANNYA DIMINTA PEMILIKNYA: Olist, web profil, Asistensi Mengajar, Dinas
- * Pendidikan. Analisis data paling depan karena itu peran yang dilamar —
+ * URUTANNYA DIMINTA PEMILIKNYA: pembersihan data Customer 360, Olist, web
+ * profil, Asistensi Mengajar, Dinas Pendidikan. Proyek data paling depan
+ * karena itu peran yang dilamar —
  * hierarki yang sama dengan typewriter Beranda dan card Analisis Data.
  *
  * ISINYA DIAMBIL DARI REPO MASING-MASING, BUKAN DIKARANG. Angka Olist dari
@@ -26,6 +27,8 @@ import { useText } from "../i18n/lang.jsx";
  * dulu sumbernya.
  *
  * GAMBAR:
+ *   Customer 360 thumbnail 1600x1200 (4:3) dari pemiliknya, PNG ke JPEG ~85;
+ *                bingkainya 4:3, bukan 16:9 (lihat catatan di MEDIA).
  *   Olist        05_dashboard/dashboard_overview.png (2075x1200) dari repo
  *                proyeknya, diperkecil ke 1600x925 (JPEG ~85) — 2 Oktober
  *                2026, setelah grafik "10 Penjual" diganti scatter. Rasionya
@@ -73,13 +76,14 @@ import { useText } from "../i18n/lang.jsx";
  *
  * ══ BAHASA AWAMNYA
  *
- * Bagian baru berisi empat proyek, urut dari yang paling relevan untuk
+ * Bagian ini berisi lima proyek, urut dari yang paling relevan untuk
  * lowongan data analyst. Tiap kartu menampilkan gambar, masalah yang
  * dijawab, apa yang dikerjakan, hasilnya, tiga angka ringkas, dan tautan ke
  * GitHub atau laporannya. Untuk menambah proyek, cukup tambah satu entri di
  * daftar di bawah — dalam bahasa Inggris dan Indonesia.
  */
 const GH = "https://github.com/ArifHerfianZaenChartiko/";
+const C360 = GH + "customer360-data-cleaning";
 const OLIST = GH + "Diagnosis-Keterlambatan-Pengiriman-Marketplace-Olist";
 const WEB = GH + "WebProfile_ArifHerfianZaenChartiko";
 const AM = GH + "Magang_Asistensi-Mengajar_SMKN-3-Malang";
@@ -91,6 +95,20 @@ const SITE = "https://webprofile-arifherfianzaenchartiko.vercel.app/";
    dipilih supaya orangnya tidak terpotong di petak yang lebih sempit
    daripada fotonya. */
 const MEDIA = [
+  /* TEKNIS: thumbnail-nya 4:3 dan judul serta angkanya mepet tepi atas, jadi
+     bingkai 16:9 (cover) akan memotongnya — `frame` mengganti rasio bingkai
+     khusus kartu ini. `imageLink` menunjuk tautan yang dibuka gambar bila
+     bukan tautan pertama (di sini GitHub, sedangkan tombol pertamanya Laporan).
+     BAHASA AWAMNYA: gambar kartu ini tampil utuh, dan kliknya membuka GitHub. */
+  {
+    images: [{ src: "assets/projects/customer360-data-cleaning.jpg", w: 1600, h: 1200 }],
+    frame: "aspect-[4/3]",
+    imageLink: "repo",
+    links: [
+      { key: "report", href: C360 + "/blob/main/03_clean_data_and_report/data_cleaning_report.xlsx" },
+      { key: "repo", href: C360 },
+    ],
+  },
   {
     images: [{ src: "assets/projects/olist-dashboard.jpg", w: 1600, h: 925 }],
     links: [
@@ -142,6 +160,23 @@ const TEXT = {
     linkLabels: { dashboard: "Dashboard", report: "Report", repo: "GitHub", live: "Live site" },
     all: "All repositories on GitHub",
     projects: [
+      {
+        year: "2026",
+        kind: "Data Cleaning",
+        title: "Cleaning a Messy Multi-Source Customer Dataset",
+        context: "A company kept its customer data in five separate exports (CRM, products, orders, support tickets, clickstream) totaling 880,500 rows. None could be used for reporting: duplicate profiles, typos, 21 phone formats, reversed text, impossible and future dates, and placeholder values everywhere.",
+        work: "Profiled every column in full, no sampling, and logged 84 issues. Cleaned each table with the tool that fit the job: Excel Power Query for products, PostgreSQL for support tickets and cross-table checks, and Python (Pandas, NumPy) for customers, orders, and clickstream. Values that could not be proven were flagged, never invented.",
+        result: "All 84 issues handled and traced from issue to fix. Average validity rose from 75% to 93%, with 0 orphan records and 0 duplicate keys across 15 integrity checks. Delivered clean Excel and CSV files, a PostgreSQL database, and a report with 32 before/after examples.",
+        stats: [
+          /* "75% → 93%": spasi tak-putus sebelum panah, jadi kalau kolomnya
+             tidak muat (butuh ~142px; kolom terlebar 140px di desktop, ~88px
+             di ponsel) barisnya patah SESUDAH panah: "75% →" / "93%". */
+          { value: "880,500", label: "rows cleaned" },
+          { value: "84", label: "issues found, all handled" },
+          { value: "75%\u00a0→ 93%", label: "average data validity" },
+        ],
+        tags: ["Excel", "Power Query", "PostgreSQL", "SQL", "Python", "Pandas", "NumPy"],
+      },
       {
         year: "2026",
         kind: "Data Analysis",
@@ -208,6 +243,20 @@ const TEXT = {
     linkLabels: { dashboard: "Dashboard", report: "Laporan", repo: "GitHub", live: "Situs" },
     all: "Semua repositori di GitHub",
     projects: [
+      {
+        year: "2026",
+        kind: "Pembersihan Data",
+        title: "Membersihkan Dataset Pelanggan Multi-Sumber yang Berantakan",
+        context: "Sebuah perusahaan menyimpan data pelanggannya dalam lima ekspor terpisah (CRM, produk, pesanan, tiket dukungan, clickstream) dengan total 880.500 baris. Tak satu pun bisa dipakai untuk pelaporan: profil ganda, salah ketik, 21 format nomor telepon, teks terbalik, tanggal yang mustahil dan di masa depan, serta nilai pengganti (placeholder) di mana-mana.",
+        work: "Memprofilkan setiap kolom secara penuh, tanpa sampel, dan mencatat 84 masalah. Membersihkan tiap tabel dengan alat yang paling cocok: Power Query di Excel untuk produk, PostgreSQL untuk tiket dukungan dan pengecekan antartabel, serta Python (Pandas, NumPy) untuk pelanggan, pesanan, dan clickstream. Nilai yang tidak bisa dibuktikan diberi tanda, tidak pernah dikarang.",
+        result: "Ke-84 masalah tertangani dan terlacak dari masalah sampai perbaikannya. Rata-rata validitas naik dari 75% ke 93%, dengan 0 data yatim (orphan) dan 0 kunci ganda di 15 pengecekan integritas. Hasilnya berkas Excel dan CSV yang bersih, database PostgreSQL, dan laporan dengan 32 contoh sebelum/sesudah.",
+        stats: [
+          { value: "880.500", label: "baris dibersihkan" },
+          { value: "84", label: "masalah ditemukan, semua tertangani" },
+          { value: "75%\u00a0→ 93%", label: "rata-rata validitas data" },
+        ],
+        tags: ["Excel", "Power Query", "PostgreSQL", "SQL", "Python", "Pandas", "NumPy"],
+      },
       {
         year: "2026",
         kind: "Analisis Data",
@@ -311,7 +360,7 @@ export default function Projects() {
           {t.projects.map(function (p, i) {
             const media = MEDIA[i];
             const flip = i % 2 === 1;
-            const primary = media.links[0];
+            const primary = media.links.find(function (l) { return l.key === media.imageLink; }) || media.links[0];
             return (
               <li key={i} className="border-t border-line py-12 last:border-b sm:py-14 nav:py-20">
                 <article className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
@@ -320,7 +369,7 @@ export default function Projects() {
                     <a href={primary.href} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true"
                       className="group corner-marks block border border-line p-2 sm:p-3">
                       {media.images.length === 1 ? (
-                        <div data-component="image-reveal" className="aspect-video w-full">
+                        <div data-component="image-reveal" className={(media.frame || "aspect-video") + " w-full"}>
                           <div className="bg"></div>
                           <img src={media.images[0].src} width={media.images[0].w} height={media.images[0].h} alt="" loading="lazy" decoding="async"
                             className="media transition-transform duration-700 ease-brand group-hover:scale-[1.03]" />
