@@ -16,8 +16,8 @@ import { useText } from "../i18n/lang.jsx";
  * dan rantai jedanya ikut sendiri.
  *
  * URUTANNYA DIMINTA PEMILIKNYA: penjualan dan stok ritel sepeda, pembersihan
- * data Customer 360, Olist, web profil, Asistensi Mengajar, Dinas Pendidikan. Proyek data paling depan
- * karena itu peran yang dilamar —
+ * data Customer 360, Olist, web profil, Asistensi Mengajar, Dinas
+ * Pendidikan. Proyek data paling depan karena itu peran yang dilamar —
  * hierarki yang sama dengan typewriter Beranda dan card Analisis Data.
  *
  * ISINYA DIAMBIL DARI REPO MASING-MASING, BUKAN DIKARANG. Angka ritel sepeda

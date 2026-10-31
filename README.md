@@ -251,12 +251,13 @@ untuk foto kegiatan magang karena foto itu diambil dari PDF laporan dan
 aslinya cuma 365–687px — di petak kecil ia tidak terlihat pecah, di bingkai
 penuh ia akan pecah. `pos` menggeser potongan foto (`object-position`) supaya
 orangnya tidak terpotong. Tangkapan situs dibuat 1600×900, JPEG kualitas
-~86; gambar dashboard Olist 1600×925 (JPEG ~85, dari `dashboard_overview.png`
-proyeknya) — sedikit lebih tinggi dari 16:9, sisanya terpotong di margin
-putih.
+~86; gambar dashboard Olist dan ritel sepeda 1600×925 (JPEG ~85, dari
+`dashboard_overview.png` dan `screenshot_overview.png` proyeknya) — sedikit
+lebih tinggi dari 16:9, sisanya terpotong di margin putih.
 
-**Isinya diambil dari repo masing-masing**: angka Olist dari README dan
-`insight_report`, isi kedua magang dari laporan akhirnya. Kalau angkanya
+**Isinya diambil dari repo masing-masing**: angka ritel sepeda dari README
+dan laporan proyeknya, angka Olist dari README dan `insight_report`, isi
+kedua magang dari laporan akhirnya. Kalau angkanya
 berubah, ubah sumbernya dulu.
 
 Menambah bagian juga menambah satu titik di bar status: `CHAPTER_IDS` dan
